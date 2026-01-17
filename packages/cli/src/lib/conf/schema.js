@@ -9,6 +9,19 @@ export default {
   logLevel: {
     type: 'string'
   },
+  logPrefix: {
+    type: 'string'
+  },
+  logPrefixStyle: {
+    type: 'string',
+    enum: ['bracket', 'emoji', 'plain', 'none']
+  },
+  logShowLevel: {
+    type: 'boolean'
+  },
+  logUseColor: {
+    type: 'boolean'
+  },
   projectTemplate: {
     type: 'string'
   },
