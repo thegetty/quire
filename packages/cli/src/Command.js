@@ -15,10 +15,13 @@ export default class Command {
 
   /**
    * @typedef CommandDefinition
-   * @property {String} name
-   * @property {String} alias
-   * @property {Array<String>} aliases
-   * @property {String} descriptions
+   * @property {String} name - Command name used to invoke it
+   * @property {String} alias - Single alias for the command
+   * @property {Array<String>} aliases - Multiple aliases for the command
+   * @property {String} description - Full description shown in command's own help
+   * @property {String} summary - One-line summary shown in parent help listing
+   * @property {String} [docsLink] - Path appended to docs base URL (e.g., 'quire-commands/#output-files')
+   * @property {String} [helpText] - Custom help text shown after built-in help (examples, notes)
    * @property {Array<CommandArgument>} args
    * @property {Array<CommandOption>} options
    * @property {String} version
@@ -63,6 +66,8 @@ export default class Command {
     this.aliases = definition.aliases
     this.description = definition.description
     this.summary = definition.summary
+    this.docsLink = definition.docsLink
+    this.helpText = definition.helpText
     this.args = definition.args
     this.options = definition.options
     this.version = definition.version
