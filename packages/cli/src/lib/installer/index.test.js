@@ -123,10 +123,10 @@ test('latest() throws error when no compatible version found', async (t) => {
     '#src/packageConfig.js': { default: { version: '1.0.0' } }
   })
 
-  await t.throwsAsync(
-    () => latest('^99.0.0'),
-    { message: /couldn't find a version/ }
-  )
+  const error = await t.throwsAsync(() => latest('^99.0.0'))
+
+  t.is(error.code, 'VERSION_NOT_FOUND')
+  t.true(error.message.includes('^99.0.0'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -163,7 +163,7 @@ test('versions() returns all published versions', async (t) => {
 // initStarter() tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test('initStarter() returns early when target directory is not empty', async (t) => {
+test('initStarter() throws when target directory is not empty', async (t) => {
   const { sandbox } = t.context
 
   const mockFs = {
@@ -179,8 +179,6 @@ test('initStarter() returns early when target directory is not empty', async (t)
     commit: sandbox.stub().resolves()
   }
 
-  const consoleErrorStub = sandbox.stub(console, 'error')
-
   const { initStarter } = await esmock('./index.js', {
     '#lib/npm/index.js': { default: {} },
     '#lib/project/index.js': {
@@ -194,11 +192,10 @@ test('initStarter() returns early when target directory is not empty', async (t)
     '#src/packageConfig.js': { default: { version: '1.0.0' } }
   })
 
-  const result = await initStarter('https://github.com/test/starter', '/project')
-
-  t.is(result, undefined, 'should return undefined when directory not empty')
-  t.true(consoleErrorStub.called, 'should log error')
-  t.true(consoleErrorStub.firstCall.args[0].includes('not empty'))
+  await t.throwsAsync(
+    () => initStarter('https://github.com/test/starter', '/project'),
+    { message: /non-empty directory/ }
+  )
 })
 
 test('initStarter() clones starter and sets up project', async (t) => {
@@ -214,13 +211,16 @@ test('initStarter() clones starter and sets up project', async (t) => {
     writeFileSync: sandbox.stub()
   }
 
-  const mockGit = {
+  const mockGitInstance = {
     cwd: sandbox.stub().returnsThis(),
     clone: sandbox.stub().resolves(),
     init: sandbox.stub().returnsThis(),
     add: sandbox.stub().returnsThis(),
     commit: sandbox.stub().resolves()
   }
+
+  // Mock the Git class constructor to return our mock instance
+  const MockGit = sandbox.stub().returns(mockGitInstance)
 
   const mockNpm = {
     init: sandbox.stub().resolves(),
@@ -237,7 +237,7 @@ test('initStarter() clones starter and sets up project', async (t) => {
       setVersion: sandbox.stub(),
       writeVersionFile: sandbox.stub()
     },
-    '#lib/git/index.js': { default: mockGit },
+    '#lib/git/index.js': { Git: MockGit, default: mockGitInstance },
     'fs-extra': mockFs,
     '#helpers/is-empty.js': { isEmpty: sandbox.stub().returns(true) },
     '#src/packageConfig.js': { default: { version: '1.0.0' } }
@@ -246,8 +246,8 @@ test('initStarter() clones starter and sets up project', async (t) => {
   const result = await initStarter('https://github.com/test/starter', '/project')
 
   t.is(result, '1.2.0', 'should return resolved quire version')
-  t.true(mockGit.clone.called, 'should clone starter repository')
-  t.true(mockGit.init.called, 'should initialize git repository')
+  t.true(mockGitInstance.clone.called, 'should clone starter repository')
+  t.true(mockGitInstance.init.called, 'should initialize git repository')
   t.true(mockNpm.init.called, 'should run npm init')
 })
 

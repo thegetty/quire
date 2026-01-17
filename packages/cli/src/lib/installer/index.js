@@ -42,7 +42,7 @@ export async function latest(version) {
     quireVersion = await npm.getCompatibleVersion(PACKAGE_NAME, version)
   }
   if (!quireVersion) {
-    throw new VersionNotFoundError(version)
+    throw new VersionNotFoundError(PACKAGE_NAME, version)
   }
   return quireVersion
 }
