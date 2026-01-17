@@ -63,8 +63,8 @@ test('clean command should call clean helper with correct parameters', async (t)
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -103,8 +103,8 @@ test('clean command should handle dry-run option', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -143,8 +143,8 @@ test('clean command should call testcwd in preAction', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -182,8 +182,8 @@ test('clean command should handle empty deletedPaths', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -223,8 +223,8 @@ test('clean command should pass all options to clean helper', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })

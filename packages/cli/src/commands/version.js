@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 import { setVersion } from '#lib/project/index.js'
 import { latest } from '#lib/installer/index.js'
 import testcwd from '#helpers/test-cwd.js'

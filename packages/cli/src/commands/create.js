@@ -1,7 +1,7 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
 import fs from 'fs-extra'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 import { installer } from '#lib/installer/index.js'
 
 /**

@@ -45,8 +45,8 @@ test('loadProjectConfig should log an error and exit when config file does not e
         getProjectRoot: () => '/project'
       }
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     }
   })
 

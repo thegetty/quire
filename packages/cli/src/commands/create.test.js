@@ -62,8 +62,8 @@ test('create command should initialize starter and install quire', async (t) => 
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -104,8 +104,8 @@ test('create command should use default starter from config when not provided', 
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -144,8 +144,8 @@ test('create command should pass quire-version option to installInProject', asyn
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -198,8 +198,8 @@ test('create command should handle initStarter errors gracefully', async (t) => 
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -239,7 +239,7 @@ test('create command should pass through debug option', async (t) => {
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
     '#lib/installer/index.js': { installer: mockQuire },
-    '#src/lib/logger.js': { default: mockLogger },
+    '#lib/logger/index.js': { logger: mockLogger },
     'fs-extra': fs
   })
 
@@ -277,8 +277,8 @@ test('create command should pass quire-path option to methods', async (t) => {
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })

@@ -64,8 +64,8 @@ test('preview command should call eleventy CLI serve with default options', asyn
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -109,8 +109,8 @@ test('preview command should call eleventy API when 11ty option is "api"', async
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -150,8 +150,8 @@ test('preview command should pass port option to eleventy serve', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -192,8 +192,8 @@ test('preview command should pass quiet and verbose options', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })
@@ -233,8 +233,8 @@ test('preview command should call testcwd in preAction', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     'fs-extra': fs
   })

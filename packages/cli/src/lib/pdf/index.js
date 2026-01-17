@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'fs-extra'
 import paths, { loadProjectConfig } from '#lib/project/index.js'
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

@@ -45,8 +45,8 @@ test('version command should validate Quire project in preAction', async (t) => 
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -72,8 +72,8 @@ test('version command should accept version argument', async (t) => {
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -93,8 +93,8 @@ test('version command should log debug information when debug flag is set', asyn
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -120,8 +120,8 @@ test('version command should handle semver version strings', async (t) => {
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -149,8 +149,8 @@ test('version command should work with options object', async (t) => {
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -171,8 +171,8 @@ test('version command preAction should be called before action', async (t) => {
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
@@ -201,8 +201,8 @@ test('version command should have correct command definition', async (t) => {
   const { mockLogger, mockTestcwd } = t.context
 
   const VersionCommand = await esmock('./version.js', {
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/logger/index.js': {
+      logger: mockLogger
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
