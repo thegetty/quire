@@ -7,8 +7,20 @@ import { enableDebug } from '#lib/logger/debug.js'
 
 const { version } = packageConfig
 
+/**
+ * Base URL for documentation links appended to command help text
+ */
+const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1/'
+
+/**
+ * Join base URL with path, handling trailing/leading slashes correctly
+ * @param {string} path - Path to append to base URL
+ * @returns {string} Full URL
+ */
+const docsUrl = (path) => new URL(path, DOCS_BASE_URL).href
+
 const mainHelpText = `
-Docs: https://quire.getty.edu/docs/
+Docs: ${DOCS_BASE_URL}
 
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
@@ -58,21 +70,27 @@ program.hook('preAction', (thisCommand) => {
 
 /**
  * Register each command as a subcommand of this program
- *
- * @todo refactor command definition to allow for per-command custom help text
  * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, alias, aliases, args, description, name, options, summary } = command
+  const { action, alias, aliases, args, description, docsLink, helpText, name, options, summary } = command
 
-  // Use summary for parent help listing, description for command's own help.
-  // Fallback extracts first line from description (before any \n\nDocs: URL).
   const subCommand = program
     .command(name)
     .description(description)
-    .summary(summary || description.split('\n')[0])
+    .summary(summary || description)
     .addHelpCommand()
     .showHelpAfterError()
+
+  // Append docs link and/or custom help text after built-in help
+  const customHelpText = [
+    docsLink && `Docs: ${docsUrl(docsLink)}`,
+    helpText?.trim()
+  ].filter(Boolean).join('\n\n')
+
+  if (customHelpText) {
+    subCommand.addHelpText('after', '\n' + customHelpText)
+  }
 
   if (alias instanceof String) {
     subCommand.alias(alias)
