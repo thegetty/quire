@@ -171,12 +171,13 @@ test('initStarter() throws when target directory is not empty', async (t) => {
     remove: sandbox.stub()
   }
 
-  const mockGit = {
-    cwd: sandbox.stub().returnsThis(),
-    clone: sandbox.stub().returnsThis(),
-    init: sandbox.stub().returnsThis(),
-    add: sandbox.stub().returnsThis(),
-    commit: sandbox.stub().resolves()
+  // Create a mock Git class
+  class MockGit {
+    constructor() {}
+    clone() { return Promise.resolve() }
+    init() { return Promise.resolve() }
+    add() { return Promise.resolve() }
+    commit() { return Promise.resolve() }
   }
 
   const { initStarter } = await esmock('./index.js', {
@@ -186,7 +187,7 @@ test('initStarter() throws when target directory is not empty', async (t) => {
       setVersion: sandbox.stub(),
       writeVersionFile: sandbox.stub()
     },
-    '#lib/git/index.js': { default: mockGit },
+    '#lib/git/index.js': { Git: MockGit },
     'fs-extra': mockFs,
     '#helpers/is-empty.js': { isEmpty: sandbox.stub().returns(false) },
     '#src/packageConfig.js': { default: { version: '1.0.0' } }
@@ -211,16 +212,21 @@ test('initStarter() clones starter and sets up project', async (t) => {
     writeFileSync: sandbox.stub()
   }
 
-  const mockGitInstance = {
-    cwd: sandbox.stub().returnsThis(),
+  // Create a mock Git class with spies
+  const gitSpies = {
     clone: sandbox.stub().resolves(),
-    init: sandbox.stub().returnsThis(),
-    add: sandbox.stub().returnsThis(),
+    init: sandbox.stub().resolves(),
+    add: sandbox.stub().resolves(),
     commit: sandbox.stub().resolves()
   }
 
-  // Mock the Git class constructor to return our mock instance
-  const MockGit = sandbox.stub().returns(mockGitInstance)
+  class MockGit {
+    constructor() {}
+    clone(...args) { return gitSpies.clone(...args) }
+    init(...args) { return gitSpies.init(...args) }
+    add(...args) { return gitSpies.add(...args) }
+    commit(...args) { return gitSpies.commit(...args) }
+  }
 
   const mockNpm = {
     init: sandbox.stub().resolves(),
@@ -237,7 +243,7 @@ test('initStarter() clones starter and sets up project', async (t) => {
       setVersion: sandbox.stub(),
       writeVersionFile: sandbox.stub()
     },
-    '#lib/git/index.js': { Git: MockGit, default: mockGitInstance },
+    '#lib/git/index.js': { Git: MockGit },
     'fs-extra': mockFs,
     '#helpers/is-empty.js': { isEmpty: sandbox.stub().returns(true) },
     '#src/packageConfig.js': { default: { version: '1.0.0' } }
@@ -246,8 +252,8 @@ test('initStarter() clones starter and sets up project', async (t) => {
   const result = await initStarter('https://github.com/test/starter', '/project')
 
   t.is(result, '1.2.0', 'should return resolved quire version')
-  t.true(mockGitInstance.clone.called, 'should clone starter repository')
-  t.true(mockGitInstance.init.called, 'should initialize git repository')
+  t.true(gitSpies.clone.called, 'should clone starter repository')
+  t.true(gitSpies.init.called, 'should initialize git repository')
   t.true(mockNpm.init.called, 'should run npm init')
 })
 
@@ -258,6 +264,16 @@ test('initStarter() clones starter and sets up project', async (t) => {
 test('installer object exports all required functions', async (t) => {
   const { sandbox } = t.context
 
+  // Create a mock Git class
+  class MockGit {
+    constructor() {}
+    clone() { return Promise.resolve() }
+    init() { return Promise.resolve() }
+    add() { return Promise.resolve() }
+    commit() { return Promise.resolve() }
+    rm() { return Promise.resolve() }
+  }
+
   const { installer } = await esmock('./index.js', {
     '#lib/npm/index.js': { default: {} },
     '#lib/project/index.js': {
@@ -265,7 +281,7 @@ test('installer object exports all required functions', async (t) => {
       setVersion: sandbox.stub(),
       writeVersionFile: sandbox.stub()
     },
-    '#lib/git/index.js': { default: {} },
+    '#lib/git/index.js': { Git: MockGit },
     'fs-extra': {},
     '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
     '#src/packageConfig.js': { default: { version: '1.0.0' } }

@@ -237,6 +237,133 @@ The spec tests verify the **contract** between our Command classes and Commander
 3. **Prevents regressions** - Ensures the public API remains stable
 4. **Tests what matters** - Focuses on the interface users interact with
 
+## Cross-Platform Testing
+
+The CLI runs on macOS, Linux, and Windows. Tests must work correctly across all platforms.
+
+### Path Handling
+
+**Always use `path.join()` for path assertions.** File paths use different separators on different platforms:
+- Unix (macOS, Linux): `/project/src/file.js`
+- Windows: `\project\src\file.js`
+
+```javascript
+// ❌ BAD: Hardcoded Unix paths fail on Windows
+t.is(output, '/project/_site/pdf.html')
+
+// ✅ GOOD: path.join() produces correct separators
+import path from 'node:path'
+t.is(output, path.join('/project', '_site', 'pdf.html'))
+```
+
+### Common Cross-Platform Pitfalls
+
+| Issue | Problem | Solution |
+|-------|---------|----------|
+| Hardcoded `/` in paths | Fails on Windows | Use `path.join()` |
+| Hardcoded `\` in paths | Fails on Unix | Use `path.join()` |
+| String path concatenation | Platform-specific separators | Use `path.join()` |
+| Path comparison with `===` | Different separators | Normalize both sides with `path.normalize()` |
+| Line endings in snapshots | `\n` vs `\r\n` | Use `.trim()` or normalize line endings |
+
+### Path Assertions Pattern
+
+When testing code that constructs file paths:
+
+```javascript
+import path from 'node:path'
+
+test('generates correct output path', async (t) => {
+  const result = await generateOutput({ dir: '/project', name: 'output' })
+
+  // Use path.join() for expected value
+  t.is(result.path, path.join('/project', 'build', 'output.pdf'))
+})
+```
+
+### Testing Path-Related Functions
+
+When testing functions that work with paths:
+
+```javascript
+test('resolves nested paths correctly', (t) => {
+  const result = resolvePath('/base', 'sub', 'file.js')
+
+  // Compare using path.join() on both sides for clarity
+  t.is(result, path.join('/base', 'sub', 'file.js'))
+})
+```
+
+### Mock Path Returns
+
+Mock return values can use simple strings because the **code under test** should use `path.join()` to construct full paths. The **test assertions** are what need `path.join()` to match the actual output:
+
+```javascript
+// Mock can return a simple root path
+const mockPaths = {
+  getProjectRoot: () => '/project',  // A simple string is fine
+  getOutputDir: () => '_site'
+}
+
+// The module under test constructs paths with path.join():
+// const fullPath = path.join(paths.getProjectRoot(), paths.getOutputDir(), 'file.pdf')
+// Result on Unix:    /project/_site/file.pdf
+// Result on Windows: \project\_site\file.pdf
+
+// Test assertion must use path.join() to match the actual output
+t.is(result, path.join('/project', '_site', 'file.pdf'))
+```
+
+### Environment-Specific Tests
+
+For tests that must behave differently per platform:
+
+```javascript
+import os from 'node:os'
+
+test('handles platform-specific behavior', (t) => {
+  const isWindows = os.platform() === 'win32'
+
+  if (isWindows) {
+    // Windows-specific assertion
+  } else {
+    // Unix-specific assertion
+  }
+})
+```
+
+### File System Tests
+
+When creating temporary files or directories in tests:
+
+```javascript
+import os from 'node:os'
+import path from 'node:path'
+import fs from 'fs-extra'
+
+test('creates output file', async (t) => {
+  // Use os.tmpdir() for cross-platform temp directory
+  const tempDir = path.join(os.tmpdir(), 'quire-test-' + Date.now())
+
+  try {
+    await fs.ensureDir(tempDir)
+    // ... test logic
+  } finally {
+    await fs.remove(tempDir)
+  }
+})
+```
+
+### CI Considerations
+
+Tests run in CI on multiple platforms. Keep in mind:
+
+1. **Path separators** - Windows CI uses backslashes
+2. **Case sensitivity** - macOS/Windows are case-insensitive, Linux is case-sensitive
+3. **Line endings** - Git may convert line endings based on platform
+4. **Temp directories** - Location varies by OS (`/tmp`, `C:\Users\...\Temp`)
+5. **Shell commands** - Some commands differ between platforms
+
 ## Example Complete Spec File
 
 See [`create.spec.js`](../src/commands/create.spec.js) for a complete example following this pattern.
