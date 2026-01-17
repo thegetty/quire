@@ -38,11 +38,26 @@ test('registered command has correct aliases', (t) => {
   t.true(command.aliases().includes('configure'))
 })
 
-test('registered command has no arguments', (t) => {
+test('registered command has correct arguments', (t) => {
   const { command } = t.context
   const registeredArguments = command.registeredArguments
 
-  t.is(registeredArguments.length, 0, 'conf command should have no arguments')
+  t.is(registeredArguments.length, 3, 'conf command should have 3 arguments')
+
+  // Verify operation argument
+  const operationArg = registeredArguments[0]
+  t.is(operationArg.name(), 'operation')
+  t.false(operationArg.required, 'operation argument should be optional')
+
+  // Verify key argument
+  const keyArg = registeredArguments[1]
+  t.is(keyArg.name(), 'key')
+  t.false(keyArg.required, 'key argument should be optional')
+
+  // Verify value argument
+  const valueArg = registeredArguments[2]
+  t.is(valueArg.name(), 'value')
+  t.false(valueArg.required, 'value argument should be optional')
 })
 
 test('registered command has correct options', (t) => {
@@ -51,16 +66,25 @@ test('registered command has correct options', (t) => {
   // Get all options
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
-  // Verify all options exist
+  // Verify debug option exists
   t.truthy(debugOption, '--debug option should exist')
 
-  // Verify they are Option instances
+  // Verify it is an Option instance
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
   // Verify option properties
   t.is(debugOption.long, '--debug')
   t.truthy(debugOption.description)
   t.false(debugOption.required, '--debug should not require a value')
+
+  // Verify no operation flags exist (operations are via positional argument)
+  const deleteOption = command.options.find((opt) => opt.long === '--delete')
+  const resetOption = command.options.find((opt) => opt.long === '--reset')
+  const pathOption = command.options.find((opt) => opt.long === '--path')
+
+  t.falsy(deleteOption, '--delete option should not exist (use delete operation)')
+  t.falsy(resetOption, '--reset option should not exist (use reset operation)')
+  t.falsy(pathOption, '--path option should not exist (use path operation)')
 })
 
 test('command options are accessible via public API', (t) => {
@@ -70,4 +94,5 @@ test('command options are accessible via public API', (t) => {
   const optionNames = command.options.map((opt) => opt.long)
 
   t.true(optionNames.includes('--debug'))
+  t.is(optionNames.length, 1, 'should only have --debug option')
 })

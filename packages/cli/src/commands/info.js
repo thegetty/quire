@@ -19,6 +19,11 @@ export default class InfoCommand extends Command {
     name: 'info',
     description: 'List Quire cli, quire-11ty, and node versions',
     summary: 'list info',
+    docsLink: 'quire-commands/#get-help',
+    helpText: `
+Example:
+  quire info --debug    Include node, npm, and OS versions
+`,
     version: '1.0.0',
     options: [
       ['--debug', 'include os versions in output']

@@ -125,7 +125,7 @@ test('latest() throws error when no compatible version found', async (t) => {
 
   await t.throwsAsync(
     () => latest('^99.0.0'),
-    { message: /couldn't find a version/ }
+    { message: /could not find a version/ }
   )
 })
 

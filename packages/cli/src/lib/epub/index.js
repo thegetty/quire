@@ -1,9 +1,13 @@
 import { dynamicImport } from '#helpers/os-utils.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { logger } from '#lib/logger/index.js'
+import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const debug = createDebug('lib:epub')
 
 /**
  * A façade delegation module for EPUB libraries
@@ -27,14 +31,17 @@ export default async (name = 'epubjs', options = {}) => {
       break
     }
     default:
-      console.error(`[CLI:lib/pdf] Unrecognized EPUB library '${name}'`)
+      logger.error(`Unrecognized EPUB library '${name}'`)
       return
   }
 
   const { default: epubLib } = await dynamicImport(lib.path)
 
+  debug('resolved library: %s → %s', name, lib.name)
+
   return async (input, output) => {
-    console.info(`[CLI:lib/epub] generating EPUB using ${lib.name}`)
+    logger.info(`Generating EPUB using ${lib.name}...`)
+    debug('input: %s, output: %s', input, output)
     return await epubLib(input, output, lib.options)
   }
 }

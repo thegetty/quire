@@ -1,23 +1,19 @@
+import { format } from 'node:util'
 import chalk from 'chalk'
 import log from 'loglevel'
+import config from '#lib/conf/config.js'
 
 /**
  * Logger factory for Quire CLI
  *
- * Creates loggers with colored output, log level filtering, and module prefixes.
- * Aligns with the 11ty package logging format for consistent user experience.
- *
- * @example
- * // Module-specific logger
- * import createLogger from '#lib/logger/index.js'
- * const logger = createLogger('lib:pdf')
- * logger.info('Generating PDF...')
- * // Output: [quire] INFO  lib:pdf                   Generating PDF...
+ * Creates loggers with colored output, log level filtering, and configurable prefixes.
+ * Configuration is read from the conf module for prefix style, colors, etc.
  *
  * @example
  * // Default singleton for simple usage
  * import { logger } from '#lib/logger/index.js'
- * logger.info('Starting build...')
+ * logger.info('Building site...')
+ * // Output: [quire] INFO  Building site...
  *
  * @example
  * // In tests - mock the factory
@@ -29,7 +25,7 @@ import log from 'loglevel'
  *   trace: sandbox.stub()
  * }
  * const module = await esmock('./module.js', {
- *   '#lib/logger/index.js': { default: () => mockLogger, logger: mockLogger }
+ *   '#lib/logger/index.js': { logger: mockLogger }
  * })
  */
 
@@ -48,7 +44,6 @@ export const LOG_LEVELS = {
 
 /**
  * Chalk styles for each log level
- * Matches 11ty package styling for consistency
  */
 const styles = {
   trace: chalk.gray,
@@ -59,10 +54,44 @@ const styles = {
 }
 
 /**
+ * Emoji map for prefix styles
+ */
+const EMOJI_MAP = {
+  build: '🔨',
+  cli: '⚡',
+  conf: '⚙️',
+  epub: '📚',
+  pdf: '📄',
+  quire: '📖',
+}
+
+/**
  * Environment variable for log level configuration
  * Set by CLI startup from config, can be overridden by CLI flags
  */
 export const LOG_LEVEL_ENV_VAR = 'QUIRE_LOG_LEVEL'
+
+/**
+ * Format the log prefix based on configuration style
+ *
+ * @param {string} style - Prefix style (bracket, emoji, plain, none)
+ * @param {string} text - Prefix text
+ * @returns {string} Formatted prefix
+ */
+function formatPrefix(style, text) {
+  switch (style) {
+    case 'bracket':
+      return `[${text}]`
+    case 'emoji':
+      return EMOJI_MAP[text] || '📖'
+    case 'plain':
+      return `${text}:`
+    case 'none':
+      return ''
+    default:
+      return `[${text}]`
+  }
+}
 
 /**
  * Resolve log level from various sources
@@ -70,7 +99,8 @@ export const LOG_LEVEL_ENV_VAR = 'QUIRE_LOG_LEVEL'
  * Priority order:
  * 1. Explicit level parameter (for createLogger calls with specific level)
  * 2. QUIRE_LOG_LEVEL environment variable (set by CLI from config/flags)
- * 3. Default to 'info'
+ * 3. Config file setting
+ * 4. Default to 'info'
  *
  * @param {string|number} [level] - Explicit level override
  * @returns {number} Numeric log level
@@ -88,23 +118,26 @@ function resolveLevel(level) {
     return LOG_LEVELS[envVar] ?? LOG_LEVELS.info
   }
 
+  // Check config
+  const configLevel = config.get('logLevel')
+  if (configLevel && LOG_LEVELS[configLevel] !== undefined) {
+    return LOG_LEVELS[configLevel]
+  }
+
   // Default to info
   return LOG_LEVELS.info
 }
 
 /**
- * Create a logger instance with the given prefix
+ * Create a logger instance
  *
- * @param {string} [prefix='cli'] - Module prefix for log messages
+ * @param {string} [name='quire'] - Logger name for loglevel instance
  * @param {string|number} [level] - Log level (trace, debug, info, warn, error, silent)
  * @returns {Object} Logger instance with trace, debug, info, warn, error, setLevel methods
  */
-export default function createLogger(prefix = 'quire', level) {
-  const loggerInstance = log.getLogger(prefix)
+export default function createLogger(name = 'quire', level) {
+  const loggerInstance = log.getLogger(name)
   loggerInstance.setLevel(resolveLevel(level), false)
-
-  // Pad prefix to 25 characters for alignment (matches 11ty format)
-  const paddedPrefix = prefix.padEnd(25, ' ')
 
   /**
    * Create a log function for a specific level
@@ -114,10 +147,38 @@ export default function createLogger(prefix = 'quire', level) {
     const style = styles[type]
 
     return (...args) => {
-      // Format: [quire] LEVEL prefix                    message
-      const levelLabel = type.toUpperCase().padEnd(5, ' ')
-      const styledLabel = style(chalk.bold(`[quire] ${levelLabel}`))
-      logMethod(styledLabel, paddedPrefix, ...args)
+      // Read config each time to support runtime changes
+      const prefix = config.get('logPrefix')
+      const prefixStyle = config.get('logPrefixStyle')
+      const showLevel = config.get('logShowLevel')
+      const useColor = config.get('logUseColor')
+
+      const parts = []
+
+      // Add prefix
+      const formattedPrefix = formatPrefix(prefixStyle, prefix)
+      if (formattedPrefix) {
+        if (useColor) {
+          parts.push(style(chalk.bold(formattedPrefix)))
+        } else {
+          parts.push(formattedPrefix)
+        }
+      }
+
+      // Add level label
+      if (showLevel) {
+        const levelLabel = type.toUpperCase().padEnd(5, ' ')
+        if (useColor) {
+          parts.push(style(levelLabel))
+        } else {
+          parts.push(levelLabel)
+        }
+      }
+
+      // Format message with printf-style substitution (%s, %d, %i, %o, %O, %j)
+      const message = format(...args)
+
+      logMethod(...parts, message)
     }
   }
 
@@ -151,6 +212,5 @@ export default function createLogger(prefix = 'quire', level) {
 
 /**
  * Default singleton logger for simple usage
- * Use createLogger() for module-specific prefixes
  */
 export const logger = createLogger('quire')

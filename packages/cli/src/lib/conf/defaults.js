@@ -10,6 +10,27 @@ export default {
    */
   logLevel: 'info',
   /**
+   * Prefix text for log output messages.
+   */
+  logPrefix: 'quire',
+  /**
+   * Style of the log prefix.
+   * - 'bracket': [quire] message
+   * - 'emoji': 📖 message
+   * - 'plain': quire: message
+   * - 'none': message (no prefix)
+   */
+  logPrefixStyle: 'bracket',
+  /**
+   * Whether to show log level labels (INFO, WARN, ERROR).
+   * Defaults to false for cleaner user output.
+   */
+  logShowLevel: false,
+  /**
+   * Whether to use colored output in terminal.
+   */
+  logUseColor: true,
+  /**
    * Project starter template to use when creating new projects.
    */
   projectTemplate: 'https://github.com/thegetty/quire-starter-default',

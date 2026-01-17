@@ -19,6 +19,8 @@ export default class ValidateCommand extends Command {
     name: 'validate',
     description: 'Validate configuration files',
     summary: 'run validation',
+    docsLink: 'quire-commands/#get-help',
+    helpText: 'Validates YAML files in content/_data/ directory.',
     version: '1.0.0',
     options: [
       [ '--debug', 'run validate with debug output to console' ],

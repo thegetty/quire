@@ -1,3 +1,4 @@
+import esmock from 'esmock'
 import sinon from 'sinon'
 import test from 'ava'
 import createLogger, { logger, LOG_LEVELS, LOG_LEVEL_ENV_VAR } from './index.js'
@@ -146,14 +147,28 @@ test('default singleton is functional', (t) => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Console.error output tests (error is always routed to console.error)
+// Console output tests with level labels (logShowLevel: true)
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('error level outputs to console.error', (t) => {
+test.serial('error level outputs to console.error with level label when configured', async (t) => {
   const { sandbox } = t.context
   const consoleErrorStub = sandbox.stub(console, 'error')
 
-  const log = createLogger('test:error:output', 'error')
+  // Mock config to show level labels
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'bracket',
+      logShowLevel: true,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:error:output', 'error')
   log.error('Error message')
 
   t.true(consoleErrorStub.calledOnce)
@@ -163,11 +178,25 @@ test.serial('error level outputs to console.error', (t) => {
   t.true(output.includes('Error message'))
 })
 
-test.serial('warn level outputs to console.warn', (t) => {
+test.serial('warn level outputs to console.warn with level label when configured', async (t) => {
   const { sandbox } = t.context
   const consoleWarnStub = sandbox.stub(console, 'warn')
 
-  const log = createLogger('test:warn:output', 'warn')
+  // Mock config to show level labels
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'bracket',
+      logShowLevel: true,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:warn:output', 'warn')
   log.warn('Warning message')
 
   t.true(consoleWarnStub.calledOnce)
@@ -177,11 +206,25 @@ test.serial('warn level outputs to console.warn', (t) => {
   t.true(output.includes('Warning message'))
 })
 
-test.serial('trace level outputs to console.trace', (t) => {
+test.serial('trace level outputs to console.trace with level label when configured', async (t) => {
   const { sandbox } = t.context
   const consoleTraceStub = sandbox.stub(console, 'trace')
 
-  const log = createLogger('test:trace:output', 'trace')
+  // Mock config to show level labels
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'bracket',
+      logShowLevel: true,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:trace:output', 'trace')
   log.trace('Trace message')
 
   t.true(consoleTraceStub.calledOnce)
@@ -302,6 +345,116 @@ test.serial('explicit level parameter overrides env var', async (t) => {
       process.env[LOG_LEVEL_ENV_VAR] = originalEnv
     }
   }
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Printf-style string substitution tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('logger supports %s string substitution', async (t) => {
+  const { sandbox } = t.context
+  const consoleInfoStub = sandbox.stub(console, 'info')
+
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'none',
+      logShowLevel: false,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:printf:string', 'info')
+  log.info('Hello %s', 'world')
+
+  t.true(consoleInfoStub.calledOnce)
+  const output = consoleInfoStub.firstCall.args.join(' ')
+  t.true(output.includes('Hello world'))
+  t.false(output.includes('%s'))
+})
+
+test.serial('logger supports %d number substitution', async (t) => {
+  const { sandbox } = t.context
+  const consoleInfoStub = sandbox.stub(console, 'info')
+
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'none',
+      logShowLevel: false,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:printf:number', 'info')
+  log.info('Count: %d', 42)
+
+  t.true(consoleInfoStub.calledOnce)
+  const output = consoleInfoStub.firstCall.args.join(' ')
+  t.true(output.includes('Count: 42'))
+  t.false(output.includes('%d'))
+})
+
+test.serial('logger supports %O object substitution', async (t) => {
+  const { sandbox } = t.context
+  const consoleInfoStub = sandbox.stub(console, 'info')
+
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'none',
+      logShowLevel: false,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:printf:object', 'info')
+  log.info('Data: %O', { key: 'value' })
+
+  t.true(consoleInfoStub.calledOnce)
+  const output = consoleInfoStub.firstCall.args.join(' ')
+  t.true(output.includes('key'))
+  t.true(output.includes('value'))
+  t.false(output.includes('%O'))
+})
+
+test.serial('logger supports multiple substitutions', async (t) => {
+  const { sandbox } = t.context
+  const consoleInfoStub = sandbox.stub(console, 'info')
+
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'none',
+      logShowLevel: false,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:printf:multi', 'info')
+  log.info('%s is %d years old', 'Alice', 30)
+
+  t.true(consoleInfoStub.calledOnce)
+  const output = consoleInfoStub.firstCall.args.join(' ')
+  t.true(output.includes('Alice is 30 years old'))
+  t.false(output.includes('%s'))
+  t.false(output.includes('%d'))
 })
 
 test.serial('invalid env var value falls back to info', async (t) => {

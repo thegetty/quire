@@ -18,6 +18,7 @@ export default class VersionCommand extends Command {
     name: 'version',
     description: 'Sets the Quire version to use when running commands on the project.',
     summary: 'set the @thegetty/quire-11ty version',
+    docsLink: 'quire-commands/',
     version: '1.0.0',
     args: [
       [ '<version>', 'the local quire version to use' ],
