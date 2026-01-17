@@ -7,7 +7,9 @@ import { enableDebug } from '#lib/logger/debug.js'
 
 const { version } = packageConfig
 
-const helpText = `
+const mainHelpText = `
+Docs: https://quire.getty.edu/docs/
+
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
@@ -33,7 +35,7 @@ program
   .description('Quire command-line interface')
   .version(version, '-v, --version', 'output quire version number')
   .option('--verbose', 'enable verbose output for debugging')
-  .addHelpText('after', helpText)
+  .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
@@ -61,11 +63,14 @@ program.hook('preAction', (thisCommand) => {
  * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, alias, aliases, args, description, name, options } = command
+  const { action, alias, aliases, args, description, name, options, summary } = command
 
+  // Use summary for parent help listing, description for command's own help.
+  // Fallback extracts first line from description (before any \n\nDocs: URL).
   const subCommand = program
     .command(name)
     .description(description)
+    .summary(summary || description.split('\n')[0])
     .addHelpCommand()
     .showHelpAfterError()
 

@@ -17,7 +17,7 @@ import testcwd from '#helpers/test-cwd.js'
 export default class CleanCommand extends Command {
   static definition = {
     name: 'clean',
-    description: 'Remove build outputs',
+    description: 'Remove build outputs\n\nDocs: https://quire.getty.edu/docs/quire-commands/#output-files',
     summary: 'remove build outputs',
     version: '1.0.0',
     options: [

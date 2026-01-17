@@ -15,7 +15,7 @@ import testcwd from '#helpers/test-cwd.js'
 export default class BuildCommand extends Command {
   static definition = {
     name: 'build',
-    description: 'Generate publication outputs',
+    description: 'Generate publication outputs\n\nDocs: https://quire.getty.edu/docs/quire-commands/#output-files',
     summary: 'run build',
     version: '1.1.0',
     options: [
