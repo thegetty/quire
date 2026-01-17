@@ -21,9 +21,13 @@ import {
   writeVersionFile,
 } from '#lib/project/index.js'
 import { VersionNotFoundError } from '#src/errors/index.js'
+import { logger } from '#lib/logger/index.js'
+import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const debug = createDebug('lib:installer')
 
 const PACKAGE_NAME = '@thegetty/quire-11ty'
 
@@ -73,13 +77,11 @@ export async function initStarter(starter, projectPath, options = {}) {
   // If the target directory exists it must be empty
   if (!isEmpty(projectPath)) {
     const location = projectPath === '.' ? 'the current directory' : projectPath
-    throw new Error(`[CLI:installer] cannot create project in a non-empty directory ${location}`)
+    throw new Error(`Cannot create project in a non-empty directory: ${location}`)
   }
 
-  console.debug('[CLI:installer] init-starter',
-    `\n  project: ${path.join(__dirname, projectPath)}`,
-    `\n  starter: ${starter}`
-  )
+  const fullPath = path.join(__dirname, projectPath)
+  debug(`init-starter\n  project: ${fullPath}\n  starter: ${starter}`)
 
   /**
    * Clone starter project repository
@@ -142,7 +144,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
   const { quirePath } = options
   const quire11tyPackage = `${PACKAGE_NAME}@${quireVersion}`
 
-  console.debug(`[CLI:installer] installing ${quire11tyPackage} into ${projectPath}`)
+  debug('installing %s into %s', quire11tyPackage, projectPath)
 
   /**
    * Delete the starter project package configuration so that it can be replaced
@@ -152,7 +154,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
   try {
     await repo.rm(['package.json'])
   } catch (error) {
-    console.error('[CLI:installer] ', error)
+    debug('error removing package.json: %O', error)
   }
 
   const temp11tyDirectory = '.temp'
@@ -175,7 +177,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
   // Copy `.temp` to projectPath
   fs.cpSync(tempDir, projectPath, { recursive: true })
 
-  console.debug('[CLI:installer] installing dev dependencies into quire project')
+  debug('installing dev dependencies into quire project')
 
   /**
    * Manually install necessary dev dependencies to run 11ty;
@@ -192,7 +194,8 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
     }
     await npm.install(projectPath, { saveDev: true, preferOffline: true })
   } catch (error) {
-    console.warn(`[CLI:installer]`, error)
+    logger.warn('Failed to install dependencies')
+    debug('install error: %O', error)
     fs.rmSync(projectPath, { recursive: true })
     return
   }
