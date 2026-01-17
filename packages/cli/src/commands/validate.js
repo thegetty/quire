@@ -17,8 +17,9 @@ import yamlValidation from '../validators/validate-yaml.js'
 export default class ValidateCommand extends Command {
   static definition = {
     name: 'validate',
-    description: 'Validate configuration files\n\nDocs: https://quire.getty.edu/docs/quire-commands/#get-help',
+    description: 'Validate configuration files',
     summary: 'run validation',
+    docsLink: 'quire-commands/#get-help',
     version: '1.0.0',
     options: [
       [ '--debug', 'run validate with debug output to console' ],

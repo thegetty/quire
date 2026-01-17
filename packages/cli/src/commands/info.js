@@ -17,8 +17,9 @@ import testcwd from '#helpers/test-cwd.js'
 export default class InfoCommand extends Command {
   static definition = {
     name: 'info',
-    description: 'List Quire cli, quire-11ty, and node versions\n\nDocs: https://quire.getty.edu/docs/quire-commands/#get-help',
+    description: 'List Quire cli, quire-11ty, and node versions',
     summary: 'list info',
+    docsLink: 'quire-commands/#get-help',
     version: '1.0.0',
     options: [
       ['--debug', 'include os versions in output']

@@ -16,8 +16,9 @@ import path from 'node:path'
 export default class EpubCommand extends Command {
   static definition = {
     name: 'epub',
-    description: 'Generate publication EPUB\n\nDocs: https://quire.getty.edu/docs/quire-commands/#output-files',
+    description: 'Generate publication EPUB',
     summary: 'run build epub',
+    docsLink: 'quire-commands/#output-files',
     version: '1.0.0',
     options: [
       [
