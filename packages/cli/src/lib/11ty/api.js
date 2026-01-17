@@ -112,7 +112,8 @@ const createEleventyInstance = async (options = {}) => {
  * Quire11ty façade class
  *
  * Provides abstracted Eleventy operations with unified logging,
- * error handling, and path resolution.
+ * error handling, and path resolution. Stores active Eleventy
+ * instance for cleanup registration with ProcessManager.
  */
 class Quire11ty {
   /**
@@ -121,6 +122,40 @@ class Quire11ty {
    */
   constructor(pathsInstance) {
     this.paths = pathsInstance
+    /**
+     * Active Eleventy instance (for API mode)
+     * @type {Eleventy|null}
+     */
+    this.activeInstance = null
+  }
+
+  /**
+   * Check if an Eleventy process is currently active
+   * @returns {boolean}
+   */
+  isActive() {
+    return this.activeInstance !== null
+  }
+
+  /**
+   * Gracefully close any active Eleventy process
+   *
+   * Calls eleventy.close() to stop the dev server and file watchers.
+   * This method is registered with ProcessManager for signal handling.
+   *
+   * @returns {Promise<void>}
+   */
+  async close() {
+    if (this.activeInstance) {
+      console.info(`${LOG_PREFIX} shutting down Eleventy`)
+      try {
+        await this.activeInstance.close()
+      } catch (error) {
+        // Ignore errors during shutdown (may already be closing)
+        console.debug(`${LOG_PREFIX} close error (may be expected): ${error.message}`)
+      }
+      this.activeInstance = null
+    }
   }
 
   /**
@@ -166,6 +201,9 @@ class Quire11ty {
 
     const eleventy =
       await createEleventyInstance({ ...options, runMode: 'serve' })
+
+    // Store reference for lifecycle management (graceful shutdown)
+    this.activeInstance = eleventy
 
     // Initialize Eleventy before serving (required for eleventyServe)
     await eleventy.init()

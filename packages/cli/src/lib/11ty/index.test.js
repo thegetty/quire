@@ -464,3 +464,192 @@ test('index exports cli object', async (t) => {
   t.is(typeof cli.build, 'function')
   t.is(typeof cli.serve, 'function')
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Lifecycle management tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('Quire11ty.isActive() returns false when no process is active', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getDataDir: () => '/project/content/_data',
+    getIncludesDir: () => '/project/_includes',
+    getLayoutsDir: () => '/project/_layouts'
+  }
+
+  const { Quire11ty } = await esmock('./api.js', {
+    '#lib/project/index.js': { default: mockPaths },
+    '#helpers/os-utils.js': { dynamicImport: sandbox.stub() }
+  })
+
+  const eleventy = new Quire11ty(mockPaths)
+  t.false(eleventy.isActive())
+})
+
+test('Quire11ty.isActive() returns true when activeInstance is set', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getDataDir: () => '/project/content/_data',
+    getIncludesDir: () => '/project/_includes',
+    getLayoutsDir: () => '/project/_layouts'
+  }
+
+  const { Quire11ty } = await esmock('./api.js', {
+    '#lib/project/index.js': { default: mockPaths },
+    '#helpers/os-utils.js': { dynamicImport: sandbox.stub() }
+  })
+
+  const eleventy = new Quire11ty(mockPaths)
+  t.false(eleventy.isActive())
+
+  // Simulate setting an active instance
+  eleventy.activeInstance = { close: sandbox.stub() }
+  t.true(eleventy.isActive())
+})
+
+test('Quire11ty.close() clears activeInstance', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getDataDir: () => '/project/content/_data',
+    getIncludesDir: () => '/project/_includes',
+    getLayoutsDir: () => '/project/_layouts'
+  }
+
+  const { Quire11ty } = await esmock('./api.js', {
+    '#lib/project/index.js': { default: mockPaths },
+    '#helpers/os-utils.js': { dynamicImport: sandbox.stub() }
+  })
+
+  const eleventy = new Quire11ty(mockPaths)
+  eleventy.activeInstance = { close: sandbox.stub().resolves() }
+  t.true(eleventy.isActive())
+
+  await eleventy.close()
+  t.false(eleventy.isActive())
+})
+
+test('Quire11ty.close() calls close on active Eleventy instance', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getDataDir: () => '/project/content/_data',
+    getIncludesDir: () => '/project/_includes',
+    getLayoutsDir: () => '/project/_layouts'
+  }
+
+  const { Quire11ty } = await esmock('./api.js', {
+    '#lib/project/index.js': { default: mockPaths },
+    '#helpers/os-utils.js': { dynamicImport: sandbox.stub() }
+  })
+
+  const eleventy = new Quire11ty(mockPaths)
+
+  // Simulate an active Eleventy instance
+  const mockEleventyInstance = {
+    close: sandbox.stub().resolves()
+  }
+  eleventy.activeInstance = mockEleventyInstance
+
+  t.true(eleventy.isActive())
+
+  await eleventy.close()
+
+  t.true(mockEleventyInstance.close.calledOnce)
+  t.false(eleventy.isActive())
+})
+
+test('cli.build() uses processManager.signal for cancellation', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().returns({
+    all: { pipe: sandbox.stub() },
+    exitCode: 0
+  })
+
+  const mockPaths = {
+    getConfigPath: () => '/project/.eleventy.js',
+    getEleventyRoot: () => '/project',
+    getInputDir: () => '/project/content',
+    getOutputDir: () => '/project/_site',
+    getProjectRoot: () => '/project',
+    getDataDir: () => '/project/content/_data',
+    getIncludesDir: () => '/project/_includes',
+    getLayoutsDir: () => '/project/_layouts',
+    toObject: () => ({})
+  }
+
+  const mockFs = {
+    readFileSync: sandbox.stub().returns(JSON.stringify({ version: '3.0.0' }))
+  }
+
+  const mockSignal = new AbortController().signal
+  const mockProcessManager = {
+    signal: mockSignal,
+    onShutdown: sandbox.stub(),
+    onShutdownComplete: sandbox.stub()
+  }
+
+  const cli = await esmock('./cli.js', {
+    execa: { execa: mockExeca },
+    '#lib/project/index.js': { default: mockPaths },
+    '#lib/process/manager.js': { default: mockProcessManager },
+    'node:fs': mockFs
+  })
+
+  await cli.build({})
+
+  const [, , options] = mockExeca.firstCall.args
+  t.is(options.cancelSignal, mockSignal)
+  t.true(options.gracefulCancel)
+})
+
+test('cli.serve() uses processManager.signal for cancellation', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().returns({
+    all: { pipe: sandbox.stub() }
+  })
+
+  const mockPaths = {
+    getConfigPath: () => '/project/.eleventy.js',
+    getEleventyRoot: () => '/project',
+    getInputDir: () => '/project/content',
+    getOutputDir: () => '/project/_site',
+    getProjectRoot: () => '/project',
+    getDataDir: () => '/project/content/_data',
+    getIncludesDir: () => '/project/_includes',
+    getLayoutsDir: () => '/project/_layouts',
+    toObject: () => ({})
+  }
+
+  const mockFs = {
+    readFileSync: sandbox.stub().returns(JSON.stringify({ version: '3.0.0' }))
+  }
+
+  const mockSignal = new AbortController().signal
+  const mockProcessManager = {
+    signal: mockSignal,
+    onShutdown: sandbox.stub(),
+    onShutdownComplete: sandbox.stub()
+  }
+
+  const cli = await esmock('./cli.js', {
+    execa: { execa: mockExeca },
+    '#lib/project/index.js': { default: mockPaths },
+    '#lib/process/manager.js': { default: mockProcessManager },
+    'node:fs': mockFs
+  })
+
+  await cli.serve({})
+
+  const [, , options] = mockExeca.firstCall.args
+  t.is(options.cancelSignal, mockSignal)
+  t.true(options.gracefulCancel)
+})
