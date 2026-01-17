@@ -41,7 +41,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('conf command should display config path', async (t) => {
+test('conf command should display config path and values in single output', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./conf.js', {}, {
@@ -57,30 +57,13 @@ test('conf command should display config path', async (t) => {
 
   await command.action(undefined, undefined, {})
 
-  t.true(mockLogger.info.calledWith(
-    sinon.match(/quire-cli configuration/),
-    '/mock/config/path'
-  ))
-})
+  // Should be called once with all output joined
+  t.true(mockLogger.info.calledOnce)
 
-test('conf command should display config values', async (t) => {
-  const { sandbox, mockLogger, mockConfig } = t.context
-
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
-    '#lib/logger/index.js': {
-      default: () => mockLogger
-    }
-  })
-
-  const command = new ConfCommand()
-  command.config = mockConfig
-  command.logger = mockLogger
-  command.debug = sandbox.stub()
-
-  await command.action(undefined, undefined, {})
-
-  t.true(mockLogger.info.calledWith('%s: %O', 'projectTemplate', 'default-starter'))
-  t.true(mockLogger.info.calledWith('%s: %O', 'quireVersion', '1.0.0'))
+  const output = mockLogger.info.firstCall.args[0]
+  t.true(output.includes('quire-cli configuration /mock/config/path'))
+  t.true(output.includes('projectTemplate: "default-starter"'))
+  t.true(output.includes('quireVersion: "1.0.0"'))
 })
 
 test('conf command should hide internal config values by default', async (t) => {
@@ -99,10 +82,8 @@ test('conf command should hide internal config values by default', async (t) => 
 
   await command.action(undefined, undefined, {})
 
-  // Check that __internal__secretKey was not passed as the second argument to logger.info
-  const calls = mockLogger.info.getCalls()
-  const hasInternalKey = calls.some((call) => call.args[1] === '__internal__secretKey')
-  t.false(hasInternalKey)
+  const output = mockLogger.info.firstCall.args[0]
+  t.false(output.includes('__internal__secretKey'))
 })
 
 test('conf command should show internal config values with debug flag', async (t) => {
@@ -121,7 +102,8 @@ test('conf command should show internal config values with debug flag', async (t
 
   await command.action(undefined, undefined, { debug: true })
 
-  t.true(mockLogger.info.calledWith('%s: %O', '__internal__secretKey', 'hidden-value'))
+  const output = mockLogger.info.firstCall.args[0]
+  t.true(output.includes('__internal__secretKey: "hidden-value"'))
 })
 
 test('conf command options are output when debug flag is set', async (t) => {

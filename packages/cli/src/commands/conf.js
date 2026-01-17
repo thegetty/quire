@@ -29,13 +29,13 @@ export default class ConfCommand extends Command {
   async action(key, value, options = {}) {
     this.debug('called with options %O', options)
 
-    // this.outputHelp()
+    const lines = [`quire-cli configuration ${this.config.path}`, '']
 
-    this.logger.info('quire-cli configuration %s', this.config.path)
-
-    for (const [ key, value ] of Object.entries(this.config.store)) {
+    for (const [key, value] of Object.entries(this.config.store)) {
       if (key.startsWith('__internal__') && !options.debug) continue
-      this.logger.info('%s: %O', key, value)
+      lines.push(`  ${key}: ${JSON.stringify(value)}`)
     }
+
+    this.logger.info(lines.join('\n'))
   }
 }
