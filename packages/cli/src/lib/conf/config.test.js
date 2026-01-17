@@ -175,7 +175,7 @@ test.serial('beforeEachMigration logs migration info', async (t) => {
   t.true(consoleInfoStub.calledOnce)
   t.true(consoleInfoStub.firstCall.args[0].includes('0.9.0'))
   t.true(consoleInfoStub.firstCall.args[0].includes('1.0.0'))
-  t.true(consoleInfoStub.firstCall.args[0].includes('migrating'))
+  t.true(consoleInfoStub.firstCall.args[0].includes('Migrating'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
