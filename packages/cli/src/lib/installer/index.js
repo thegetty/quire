@@ -6,7 +6,6 @@
  *
  * @module lib/installer
  */
-import { IS_WINDOWS } from '#helpers/os-utils.js'
 import { execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
