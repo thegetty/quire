@@ -13,8 +13,9 @@ import testcwd from '#helpers/test-cwd.js'
 export default class PreviewCommand extends Command {
   static definition = {
     name: 'preview',
-    description: 'Run the development server and watch on file changes\n\nDocs: https://quire.getty.edu/docs/quire-commands/#start-and-preview-projects',
+    description: 'Run the development server and watch on file changes',
     summary: 'run the development server',
+    docsLink: 'quire-commands/#start-and-preview-projects',
     version: '1.1.0',
     options: [
       [ '-p', '--port <port>', 'configure development server port', 8080 ],
