@@ -41,8 +41,9 @@ export default class ConfCommand extends Command {
   static definition = {
     name: 'conf',
     aliases: ['config', 'configure'],
-    description: 'Manage the Quire CLI configuration.\n\nDocs: https://quire.getty.edu/docs/quire-commands/',
+    description: 'Manage the Quire CLI configuration.',
     summary: 'read/write quire-cli configuration options',
+    docsLink: 'quire-commands/',
     version: '2.0.0',
     args: [
       ['[operation]', `operation to perform (${OPERATIONS.join(', ')})`],

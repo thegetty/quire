@@ -13,8 +13,9 @@ import open from 'open'
 export default class PDFCommand extends Command {
   static definition = {
     name: 'pdf',
-    description: 'Generate publication PDF\n\nDocs: https://quire.getty.edu/docs/quire-commands/#output-files',
+    description: 'Generate publication PDF',
     summary: 'run build pdf',
+    docsLink: 'quire-commands/#output-files',
     version: '1.0.0',
     options: [
       [
