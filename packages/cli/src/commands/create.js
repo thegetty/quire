@@ -17,7 +17,7 @@ import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js
 export default class CreateCommand extends Command {
   static definition = {
     name: 'new',
-    description: 'Start a new Quire project from a template.',
+    description: 'Start a new Quire project from a template.\n\nDocs: https://quire.getty.edu/docs/quire-commands/#start-and-preview-projects',
     summary: 'create a new project',
     version: '1.0.0',
     args: [
