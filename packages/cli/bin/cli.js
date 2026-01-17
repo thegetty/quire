@@ -4,6 +4,9 @@ import config from '#src/lib/conf/config.js'
 import packageConfig from '#src/packageConfig.js'
 import updateNotifier from 'update-notifier'
 
+// Import process manager to register signal handlers for graceful shutdown
+import '#lib/process/manager.js'
+
 process.removeAllListeners('warning')
 
 /**
