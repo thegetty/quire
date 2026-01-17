@@ -31,8 +31,9 @@
 import { execa } from 'execa'
 import path from 'node:path'
 import which from '#helpers/which.js'
+import createDebug from '#debug'
 
-const LOG_PREFIX = '[CLI:lib/git]'
+const debug = createDebug('lib:git')
 
 /**
  * Git façade class
@@ -72,7 +73,7 @@ class Git {
    */
   async add(files) {
     const fileList = Array.isArray(files) ? files : [files]
-    console.debug(`${LOG_PREFIX} staging files in ${this.#resolvedCwd()}: ${fileList.join(', ')}`)
+    debug('staging files in %s: %s', this.#resolvedCwd(), fileList.join(', '))
     await execa('git', ['add', ...fileList], this.#getOptions())
   }
 
@@ -85,7 +86,7 @@ class Git {
    */
   async clone(url, destination = '.') {
     const resolvedDest = path.resolve(this.#resolvedCwd(), destination)
-    console.debug(`${LOG_PREFIX} cloning ${url} to ${resolvedDest}`)
+    debug('cloning %s to %s', url, resolvedDest)
     await execa('git', ['clone', url, destination], this.#getOptions())
   }
 
@@ -96,7 +97,7 @@ class Git {
    * @returns {Promise<void>}
    */
   async commit(message) {
-    console.debug(`${LOG_PREFIX} committing in ${this.#resolvedCwd()}: ${message.substring(0, 50)}...`)
+    debug('committing in %s: %s...', this.#resolvedCwd(), message.substring(0, 50))
     await execa('git', ['commit', '-m', message], this.#getOptions())
   }
 
@@ -106,7 +107,7 @@ class Git {
    * @returns {Promise<void>}
    */
   async init() {
-    console.debug(`${LOG_PREFIX} initializing repository in ${this.#resolvedCwd()}`)
+    debug('initializing repository in %s', this.#resolvedCwd())
     await execa('git', ['init'], this.#getOptions())
   }
 
@@ -126,7 +127,7 @@ class Git {
    */
   async rm(files) {
     const fileList = Array.isArray(files) ? files : [files]
-    console.debug(`${LOG_PREFIX} removing files in ${this.#resolvedCwd()}: ${fileList.join(', ')}`)
+    debug('removing files in %s: %s', this.#resolvedCwd(), fileList.join(', '))
     await execa('git', ['rm', ...fileList], this.#getOptions())
   }
 
