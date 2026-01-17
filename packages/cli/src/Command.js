@@ -1,4 +1,6 @@
 import config from '#src/lib/conf/config.js'
+import createLogger from '#lib/logger/index.js'
+import createDebug from '#debug'
 
 /**
  * Command
@@ -37,6 +39,18 @@ export default class Command {
     }
 
     this.config = config // quire-cli configuration
+
+    /**
+     * Command-specific debug instance for internal debugging
+     * Enable via: DEBUG=quire:commands:name or DEBUG=quire:commands:*
+     */
+    this.debug = createDebug(`commands:${definition.name}`)
+
+    /**
+     * Command-specific logger with prefix including command name
+     * Output format: [quire] LEVEL commands:name message
+     */
+    this.logger = createLogger(`commands:${definition.name}`)
 
     /**
      * Merge and deduplicate command definition alias and aliases

@@ -49,12 +49,14 @@
     "#root/*": "./*",
     "#src/*.js": "./src/*.js",
     "#helpers/*.js": "./src/helpers/*.js",
-    "#lib/*.js": "./src/lib/*.js"
+    "#lib/*.js": "./src/lib/*.js",
+    "#debug": "./src/lib/logger/debug.js"
   },
   "dependencies": {
     "ajv": "^8.16.0",
     "boxen": "^7.0.1",
     "chalk": "^5.2.0",
+    "debug": "^4.4.0",
     "commander": "^14.0.2",
     "conf": "^13.1.0",
     "cross-env": "^7.0.3",

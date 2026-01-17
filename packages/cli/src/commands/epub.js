@@ -1,5 +1,4 @@
 import Command from '#src/Command.js'
-import { logger } from '#lib/logger/index.js'
 import paths from '#lib/project/index.js'
 import fs from 'fs-extra'
 import libEpub from '#lib/epub/index.js'
@@ -35,15 +34,13 @@ export default class EpubCommand extends Command {
   }
 
   async action(options, command) {
-    if (options.debug) {
-      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
-    }
+    this.debug('called with options %O', options)
 
     const projectRoot = paths.getProjectRoot()
     const input = path.join(projectRoot, paths.getEpubDir())
 
     if (!fs.existsSync(input)) {
-      logger.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
+      this.logger.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
       return
     }
 
@@ -60,8 +57,6 @@ export default class EpubCommand extends Command {
    */
   preAction(command) {
     const options = command.opts()
-    if (options.debug) {
-      logger.debug('[CLI] Calling \'epub\' command pre-action with options', options)
-    }
+    this.debug('pre-action with options %O', options)
   }
 }

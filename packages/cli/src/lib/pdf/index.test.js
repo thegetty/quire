@@ -49,7 +49,7 @@ test('generatePdf resolves pagedjs library correctly', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await generatePdf.default({ lib: 'pagedjs' })
@@ -86,7 +86,7 @@ test('generatePdf resolves prince library correctly', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await generatePdf.default({ lib: 'prince' })
@@ -122,7 +122,7 @@ test('generatePdf normalizes library name variations', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   // Test "paged" variant
@@ -162,7 +162,7 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await generatePdf.default({})
@@ -193,7 +193,7 @@ test.serial('generatePdf exits with error for unrecognized library', async (t) =
       loadProjectConfig: sandbox.stub()
     },
     'fs-extra': { existsSync: sandbox.stub() },
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await t.throwsAsync(
@@ -232,7 +232,7 @@ test.serial('generatePdf exits with error when pdf.html is missing', async (t) =
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await t.throwsAsync(
@@ -280,7 +280,7 @@ test('generatePdf uses pdf config for output path when available', async (t) => 
       loadProjectConfig: sandbox.stub().resolves({ pdf: pdfConfig })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
@@ -315,7 +315,7 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
@@ -359,7 +359,7 @@ test('generatePdf passes correct arguments to PDF library', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: pdfConfig })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await generatePdf.default({ lib: 'pagedjs', debug: true })
@@ -400,7 +400,7 @@ test('generatePdf passes options through to PDF library', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#src/lib/logger.js': { default: mockLogger }
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   await generatePdf.default({
