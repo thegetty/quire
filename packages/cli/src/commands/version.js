@@ -46,13 +46,9 @@ export default class VersionCommand extends Command {
       logger.info('Command \'%s\' called with options %o', this.name, options)
     }
 
-    try {
-      // Validate and resolve the version against npm registry
-      const resolvedVersion = await latest(version)
-      setVersion(resolvedVersion)
-    } catch (error) {
-      logger.error(error.message)
-    }
+    // Validate and resolve the version against npm registry
+    const resolvedVersion = await latest(version)
+    setVersion(resolvedVersion)
   }
 
   preAction(command) {

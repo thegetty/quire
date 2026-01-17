@@ -7,7 +7,7 @@ import path from 'node:path'
 import paths from '#lib/project/index.js'
 import testcwd from '../helpers/test-cwd.js'
 import yamlValidation from '../validators/validate-yaml.js'
-
+import { ValidationError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `validate` Command
@@ -54,6 +54,13 @@ export default class ValidateCommand extends Command {
 
     if(errorList.length > 0) {
       errorList.forEach(err => { logger.error(`${err.reason}`) })
+      throw new ValidationError(
+        `Validation failed with ${errorList.length} error(s)`,
+        {
+          code: 'VALIDATION_FAILED',
+          suggestion: 'Fix the errors listed above and run validation again'
+        }
+      )
     } else {
       logger.log('Validation complete.')
     }

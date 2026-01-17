@@ -6,6 +6,7 @@ import { splitPdf } from './split.js'
 import fs from 'fs-extra'
 
 import which from '#helpers/which.js'
+import { PdfGenerationError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -55,9 +56,8 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   try {
     const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])  
     pageMap = JSON.parse(pageMapOutput.stdout)
-  } catch (err) {
-    console.error(`Generating the PDF page map failed with the error ${err.stderr}`)
-    process.exit(1)
+  } catch (error) {
+    throw new PdfGenerationError('Prince', 'page map generation', error.stderr)
   }
 
   let coversData
@@ -81,9 +81,8 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
   try {
     ({ stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput]))
-  } catch (err) {
-    console.error(`Printing the PDF failed with the error ${err.stderr}`)
-    process.exit(1)
+  } catch (error) {
+    throw new PdfGenerationError('Prince', 'PDF printing', error.stderr)
   }
 
   const pdfData = fs.readFileSync(output,null)

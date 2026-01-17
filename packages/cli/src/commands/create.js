@@ -3,6 +3,7 @@ import { Option } from 'commander'
 import fs from 'fs-extra'
 import { logger } from '#lib/logger/index.js'
 import { installer } from '#lib/installer/index.js'
+import { ProjectCreateError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -70,18 +71,17 @@ export default class CreateCommand extends Command {
       try {
         quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
-        logger.error(error.message)
         // Only remove directory if it wasn't pre-existing user content
         if (!error.message.includes('not empty')) {
           fs.removeSync(projectPath)
         }
-        process.exit(1)
+        throw new ProjectCreateError(projectPath, error.message)
       }
 
       // Check if initStarter returned without a version
       if (!quireVersion) {
         fs.removeSync(projectPath)
-        process.exit(1)
+        throw new ProjectCreateError(projectPath, 'Failed to determine Quire version')
       }
 
       await installer.installInProject(projectPath, quireVersion, options)

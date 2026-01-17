@@ -20,6 +20,7 @@ import {
   setVersion,
   writeVersionFile,
 } from '#lib/project/index.js'
+import { VersionNotFoundError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -41,12 +42,7 @@ export async function latest(version) {
     quireVersion = await npm.getCompatibleVersion(PACKAGE_NAME, version)
   }
   if (!quireVersion) {
-    throw new Error(
-      `[CLI:installer] Sorry, we couldn't find a version of quire-11ty compatible with "${version}". ` +
-      `You can set the quire-11ty version in the starter project's package.json or specify a version ` +
-      `when running \`quire new\` with the \`--quire-version\` flag. ` +
-      `Run \`npm view @thegetty/quire-11ty versions\` to view all versions.`
-    )
+    throw new VersionNotFoundError(PACKAGE_NAME, version)
   }
   return quireVersion
 }

@@ -22,18 +22,13 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('loadProjectConfig should log an error and exit when config file does not exist', async (t) => {
-  const { sandbox, fs, vol } = t.context
+test('loadProjectConfig should throw ConfigFileNotFoundError when config file does not exist', async (t) => {
+  const { fs, vol } = t.context
 
   // Setup empty directory
   vol.fromJSON({
     '/project/content/_data/.gitkeep': ''
   })
-
-  const mockLogger = { error: sandbox.stub() }
-  // Stub process.exit to throw so execution stops (mimics real exit behavior)
-  const exitError = new Error('process.exit called')
-  const mockExit = sandbox.stub(process, 'exit').throws(exitError)
 
   const { loadProjectConfig } = await esmock('./config.js', {
     'fs-extra': {
@@ -44,18 +39,13 @@ test('loadProjectConfig should log an error and exit when config file does not e
       default: {
         getProjectRoot: () => '/project'
       }
-    },
-    '#lib/logger/index.js': {
-      logger: mockLogger
     }
   })
 
-  await t.throwsAsync(() => loadProjectConfig('/project'), { message: 'process.exit called' })
+  const error = await t.throwsAsync(() => loadProjectConfig('/project'))
 
-  t.true(mockLogger.error.called, 'should log error')
-  t.true(mockLogger.error.firstCall.args[0].includes('config.yaml'), 'error should include config path')
-  t.true(mockLogger.error.firstCall.args[0].includes('Quire project'), 'error should mention Quire')
-  t.true(mockExit.calledWith(1), 'should exit with code 1')
+  t.is(error.code, 'CONFIG_FILE_NOT_FOUND')
+  t.true(error.message.includes('config.yaml'), 'error should include config path')
 })
 
 test('loadProjectConfig should load and parse YAML config file', async (t) => {

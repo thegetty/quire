@@ -3,6 +3,7 @@ import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
+import { ProjectCreateError } from '#src/errors/index.js'
 
 test.beforeEach((t) => {
   // Create sinon sandbox for mocking
@@ -189,10 +190,6 @@ test('create command should handle initStarter errors gracefully', async (t) => 
     })
   }
 
-  // Stub process.exit to throw so execution stops (mimics real exit behavior)
-  const exitError = new Error('process.exit called')
-  const mockExit = sandbox.stub(process, 'exit').throws(exitError)
-
   // Use esmock to replace imports
   const CreateCommand = await esmock('./create.js', {
     '#lib/installer/index.js': {
@@ -208,14 +205,17 @@ test('create command should handle initStarter errors gracefully', async (t) => 
   command.config = mockConfig
   command.name = sandbox.stub().returns('new')
 
-  // Run action - should exit with error
-  await t.throwsAsync(() => command.action('/new-project', 'starter-template', {}), { message: 'process.exit called' })
+  // Run action - should throw ProjectCreateError
+  const thrown = await t.throwsAsync(
+    () => command.action('/new-project', 'starter-template', {}),
+    { instanceOf: ProjectCreateError }
+  )
 
+  t.is(thrown.code, 'PROJECT_CREATE_FAILED', 'error should have correct code')
+  t.is(thrown.exitCode, 2, 'error should have correct exit code')
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
   t.false(mockQuire.installInProject.called, 'installInProject should not be called when initStarter fails')
   t.true(fs.removeSync.called || !fs.existsSync('/new-project'), 'project directory should be removed on error')
-  t.true(mockLogger.error.calledWith(error.message), 'error message should be logged')
-  t.true(mockExit.calledWith(1), 'should exit with code 1')
 })
 
 test('create command should pass through debug option', async (t) => {

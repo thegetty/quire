@@ -2,6 +2,7 @@ import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
 import sinon from 'sinon'
 import esmock from 'esmock'
+import { ValidationError } from '#src/errors/index.js'
 
 test.beforeEach((t) => {
   // Create sinon sandbox for mocking
@@ -108,11 +109,13 @@ test('validate command should handle validation errors', async (t) => {
   const command = new ValidateCommand()
   command.name = sandbox.stub().returns('validate')
 
-  // Run action - should not throw, errors are collected
-  command.action({}, command)
+  // Run action - should throw ValidationError when there are validation errors
+  const error = t.throws(() => command.action({}, command), { instanceOf: ValidationError })
 
-  // Validation should have been attempted
+  t.is(error.code, 'VALIDATION_FAILED', 'error should have correct code')
+  t.is(error.exitCode, 4, 'error should have validation exit code')
   t.true(mockYamlValidation.called, 'validation should be attempted')
+  t.true(mockLogger.error.called, 'errors should be logged')
 })
 
 test('validate command should call testcwd in preAction', async (t) => {

@@ -117,7 +117,11 @@ test('version command should log debug information when debug flag is set', asyn
 })
 
 test('version command should handle semver version strings', async (t) => {
-  const { mockLogger, mockTestcwd } = t.context
+  const { sandbox, mockLogger, mockTestcwd } = t.context
+
+  // Mock the installer's latest function to return the version
+  const mockLatest = sandbox.stub().callsFake(async (version) => version)
+  const mockSetVersion = sandbox.stub()
 
   const VersionCommand = await esmock('./version.js', {
     '#lib/logger/index.js': {
@@ -125,6 +129,12 @@ test('version command should handle semver version strings', async (t) => {
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#lib/installer/index.js': {
+      latest: mockLatest
+    },
+    '#lib/project/index.js': {
+      setVersion: mockSetVersion
     }
   })
 
@@ -143,10 +153,17 @@ test('version command should handle semver version strings', async (t) => {
     await command.action(version, {})
     t.pass(`should accept valid semver: ${version}`)
   }
+
+  t.is(mockLatest.callCount, validVersions.length, 'latest should be called for each version')
+  t.is(mockSetVersion.callCount, validVersions.length, 'setVersion should be called for each version')
 })
 
 test('version command should work with options object', async (t) => {
-  const { mockLogger, mockTestcwd } = t.context
+  const { sandbox, mockLogger, mockTestcwd } = t.context
+
+  // Mock the installer's latest function to return the version
+  const mockLatest = sandbox.stub().callsFake(async (version) => version)
+  const mockSetVersion = sandbox.stub()
 
   const VersionCommand = await esmock('./version.js', {
     '#lib/logger/index.js': {
@@ -154,6 +171,12 @@ test('version command should work with options object', async (t) => {
     },
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#lib/installer/index.js': {
+      latest: mockLatest
+    },
+    '#lib/project/index.js': {
+      setVersion: mockSetVersion
     }
   })
 
@@ -164,6 +187,8 @@ test('version command should work with options object', async (t) => {
   await command.action('1.0.0', { debug: true })
   await command.action('1.0.0', {})
 
+  t.is(mockLatest.callCount, 3, 'latest should be called for each action')
+  t.is(mockSetVersion.callCount, 3, 'setVersion should be called for each action')
   t.pass('command should handle various option combinations')
 })
 

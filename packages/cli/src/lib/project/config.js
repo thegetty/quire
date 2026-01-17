@@ -10,7 +10,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import yaml from 'js-yaml'
 import paths from './paths.js'
-import { logger } from '#lib/logger/index.js'
+import { ConfigFileNotFoundError } from '#src/errors/index.js'
 
 /**
  * Load and validate Quire project configuration
@@ -25,11 +25,7 @@ export async function loadProjectConfig(projectRoot) {
   const configPath = path.join(root, 'content', '_data', 'config.yaml')
 
   if (!fs.existsSync(configPath)) {
-    logger.error(
-      `Unable to find configuration file at '${configPath}'\n` +
-      `Is the command being run in a Quire project?`
-    )
-    process.exit(1)
+    throw new ConfigFileNotFoundError(configPath)
   }
 
   const data = fs.readFileSync(configPath)
@@ -45,12 +41,7 @@ export async function loadProjectConfig(projectRoot) {
     const schemaJSON = fs.readFileSync(schemaPath)
     const schema = JSON.parse(schemaJSON)
 
-    try {
-      config = validateUserConfig('config', config, { config: schema })
-    } catch (error) {
-      logger.error(error)
-      process.exit(1)
-    }
+    config = validateUserConfig('config', config, { config: schema })
   }
 
   return config

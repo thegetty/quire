@@ -2,6 +2,7 @@ import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
 import sinon from 'sinon'
 import esmock from 'esmock'
+import { NotInProjectError } from '#src/errors/index.js'
 
 test.beforeEach((t) => {
   // Create in-memory file system
@@ -34,14 +35,11 @@ test.serial('testcwd should not error when called in a Quire project directory',
   })
 
   // Create stubs
-  const consoleErrorStub = sandbox.stub(console, 'error')
-  const processExitStub = sandbox.stub(process, 'exit')
   const cwdStub = sandbox.stub(process, 'cwd').returns('/quire-project')
 
   // Create mock process object with stubbed methods
   const mockProcess = {
-    cwd: cwdStub,
-    exit: processExitStub
+    cwd: cwdStub
   }
 
   // Mock detect module with memfs
@@ -62,14 +60,11 @@ test.serial('testcwd should not error when called in a Quire project directory',
     name: sandbox.stub().returns('build')
   }
 
-  // Call testcwd - should not throw or exit
-  testcwd(mockCommand)
-
-  t.false(consoleErrorStub.called, 'console.error should not be called')
-  t.false(processExitStub.called, 'process.exit should not be called')
+  // Call testcwd - should not throw
+  t.notThrows(() => testcwd(mockCommand))
 })
 
-test.serial('testcwd should error when called outside a Quire project directory', async (t) => {
+test.serial('testcwd should throw NotInProjectError when called outside a Quire project directory', async (t) => {
   const { fs, vol } = t.context
 
   // Create sandbox for this test
@@ -83,14 +78,11 @@ test.serial('testcwd should error when called outside a Quire project directory'
   })
 
   // Create stubs
-  const consoleErrorStub = sandbox.stub(console, 'error')
-  const processExitStub = sandbox.stub(process, 'exit')
   const cwdStub = sandbox.stub(process, 'cwd').returns('/not-quire')
 
   // Create mock process object with stubbed methods
   const mockProcess = {
-    cwd: cwdStub,
-    exit: processExitStub
+    cwd: cwdStub
   }
 
   // Mock detect module with memfs
@@ -111,14 +103,11 @@ test.serial('testcwd should error when called outside a Quire project directory'
     name: sandbox.stub().returns('build')
   }
 
-  // Call testcwd - should log error and exit
-  testcwd(mockCommand)
-
-  t.true(consoleErrorStub.called, 'console.error should be called')
-  t.true(consoleErrorStub.calledWith(
-    sinon.match(/build command must be run while in a Quire project directory/)
-  ), 'error message should mention the command name')
-  t.true(processExitStub.calledWith(1), 'process.exit should be called with exit code 1')
+  // Call testcwd - should throw NotInProjectError
+  const error = t.throws(() => testcwd(mockCommand), { instanceOf: NotInProjectError })
+  t.is(error.code, 'NOT_IN_PROJECT')
+  t.is(error.exitCode, 2)
+  t.true(error.message.includes('build'))
 })
 
 test.serial('testcwd should include command name in error message', async (t) => {
@@ -134,14 +123,11 @@ test.serial('testcwd should include command name in error message', async (t) =>
   })
 
   // Create stubs
-  const consoleErrorStub = sandbox.stub(console, 'error')
-  const processExitStub = sandbox.stub(process, 'exit')
   const cwdStub = sandbox.stub(process, 'cwd').returns('/non-quire-directory')
 
   // Create mock process object with stubbed methods
   const mockProcess = {
-    cwd: cwdStub,
-    exit: processExitStub
+    cwd: cwdStub
   }
 
   // Mock detect module with memfs
@@ -162,14 +148,9 @@ test.serial('testcwd should include command name in error message', async (t) =>
     name: sandbox.stub().returns('clean')
   }
 
-  // Call testcwd
-  testcwd(mockCommand)
-
-  t.true(consoleErrorStub.called, 'console.error should be called')
-
-  const errorMessage = consoleErrorStub.getCall(0).args[0]
-  t.true(errorMessage.includes('clean'), 'error message should include command name')
-  t.true(errorMessage.includes('quire clean'), 'error message should include full command')
+  // Call testcwd - should throw with command name in message
+  const error = t.throws(() => testcwd(mockCommand), { instanceOf: NotInProjectError })
+  t.true(error.message.includes('clean'), 'error message should include command name')
 })
 
 test.serial('testcwd should work when command is null', async (t) => {
@@ -185,14 +166,11 @@ test.serial('testcwd should work when command is null', async (t) => {
   })
 
   // Create stubs
-  const consoleErrorStub = sandbox.stub(console, 'error')
-  const processExitStub = sandbox.stub(process, 'exit')
   const cwdStub = sandbox.stub(process, 'cwd').returns('/not-a-quire-directory')
 
   // Create mock process object with stubbed methods
   const mockProcess = {
-    cwd: cwdStub,
-    exit: processExitStub
+    cwd: cwdStub
   }
 
   // Mock detect module with memfs
@@ -208,9 +186,7 @@ test.serial('testcwd should work when command is null', async (t) => {
     }
   })
 
-  // Call testcwd with null command
-  testcwd(null)
-
-  t.true(consoleErrorStub.called, 'console.error should be called')
-  t.true(processExitStub.calledWith(1), 'process.exit should be called with exit code 1')
+  // Call testcwd with null command - should throw but not crash
+  const error = t.throws(() => testcwd(null), { instanceOf: NotInProjectError })
+  t.is(error.exitCode, 2)
 })
