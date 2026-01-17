@@ -4,9 +4,12 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import paths, { loadProjectConfig } from '#lib/project/index.js'
 import { logger } from '#lib/logger/index.js'
+import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const debug = createDebug('lib:pdf')
 
 /**
  * Resolve the PDF library implementation
@@ -48,9 +51,11 @@ export default async function generatePdf(options = {}) {
   const lib = resolveLibrary(libName)
 
   if (!lib) {
-    logger.error(`[CLI:lib/pdf] Unrecognized PDF library '${libName}'`)
+    logger.error(`Unrecognized PDF library '${libName}'`)
     process.exit(1)
   }
+
+  debug('resolved library: %s → %s', libName, lib.name)
 
   const projectRoot = paths.getProjectRoot()
   const outputDir = paths.getOutputDir()
@@ -58,6 +63,9 @@ export default async function generatePdf(options = {}) {
 
   const publicationInput = path.join(projectRoot, outputDir, 'pdf.html')
   const coversInput = path.join(projectRoot, outputDir, 'pdf-covers.html')
+
+  debug('input: %s', publicationInput)
+  debug('covers: %s', coversInput)
 
   if (!fs.existsSync(publicationInput)) {
     logger.error(
@@ -68,11 +76,13 @@ export default async function generatePdf(options = {}) {
   }
 
   const output = getOutputPath(projectRoot, outputDir, config.pdf, libName)
+  debug('output: %s', output)
 
   const { default: pdfLib } = await dynamicImport(lib.path)
 
-  logger.info(`[CLI:lib/pdf] generating PDF using ${lib.name}`)
+  logger.info(`Generating PDF using ${lib.name}...`)
   await pdfLib(publicationInput, coversInput, output, { ...options, pdfConfig: config.pdf })
 
+  logger.info(`PDF saved to ${output}`)
   return output
 }
