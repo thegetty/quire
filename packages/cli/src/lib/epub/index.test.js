@@ -162,10 +162,14 @@ test.serial('returned generator passes empty options object to epub library', as
   const mockEpubLib = sandbox.stub().resolves()
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
-  sandbox.stub(console, 'info')
+  const mockLogger = {
+    error: sandbox.stub(),
+    info: sandbox.stub()
+  }
 
   const getEpubLib = await esmock('./index.js', {
-    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport }
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   const generator = await getEpubLib.default('epubjs')
@@ -182,10 +186,14 @@ test.serial('returned generator returns result from epub library', async (t) => 
   const mockEpubLib = sandbox.stub().resolves(expectedResult)
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
-  sandbox.stub(console, 'info')
+  const mockLogger = {
+    error: sandbox.stub(),
+    info: sandbox.stub()
+  }
 
   const getEpubLib = await esmock('./index.js', {
-    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport }
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#lib/logger/index.js': { logger: mockLogger }
   })
 
   const generator = await getEpubLib.default('epubjs')
