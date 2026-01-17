@@ -3,8 +3,21 @@ import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
 import packageConfig from '#src/packageConfig.js'
+import { enableDebug } from '#lib/logger/debug.js'
 
 const { version } = packageConfig
+
+const helpText = `
+Environment Variables:
+  DEBUG=quire:*          Enable debug output for all modules
+  DEBUG=quire:lib:pdf    Enable debug output for PDF module only
+  DEBUG=quire:lib:*      Enable debug output for all lib modules
+
+Examples:
+  $ quire build                  Build the publication
+  $ quire build --verbose        Build with debug output
+  $ DEBUG=quire:* quire pdf      Generate PDF with debug output
+`
 
 /**
  * Quire CLI implements the command pattern.
@@ -18,7 +31,9 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(version,  '-v, --version', 'output quire version number')
+  .version(version, '-v, --version', 'output quire version number')
+  .option('--verbose', 'enable verbose output for debugging')
+  .addHelpText('after', helpText)
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
@@ -28,6 +43,16 @@ program
       return /^-\w/.test(term) ? term : term.padStart(term.length + 4)
     },
   })
+
+/**
+ * Handle global --verbose option before any command runs
+ */
+program.hook('preAction', (thisCommand) => {
+  const opts = thisCommand.opts()
+  if (opts.verbose) {
+    enableDebug('quire:*')
+  }
+})
 
 /**
  * Register each command as a subcommand of this program
