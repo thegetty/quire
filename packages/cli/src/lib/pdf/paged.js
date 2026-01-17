@@ -7,9 +7,13 @@ import { fileURLToPath } from 'node:url'
 import processManager from '#lib/process/manager.js'
 import { splitPdf } from './split.js'
 import { PdfGenerationError } from '#src/errors/index.js'
+import { logger } from '#lib/logger/index.js'
+import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const debug = createDebug('lib:pdf:paged')
 
 /**
  * A façade module for interacting with Paged.js and pagedjs-cli
@@ -35,31 +39,28 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     additionalScripts,
   }
 
-  if (options.debug) {
-    const optionsOutput = JSON.stringify(printerOptions, null, 2)
-    console.debug(`[CLI:lib/pdf/pagedjs] Printer options\n${optionsOutput}`)
-  }
+  debug('printer options: %O', printerOptions)
 
   let printer = new Printer(printerOptions)
 
   // Register cleanup handler for graceful shutdown
   processManager.onShutdown('pagedjs', () => {
-    console.info('[CLI:lib/pdf/pagedjs] closing printer')
+    debug('closing printer')
     printer.close()
   })
 
   printer.on('page', (page, pageElement, breakToken) => {
     if (page.position === 0) {
-      console.info(`[CLI:lib/pdf/pagedjs] loaded`)
+      debug('paged.js loaded')
     }
   })
 
   printer.on('rendered', (msg) => {
-    console.info(`[CLI:lib/pdf/pagedjs] ${msg}`)
+    debug('rendered: %s', msg)
   })
 
   printer.on('postprocessing', () => {
-    console.info(`[CLI:lib/pdf/pagedjs] post-processing`)
+    debug('post-processing')
   })
 
   /**
@@ -72,12 +73,9 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     outlineTags: options.outlineTags || ['h1'],
   }
 
-  if (options.debug) {
-    const optionsOutput = JSON.stringify(pdfOptions, null, 2)
-    console.debug(`[CLI:lib/pdf/pagedjs] PDF options\n${optionsOutput}`)
-  }
+  debug('pdf options: %O', pdfOptions)
 
-  console.info(`[CLI:lib/pdf/pagedjs] printing ${publicationInput}`)
+  debug('printing %s', publicationInput)
 
   let file
   try {
@@ -91,7 +89,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   // Now it's printed, create the pageMap by running JS in the printer's context
   let coversFile
 
-  console.info(`[CLI:lib/pdf/pagedjs] generating page map`)
+  debug('generating page map')
   const pages = await printer.browser.pages()
 
   if (pages.length > 0) {
@@ -102,7 +100,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   }
 
   if ( pdfConfig?.pagePDF?.coverPage===true && fs.existsSync(coversInput) ) {
-    console.info(`[CLI:lib/pdf/pagedjs] printing ${coversInput}`)
+    debug('printing covers %s', coversInput)
 
     const coverPrinter = new Printer(printerOptions)
 
@@ -139,7 +137,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   processManager.onShutdownComplete('pagedjs')
 
   if (file && output) {
-    console.info(`[CLI:lib/pdf/pagedjs] writing file(s)`)
+    debug('writing files')
 
     const { dir } = path.parse(output)
     if (!fs.existsSync(dir)) {

@@ -4,6 +4,10 @@ import path from 'node:path'
 import paths from '#lib/project/index.js'
 import processManager from '#lib/process/manager.js'
 import { BuildFailedError } from '#src/errors/index.js'
+import { logger } from '#lib/logger/index.js'
+import createDebug from '#debug'
+
+const debug = createDebug('lib:11ty')
 
 /**
  * Spawn a cancellable subprocess with output piped to stdout
@@ -40,9 +44,8 @@ const factory = (options = {}) => {
   const output = paths.getOutputDir()
   const projectRoot = paths.getProjectRoot()
 
-  if (options.debug) {
-    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths.toObject())
-  }
+  debug('projectRoot: %s', projectRoot)
+  debug('paths: %O', paths.toObject())
 
   /**
    * Use the version of Eleventy installed to `lib/quire/versions`
@@ -105,7 +108,7 @@ export default {
    * @param {Object} options - Build options
    */
   build: async (options = {}) => {
-    console.info('[CLI:11ty] running eleventy build')
+    logger.info('Building site...')
 
     const { command, env, projectRoot } = factory(options)
 
@@ -122,7 +125,7 @@ export default {
       }
     } catch (error) {
       if (error.isCanceled) {
-        console.info('[CLI:11ty] build cancelled')
+        debug('build cancelled')
         return
       }
       throw error
@@ -134,7 +137,7 @@ export default {
    * @param {Object} options - Serve options
    */
   serve: async (options = {}) => {
-    console.info(`[CLI:11ty] running eleventy serve`)
+    logger.info('Starting development server...')
 
     const { command, env, projectRoot } = factory(options)
 
@@ -148,7 +151,7 @@ export default {
       await spawn(command, { cwd: projectRoot, env })
     } catch (error) {
       if (error.isCanceled) {
-        console.info('[CLI:11ty] server stopped')
+        debug('server stopped')
         return
       }
       throw error
