@@ -1,3 +1,4 @@
+import esmock from 'esmock'
 import sinon from 'sinon'
 import test from 'ava'
 import createLogger, { logger, LOG_LEVELS, LOG_LEVEL_ENV_VAR } from './index.js'
@@ -146,14 +147,28 @@ test('default singleton is functional', (t) => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Console.error output tests (error is always routed to console.error)
+// Console output tests with level labels (logShowLevel: true)
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('error level outputs to console.error', (t) => {
+test.serial('error level outputs to console.error with level label when configured', async (t) => {
   const { sandbox } = t.context
   const consoleErrorStub = sandbox.stub(console, 'error')
 
-  const log = createLogger('test:error:output', 'error')
+  // Mock config to show level labels
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'bracket',
+      logShowLevel: true,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:error:output', 'error')
   log.error('Error message')
 
   t.true(consoleErrorStub.calledOnce)
@@ -163,11 +178,25 @@ test.serial('error level outputs to console.error', (t) => {
   t.true(output.includes('Error message'))
 })
 
-test.serial('warn level outputs to console.warn', (t) => {
+test.serial('warn level outputs to console.warn with level label when configured', async (t) => {
   const { sandbox } = t.context
   const consoleWarnStub = sandbox.stub(console, 'warn')
 
-  const log = createLogger('test:warn:output', 'warn')
+  // Mock config to show level labels
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'bracket',
+      logShowLevel: true,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:warn:output', 'warn')
   log.warn('Warning message')
 
   t.true(consoleWarnStub.calledOnce)
@@ -177,11 +206,25 @@ test.serial('warn level outputs to console.warn', (t) => {
   t.true(output.includes('Warning message'))
 })
 
-test.serial('trace level outputs to console.trace', (t) => {
+test.serial('trace level outputs to console.trace with level label when configured', async (t) => {
   const { sandbox } = t.context
   const consoleTraceStub = sandbox.stub(console, 'trace')
 
-  const log = createLogger('test:trace:output', 'trace')
+  // Mock config to show level labels
+  const mockConfig = {
+    get: sandbox.stub().callsFake((key) => ({
+      logPrefix: 'quire',
+      logPrefixStyle: 'bracket',
+      logShowLevel: true,
+      logUseColor: false
+    })[key])
+  }
+
+  const { default: createLoggerMocked } = await esmock('./index.js', {
+    '#lib/conf/config.js': { default: mockConfig }
+  })
+
+  const log = createLoggerMocked('test:trace:output', 'trace')
   log.trace('Trace message')
 
   t.true(consoleTraceStub.calledOnce)
