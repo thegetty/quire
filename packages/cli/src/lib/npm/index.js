@@ -25,8 +25,9 @@ import { execa, execaCommand } from 'execa'
 import fetch from 'node-fetch'
 import semver from 'semver'
 import which from '#helpers/which.js'
+import createDebug from '#debug'
 
-const LOG_PREFIX = '[CLI:lib/npm]'
+const debug = createDebug('lib:npm')
 
 /**
  * NPM façade class
@@ -39,7 +40,7 @@ class Npm {
    * @returns {Promise<void>}
    */
   async cacheClean(cwd) {
-    console.debug(`${LOG_PREFIX} cleaning npm cache`)
+    debug('cleaning npm cache')
     const options = cwd ? { cwd } : {}
     await execaCommand('npm cache clean --force', options)
   }
@@ -51,11 +52,11 @@ class Npm {
    * @returns {Promise<Object>} Package metadata from registry
    */
   async fetchFromRegistry(packageName) {
-    console.debug(`${LOG_PREFIX} fetching registry metadata for ${packageName}`)
+    debug('fetching registry metadata for %s', packageName)
     const response = await fetch(`https://registry.npmjs.org/${packageName}`)
     if (!response.ok) {
       throw new Error(
-        `${LOG_PREFIX} Failed to fetch package metadata for ${packageName}: ${response.statusText}`
+        `Failed to fetch package metadata for ${packageName}: ${response.statusText}`
       )
     }
     return await response.json()
@@ -70,7 +71,7 @@ class Npm {
    * @returns {Promise<string|null>} Latest compatible version or null if none found
    */
   async getCompatibleVersion(packageName, range) {
-    console.debug(`${LOG_PREFIX} finding version of ${packageName} compatible with ${range}`)
+    debug('finding version of %s compatible with %s', packageName, range)
     const metadata = await this.fetchFromRegistry(packageName)
     const versions = Object.keys(metadata.versions)
     return semver.maxSatisfying(versions, range)
@@ -88,7 +89,7 @@ class Npm {
     const { yes = true } = options
     const flags = yes ? '--yes' : ''
 
-    console.debug(`${LOG_PREFIX} initializing package.json in ${cwd}`)
+    debug('initializing package.json in %s', cwd)
     await execaCommand(`npm init ${flags}`.trim(), { cwd })
   }
 
@@ -108,7 +109,7 @@ class Npm {
       saveDev && '--save-dev'
     ].filter(Boolean).join(' ')
 
-    console.debug(`${LOG_PREFIX} installing dependencies in ${cwd}`)
+    debug('installing dependencies in %s', cwd)
     await execaCommand(`npm install ${flags}`.trim(), { cwd })
   }
 
@@ -131,10 +132,10 @@ class Npm {
    * @returns {Promise<void>}
    */
   async pack(packageSpec, destination, options = {}) {
-    const { debug = false, quiet = true } = options
-    const verbosity = debug ? '--debug' : (quiet ? '--quiet' : '')
+    const { debug: debugMode = false, quiet = true } = options
+    const verbosity = debugMode ? '--debug' : (quiet ? '--quiet' : '')
 
-    console.debug(`${LOG_PREFIX} packing ${packageSpec} to ${destination}`)
+    debug('packing %s to %s', packageSpec, destination)
     await execaCommand(
       `npm pack ${verbosity} --pack-destination ${destination} ${packageSpec}`.trim()
     )
@@ -148,7 +149,7 @@ class Npm {
    * @returns {Promise<string>} The requested field value
    */
   async show(packageName, field = 'versions') {
-    console.debug(`${LOG_PREFIX} showing ${field} for ${packageName}`)
+    debug('showing %s for %s', field, packageName)
     const result = await execa('npm', ['show', packageName, field])
     return result
   }
@@ -171,7 +172,7 @@ class Npm {
    * @returns {Promise<string>} The requested field value
    */
   async view(packageName, field = 'version') {
-    console.debug(`${LOG_PREFIX} viewing ${field} for ${packageName}`)
+    debug('viewing %s for %s', field, packageName)
     const { stdout } = await execa('npm', ['view', packageName, field])
     return stdout
   }
