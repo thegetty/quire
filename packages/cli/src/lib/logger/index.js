@@ -1,3 +1,4 @@
+import { format } from 'node:util'
 import chalk from 'chalk'
 import log from 'loglevel'
 import config from '#lib/conf/config.js'
@@ -174,7 +175,10 @@ export default function createLogger(name = 'quire', level) {
         }
       }
 
-      logMethod(...parts, ...args)
+      // Format message with printf-style substitution (%s, %d, %i, %o, %O, %j)
+      const message = format(...args)
+
+      logMethod(...parts, message)
     }
   }
 
