@@ -419,6 +419,6 @@ test.serial('debug output test', (t) => {
 ## Related
 
 - [11ty chalk factory](../../../11ty/_lib/chalk/index.js) - 11ty's equivalent logger
+- [debug package](https://github.com/debug-js/debug) - Underlying debug library
 - [conf module](../conf/) - Configuration management
 - [cli-architecture.md](../../docs/cli-architecture.md) - Architecture documentation
-- [debug package](https://github.com/debug-js/debug) - Underlying debug library
