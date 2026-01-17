@@ -23,8 +23,9 @@ export default {
   logPrefixStyle: 'bracket',
   /**
    * Whether to show log level labels (INFO, WARN, ERROR).
+   * Defaults to false for cleaner user output.
    */
-  logShowLevel: true,
+  logShowLevel: false,
   /**
    * Whether to use colored output in terminal.
    */
