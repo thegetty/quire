@@ -20,6 +20,11 @@ export default class CreateCommand extends Command {
     description: 'Start a new Quire project from a template.',
     summary: 'create a new project',
     docsLink: 'quire-commands/#start-and-preview-projects',
+    helpText: `
+Examples:
+  quire new my-project                        Use default starter
+  quire new my-project --quire-version 1.0.0  Pin quire-11ty version
+`,
     version: '1.0.0',
     args: [
       [ '[projectPath]', 'local path to the new project', '.' ],

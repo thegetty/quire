@@ -20,6 +20,7 @@ export default class EpubCommand extends Command {
     description: 'Generate publication EPUB',
     summary: 'run build epub',
     docsLink: 'quire-commands/#output-files',
+    helpText: 'Note: Requires "quire build" to be run first.',
     version: '1.0.0',
     options: [
       [

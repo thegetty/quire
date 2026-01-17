@@ -20,6 +20,10 @@ export default class CleanCommand extends Command {
     description: 'Remove build outputs',
     summary: 'remove build outputs',
     docsLink: 'quire-commands/#output-files',
+    helpText: `
+Example:
+  quire clean --dry-run    Preview files to be deleted
+`,
     version: '1.0.0',
     options: [
       [ '-d', '--dry-run', 'show paths to be cleaned without deleting files' ],

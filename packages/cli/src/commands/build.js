@@ -18,6 +18,7 @@ export default class BuildCommand extends Command {
     description: 'Generate publication outputs',
     summary: 'run build',
     docsLink: 'quire-commands/#output-files',
+    helpText: 'Note: Run before "quire pdf" or "quire epub" commands.',
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
