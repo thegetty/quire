@@ -28,6 +28,19 @@ export default {
     type: 'boolean',
     description: 'Use colored output for log messages'
   },
+  logPrefix: {
+    type: 'string'
+  },
+  logPrefixStyle: {
+    type: 'string',
+    enum: ['bracket', 'emoji', 'plain', 'none']
+  },
+  logShowLevel: {
+    type: 'boolean'
+  },
+  logUseColor: {
+    type: 'boolean'
+  },
   projectTemplate: {
     type: 'string',
     format: 'uri',
