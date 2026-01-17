@@ -1,0 +1,304 @@
+[env]
+_.file = "{{ config_root }}/.env"
+_.path = ['{{ config_root }}/node_modules/.bin']
+
+NODE_ENV = "{{ env.NODE_ENV | default(value='development') }}"
+NODE_VERSION = "22.10.0"  # Match CircleCI
+# PUPPETEER_EXECUTABLE_PATH = ""
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"  # Use system Chrome
+QUIRE_EMOJI = "📖"  # Quire project emoji (change to your preferred emoji)
+
+# Logging configuration
+# QUIRE_LOG_LEVEL = "info"  # trace, debug, info (default), warn, error, silent
+# DEBUG = "quire:*"  # Enable namespace debugging (e.g., quire:lib:pdf, quire:*)
+
+[hooks]
+enter = '''
+echo "📖 Quire development environment"
+echo "   Node.js $(node --version) | npm $(npm --version)"
+echo "Run: mise tasks to list all tasks"
+'''
+
+[settings]
+activate_aggressive = true
+experimental = true
+
+# ============================================================================
+# Help & Quick Reference
+# ============================================================================
+
+[tasks.help]
+alias = "h"
+description = "Show common development tasks"
+run = """
+echo '📖 Quire Development Tasks'
+echo ''
+echo '  Testing:'
+echo '    mise test          - Run all tests (CLI → 11ty → E2E → Playwright)'
+echo '    mise test:cli      - CLI tests only (~2s, fast feedback)'
+echo '    mise test:11ty     - 11ty tests only (~8s, fast feedback)'
+echo '    mise e2e           - E2E tests (builds publication, ~2-5 min)'
+echo '    mise test:browsers - Browser tests (Playwright)'
+echo '    mise clean         - Clean test artifacts'
+echo ''
+echo '  Debugging:'
+echo '    mise debug:cli     - CLI tests with DEBUG=quire:*'
+echo '    mise debug:e2e     - E2E tests with DEBUG=quire:*'
+echo '    mise debug:all     - All tests with DEBUG=quire:*,Eleventy:*'
+echo ''
+echo '  Development:'
+echo '    mise setup         - Install dependencies (like CI does)'
+echo '    mise lint          - Lint all packages'
+echo '    mise lint:fix      - Auto-fix linting issues'
+echo ''
+echo '  CircleCI/Docker:'
+echo '    mise cv               - Validate CircleCI config'
+echo '    mise docker:shell     - Debug in CI Docker environment'
+echo '    mise docker:test      - Run tests in CI Docker'
+echo '    mise docker:playwright - Browser tests in Playwright Docker'
+echo ''
+echo 'Run "mise tasks" for complete list'
+"""
+
+# ============================================================================
+# Testing Tasks (mirrors CircleCI test execution order)
+# ============================================================================
+
+[tasks.test]
+description = "Run all tests (CLI → 11ty → E2E → Browsers)"
+run = "npm test"
+
+[tasks."test:cli"]
+description = "Run CLI unit and integration tests"
+run = "npm run test --workspace packages/cli"
+
+[tasks."test:11ty"]
+description = "Run 11ty unit tests"
+run = "npm run test --workspace packages/11ty"
+
+[tasks."test:e2e"]
+alias = "e2e"
+description = "Run end-to-end tests (builds publication)"
+run = "npm run test:e2e"
+
+[tasks."test:browsers"]
+description = "Run Playwright browser tests"
+run = "npm run test:browsers"
+
+[tasks."test:clean"]
+alias = "clean"
+description = "Clean all test artifacts"
+run = "npm run test:clean"
+
+[tasks."test:watch"]
+description = "Run CLI tests in watch mode"
+dir = "{{ config_root }}/packages/cli"
+run = "npm run test:watch"
+
+# ============================================================================
+# CircleCI Tasks
+# ============================================================================
+
+[tasks."ci:validate"]
+alias = "cv"
+description = "Validate CircleCI configuration"
+run = "circleci config validate .circleci/config.yml"
+
+[tasks."ci:process"]
+description = "Expand CircleCI config (resolve anchors/orbs)"
+run = "circleci config process .circleci/config.yml"
+
+[tasks."ci:local"]
+description = "Run build_install_test job locally (Linux/Docker only)"
+run = "circleci local execute --job build_install_test"
+
+# ============================================================================
+# Development Tasks
+# ============================================================================
+
+[tasks.setup]
+description = "Install dependencies like CI does"
+run = "npm ci --ignore-scripts --foreground-scripts"
+
+[tasks."dev:cli"]
+description = "Start CLI development with watch mode"
+dir = "{{ config_root }}/packages/cli"
+run = "npm run dev"
+
+[tasks."dev:11ty"]
+description = "Start 11ty development server"
+dir = "{{ config_root }}/packages/11ty"
+run = "npm run dev"
+
+[tasks.lint]
+description = "Lint all packages"
+run = "npm run lint --workspaces"
+
+[tasks."lint:fix"]
+description = "Auto-fix linting issues"
+run = "npm run lint:fix --workspaces"
+
+# ============================================================================
+# CLI Package Tasks
+# ============================================================================
+
+[tasks."cli:docs"]
+description = "Generate CLI documentation"
+dir = "{{ config_root }}/packages/cli"
+run = "npm run docs"
+
+[tasks."cli:pack"]
+description = "Pack CLI for testing (like CI does)"
+run = "npm pack --workspace packages/cli"
+
+[tasks."cli:install"]
+description = "Install CLI globally from packed tarball"
+run = """
+npm pack --workspace packages/cli && \
+npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
+"""
+
+[tasks."cli:uninstall"]
+description = "Uninstall globally installed CLI"
+run = "npm uninstall --global @thegetty/quire-cli"
+
+# ============================================================================
+# Docker Tasks (reproduce CI environment)
+# ============================================================================
+
+[tasks."docker:shell"]
+description = "Start interactive shell in CI Docker image"
+run = """
+docker run --interactive --tty --rm \
+  --volume $(pwd):/workspace \
+  --workdir /workspace \
+  cimg/node:22.10.0 \
+  bash -c 'git config --global user.email quire@getty.edu && \
+           git config --global user.name "Quire CI" && \
+           exec bash'
+"""
+
+[tasks."docker:test"]
+description = "Run tests in CI Docker environment"
+run = """
+docker run --rm \
+  --volume $(pwd):/workspace \
+  --workdir /workspace \
+  cimg/node:22.10.0 \
+  bash -c 'git config --global user.email quire@getty.edu && \
+           git config --global user.name "Quire CI" && \
+           npm ci --ignore-scripts --foreground-scripts && \
+           npm test'
+"""
+
+[tasks."docker:playwright"]
+description = "Run Playwright browser tests in CI Docker environment"
+run = """
+docker run --rm \
+  --volume $(pwd):/workspace \
+  --workdir /workspace \
+  mcr.microsoft.com/playwright:v1.52.0-noble \
+  bash -c 'git config --global user.email quire@getty.edu && \
+           git config --global user.name "Quire CI" && \
+           npm ci --ignore-scripts --foreground-scripts && \
+           npm run test:browsers'
+"""
+
+# ============================================================================
+# Playwright Tasks
+# ============================================================================
+
+[tasks."pw:headed"]
+description = "Run Playwright with visible browser"
+run = "npx playwright test --headed"
+
+[tasks."pw:debug"]
+description = "Run Playwright in debug mode"
+run = "npx playwright test --debug"
+
+[tasks."pw:report"]
+description = "Show Playwright test report"
+run = "npx playwright show-report"
+
+# ============================================================================
+# Dependency Management
+# ============================================================================
+
+[tasks.npm]
+alias = "deps"
+description = "Check for npm package updates"
+run = 'ncu --format group --interactive'
+
+[tasks."npm:install"]
+alias = "deps:install"
+description = "Install npm package dependencies across all workspaces"
+run = 'npm install --workspaces'
+
+[tasks."npm:upgrade"]
+alias = "deps:upgrade"
+description = "Iteratively upgrade dependencies with testing"
+usage = '''
+arg "<workspace>" help="npm workspace" { choices "11ty" "cli" }
+'''
+confirm = """
+This task will iteratively install package updates and run tests to identify breaking upgrades.
+Reverts broken upgrades and updates package.json with working upgrades.
+
+Process:
+  1. Runs `npm install` and `npm test` to ensure tests pass
+  2. Runs `ncu -u` to optimistically upgrade all dependencies
+  3. If tests pass, hurray!
+  4. If tests fail, restores package file and lock file
+  5. For each dependency, install upgrade and run tests
+  6. Prints broken upgrades with test error
+  7. Saves working upgrades to package.json
+
+This will modify package.json, package-lock.json, and node_modules.
+
+Continue?
+"""
+run = "ncu --doctor --upgrade"
+
+# ============================================================================
+# Git/Version Management
+# ============================================================================
+
+[tasks."git:status"]
+description = "Show git status (same as what's in gitStatus context)"
+run = "git status --short --branch"
+
+[tasks."git:clean"]
+description = "Clean all untracked files and build artifacts"
+confirm = """
+This will recursively remove all untracked files not already ignored by git.
+Continue?
+"""
+run = "git clean -d --interactive"
+
+# ============================================================================
+# Debug Tasks
+# ============================================================================
+
+[tasks."debug:cli"]
+description = "Run CLI tests with debug output"
+env = { DEBUG = "quire:*" }
+run = "npm run test --workspace packages/cli"
+
+[tasks."debug:e2e"]
+description = "Run E2E tests with debug output"
+env = { DEBUG = "quire:*" }
+run = "npm run test:e2e"
+
+[tasks."debug:all"]
+description = "Run all tests with full debug output"
+env = { DEBUG = "quire:*,Eleventy:*" }
+run = "npm test"
+
+# ============================================================================
+# Tools
+# ============================================================================
+
+[tools]
+circleci = "latest"
+node = "22.10.0"  # Match CircleCI exactly
+"npm:npm-check-updates" = "latest"
