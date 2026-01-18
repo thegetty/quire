@@ -4,25 +4,25 @@ import { latest } from '#lib/installer/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
- * Quire CLI `version` Command
+ * Quire CLI `use` Command
  *
- * Running `quire version` sets the `quire-11ty` version for a project.
- * The version is written to a `.quire` file in the project directory
- * or to the `quire-cli` package `.quire` when the `global` flag is used.
+ * Running `quire use` sets the `quire-11ty` version for a project.
+ * The version is written to a `.quire` file in the project directory.
  *
- * @class      VersionCommand
+ * @class      UseCommand
  * @extends    {Command}
  */
-export default class VersionCommand extends Command {
+export default class UseCommand extends Command {
   static definition = {
-    name: 'version',
+    name: 'use',
+    aliases: ['version'],
     hidden: true,  // hide command (incomplete functionality; possible Quire v2)
     description: 'Sets the Quire version to use when running commands on the project.',
-    summary: 'set the @thegetty/quire-11ty version',
+    summary: 'set project quire-11ty version',
     docsLink: 'quire-commands/',
     version: '1.0.0',
     args: [
-      [ '<version>', 'the local quire version to use' ],
+      [ '<version>', 'quire-11ty version to use' ],
     ],
     options: [
       // [ '-g', '--global', 'set the quire version globally' ],
@@ -30,7 +30,7 @@ export default class VersionCommand extends Command {
   }
 
   constructor() {
-    super(VersionCommand.definition)
+    super(UseCommand.definition)
   }
 
   /**
