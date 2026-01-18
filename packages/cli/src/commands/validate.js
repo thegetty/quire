@@ -65,7 +65,7 @@ export default class ValidateCommand extends Command {
     }
   }
 
-  preAction(options, command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }

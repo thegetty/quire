@@ -45,7 +45,7 @@ export default class PDFCommand extends Command {
   /**
    * @todo test if build has already be run and output can be reused
    */
-  preAction(command) {
-    // testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    // testcwd(thisCommand)
   }
 }

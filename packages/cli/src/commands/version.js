@@ -49,7 +49,7 @@ export default class VersionCommand extends Command {
     setVersion(resolvedVersion)
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }
