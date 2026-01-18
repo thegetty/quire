@@ -48,10 +48,10 @@ export default class BuildCommand extends Command {
     }
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
 
-    const options = command.opts()
+    const options = thisCommand.opts()
     this.debug('pre-action with options %O', options)
     clean(paths.getProjectRoot(), paths.toObject(), options)
   }

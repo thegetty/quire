@@ -118,7 +118,7 @@ Example:
     }
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }
