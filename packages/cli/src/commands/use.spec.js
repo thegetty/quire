@@ -11,20 +11,20 @@ import test from 'ava'
 
 test.before((t) => {
   // Get the registered command (from program.commands) once and share across all tests
-  t.context.command = program.commands.find((cmd) => cmd.name() === 'version')
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'use')
 })
 
 test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  t.truthy(command, 'command "version" should be registered in program')
+  t.truthy(command, 'command "use" should be registered in program')
   t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
 test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  t.is(command.name(), 'version')
+  t.is(command.name(), 'use')
   t.truthy(command.description())
   t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
@@ -46,9 +46,9 @@ test('registered command has correct arguments', (t) => {
 test('registered command has no options', (t) => {
   const { command } = t.context
 
-  // Version command should have no custom options (only inherited help options)
+  // Use command should have no custom options (only inherited help options)
   const options = command.options.filter((opt) => !opt.long.includes('help'))
-  t.is(options.length, 0, 'version command should have no custom options')
+  t.is(options.length, 0, 'use command should have no custom options')
 })
 
 test('command arguments are accessible via public API', (t) => {
