@@ -16,6 +16,7 @@ import testcwd from '#helpers/test-cwd.js'
 export default class VersionCommand extends Command {
   static definition = {
     name: 'version',
+    hidden: true,  // hide command (incomplete functionality; possible Quire v2)
     description: 'Sets the Quire version to use when running commands on the project.',
     summary: 'set the @thegetty/quire-11ty version',
     docsLink: 'quire-commands/',
