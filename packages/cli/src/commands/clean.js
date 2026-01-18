@@ -49,7 +49,7 @@ Example:
     this.debug('%s\n%s', message, deletedPaths.join('\n'))
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }

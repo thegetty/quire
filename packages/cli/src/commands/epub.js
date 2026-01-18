@@ -57,8 +57,8 @@ export default class EpubCommand extends Command {
   /**
    * @todo test if build site has already be run and output can be reused
    */
-  preAction(command) {
-    const options = command.opts()
+  preAction(thisCommand, actionCommand) {
+    const options = thisCommand.opts()
     this.debug('pre-action with options %O', options)
   }
 }
