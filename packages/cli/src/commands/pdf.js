@@ -1,6 +1,8 @@
 import Command from '#src/Command.js'
+import { requireBuildOutput } from '#lib/project/index.js'
 import generatePdf from '#lib/pdf/index.js'
 import open from 'open'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `pdf` Command
@@ -47,10 +49,8 @@ Note: Requires "quire build" to be run first.
     }
   }
 
-  /**
-   * @todo test if build has already be run and output can be reused
-   */
   preAction(thisCommand, actionCommand) {
-    // testcwd(thisCommand)
+    testcwd(thisCommand)
+    requireBuildOutput({ type: 'site' })
   }
 }
