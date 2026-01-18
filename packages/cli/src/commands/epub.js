@@ -1,10 +1,10 @@
 import Command from '#src/Command.js'
-import paths from '#lib/project/index.js'
+import paths, { requireBuildOutput } from '#lib/project/index.js'
 import fs from 'fs-extra'
 import libEpub from '#lib/epub/index.js'
 import open from 'open'
 import path from 'node:path'
-import { MissingBuildOutputError } from '#src/errors/index.js'
+import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `build epub` Command
@@ -46,11 +46,6 @@ Note: Requires "quire build" to be run first.
 
     const projectRoot = paths.getProjectRoot()
     const input = path.join(projectRoot, paths.getEpubDir())
-
-    if (!fs.existsSync(input)) {
-      throw new MissingBuildOutputError('epub', input)
-    }
-
     const output = path.join(projectRoot, `${options.lib}.epub`)
 
     const epubLib = await libEpub(options.lib, { debug: options.debug })
@@ -59,11 +54,8 @@ Note: Requires "quire build" to be run first.
     if (fs.existsSync(output) && options.open) open(output)
   }
 
-  /**
-   * @todo test if build site has already be run and output can be reused
-   */
   preAction(thisCommand, actionCommand) {
-    const options = thisCommand.opts()
-    this.debug('pre-action with options %O', options)
+    testcwd(thisCommand)
+    requireBuildOutput({ type: 'epub' })
   }
 }
