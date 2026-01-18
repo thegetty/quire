@@ -19,7 +19,12 @@ export default class BuildCommand extends Command {
     description: 'Generate publication outputs',
     summary: 'generate HTML site files',
     docsLink: 'quire-commands/#output-files',
-    helpText: 'Note: Run before "quire pdf" or "quire epub" commands.',
+    helpText: `
+Example:
+  quire build --verbose    Build with detailed output
+
+Note: Run before "quire pdf" or "quire epub" commands.
+`,
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
