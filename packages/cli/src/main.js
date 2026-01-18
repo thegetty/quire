@@ -101,19 +101,33 @@ commands.forEach((command) => {
   }
 
   /**
+   * Convert a command arg defined using array-syntax to an Argument object
+   *
+   * @param {Array} entry - Argument definition array [name, description, { choices, default }]
+   * @returns {Argument} Commander Argument object
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#command-arguments
    * @see https://github.com/tj/commander.js#more-configuration-1
    */
+  const arrayToArgument = (entry) => {
+    const [name, description, config = {}] = entry
+    const argument = new Argument(name, description)
+    if (config.choices) argument.choices(config.choices)
+    if (config.default) argument.default(config.default)
+    return argument
+  }
+
+  /**
+   * Register arguments with the subcommand
+   */
   if (Array.isArray(args)) {
-    args.forEach(([ name, description, configuration = {} ]) => {
-      const argument = new Argument(name, description)
-      if (configuration.choices) argument.choices(configuration.choices)
-      if (configuration.default) argument.default(configuration.default)
+    args.forEach((entry) => {
+      const argument = entry instanceof Argument ? entry : arrayToArgument(entry)
       subCommand.addArgument(argument)
     })
   }
 
   /**
-   * Convert array option definition to Option object
+   * Convert a command option defined using array-syntax to an Option object
    *
    * Supports two array formats:
    * - Separate flags: ['-s', '--long <value>', 'description', default, { choices, default }]
