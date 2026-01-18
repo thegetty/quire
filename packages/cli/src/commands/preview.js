@@ -16,7 +16,7 @@ export default class PreviewCommand extends Command {
     name: 'preview',
     aliases: ['serve'],
     description: 'Run the development server and watch on file changes',
-    summary: 'run the development server',
+    summary: 'start local preview server',
     docsLink: 'quire-commands/#start-and-preview-projects',
     helpText: `
 Example:
