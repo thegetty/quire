@@ -380,3 +380,56 @@ test('epub command should support deprecated --lib option', async (t) => {
   t.true(mockLibEpub.called, 'libEpub should be called with deprecated --lib')
   t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc from deprecated option')
 })
+
+test('epub command should run build first when --build flag is set and output missing', async (t) => {
+  const { sandbox, fs } = t.context
+
+  // Mock the epub generator
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  // Mock the epub library module
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+  const mockBuild = sandbox.stub().resolves()
+  let buildCalled = false
+
+  // Use esmock to replace imports
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => {
+        // Return false first (before build), true after build
+        if (!buildCalled) return false
+        return true
+      }
+    },
+    '#lib/11ty/index.js': {
+      default: {
+        build: async (opts) => {
+          buildCalled = true
+          return mockBuild(opts)
+        }
+      }
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+
+  // Run action with --build flag
+  await command.action({ lib: 'epubjs', build: true }, command)
+
+  t.true(mockBuild.called, 'build should be called when --build flag is set')
+  t.true(mockEpubGenerator.called, 'EPUB generator should be called after build')
+})
