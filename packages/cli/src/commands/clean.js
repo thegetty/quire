@@ -18,7 +18,7 @@ export default class CleanCommand extends Command {
   static definition = {
     name: 'clean',
     description: 'Remove build outputs',
-    summary: 'remove build outputs',
+    summary: 'delete generated files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
 Example:

@@ -17,7 +17,7 @@ export default class BuildCommand extends Command {
   static definition = {
     name: 'build',
     description: 'Generate publication outputs',
-    summary: 'run build',
+    summary: 'generate HTML site files',
     docsLink: 'quire-commands/#output-files',
     helpText: 'Note: Run before "quire pdf" or "quire epub" commands.',
     version: '1.1.0',

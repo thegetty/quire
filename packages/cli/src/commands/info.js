@@ -18,7 +18,7 @@ export default class InfoCommand extends Command {
   static definition = {
     name: 'info',
     description: 'List Quire cli, quire-11ty, and node versions',
-    summary: 'list info',
+    summary: 'show version information',
     docsLink: 'quire-commands/#get-help',
     helpText: `
 Example:
