@@ -92,7 +92,7 @@ commands.forEach((command) => {
     subCommand.addHelpText('after', '\n' + customHelpText)
   }
 
-  if (alias instanceof String) {
+  if (typeof alias === 'string') {
     subCommand.alias(alias)
   }
 
