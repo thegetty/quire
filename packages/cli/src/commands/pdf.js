@@ -14,7 +14,7 @@ export default class PDFCommand extends Command {
   static definition = {
     name: 'pdf',
     description: 'Generate publication PDF',
-    summary: 'run build pdf',
+    summary: 'generate print-ready PDF',
     docsLink: 'quire-commands/#output-files',
     helpText: 'Note: Requires "quire build" to be run first.',
     version: '1.0.0',

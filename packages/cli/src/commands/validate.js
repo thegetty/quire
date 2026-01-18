@@ -18,7 +18,7 @@ export default class ValidateCommand extends Command {
   static definition = {
     name: 'validate',
     description: 'Validate configuration files',
-    summary: 'run validation',
+    summary: 'check YAML files for errors',
     docsLink: 'quire-commands/#get-help',
     helpText: 'Validates YAML files in content/_data/ directory.',
     version: '1.0.0',

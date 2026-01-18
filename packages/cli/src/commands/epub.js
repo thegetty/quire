@@ -18,7 +18,7 @@ export default class EpubCommand extends Command {
   static definition = {
     name: 'epub',
     description: 'Generate publication EPUB',
-    summary: 'run build epub',
+    summary: 'generate EPUB e-book',
     docsLink: 'quire-commands/#output-files',
     helpText: 'Note: Requires "quire build" to be run first.',
     version: '1.0.0',
