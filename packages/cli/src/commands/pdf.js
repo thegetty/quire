@@ -16,7 +16,12 @@ export default class PDFCommand extends Command {
     description: 'Generate publication PDF',
     summary: 'generate print-ready PDF',
     docsLink: 'quire-commands/#output-files',
-    helpText: 'Note: Requires "quire build" to be run first.',
+    helpText: `
+Example:
+  quire pdf --lib prince    Generate PDF using PrinceXML
+
+Note: Requires "quire build" to be run first.
+`,
     version: '1.0.0',
     options: [
       [
