@@ -19,6 +19,9 @@ test('pdf command should call generatePdf with pagedjs library', async (t) => {
     '#lib/pdf/index.js': {
       default: mockGeneratePdf
     },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
     open: {
       default: sandbox.stub()
     }
@@ -41,6 +44,9 @@ test('pdf command should call generatePdf with prince library', async (t) => {
   const PDFCommand = await esmock('./pdf.js', {
     '#lib/pdf/index.js': {
       default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
     },
     open: {
       default: sandbox.stub()
@@ -67,6 +73,9 @@ test('pdf command should open PDF when --open flag is provided', async (t) => {
     '#lib/pdf/index.js': {
       default: mockGeneratePdf
     },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
     open: {
       default: mockOpen
     }
@@ -92,6 +101,9 @@ test('pdf command should not open PDF when --open flag is not provided', async (
     '#lib/pdf/index.js': {
       default: mockGeneratePdf
     },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
     open: {
       default: mockOpen
     }
@@ -115,6 +127,9 @@ test('pdf command should pass debug option to generatePdf', async (t) => {
     '#lib/pdf/index.js': {
       default: mockGeneratePdf
     },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
     open: {
       default: sandbox.stub()
     }
@@ -127,4 +142,71 @@ test('pdf command should pass debug option to generatePdf', async (t) => {
 
   t.true(mockGeneratePdf.called, 'generatePdf should be called')
   t.deepEqual(mockGeneratePdf.firstCall.args[0], { lib: 'pagedjs', debug: true }, 'should pass debug option')
+})
+
+test('pdf command should throw error when build output is missing', async (t) => {
+  const { sandbox } = t.context
+
+  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => false
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+
+  const error = await t.throwsAsync(() => command.action({ lib: 'pagedjs' }, command))
+
+  t.is(error.code, 'ENOBUILD', 'should throw ENOBUILD error')
+  t.regex(error.message, /quire build/, 'error should mention quire build')
+  t.false(mockGeneratePdf.called, 'generatePdf should not be called when build output is missing')
+})
+
+test('pdf command should run build first when --build flag is set and output missing', async (t) => {
+  const { sandbox } = t.context
+
+  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+  const mockBuild = sandbox.stub().resolves()
+  let buildCalled = false
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => {
+        // Return false first (before build), true after build
+        if (!buildCalled) return false
+        return true
+      }
+    },
+    '#lib/11ty/index.js': {
+      default: {
+        build: async (opts) => {
+          buildCalled = true
+          return mockBuild(opts)
+        }
+      }
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+
+  await command.action({ lib: 'pagedjs', build: true }, command)
+
+  t.true(mockBuild.called, 'build should be called when --build flag is set')
+  t.true(mockGeneratePdf.called, 'generatePdf should be called after build')
 })
