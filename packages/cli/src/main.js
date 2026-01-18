@@ -87,6 +87,11 @@ commands.forEach((command) => {
     .addHelpCommand()
     .showHelpAfterError()
 
+  // Hide command from help output (command still works if called directly)
+  if (hidden) {
+    subCommand.hideHelp()
+  }
+
   // Append docs link and/or custom help text after built-in help
   const customHelpText = [
     docsLink && `Docs: ${docsUrl(docsLink)}`,
