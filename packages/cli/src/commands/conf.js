@@ -40,7 +40,7 @@ const OPERATIONS = Object.freeze(['get', 'set', 'delete', 'reset', 'path'])
 export default class SettingsCommand extends Command {
   static definition = {
     name: 'settings',
-    aliases: ['conf', 'config', 'configure'],
+    aliases: ['setting', 'conf', 'config', 'configure'],
     description: 'Manage Quire CLI settings.',
     summary: 'view and modify CLI settings',
     docsLink: 'quire-commands/',
