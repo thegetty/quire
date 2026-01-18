@@ -3,9 +3,9 @@ import schema from '#lib/conf/schema.js'
 import defaults from '#lib/conf/defaults.js'
 
 /**
- * Valid operations for the conf command
+ * Valid operations for the settings command
  */
-const OPERATIONS = ['get', 'set', 'delete', 'reset', 'path']
+const OPERATIONS = Object.freeze(['get', 'set', 'delete', 'reset', 'path'])
 
 /**
  * Quire CLI `settings` Command
