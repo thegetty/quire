@@ -41,16 +41,19 @@ test('registered command has correct options', (t) => {
 
   // Get all options
   const libOption = command.options.find((opt) => opt.long === '--lib')
+  const buildOption = command.options.find((opt) => opt.long === '--build')
   const openOption = command.options.find((opt) => opt.long === '--open')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
   t.truthy(libOption, '--lib option should exist')
+  t.truthy(buildOption, '--build option should exist')
   t.truthy(openOption, '--open option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
   t.true(libOption instanceof Option, '--lib should be Option instance')
+  t.true(buildOption instanceof Option, '--build should be Option instance')
   t.true(openOption instanceof Option, '--open should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
@@ -58,6 +61,10 @@ test('registered command has correct options', (t) => {
   t.is(libOption.long, '--lib')
   t.truthy(libOption.description)
   t.true(libOption.required, '--lib should require a value')
+
+  t.is(buildOption.long, '--build')
+  t.truthy(buildOption.description)
+  t.false(buildOption.required, '--build should not require a value')
 
   t.is(openOption.long, '--open')
   t.truthy(openOption.description)
@@ -75,6 +82,7 @@ test('command options are accessible via public API', (t) => {
   const optionNames = command.options.map((opt) => opt.long)
 
   t.true(optionNames.includes('--lib'))
+  t.true(optionNames.includes('--build'))
   t.true(optionNames.includes('--open'))
   t.true(optionNames.includes('--debug'))
 })
