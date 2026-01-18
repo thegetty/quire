@@ -113,26 +113,55 @@ commands.forEach((command) => {
   }
 
   /**
+   * Convert array option definition to Option object
+   *
+   * Supports two array formats:
+   * - Separate flags: ['-s', '--long <value>', 'description', default, { choices, default }]
+   * - Combined flags: ['--long <value>', 'description', default, { choices, default }]
+   *
+   * @param {Array} entry - Option definition array
+   * @returns {Option} Commander Option object
    * @see https://github.com/tj/commander.js/#options
    * @see https://github.com/tj/commander.js/#more-configuration
    */
+  const arrayToOption = (entry) => {
+    const lastElement = entry[entry.length - 1]
+    const configObj = typeof lastElement === 'object' && lastElement !== null ? lastElement : null
+
+    let flags, description, defaultValue
+    if (entry[0]?.startsWith('-') && entry[1]?.startsWith('--')) {
+      // Array has separate elements for short and long option flags
+      // @example ['-s', '--long <value>', 'desc', ...]
+      flags = `${entry[0]}, ${entry[1]}`
+      description = entry[2]
+      defaultValue = entry[3]
+    } else {
+      // Array has a single element with option flags
+      // @example ['--long <value>', 'desc', ...]
+      flags = entry[0]
+      description = entry[1]
+      defaultValue = entry[2]
+    }
+
+    const option = new Option(flags, description)
+
+    if (configObj) {
+      if (configObj.choices) option.choices(configObj.choices)
+      if (configObj.default !== undefined) option.default(configObj.default)
+    } else if (defaultValue !== undefined) {
+      option.default(defaultValue)
+    }
+
+    return option
+  }
+
+  /**
+   * Register options with the subcommand
+   */
   if (Array.isArray(options)) {
     options.forEach((entry) => {
-      if (entry instanceof Option) {
-        // Handle Option objects directly for advanced configurations
-        subCommand.addOption(entry)
-      } else if (Array.isArray(entry)) {
-        if (entry[0]?.startsWith('-') && entry[1]?.startsWith('--')) {
-          // option flags are defined separately: ['-s', '--long', ...]
-          const [short, long, ...rest] = entry
-          subCommand.option(`${short}, ${long}`, ...rest)
-        } else {
-          // option flags defined in a single string: ['-s --long', ...]
-          subCommand.option(...entry)
-        }
-      } else {
-        console.error('Options must be defined as arrays or Option instances')
-      }
+      const option = entry instanceof Option ? entry : arrayToOption(entry)
+      subCommand.addOption(option)
     })
   }
 
