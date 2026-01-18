@@ -11,20 +11,21 @@ import test from 'ava'
 
 test.before((t) => {
   // Get the registered command (from program.commands) once and share across all tests
-  t.context.command = program.commands.find((cmd) => cmd.name() === 'conf')
+  // Command is named 'settings' with 'conf' as an alias
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'settings')
 })
 
 test('command is registered in CLI program', (t) => {
   const { command } = t.context
 
-  t.truthy(command, 'command "conf" should be registered in program')
+  t.truthy(command, 'command "settings" should be registered in program')
   t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
 })
 
 test('registered command has correct metadata', (t) => {
   const { command } = t.context
 
-  t.is(command.name(), 'conf')
+  t.is(command.name(), 'settings')
   t.truthy(command.description())
   t.is(typeof command._actionHandler, 'function', 'command should have action handler')
 })
@@ -34,6 +35,8 @@ test('registered command has correct aliases', (t) => {
 
   t.truthy(command.aliases)
   t.true(Array.isArray(command.aliases()))
+  t.true(command.aliases().includes('setting'))
+  t.true(command.aliases().includes('conf'))
   t.true(command.aliases().includes('config'))
   t.true(command.aliases().includes('configure'))
 })
