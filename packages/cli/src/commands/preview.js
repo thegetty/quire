@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { Option } from 'commander'
 import { api, cli } from '#lib/11ty/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -26,11 +27,10 @@ Example:
       [ '-p', '--port <port>', 'configure development server port', 8080 ],
       [ '-q', '--quiet', 'run preview in silent mode' ],
       [ '-v', '--verbose', 'run preview with verbose console messages' ],
-      [
-        '--11ty <module>', 'use the specified 11ty module', 'api',
-        { choices: ['api', 'cli'], default: 'api' }
-      ],
       [ '--debug', 'run preview with debug output to console' ],
+      // Use Option object syntax to configure this as a hidden option
+      new Option('--11ty <module>', 'use the specified 11ty module')
+        .choices(['api', 'cli']).default('api').hideHelp(),
     ],
   }
 
