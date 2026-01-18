@@ -35,7 +35,8 @@ test('registered command has correct aliases', (t) => {
 
   t.truthy(command.aliases)
   t.true(Array.isArray(command.aliases()))
-  t.true(command.aliases().includes('setting'))
+  t.true(command.aliases().includes('prefs'))
+  t.true(command.aliases().includes('preferences'))
   t.true(command.aliases().includes('conf'))
   t.true(command.aliases().includes('config'))
   t.true(command.aliases().includes('configure'))
