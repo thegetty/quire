@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
-import paths, { requireBuildOutput } from '#lib/project/index.js'
+import paths, { hasEpubOutput } from '#lib/project/index.js'
+import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
 import libEpub from '#lib/epub/index.js'
 import open from 'open'
@@ -7,7 +8,7 @@ import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
- * Quire CLI `build epub` Command
+ * Quire CLI `epub` Command
  *
  * Generate EPUB from Eleventy `build` output.
  *
@@ -21,18 +22,18 @@ export default class EpubCommand extends Command {
     summary: 'generate EPUB e-book',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-Example:
-  quire epub --open    Generate and open EPUB
-
-Note: Requires "quire build" to be run first.
+Examples:
+  quire epub --open     Generate and open EPUB
+  quire epub --build    Build site first, then generate EPUB
 `,
     version: '1.0.0',
     options: [
+      [ '--build', 'run build first if output is missing' ],
+      [ '--open', 'open EPUB in default application' ],
       [
         '--lib <module>', 'use the specified epub library', 'epubjs',
         { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
       ],
-      [ '--open', 'open EPUB in default application' ],
       [ '--debug', 'run epub with debug output' ],
     ],
   }
@@ -43,6 +44,20 @@ Note: Requires "quire build" to be run first.
 
   async action(options, command) {
     this.debug('called with options %O', options)
+
+    // Run build first if --build flag is set and output is missing
+    if (options.build && !hasEpubOutput()) {
+      this.debug('running build before epub generation')
+      await eleventy.build({ debug: options.debug })
+    }
+
+    // Check for build output (will throw if missing)
+    // TODO: Add interactive prompt when build output missing and --build not used
+    if (!hasEpubOutput()) {
+      const error = new Error('EPUB output not found. Run "quire build" first, or use --build flag.')
+      error.code = 'ENOBUILD'
+      throw error
+    }
 
     const projectRoot = paths.getProjectRoot()
     const input = path.join(projectRoot, paths.getEpubDir())
@@ -56,6 +71,5 @@ Note: Requires "quire build" to be run first.
 
   preAction(thisCommand, actionCommand) {
     testcwd(thisCommand)
-    requireBuildOutput({ type: 'epub' })
   }
 }
