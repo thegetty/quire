@@ -41,10 +41,10 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('version command should validate Quire project in preAction', async (t) => {
+test('use command should validate Quire project in preAction', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     }
@@ -54,13 +54,13 @@ test('version command should validate Quire project in preAction', async (t) => 
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
   // Mock Commander.js command object
   const mockCommand = {
-    name: () => 'version',
+    name: () => 'use',
     opts: () => ({})
   }
 
@@ -71,13 +71,13 @@ test('version command should validate Quire project in preAction', async (t) => 
   t.true(mockTestcwd.calledWith(mockCommand), 'testcwd should be called with command')
 })
 
-test('version command should accept version argument', async (t) => {
+test('use command should accept version argument', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
   const mockLatest = sandbox.stub().resolves('1.0.0-rc.33')
   const mockSetVersion = sandbox.stub()
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -93,7 +93,7 @@ test('version command should accept version argument', async (t) => {
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
@@ -104,14 +104,14 @@ test('version command should accept version argument', async (t) => {
   t.true(mockSetVersion.calledWith('1.0.0-rc.33'), 'setVersion should be called with resolved version')
 })
 
-test('version command should log debug information when debug flag is set', async (t) => {
+test('use command should log debug information when debug flag is set', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
   const mockDebug = sandbox.stub()
   const mockLatest = sandbox.stub().resolves('1.0.0-rc.33')
   const mockSetVersion = sandbox.stub()
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -127,7 +127,7 @@ test('version command should log debug information when debug flag is set', asyn
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = mockDebug
 
@@ -139,14 +139,14 @@ test('version command should log debug information when debug flag is set', asyn
   t.true(mockDebug.calledWith('called with options %O', { debug: true }))
 })
 
-test('version command should handle semver version strings', async (t) => {
+test('use command should handle semver version strings', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
   // Mock the installer's latest function to return the version
   const mockLatest = sandbox.stub().callsFake(async (version) => version)
   const mockSetVersion = sandbox.stub()
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -162,7 +162,7 @@ test('version command should handle semver version strings', async (t) => {
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
@@ -184,14 +184,14 @@ test('version command should handle semver version strings', async (t) => {
   t.is(mockSetVersion.callCount, validVersions.length, 'setVersion should be called for each version')
 })
 
-test('version command should work with options object', async (t) => {
+test('use command should work with options object', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
   // Mock the installer's latest function to return the version
   const mockLatest = sandbox.stub().callsFake(async (version) => version)
   const mockSetVersion = sandbox.stub()
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -207,7 +207,7 @@ test('version command should work with options object', async (t) => {
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
@@ -221,10 +221,10 @@ test('version command should work with options object', async (t) => {
   t.pass('command should handle various option combinations')
 })
 
-test('version command preAction should be called before action', async (t) => {
+test('use command preAction should be called before action', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     }
@@ -234,13 +234,13 @@ test('version command preAction should be called before action', async (t) => {
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
   // Mock Commander.js command object
   const mockCommand = {
-    name: () => 'version',
+    name: () => 'use',
     opts: () => ({})
   }
 
@@ -254,10 +254,10 @@ test('version command preAction should be called before action', async (t) => {
   t.true(mockTestcwd.called, 'testcwd should validate project directory')
 })
 
-test('version command should have correct command definition', async (t) => {
+test('use command should have correct command definition', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
-  const { default: VersionCommand } = await esmock('./version.js', {
+  const { default: UseCommand } = await esmock('./use.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     }
@@ -267,11 +267,11 @@ test('version command should have correct command definition', async (t) => {
     }
   })
 
-  const command = new VersionCommand()
+  const command = new UseCommand()
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
-  t.is(command.name, 'version', 'command name should be "version"')
+  t.is(command.name, 'use', 'command name should be "use"')
   t.truthy(command.description, 'command should have description')
   t.truthy(command.summary, 'command should have summary')
   t.truthy(command.version, 'command should have version')
