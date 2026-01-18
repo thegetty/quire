@@ -73,7 +73,7 @@ program.hook('preAction', (thisCommand) => {
  * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, alias, aliases, args, description, docsLink, helpText, name, options, summary } = command
+  const { action, alias, aliases, args, description, docsLink, helpText, hidden, name, options, summary } = command
 
   const subCommand = program
     .command(name)
@@ -81,6 +81,11 @@ commands.forEach((command) => {
     .summary(summary || description)
     .addHelpCommand()
     .showHelpAfterError()
+
+  // Hide command from help output (command still works if called directly)
+  if (hidden) {
+    subCommand.hideHelp()
+  }
 
   // Append docs link and/or custom help text after built-in help
   const customHelpText = [
