@@ -1,20 +1,13 @@
 /**
- * Shared constants for doctor checks
+ * Re-export shared constants for doctor checks
+ *
+ * This module re-exports constants from the shared lib/constants.js
+ * to maintain backwards compatibility with existing doctor check imports.
  *
  * @module lib/doctor/constants
  */
-
-/**
- * Base URL for Quire documentation
- */
-export const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1'
-
-/**
- * Minimum required Node.js major version
- */
-export const REQUIRED_NODE_VERSION = 22
-
-/**
- * Package name for quire-11ty
- */
-export const QUIRE_11TY_PACKAGE = '@thegetty/quire-11ty'
+export {
+  DOCS_BASE_URL,
+  QUIRE_11TY_PACKAGE,
+  REQUIRED_NODE_VERSION,
+} from '#lib/constants.js'
