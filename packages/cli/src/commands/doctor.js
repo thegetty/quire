@@ -144,6 +144,7 @@ Examples:
 
     if (hasErrors) {
       this.logger.error('Some checks failed. See above for details.')
+      process.exit(1)
     } else if (hasWarnings) {
       this.logger.warn('All checks passed with warnings.')
     } else {
