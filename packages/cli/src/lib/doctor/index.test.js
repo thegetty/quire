@@ -28,7 +28,7 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 9)
+  t.is(checks.length, 11)
 
   const checkNames = checks.map((c) => c.name)
   t.true(checkNames.includes('Quire CLI version'))
@@ -40,6 +40,8 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('quire-11ty version'))
   t.true(checkNames.includes('Data files'))
   t.true(checkNames.includes('Build status'))
+  t.true(checkNames.includes('PDF output'))
+  t.true(checkNames.includes('EPUB output'))
 
   // Verify each check has a function
   for (const { check } of checks) {
@@ -76,10 +78,13 @@ test('checkSections exports checks organized by 3 sections', async (t) => {
   t.true(projectCheckNames.includes('quire-11ty version'))
   t.true(projectCheckNames.includes('Data files'))
 
-  // Outputs section should have 1 check
+  // Outputs section should have 3 checks
   const outputsSection = checkSections.find((s) => s.name === 'Outputs')
-  t.is(outputsSection.checks.length, 1)
-  t.is(outputsSection.checks[0].name, 'Build status')
+  t.is(outputsSection.checks.length, 3)
+  const outputCheckNames = outputsSection.checks.map((c) => c.name)
+  t.true(outputCheckNames.includes('Build status'))
+  t.true(outputCheckNames.includes('PDF output'))
+  t.true(outputCheckNames.includes('EPUB output'))
 })
 
 test('default export includes all expected functions', async (t) => {
@@ -99,6 +104,8 @@ test('default export includes all expected functions', async (t) => {
   t.is(typeof doctor.default.checkOutdatedQuire11ty, 'function')
   t.is(typeof doctor.default.checkDataFiles, 'function')
   t.is(typeof doctor.default.checkStaleBuild, 'function')
+  t.is(typeof doctor.default.checkPdfOutput, 'function')
+  t.is(typeof doctor.default.checkEpubOutput, 'function')
 
   // Collections
   t.truthy(doctor.default.checks)
@@ -117,6 +124,8 @@ test('named exports match default export', async (t) => {
   t.is(doctor.checkOutdatedQuire11ty, doctor.default.checkOutdatedQuire11ty)
   t.is(doctor.checkDataFiles, doctor.default.checkDataFiles)
   t.is(doctor.checkStaleBuild, doctor.default.checkStaleBuild)
+  t.is(doctor.checkPdfOutput, doctor.default.checkPdfOutput)
+  t.is(doctor.checkEpubOutput, doctor.default.checkEpubOutput)
   t.is(doctor.runAllChecks, doctor.default.runAllChecks)
   t.is(doctor.runAllChecksWithSections, doctor.default.runAllChecksWithSections)
 })
@@ -146,6 +155,8 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+  const mockCheckPdf = sandbox.stub().returns({ ok: true, message: 'no PDF' })
+  const mockCheckEpub = sandbox.stub().returns({ ok: true, message: 'no EPUB' })
 
   const { runAllChecks } = await esmock('./index.js', {
     './checks/environment/index.js': {
@@ -162,13 +173,15 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
     },
     './checks/outputs/index.js': {
       checkStaleBuild: mockCheckStale,
+      checkPdfOutput: mockCheckPdf,
+      checkEpubOutput: mockCheckEpub,
     },
   })
 
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 9)
+  t.is(results.length, 11)
 
   // Verify each result has expected shape
   for (const result of results) {
@@ -186,6 +199,8 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   t.true(mockCheckQuire11ty.calledOnce)
   t.true(mockCheckData.calledOnce)
   t.true(mockCheckStale.calledOnce)
+  t.true(mockCheckPdf.calledOnce)
+  t.true(mockCheckEpub.calledOnce)
 })
 
 test('runAllChecksWithSections returns results organized by 3 sections', async (t) => {
@@ -201,6 +216,8 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+  const mockCheckPdf = sandbox.stub().returns({ ok: true, message: 'no PDF' })
+  const mockCheckEpub = sandbox.stub().returns({ ok: true, message: 'no EPUB' })
 
   const { runAllChecksWithSections } = await esmock('./index.js', {
     './checks/environment/index.js': {
@@ -217,6 +234,8 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
     },
     './checks/outputs/index.js': {
       checkStaleBuild: mockCheckStale,
+      checkPdfOutput: mockCheckPdf,
+      checkEpubOutput: mockCheckEpub,
     },
   })
 
@@ -247,7 +266,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
   t.is(projectSection.results.length, 4)
 
   const outputsSection = sections.find((s) => s.section === 'Outputs')
-  t.is(outputsSection.results.length, 1)
+  t.is(outputsSection.results.length, 3)
 })
 
 test('runAllChecks handles async checks correctly', async (t) => {
@@ -272,12 +291,14 @@ test('runAllChecks handles async checks correctly', async (t) => {
     },
     './checks/outputs/index.js': {
       checkStaleBuild: mockSyncCheck,
+      checkPdfOutput: mockSyncCheck,
+      checkEpubOutput: mockSyncCheck,
     },
   })
 
   const results = await runAllChecks()
 
-  t.is(results.length, 9)
+  t.is(results.length, 11)
 
   // Verify async results are properly awaited
   const asyncResults = results.filter((r) => r.message === 'async')
@@ -314,6 +335,8 @@ test('runAllChecks preserves all check result properties', async (t) => {
     },
     './checks/outputs/index.js': {
       checkStaleBuild: sandbox.stub().returns({ ok: true, message: null }),
+      checkPdfOutput: sandbox.stub().returns({ ok: true, message: null }),
+      checkEpubOutput: sandbox.stub().returns({ ok: true, message: null }),
     },
   })
 

@@ -20,22 +20,31 @@ import {
   checkDataFiles,
 } from './checks/project/index.js'
 
-import { checkStaleBuild } from './checks/outputs/index.js'
+import {
+  checkStaleBuild,
+  checkPdfOutput,
+  checkEpubOutput,
+} from './checks/outputs/index.js'
 
 // Re-export constants
 export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE } from './constants.js'
 
 // Re-export individual checks
 export {
+  // Environment
   checkCliVersion,
   checkNodeVersion,
   checkNpmAvailable,
   checkGitAvailable,
+  // Project
   checkQuireProject,
   checkDependencies,
   checkOutdatedQuire11ty,
   checkDataFiles,
+  // Outputs
   checkStaleBuild,
+  checkPdfOutput,
+  checkEpubOutput,
 }
 
 const debug = createDebug('lib:doctor')
@@ -76,6 +85,8 @@ export const checkSections = [
     name: 'Outputs',
     checks: [
       { name: 'Build status', check: checkStaleBuild },
+      { name: 'PDF output', check: checkPdfOutput },
+      { name: 'EPUB output', check: checkEpubOutput },
     ],
   },
 ]
@@ -93,6 +104,8 @@ export const checks = [
   { name: 'quire-11ty version', check: checkOutdatedQuire11ty },
   { name: 'Data files', check: checkDataFiles },
   { name: 'Build status', check: checkStaleBuild },
+  { name: 'PDF output', check: checkPdfOutput },
+  { name: 'EPUB output', check: checkEpubOutput },
 ]
 
 /**
@@ -137,10 +150,12 @@ export default {
   checkCliVersion,
   checkDataFiles,
   checkDependencies,
+  checkEpubOutput,
   checkGitAvailable,
   checkNodeVersion,
   checkNpmAvailable,
   checkOutdatedQuire11ty,
+  checkPdfOutput,
   checkQuireProject,
   checkStaleBuild,
   runAllChecks,
