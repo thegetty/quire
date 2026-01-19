@@ -63,36 +63,42 @@ const debug = createDebug('lib:doctor')
 
 /**
  * All available diagnostic checks organized by section
+ * Each check has an `id` for CLI filtering (short, lowercase, hyphenated)
  */
 export const checkSections = [
   {
     name: 'Environment',
     checks: [
-      { name: 'Operating system', check: checkOsInfo },
-      { name: 'Quire CLI version', check: checkCliVersion },
-      { name: 'Node.js version', check: checkNodeVersion },
-      { name: 'npm available', check: checkNpmAvailable },
-      { name: 'Git available', check: checkGitAvailable },
+      { id: 'os', name: 'Operating system', check: checkOsInfo },
+      { id: 'cli', name: 'Quire CLI version', check: checkCliVersion },
+      { id: 'node', name: 'Node.js version', check: checkNodeVersion },
+      { id: 'npm', name: 'npm available', check: checkNpmAvailable },
+      { id: 'git', name: 'Git available', check: checkGitAvailable },
     ],
   },
   {
     name: 'Project',
     checks: [
-      { name: 'Quire project', check: checkQuireProject },
-      { name: 'Dependencies', check: checkDependencies },
-      { name: 'quire-11ty version', check: checkOutdatedQuire11ty },
-      { name: 'Data files', check: checkDataFiles },
+      { id: 'project', name: 'Quire project', check: checkQuireProject },
+      { id: 'deps', name: 'Dependencies', check: checkDependencies },
+      { id: '11ty', name: 'quire-11ty version', check: checkOutdatedQuire11ty },
+      { id: 'data', name: 'Data files', check: checkDataFiles },
     ],
   },
   {
     name: 'Outputs',
     checks: [
-      { name: 'Build status', check: checkStaleBuild },
-      { name: 'PDF output', check: checkPdfOutput },
-      { name: 'EPUB output', check: checkEpubOutput },
+      { id: 'build', name: 'Build status', check: checkStaleBuild },
+      { id: 'pdf', name: 'PDF output', check: checkPdfOutput },
+      { id: 'epub', name: 'EPUB output', check: checkEpubOutput },
     ],
   },
 ]
+
+/**
+ * Valid check IDs for filtering individual checks
+ */
+export const CHECK_IDS = checkSections.flatMap((s) => s.checks.map((c) => c.id))
 
 /**
  * All available diagnostic checks (flat list for backwards compatibility)
@@ -129,20 +135,47 @@ export async function runAllChecks() {
 }
 
 /**
+ * Valid section names for filtering
+ */
+export const SECTION_NAMES = ['environment', 'project', 'outputs']
+
+/**
  * Run all diagnostic checks organized by section
+ * @param {Object} [options] - Filter options
+ * @param {string[]} [options.sections] - Optional array of section names to run (lowercase)
+ * @param {string[]} [options.checks] - Optional array of check IDs to run
  * @returns {Promise<Array<{section: string, results: Array<{name: string, ok: boolean, message: string|null}>}>>}
  */
-export async function runAllChecksWithSections() {
-  debug('Running all diagnostic checks with sections')
+export async function runAllChecksWithSections(options = {}) {
+  const { sections: filterSections = null, checks: filterChecks = null } = options
+
+  // Handle legacy call signature: runAllChecksWithSections(['environment'])
+  const sectionsFilter = Array.isArray(options) ? options : filterSections
+
+  debug('Running diagnostic checks with sections, filter: %o, checks: %o', sectionsFilter, filterChecks)
   const sections = []
 
   for (const { name: sectionName, checks: sectionChecks } of checkSections) {
+    // Skip sections not in filter (if section filter is provided and no check filter)
+    if (sectionsFilter && !filterChecks && !sectionsFilter.includes(sectionName.toLowerCase())) {
+      continue
+    }
+
     const results = []
-    for (const { name, check } of sectionChecks) {
+    for (const { id, name, check } of sectionChecks) {
+      // Skip checks not in filter (if check filter is provided)
+      if (filterChecks && !filterChecks.includes(id)) {
+        continue
+      }
+
       const result = await check()
       results.push({ name, ...result })
     }
-    sections.push({ section: sectionName, results })
+
+    // Only include section if it has results
+    if (results.length > 0) {
+      sections.push({ section: sectionName, results })
+    }
   }
 
   return sections
@@ -165,4 +198,6 @@ export default {
   checkStaleBuild,
   runAllChecks,
   runAllChecksWithSections,
+  CHECK_IDS,
+  SECTION_NAMES,
 }
