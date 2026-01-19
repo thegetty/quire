@@ -61,6 +61,10 @@ These modules encapsulate specific business domains of Quire.
 |--------|-------------|
 | `paths` (default) | Singleton for path resolution |
 | `Paths` | Class for custom path instances |
+| `DATA_DIR` | Path to data files directory (`content/_data`) |
+| `PROJECT_MARKERS` | Files that identify a Quire project |
+| `REQUIRED_DATA_FILES` | Required data files (`publication.yaml`) |
+| `SOURCE_DIRECTORIES` | Directories monitored for changes |
 | `detect(dirpath)` | Check if directory is a Quire project |
 | `loadProjectConfig(projectRoot?)` | Load and validate project config |
 | `getVersion(projectPath?)` | Read `quire-11ty` version from project |
@@ -118,6 +122,7 @@ These modules encapsulate specific business domains of Quire.
 | `checkGitAvailable()` | Verify git in PATH |
 | `checkQuireProject()` | Detect project marker files |
 | `checkDependencies()` | Verify node_modules exists |
+| `checkDataFiles()` | Validate YAML files in content/_data/ |
 | `checkStaleBuild()` | Compare source vs build timestamps |
 
 **Sub-modules:**
@@ -140,7 +145,18 @@ The `formatDuration` function converts milliseconds to the most appropriate time
 | < 1 year       | "3 months"      |
 | >= 1 year      | "2 years"       |
 
-**Dependencies:** `project/`, `npm/`, `git/`
+**Data Files Validation:**
+
+The `checkDataFiles` function validates YAML files in `content/_data/`:
+
+| Validation | Description |
+|------------|-------------|
+| Required files | Checks `publication.yaml` exists |
+| YAML syntax | Parses each file and reports syntax errors |
+| Schema validation | Validates against JSON schemas in `schemas/` |
+| Duplicate IDs | Detects duplicate `id` values in arrays |
+
+**Dependencies:** `project/`, `npm/`, `git/`, `validators/validate-data-files`
 
 #### `installer/`
 **Purpose:** Installation of `@thegetty/quire-11ty` into Quire projects.

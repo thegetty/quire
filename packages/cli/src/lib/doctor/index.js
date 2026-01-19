@@ -7,7 +7,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import git from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
-import { PROJECT_MARKERS, SOURCE_DIRECTORIES } from '#lib/project/index.js'
+import { DATA_DIR, PROJECT_MARKERS, SOURCE_DIRECTORIES } from '#lib/project/index.js'
+import { validateDataFiles } from '#src/validators/validate-data-files.js'
 import createDebug from '#debug'
 import { formatDuration } from './formatDuration.js'
 
@@ -254,6 +255,48 @@ export function checkStaleBuild() {
 }
 
 /**
+ * Check data files in content/_data/ for YAML syntax and schema validation
+ *
+ * Validates:
+ * - Required files exist (publication.yaml)
+ * - YAML syntax is correct
+ * - Files conform to their JSON schemas (when schema exists)
+ * - No duplicate IDs in arrays
+ *
+ * @returns {CheckResult}
+ */
+export function checkDataFiles() {
+  const result = validateDataFiles()
+
+  // Not in a project directory
+  if (result.notInProject) {
+    debug('No %s directory found, skipping data files check', DATA_DIR)
+    return {
+      ok: true,
+      message: `No ${DATA_DIR} directory (not in project)`,
+    }
+  }
+
+  debug('Found %d YAML files in %s', result.fileCount, DATA_DIR)
+
+  if (!result.valid) {
+    const issueCount = result.errors.length === 1 ? '1 issue' : `${result.errors.length} issues`
+    return {
+      ok: false,
+      level: 'warn',
+      message: `${issueCount} in data files`,
+      remediation: `Fix the following issues in ${DATA_DIR}:\n    • ${result.errors.join('\n    • ')}`,
+      docsUrl: `${DOCS_BASE_URL}/metadata-configuration/`,
+    }
+  }
+
+  return {
+    ok: true,
+    message: `${result.fileCount} files validated`,
+  }
+}
+
+/**
  * All available diagnostic checks organized by section
  */
 export const checkSections = [
@@ -270,6 +313,7 @@ export const checkSections = [
     checks: [
       { name: 'Quire project', check: checkQuireProject },
       { name: 'Dependencies', check: checkDependencies },
+      { name: 'Data files', check: checkDataFiles },
       { name: 'Build status', check: checkStaleBuild },
     ],
   },
@@ -284,6 +328,7 @@ export const checks = [
   { name: 'Git available', check: checkGitAvailable },
   { name: 'Quire project detected', check: checkQuireProject },
   { name: 'Dependencies installed', check: checkDependencies },
+  { name: 'Data files', check: checkDataFiles },
   { name: 'Build status', check: checkStaleBuild },
 ]
 
@@ -326,6 +371,7 @@ export async function runAllChecksWithSections() {
 export default {
   checks,
   checkSections,
+  checkDataFiles,
   checkDependencies,
   checkGitAvailable,
   checkNodeVersion,
