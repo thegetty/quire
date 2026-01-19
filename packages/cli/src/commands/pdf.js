@@ -1,7 +1,7 @@
 import Command from '#src/Command.js'
 import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
-import generatePdf from '#lib/pdf/index.js'
+import generatePdf, { ENGINES } from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
@@ -32,11 +32,11 @@ Examples:
       [ '--open', 'open PDF in default application' ],
       [
         '--engine <name>', 'PDF engine to use (default: from config or pagedjs)',
-        { choices: ['pagedjs', 'prince'] }
+        { choices: ENGINES }
       ],
       [
         '--lib <name>', 'deprecated alias for --engine option',
-        { hidden: true, choices: ['pagedjs', 'prince'], conflicts: 'engine' }
+        { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
       [ '--debug', 'run build with debug output to console' ],
     ],

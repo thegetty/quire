@@ -4,6 +4,9 @@ import path from 'node:path'
 import { InvalidEpubLibraryError } from '#src/errors/index.js'
 import { logger } from '#lib/logger/index.js'
 import createDebug from '#debug'
+import { ENGINES } from './schema.js'
+
+export { ENGINES }
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
