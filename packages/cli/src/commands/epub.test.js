@@ -40,7 +40,7 @@ test.afterEach.always((t) => {
   t.context.vol.reset()
 })
 
-test('epub command should generate EPUB using epubjs library', async (t) => {
+test('epub command should generate EPUB using epubjs engine', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock the epub generator
@@ -73,15 +73,15 @@ test('epub command should generate EPUB using epubjs library', async (t) => {
   const command = new EPUBCommand()
   command.name = sandbox.stub().returns('epub')
 
-  // Run action with epubjs
-  await command.action({ lib: 'epubjs' }, command)
+  // Run action with epubjs engine
+  await command.action({ engine: 'epubjs' }, command)
 
   t.true(mockLibEpub.called, 'libEpub should be called')
-  t.true(mockLibEpub.calledWith('epubjs'), 'should use epubjs library')
+  t.true(mockLibEpub.calledWith('epubjs'), 'should use epubjs engine')
   t.true(mockEpubGenerator.called, 'EPUB generator should be called')
 })
 
-test('epub command should generate EPUB using pandoc library', async (t) => {
+test('epub command should generate EPUB using pandoc engine', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock the epub generator
@@ -114,11 +114,11 @@ test('epub command should generate EPUB using pandoc library', async (t) => {
   const command = new EPUBCommand()
   command.name = sandbox.stub().returns('epub')
 
-  // Run action with pandoc
-  await command.action({ lib: 'pandoc' }, command)
+  // Run action with pandoc engine
+  await command.action({ engine: 'pandoc' }, command)
 
   t.true(mockLibEpub.called, 'libEpub should be called')
-  t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc library')
+  t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc engine')
   t.true(mockEpubGenerator.called, 'EPUB generator should be called')
 })
 
@@ -158,7 +158,7 @@ test('epub command should open EPUB when --open flag is provided', async (t) => 
   command.name = sandbox.stub().returns('epub')
 
   // Run action with open flag
-  await command.action({ lib: 'epubjs', open: true }, command)
+  await command.action({ engine: 'epubjs', open: true }, command)
 
   t.true(mockEpubGenerator.called, 'EPUB should be generated')
   t.true(mockOpen.called, 'open should be called when --open flag is provided')
@@ -200,7 +200,7 @@ test('epub command should pass debug option to library', async (t) => {
   command.name = sandbox.stub().returns('epub')
 
   // Run action with debug option
-  await command.action({ lib: 'epubjs', debug: true }, command)
+  await command.action({ engine: 'epubjs', debug: true }, command)
 
   // Verify debug option was passed to library
   const libEpubCall = mockLibEpub.getCall(0)
@@ -236,7 +236,7 @@ test('epub command should throw error when build output is missing', async (t) =
   command.name = sandbox.stub().returns('epub')
 
   // Run action - should throw error when output doesn't exist
-  const error = await t.throwsAsync(() => command.action({ lib: 'epubjs' }, command))
+  const error = await t.throwsAsync(() => command.action({ engine: 'epubjs' }, command))
 
   t.is(error.code, 'ENOBUILD', 'should throw ENOBUILD error')
   t.regex(error.message, /quire build/, 'error should mention quire build')
@@ -276,11 +276,11 @@ test('epub command should use correct output path', async (t) => {
   command.name = sandbox.stub().returns('epub')
 
   // Run action
-  await command.action({ lib: 'epubjs' }, command)
+  await command.action({ engine: 'epubjs' }, command)
 
-  // Verify output path includes library name
+  // Verify output path includes engine name
   const generatorCall = mockEpubGenerator.getCall(0)
-  t.true(generatorCall.args[1].includes('epubjs.epub'), 'output path should include library name')
+  t.true(generatorCall.args[1].includes('epubjs.epub'), 'output path should include engine name')
 })
 
 test('epub command should run build first when --build flag is set and output missing', async (t) => {
@@ -330,8 +330,47 @@ test('epub command should run build first when --build flag is set and output mi
   command.name = sandbox.stub().returns('epub')
 
   // Run action with --build flag
-  await command.action({ lib: 'epubjs', build: true }, command)
+  await command.action({ engine: 'epubjs', build: true }, command)
 
   t.true(mockBuild.called, 'build should be called when --build flag is set')
   t.true(mockEpubGenerator.called, 'EPUB generator should be called after build')
+})
+
+test('epub command should support deprecated --lib option', async (t) => {
+  const { sandbox, fs } = t.context
+
+  // Mock the epub generator
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  // Mock the epub library module
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+
+  // Use esmock to replace imports
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => true
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+
+  // Use deprecated --lib option (should still work)
+  await command.action({ lib: 'pandoc' }, command)
+
+  t.true(mockLibEpub.called, 'libEpub should be called with deprecated --lib')
+  t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc from deprecated option')
 })

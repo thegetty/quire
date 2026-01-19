@@ -72,16 +72,16 @@ quire pdf --build
 quire pdf --build --open
 ```
 
-### PDF Library Options
+### PDF Engine Options
 
 Quire supports two PDF generation engines:
 
 ```bash
 # Use Paged.js (default, open source)
-quire pdf --lib pagedjs
+quire pdf --engine pagedjs
 
 # Use PrinceXML (requires license for commercial use)
-quire pdf --lib prince
+quire pdf --engine prince
 ```
 
 ---
@@ -101,14 +101,14 @@ quire epub --build
 quire epub --build --open
 ```
 
-### EPUB Library Options
+### EPUB Engine Options
 
 ```bash
 # Use epubjs (default)
-quire epub --lib epubjs
+quire epub --engine epubjs
 
 # Use Pandoc
-quire epub --lib pandoc
+quire epub --engine pandoc
 ```
 
 ---

@@ -40,27 +40,34 @@ test('registered command has correct options', (t) => {
   const { command } = t.context
 
   // Get all options
+  const engineOption = command.options.find((opt) => opt.long === '--engine')
   const libOption = command.options.find((opt) => opt.long === '--lib')
   const buildOption = command.options.find((opt) => opt.long === '--build')
   const openOption = command.options.find((opt) => opt.long === '--open')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
-  t.truthy(libOption, '--lib option should exist')
+  t.truthy(engineOption, '--engine option should exist')
+  t.truthy(libOption, '--lib option should exist (deprecated alias)')
   t.truthy(buildOption, '--build option should exist')
   t.truthy(openOption, '--open option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
+  t.true(engineOption instanceof Option, '--engine should be Option instance')
   t.true(libOption instanceof Option, '--lib should be Option instance')
   t.true(buildOption instanceof Option, '--build should be Option instance')
   t.true(openOption instanceof Option, '--open should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
-  // Verify option properties
+  // Verify --engine option properties
+  t.is(engineOption.long, '--engine')
+  t.truthy(engineOption.description)
+  t.true(engineOption.required, '--engine should require a value')
+
+  // Verify --lib is hidden (deprecated alias)
   t.is(libOption.long, '--lib')
-  t.truthy(libOption.description)
-  t.true(libOption.required, '--lib should require a value')
+  t.true(libOption.hidden, '--lib should be hidden (deprecated)')
 
   t.is(buildOption.long, '--build')
   t.truthy(buildOption.description)
@@ -81,7 +88,8 @@ test('command options are accessible via public API', (t) => {
   // Test that options can be accessed the way Commander.js does
   const optionNames = command.options.map((opt) => opt.long)
 
-  t.true(optionNames.includes('--lib'))
+  t.true(optionNames.includes('--engine'))
+  t.true(optionNames.includes('--lib'))  // deprecated alias still exists
   t.true(optionNames.includes('--build'))
   t.true(optionNames.includes('--open'))
   t.true(optionNames.includes('--debug'))
