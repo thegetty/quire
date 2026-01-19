@@ -75,7 +75,7 @@ export default class Command {
   }
 
   definition() {
-    return this.constructors.definition
+    return this.constructor.definition
   }
 
   action() {
