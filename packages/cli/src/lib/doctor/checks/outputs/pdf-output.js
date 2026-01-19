@@ -46,30 +46,30 @@ export function checkPdfOutput() {
     }
   }
 
-  // Get _site mtime
+  // Get _site last modified time
   const siteStat = fs.statSync('_site')
-  const siteMtime = siteStat.mtimeMs
-  debug('_site mtime: %d', siteMtime)
+  const siteLastModified = siteStat.mtimeMs
+  debug('_site lastModified: %d', siteLastModified)
 
   // Check each PDF for staleness
   const staleFiles = []
-  let oldestPdfMtime = Infinity
+  let oldestPdfLastModified = Infinity
 
   for (const pdfFile of existingPdfs) {
     const pdfStat = fs.statSync(pdfFile)
-    const pdfMtime = pdfStat.mtimeMs
-    debug('%s mtime: %d', pdfFile, pdfMtime)
+    const pdfLastModified = pdfStat.mtimeMs
+    debug('%s lastModified: %d', pdfFile, pdfLastModified)
 
-    if (siteMtime > pdfMtime) {
+    if (siteLastModified > pdfLastModified) {
       staleFiles.push(pdfFile)
-      if (pdfMtime < oldestPdfMtime) {
-        oldestPdfMtime = pdfMtime
+      if (pdfLastModified < oldestPdfLastModified) {
+        oldestPdfLastModified = pdfLastModified
       }
     }
   }
 
   if (staleFiles.length > 0) {
-    const staleDuration = formatDuration(siteMtime - oldestPdfMtime)
+    const staleDuration = formatDuration(siteLastModified - oldestPdfLastModified)
     const fileList = staleFiles.join(', ')
     return {
       ok: false,

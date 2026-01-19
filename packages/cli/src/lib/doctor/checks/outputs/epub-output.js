@@ -44,18 +44,18 @@ export function checkEpubOutput() {
     }
   }
 
-  // Get modification times
+  // Get last modified times
   const siteStat = fs.statSync('_site')
-  const siteMtime = siteStat.mtimeMs
-  debug('_site mtime: %d', siteMtime)
+  const siteLastModified = siteStat.mtimeMs
+  debug('_site lastModified: %d', siteLastModified)
 
   const epubStat = fs.statSync(EPUB_DIR)
-  const epubMtime = epubStat.mtimeMs
-  debug('_epub mtime: %d', epubMtime)
+  const epubLastModified = epubStat.mtimeMs
+  debug('_epub lastModified: %d', epubLastModified)
 
   // If _site is newer than _epub, warn about stale EPUB
-  if (siteMtime > epubMtime) {
-    const staleDuration = formatDuration(siteMtime - epubMtime)
+  if (siteLastModified > epubLastModified) {
+    const staleDuration = formatDuration(siteLastModified - epubLastModified)
     return {
       ok: false,
       level: 'warn',
