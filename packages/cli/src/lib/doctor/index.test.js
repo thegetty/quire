@@ -28,9 +28,10 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 11)
+  t.is(checks.length, 12)
 
   const checkNames = checks.map((c) => c.name)
+  t.true(checkNames.includes('Operating system'))
   t.true(checkNames.includes('Quire CLI version'))
   t.true(checkNames.includes('Node.js version'))
   t.true(checkNames.includes('npm available'))
@@ -60,10 +61,11 @@ test('checkSections exports checks organized by 3 sections', async (t) => {
   t.true(sectionNames.includes('Project'))
   t.true(sectionNames.includes('Outputs'))
 
-  // Environment section should have 4 checks
+  // Environment section should have 5 checks
   const envSection = checkSections.find((s) => s.name === 'Environment')
-  t.is(envSection.checks.length, 4)
+  t.is(envSection.checks.length, 5)
   const envCheckNames = envSection.checks.map((c) => c.name)
+  t.true(envCheckNames.includes('Operating system'))
   t.true(envCheckNames.includes('Quire CLI version'))
   t.true(envCheckNames.includes('Node.js version'))
   t.true(envCheckNames.includes('npm available'))
@@ -95,6 +97,7 @@ test('default export includes all expected functions', async (t) => {
   t.is(typeof doctor.default.runAllChecksWithSections, 'function')
 
   // Check functions
+  t.is(typeof doctor.default.checkOsInfo, 'function')
   t.is(typeof doctor.default.checkCliVersion, 'function')
   t.is(typeof doctor.default.checkNodeVersion, 'function')
   t.is(typeof doctor.default.checkNpmAvailable, 'function')
@@ -115,6 +118,7 @@ test('default export includes all expected functions', async (t) => {
 test('named exports match default export', async (t) => {
   const doctor = await import('./index.js')
 
+  t.is(doctor.checkOsInfo, doctor.default.checkOsInfo)
   t.is(doctor.checkCliVersion, doctor.default.checkCliVersion)
   t.is(doctor.checkNodeVersion, doctor.default.checkNodeVersion)
   t.is(doctor.checkNpmAvailable, doctor.default.checkNpmAvailable)
@@ -146,6 +150,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const { sandbox } = t.context
 
   // Create mock check functions
+  const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
@@ -160,6 +165,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
 
   const { runAllChecks } = await esmock('./index.js', {
     './checks/environment/index.js': {
+      checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
@@ -181,7 +187,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 11)
+  t.is(results.length, 12)
 
   // Verify each result has expected shape
   for (const result of results) {
@@ -190,6 +196,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   }
 
   // Verify all checks were called
+  t.true(mockCheckOs.calledOnce)
   t.true(mockCheckCli.calledOnce)
   t.true(mockCheckNode.calledOnce)
   t.true(mockCheckNpm.calledOnce)
@@ -207,6 +214,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
   const { sandbox } = t.context
 
   // Create mock check functions
+  const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
@@ -221,6 +229,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
 
   const { runAllChecksWithSections } = await esmock('./index.js', {
     './checks/environment/index.js': {
+      checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
@@ -260,7 +269,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
 
   // Verify section sizes
   const envSection = sections.find((s) => s.section === 'Environment')
-  t.is(envSection.results.length, 4)
+  t.is(envSection.results.length, 5)
 
   const projectSection = sections.find((s) => s.section === 'Project')
   t.is(projectSection.results.length, 4)
@@ -278,6 +287,7 @@ test('runAllChecks handles async checks correctly', async (t) => {
 
   const { runAllChecks } = await esmock('./index.js', {
     './checks/environment/index.js': {
+      checkOsInfo: mockSyncCheck,
       checkCliVersion: mockSyncCheck,
       checkNodeVersion: mockSyncCheck,
       checkNpmAvailable: mockAsyncCheck,
@@ -298,7 +308,7 @@ test('runAllChecks handles async checks correctly', async (t) => {
 
   const results = await runAllChecks()
 
-  t.is(results.length, 11)
+  t.is(results.length, 12)
 
   // Verify async results are properly awaited
   const asyncResults = results.filter((r) => r.message === 'async')
@@ -322,6 +332,7 @@ test('runAllChecks preserves all check result properties', async (t) => {
 
   const { runAllChecks } = await esmock('./index.js', {
     './checks/environment/index.js': {
+      checkOsInfo: sandbox.stub().returns({ ok: true, message: 'macOS 14' }),
       checkCliVersion: sandbox.stub().returns(fullResult),
       checkNodeVersion: sandbox.stub().returns({ ok: true, message: null }),
       checkNpmAvailable: sandbox.stub().resolves({ ok: true, message: null }),

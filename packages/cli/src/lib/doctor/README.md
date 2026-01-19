@@ -15,13 +15,15 @@ doctor/
 └── checks/                   # Domain-organized check modules
     ├── environment/          # System prerequisites
     │   ├── index.js          # Barrel export
+    │   ├── os-info.js        # Operating system info
+    │   ├── os-info.test.js
     │   ├── cli-version.js    # CLI version check
     │   ├── cli-version.test.js
-    │   ├── node-version.js   # Node.js version check
+    │   ├── node-version.js   # Node.js version check (OS-specific remediation)
     │   ├── node-version.test.js
-    │   ├── npm-available.js  # npm availability check
+    │   ├── npm-available.js  # npm availability check (OS-specific remediation)
     │   ├── npm-available.test.js
-    │   ├── git-available.js  # Git availability check
+    │   ├── git-available.js  # Git availability check (OS-specific remediation)
     │   └── git-available.test.js
     ├── project/              # Project configuration
     │   ├── index.js          # Barrel export
@@ -57,10 +59,11 @@ doctor/
 ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
 │ checks/environment/ │  │   checks/project/   │  │   checks/outputs/   │
 │                     │  │                     │  │                     │
-│ • checkCliVersion   │  │ • checkQuireProject │  │ • checkStaleBuild   │
-│ • checkNodeVersion  │  │ • checkDependencies │  │                     │
-│ • checkNpmAvailable │  │ • checkOutdated...  │  │                     │
-│ • checkGitAvailable │  │ • checkDataFiles    │  │                     │
+│ • checkOsInfo       │  │ • checkQuireProject │  │ • checkStaleBuild   │
+│ • checkCliVersion   │  │ • checkDependencies │  │ • checkPdfOutput    │
+│ • checkNodeVersion  │  │ • checkOutdated...  │  │ • checkEpubOutput   │
+│ • checkNpmAvailable │  │ • checkDataFiles    │  │                     │
+│ • checkGitAvailable │  │                     │  │                     │
 └──────────┬──────────┘  └──────────┬──────────┘  └──────────┬──────────┘
            │                        │                        │
            ▼                        ▼                        ▼
@@ -78,6 +81,7 @@ doctor/
 
 | Module | Purpose |
 |--------|---------|
+| `#lib/platform.js` | OS detection utilities (getPlatform, Platform enum) |
 | `#lib/project/` | Project constants (`DATA_DIR`, `PROJECT_MARKERS`, `SOURCE_DIRECTORIES`) |
 | `#lib/git/` | Git availability check |
 | `#lib/npm/` | npm availability and registry queries |
@@ -141,10 +145,11 @@ All check functions return a `CheckResult` object:
 
 | Check | Function | Module | Description |
 |-------|----------|--------|-------------|
+| Operating system | `checkOsInfo()` | `checks/environment/os-info.js` | Reports OS name, version, and architecture |
 | Quire CLI version | `checkCliVersion()` | `checks/environment/cli-version.js` | Reports CLI version and available updates |
-| Node.js version | `checkNodeVersion()` | `checks/environment/node-version.js` | Verifies Node.js >= 22 |
-| npm available | `checkNpmAvailable()` | `checks/environment/npm-available.js` | Verifies npm in PATH |
-| Git available | `checkGitAvailable()` | `checks/environment/git-available.js` | Verifies git in PATH |
+| Node.js version | `checkNodeVersion()` | `checks/environment/node-version.js` | Verifies Node.js >= 22 (OS-specific remediation) |
+| npm available | `checkNpmAvailable()` | `checks/environment/npm-available.js` | Verifies npm in PATH (OS-specific remediation) |
+| Git available | `checkGitAvailable()` | `checks/environment/git-available.js` | Verifies git in PATH (OS-specific remediation) |
 
 ### Project Section
 
@@ -165,6 +170,14 @@ All check functions return a `CheckResult` object:
 
 ## Check Behaviors
 
+### checkOsInfo
+
+| Scenario | Result |
+|----------|--------|
+| macOS | `ok: true` - "macOS 14 (arm64)" |
+| Windows | `ok: true` - "Windows (10.0.22621) (x64) - Git for Windows recommended" |
+| Linux | `ok: true` - "Linux (5.15.0) (x64)" |
+
 ### checkCliVersion
 
 | Scenario | Result |
@@ -178,21 +191,36 @@ All check functions return a `CheckResult` object:
 | Scenario | Result |
 |----------|--------|
 | Node.js >= 22 | `ok: true` - "v22.0.0 (>= 22 required)" |
-| Node.js < 22 | `ok: false` - with installation instructions |
+| Node.js < 22 | `ok: false` - with OS-specific installation instructions |
+
+Remediation varies by platform:
+- **macOS**: nvm, Homebrew, or nodejs.org
+- **Windows**: nvm-windows, winget, or nodejs.org
+- **Linux**: nvm, apt, or nodejs.org
 
 ### checkNpmAvailable
 
 | Scenario | Result |
 |----------|--------|
 | npm in PATH | `ok: true` - no message |
-| npm not found | `ok: false` - "npm not found in PATH" |
+| npm not found | `ok: false` - "npm not found in PATH" with OS-specific troubleshooting |
+
+Remediation varies by platform:
+- **macOS**: nvm use, brew reinstall
+- **Windows**: Check PATH includes %APPDATA%\npm
+- **Linux**: nvm use, check PATH
 
 ### checkGitAvailable
 
 | Scenario | Result |
 |----------|--------|
 | git in PATH | `ok: true` - no message |
-| git not found | `ok: false` - "Git not found in PATH" |
+| git not found | `ok: false` - "Git not found in PATH" with OS-specific installation |
+
+Remediation and docs URL vary by platform:
+- **macOS**: xcode-select --install or Homebrew
+- **Windows**: git-scm.com/download/win or winget
+- **Linux**: apt, dnf, or pacman
 
 ### checkQuireProject
 
@@ -259,6 +287,7 @@ All check functions return a `CheckResult` object:
 
 ```javascript
 // Individual check functions (re-exported from domain modules)
+export { checkOsInfo }
 export { checkCliVersion }
 export { checkNodeVersion }
 export { checkNpmAvailable }
@@ -275,7 +304,7 @@ export { checkEpubOutput }
 export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE }
 
 // Check collections
-export { checks }         // Flat array of all checks (11 checks)
+export { checks }         // Flat array of all checks (12 checks)
 export { checkSections }  // Checks organized by section (3 sections)
 
 // Runners
@@ -287,7 +316,7 @@ export { runAllChecksWithSections }  // Run all, return by section
 
 ### 1. Determine the domain
 
-- **environment/**: System prerequisites (CLI version, Node.js, npm, Git)
+- **environment/**: System prerequisites (OS info, CLI version, Node.js, npm, Git)
 - **project/**: Project configuration and dependencies
 - **outputs/**: Build artifacts and generated files
 
@@ -529,6 +558,6 @@ const { checkStaleBuild } = await esmock('./stale-build.js', {
 | `constants.js` | Re-exports from `#lib/constants.js` |
 | `formatDuration.js` | Time duration formatting utility |
 | `formatDuration.test.js` | Duration formatting tests |
-| `checks/environment/` | Environment prerequisite checks (4 checks) |
+| `checks/environment/` | Environment prerequisite checks (5 checks: os-info, cli-version, node-version, npm-available, git-available) |
 | `checks/project/` | Project configuration checks (4 checks) |
 | `checks/outputs/` | Build artifact checks (3 checks: stale-build, pdf-output, epub-output) |

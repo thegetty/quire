@@ -5,6 +5,7 @@
  *
  * @module lib/doctor/checks/environment
  */
+export { checkOsInfo } from './os-info.js'
 export { checkCliVersion } from './cli-version.js'
 export { checkNodeVersion } from './node-version.js'
 export { checkNpmAvailable } from './npm-available.js'
