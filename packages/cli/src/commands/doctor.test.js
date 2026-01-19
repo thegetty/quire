@@ -52,7 +52,13 @@ test('doctor command should report failed checks', async (t) => {
 
   const mockResults = [
     { name: 'Node.js version', ok: true, message: 'v22.0.0' },
-    { name: 'npm available', ok: false, message: 'npm not found in PATH' },
+    {
+      name: 'npm available',
+      ok: false,
+      message: 'npm not found in PATH',
+      remediation: 'Install Node.js to get npm',
+      docsUrl: 'https://quire.getty.edu/docs-v1/install-uninstall/',
+    },
   ]
 
   const DoctorCommand = await esmock('./doctor.js', {
@@ -70,6 +76,48 @@ test('doctor command should report failed checks', async (t) => {
   t.true(
     mockLogger.warn.calledWith(sinon.match(/Some checks failed/)),
     'should warn about failures'
+  )
+})
+
+test('doctor command should display remediation guidance for failed checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockResults = [
+    {
+      name: 'npm available',
+      ok: false,
+      message: 'npm not found in PATH',
+      remediation: 'Install Node.js to get npm',
+      docsUrl: 'https://quire.getty.edu/docs-v1/install-uninstall/',
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecks: sandbox.stub().resolves(mockResults),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/How to fix/)),
+    'should display "How to fix" header'
+  )
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/Install Node.js/)),
+    'should display remediation text'
+  )
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/Documentation:/)),
+    'should display documentation label'
+  )
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/quire\.getty\.edu/)),
+    'should display documentation URL'
   )
 })
 

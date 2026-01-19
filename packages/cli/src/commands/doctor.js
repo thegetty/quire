@@ -38,7 +38,7 @@ Examples:
     let hasErrors = false
 
     // Display results
-    for (const { name, ok, message } of results) {
+    for (const { name, ok, message, remediation, docsUrl } of results) {
       if (!ok) hasErrors = true
 
       const status = ok ? '✓' : '✗'
@@ -52,6 +52,18 @@ Examples:
 
       if (message) {
         this.logger.info(`  ${message}`)
+      }
+
+      // Show remediation guidance for failed checks
+      if (!ok && remediation) {
+        this.logger.info('')
+        this.logger.info(`  How to fix:`)
+        this.logger.info(`  ${remediation}`)
+      }
+
+      if (!ok && docsUrl) {
+        this.logger.info('')
+        this.logger.info(`  Documentation: ${docsUrl}`)
       }
     }
 
