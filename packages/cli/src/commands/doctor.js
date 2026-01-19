@@ -42,36 +42,36 @@ Examples:
       if (!ok) hasErrors = true
 
       const status = ok ? '✓' : '✗'
-      const line = `${status} ${name}`
-
-      if (ok) {
-        this.logger.info(line)
-      } else {
-        this.logger.error(line)
-      }
+      const lines = [`${status} ${name}`]
 
       if (message) {
-        this.logger.info(`  ${message}`)
+        lines.push(`  ${message}`)
       }
 
       // Show remediation guidance for failed checks
       if (!ok && remediation) {
-        this.logger.info('')
-        this.logger.info(`  How to fix:`)
-        this.logger.info(`  ${remediation}`)
+        lines.push('')
+        lines.push(`  How to fix:`)
+        lines.push(`  ${remediation}`)
       }
 
       if (!ok && docsUrl) {
-        this.logger.info('')
-        this.logger.info(`  Documentation: ${docsUrl}`)
+        lines.push('')
+        lines.push(`  Documentation: ${docsUrl}`)
+      }
+
+      const output = lines.join('\n')
+      if (ok) {
+        this.logger.info(output)
+      } else {
+        this.logger.error(output)
       }
     }
 
-    this.logger.info('')
     if (hasErrors) {
-      this.logger.warn('Some checks failed. See above for details.')
+      this.logger.warn('\nSome checks failed. See above for details.')
     } else {
-      this.logger.info('All checks passed!')
+      this.logger.info('\nAll checks passed!')
     }
   }
 }
