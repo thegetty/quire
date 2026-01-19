@@ -23,6 +23,12 @@ const docsUrl = (path) => new URL(path, DOCS_BASE_URL).href
 const mainHelpText = `
 Docs: ${DOCS_BASE_URL}
 
+Common Workflows:
+  New project     quire new my-book && cd my-book && quire preview
+  Build for web   quire build
+  Generate PDF    quire pdf --build
+  Generate EPUB   quire epub --build
+
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
