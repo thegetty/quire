@@ -103,20 +103,21 @@ test('doctor command should display remediation guidance for failed checks', asy
 
   await command.action({}, command)
 
+  // Failed checks output goes through logger.error as a single joined string
   t.true(
-    mockLogger.info.calledWith(sinon.match(/How to fix/)),
+    mockLogger.error.calledWith(sinon.match(/How to fix/)),
     'should display "How to fix" header'
   )
   t.true(
-    mockLogger.info.calledWith(sinon.match(/Install Node.js/)),
+    mockLogger.error.calledWith(sinon.match(/Install Node.js/)),
     'should display remediation text'
   )
   t.true(
-    mockLogger.info.calledWith(sinon.match(/Documentation:/)),
+    mockLogger.error.calledWith(sinon.match(/Documentation:/)),
     'should display documentation label'
   )
   t.true(
-    mockLogger.info.calledWith(sinon.match(/quire\.getty\.edu/)),
+    mockLogger.error.calledWith(sinon.match(/quire\.getty\.edu/)),
     'should display documentation URL'
   )
 })
