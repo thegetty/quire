@@ -7,6 +7,7 @@ import createDebug from '#debug'
 
 // Import checks from domain submodules
 import {
+  checkOsInfo,
   checkCliVersion,
   checkNodeVersion,
   checkNpmAvailable,
@@ -32,6 +33,7 @@ export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE } from './cons
 // Re-export individual checks
 export {
   // Environment
+  checkOsInfo,
   checkCliVersion,
   checkNodeVersion,
   checkNpmAvailable,
@@ -66,6 +68,7 @@ export const checkSections = [
   {
     name: 'Environment',
     checks: [
+      { name: 'Operating system', check: checkOsInfo },
       { name: 'Quire CLI version', check: checkCliVersion },
       { name: 'Node.js version', check: checkNodeVersion },
       { name: 'npm available', check: checkNpmAvailable },
@@ -95,6 +98,7 @@ export const checkSections = [
  * All available diagnostic checks (flat list for backwards compatibility)
  */
 export const checks = [
+  { name: 'Operating system', check: checkOsInfo },
   { name: 'Quire CLI version', check: checkCliVersion },
   { name: 'Node.js version', check: checkNodeVersion },
   { name: 'npm available', check: checkNpmAvailable },
@@ -154,6 +158,7 @@ export default {
   checkGitAvailable,
   checkNodeVersion,
   checkNpmAvailable,
+  checkOsInfo,
   checkOutdatedQuire11ty,
   checkPdfOutput,
   checkQuireProject,
