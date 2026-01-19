@@ -78,7 +78,10 @@ export function arrayToOption(entry) {
 
   if (configObj) {
     if (configObj.choices) option.choices(configObj.choices)
+    if (configObj.conflicts) option.conflicts(configObj.conflicts)
     if (configObj.default !== undefined) option.default(configObj.default)
+    if (configObj.hidden) option.hideHelp()
+    if (configObj.implies) option.implies(configObj.implies)
   } else if (defaultValue !== undefined) {
     option.default(defaultValue)
   }

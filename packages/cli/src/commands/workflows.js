@@ -36,7 +36,7 @@ Common Workflows:
   Generating PDF:
     quire pdf --build            Build first, then generate PDF
     quire pdf --build --open     Generate and open PDF
-    quire pdf --lib prince       Use PrinceXML instead of Paged.js
+    quire pdf --engine prince    Use PrinceXML instead of Paged.js
 
   Generating EPUB:
     quire epub --build           Build first, then generate EPUB

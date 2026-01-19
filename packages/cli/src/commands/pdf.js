@@ -21,16 +21,20 @@ export default class PDFCommand extends Command {
     docsLink: 'quire-commands/#output-files',
     helpText: `
 Examples:
-  quire pdf --lib prince    Generate PDF using PrinceXML
-  quire pdf --build         Build site first, then generate PDF
+  quire pdf --engine prince    Generate PDF using PrinceXML
+  quire pdf --build            Build site first, then generate PDF
 `,
     version: '1.0.0',
     options: [
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open PDF in default application' ],
       [
-        '--lib <module>', 'use the specified pdf module', 'pagedjs',
+        '--engine <name>', 'PDF engine to use', 'pagedjs',
         { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
+      ],
+      [
+        '--lib <name>', 'deprecated alias for --engine option',
+        { hidden: true, choices: ['pagedjs', 'prince'], conflicts: 'engine' }
       ],
       [ '--debug', 'run build with debug output to console' ],
     ],
@@ -42,6 +46,11 @@ Examples:
 
   async action(options, command) {
     this.debug('called with options %O', options)
+
+    // Support deprecated --lib option (alias for --engine)
+    if (options.lib && !options.engine) {
+      options.engine = options.lib
+    }
 
     // Run build first if --build flag is set and output is missing
     if (options.build && !hasSiteOutput()) {
@@ -57,7 +66,9 @@ Examples:
       throw error
     }
 
-    const output = await generatePdf(options)
+    // Pass engine (not lib) to generatePdf
+    const pdfOptions = { ...options, lib: options.engine }
+    const output = await generatePdf(pdfOptions)
 
     if (options.open) {
       open(output)
