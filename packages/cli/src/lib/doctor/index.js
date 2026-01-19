@@ -7,6 +7,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import git from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
+import { PROJECT_MARKERS, SOURCE_DIRECTORIES } from '#lib/project/index.js'
 import createDebug from '#debug'
 import { formatDuration } from './formatDuration.js'
 
@@ -21,16 +22,6 @@ const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1'
  * Minimum required Node.js major version
  */
 const REQUIRED_NODE_VERSION = 22
-
-/**
- * Files that indicate a Quire project directory
- */
-const PROJECT_MARKERS = ['.quire', '.quire-version', '.eleventy.js', 'eleventy.config.js']
-
-/**
- * Source directories to check for stale build detection
- */
-const SOURCE_DIRECTORIES = ['content', '_data', '_includes', '_layouts', 'static']
 
 /**
  * Check result type
