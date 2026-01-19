@@ -4,9 +4,11 @@
  * @module lib/doctor
  */
 import fs from 'node:fs'
+import path from 'node:path'
 import git from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
 import createDebug from '#debug'
+import { formatDuration } from './formatDuration.js'
 
 const debug = createDebug('lib:doctor')
 
@@ -26,9 +28,15 @@ const REQUIRED_NODE_VERSION = 22
 const PROJECT_MARKERS = ['.quire', '.quire-version', '.eleventy.js', 'eleventy.config.js']
 
 /**
+ * Source directories to check for stale build detection
+ */
+const SOURCE_DIRECTORIES = ['content', '_data', '_includes', '_layouts', 'static']
+
+/**
  * Check result type
  * @typedef {Object} CheckResult
  * @property {boolean} ok - Whether the check passed
+ * @property {'error'|'warn'} [level] - Severity level (default: 'error')
  * @property {string|null} message - Optional message with details
  * @property {string|null} [remediation] - Steps to fix the issue (when ok is false)
  * @property {string|null} [docsUrl] - Link to relevant documentation (when ok is false)
@@ -170,7 +178,114 @@ export function checkDependencies() {
 }
 
 /**
- * All available diagnostic checks
+ * Get the latest modification time from files in a directory (recursive)
+ * @param {string} dir - Directory to scan
+ * @returns {number} - Latest mtime in milliseconds, or 0 if directory doesn't exist
+ */
+function getLatestMtime(dir) {
+  if (!fs.existsSync(dir)) {
+    return 0
+  }
+
+  let newest = 0
+
+  const scan = (currentDir) => {
+    const entries = fs.readdirSync(currentDir, { withFileTypes: true })
+    for (const entry of entries) {
+      const fullPath = path.join(currentDir, entry.name)
+      try {
+        const stat = fs.statSync(fullPath)
+        if (stat.mtimeMs > newest) {
+          newest = stat.mtimeMs
+        }
+        if (entry.isDirectory()) {
+          scan(fullPath)
+        }
+      } catch {
+        // Skip files we can't stat (permissions, etc.)
+      }
+    }
+  }
+
+  scan(dir)
+  return newest
+}
+
+/**
+ * Check if build output is stale (source files newer than _site)
+ * @returns {CheckResult}
+ */
+export function checkStaleBuild() {
+  const siteDir = '_site'
+
+  // Skip if not in a project or no build output exists
+  if (!fs.existsSync(siteDir)) {
+    debug('No _site directory found, skipping stale build check')
+    return {
+      ok: true,
+      message: 'No build output yet (run quire build)',
+    }
+  }
+
+  // Get _site mtime
+  const siteStat = fs.statSync(siteDir)
+  const siteMtime = siteStat.mtimeMs
+  debug('_site mtime: %d', siteMtime)
+
+  // Find newest source file across all source directories
+  let newestSourceMtime = 0
+  for (const dir of SOURCE_DIRECTORIES) {
+    const mtime = getLatestMtime(dir)
+    if (mtime > newestSourceMtime) {
+      newestSourceMtime = mtime
+    }
+  }
+  debug('Newest source mtime: %d', newestSourceMtime)
+
+  // If source is newer than build, warn about stale build
+  if (newestSourceMtime > siteMtime) {
+    const staleDuration = formatDuration(newestSourceMtime - siteMtime)
+    return {
+      ok: false,
+      level: 'warn',
+      message: `Build output is ${staleDuration} older than source files`,
+      remediation: `Your build output may not reflect recent changes.
+    • Run "quire build" to regenerate the site
+    • Or run "quire preview" which auto-rebuilds on changes`,
+      docsUrl: `${DOCS_BASE_URL}/quire-commands/#preview-and-build`,
+    }
+  }
+
+  return {
+    ok: true,
+    message: 'Build output is up to date',
+  }
+}
+
+/**
+ * All available diagnostic checks organized by section
+ */
+export const checkSections = [
+  {
+    name: 'Environment',
+    checks: [
+      { name: 'Node.js version', check: checkNodeVersion },
+      { name: 'npm available', check: checkNpmAvailable },
+      { name: 'Git available', check: checkGitAvailable },
+    ],
+  },
+  {
+    name: 'Project',
+    checks: [
+      { name: 'Quire project', check: checkQuireProject },
+      { name: 'Dependencies', check: checkDependencies },
+      { name: 'Build status', check: checkStaleBuild },
+    ],
+  },
+]
+
+/**
+ * All available diagnostic checks (flat list for backwards compatibility)
  */
 export const checks = [
   { name: 'Node.js version', check: checkNodeVersion },
@@ -178,10 +293,11 @@ export const checks = [
   { name: 'Git available', check: checkGitAvailable },
   { name: 'Quire project detected', check: checkQuireProject },
   { name: 'Dependencies installed', check: checkDependencies },
+  { name: 'Build status', check: checkStaleBuild },
 ]
 
 /**
- * Run all diagnostic checks
+ * Run all diagnostic checks (flat list)
  * @returns {Promise<Array<{name: string, ok: boolean, message: string|null}>>}
  */
 export async function runAllChecks() {
@@ -196,12 +312,35 @@ export async function runAllChecks() {
   return results
 }
 
+/**
+ * Run all diagnostic checks organized by section
+ * @returns {Promise<Array<{section: string, results: Array<{name: string, ok: boolean, message: string|null}>}>>}
+ */
+export async function runAllChecksWithSections() {
+  debug('Running all diagnostic checks with sections')
+  const sections = []
+
+  for (const { name: sectionName, checks: sectionChecks } of checkSections) {
+    const results = []
+    for (const { name, check } of sectionChecks) {
+      const result = await check()
+      results.push({ name, ...result })
+    }
+    sections.push({ section: sectionName, results })
+  }
+
+  return sections
+}
+
 export default {
   checks,
+  checkSections,
   checkDependencies,
   checkGitAvailable,
   checkNodeVersion,
   checkNpmAvailable,
   checkQuireProject,
+  checkStaleBuild,
   runAllChecks,
+  runAllChecksWithSections,
 }
