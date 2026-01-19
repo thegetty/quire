@@ -12,6 +12,7 @@ import {
   checkNodeVersion,
   checkNpmAvailable,
   checkGitAvailable,
+  checkPrinceAvailable,
 } from './checks/environment/index.js'
 
 import {
@@ -38,6 +39,7 @@ export {
   checkNodeVersion,
   checkNpmAvailable,
   checkGitAvailable,
+  checkPrinceAvailable,
   // Project
   checkQuireProject,
   checkDependencies,
@@ -74,6 +76,7 @@ export const checkSections = [
       { id: 'node', name: 'Node.js version', check: checkNodeVersion },
       { id: 'npm', name: 'npm available', check: checkNpmAvailable },
       { id: 'git', name: 'Git available', check: checkGitAvailable },
+      { id: 'prince', name: 'PrinceXML available', check: checkPrinceAvailable },
     ],
   },
   {
@@ -109,6 +112,7 @@ export const checks = [
   { name: 'Node.js version', check: checkNodeVersion },
   { name: 'npm available', check: checkNpmAvailable },
   { name: 'Git available', check: checkGitAvailable },
+  { name: 'PrinceXML available', check: checkPrinceAvailable },
   { name: 'Quire project detected', check: checkQuireProject },
   { name: 'Dependencies installed', check: checkDependencies },
   { name: 'quire-11ty version', check: checkOutdatedQuire11ty },
@@ -194,6 +198,7 @@ export default {
   checkOsInfo,
   checkOutdatedQuire11ty,
   checkPdfOutput,
+  checkPrinceAvailable,
   checkQuireProject,
   checkStaleBuild,
   runAllChecks,
