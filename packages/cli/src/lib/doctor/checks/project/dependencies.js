@@ -42,7 +42,7 @@ export function checkDependencies() {
 
   return {
     ok: true,
-    message: null,
+    message: 'installed',
   }
 }
 

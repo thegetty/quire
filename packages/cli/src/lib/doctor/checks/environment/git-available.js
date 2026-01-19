@@ -58,14 +58,15 @@ export async function checkGitAvailable() {
   debug('git available: %s', ok)
 
   if (ok) {
-    return { ok: true, message: null }
+    const version = await git.version()
+    return { ok: true, message: version }
   }
 
   const { remediation, docsUrl } = getRemediationAndDocs()
 
   return {
     ok: false,
-    message: 'Git not found in PATH',
+    message: 'not found in PATH',
     remediation,
     docsUrl,
   }

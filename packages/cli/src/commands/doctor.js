@@ -110,11 +110,8 @@ Examples:
         }
 
         const status = ok ? '✓' : level === 'warn' ? '⚠' : '✗'
-        const lines = [`  ${status} ${name}`]
-
-        if (message) {
-          lines.push(`    ${message}`)
-        }
+        const statusLine = message ? `  ${status} ${name}: ${message}` : `  ${status} ${name}`
+        const lines = [statusLine]
 
         // Show remediation guidance for failed checks
         if (!ok && remediation) {
