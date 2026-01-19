@@ -53,7 +53,7 @@ test.afterEach.always((t) => {
 test('conf command should display all config when no operation provided', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -78,7 +78,7 @@ test('conf command should display all config when no operation provided', async 
 test('conf command should hide internal config values by default', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -98,7 +98,7 @@ test('conf command should hide internal config values by default', async (t) => 
 test('conf command should show internal config values with debug flag', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -122,7 +122,7 @@ test('conf command should show internal config values with debug flag', async (t
 test('conf get should return a single value', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -142,7 +142,7 @@ test('conf get should return a single value', async (t) => {
 test('conf get should show error when key is missing', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -162,7 +162,7 @@ test('conf get should show error when key is missing', async (t) => {
 test('conf get should show error for unknown key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -188,7 +188,7 @@ test('conf get should show error for unknown key', async (t) => {
 test('conf set should set a value', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -209,7 +209,7 @@ test('conf set should set a value', async (t) => {
 test('conf set should show error when key is missing', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -229,7 +229,7 @@ test('conf set should show error when key is missing', async (t) => {
 test('conf set should show error when value is missing', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -249,7 +249,7 @@ test('conf set should show error when value is missing', async (t) => {
 test('conf set should coerce boolean true values', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -268,7 +268,7 @@ test('conf set should coerce boolean true values', async (t) => {
 test('conf set should coerce boolean false values', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -287,7 +287,7 @@ test('conf set should coerce boolean false values', async (t) => {
 test('conf set should coerce numeric boolean values', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -313,7 +313,7 @@ test('conf set should show validation error for invalid enum value', async (t) =
   // Make config.set throw an error for invalid values
   mockConfig.set.throws(new Error('Schema validation failed'))
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -339,7 +339,7 @@ test('conf set should show validation error for invalid enum value', async (t) =
 test('conf delete should delete a key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -361,7 +361,7 @@ test('conf delete should delete a key', async (t) => {
 test('conf delete should show error when key is missing', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -382,7 +382,7 @@ test('conf delete should show error when key is missing', async (t) => {
 test('conf delete should show error for unknown key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -406,7 +406,7 @@ test('conf delete should show error for unknown key', async (t) => {
 test('conf reset should reset a single key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -427,7 +427,7 @@ test('conf reset should reset a single key', async (t) => {
 test('conf reset should reset all config when no key provided', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -447,7 +447,7 @@ test('conf reset should reset all config when no key provided', async (t) => {
 test('conf reset should show error for unknown key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -471,7 +471,7 @@ test('conf reset should show error for unknown key', async (t) => {
 test('conf path should show config file path', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -495,7 +495,7 @@ test('conf path should show config file path', async (t) => {
 test('conf should show error for unknown operation', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
@@ -523,7 +523,7 @@ test('conf command logs debug info with operation, key, value, and options', asy
 
   const mockDebug = sandbox.stub()
 
-  const { default: ConfCommand } = await esmock('./conf.js', {}, {
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
     '#lib/logger/index.js': {
       default: () => mockLogger
     }
