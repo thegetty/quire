@@ -53,6 +53,8 @@ test('checkNpmAvailable returns not ok when npm is missing', async (t) => {
 
   t.false(result.ok)
   t.regex(result.message, /npm not found/)
+  t.truthy(result.remediation, 'should include remediation guidance')
+  t.truthy(result.docsUrl, 'should include documentation link')
 })
 
 test('checkGitAvailable returns ok when git is available', async (t) => {
@@ -87,6 +89,8 @@ test('checkGitAvailable returns not ok when git is missing', async (t) => {
 
   t.false(result.ok)
   t.regex(result.message, /Git not found/)
+  t.truthy(result.remediation, 'should include remediation guidance')
+  t.truthy(result.docsUrl, 'should include documentation link')
 })
 
 test('checkQuireProject returns ok when marker file exists', async (t) => {
@@ -121,6 +125,8 @@ test('checkQuireProject returns not ok when no marker file exists', async (t) =>
 
   t.false(result.ok)
   t.regex(result.message, /No Quire project marker/)
+  t.truthy(result.remediation, 'should include remediation guidance')
+  t.truthy(result.docsUrl, 'should include documentation link')
 })
 
 test('checkDependencies returns ok when node_modules exists', async (t) => {
@@ -153,7 +159,9 @@ test('checkDependencies returns not ok when node_modules missing', async (t) => 
   const result = checkDependencies()
 
   t.false(result.ok)
-  t.regex(result.message, /npm install/)
+  t.regex(result.message, /node_modules not found/)
+  t.truthy(result.remediation, 'should include remediation guidance')
+  t.truthy(result.docsUrl, 'should include documentation link')
 })
 
 test('runAllChecks runs all checks and returns results', async (t) => {
