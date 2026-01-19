@@ -49,12 +49,13 @@ export async function checkNpmAvailable() {
   debug('npm available: %s', ok)
 
   if (ok) {
-    return { ok: true, message: null }
+    const version = await npm.version()
+    return { ok: true, message: version }
   }
 
   return {
     ok: false,
-    message: 'npm not found in PATH',
+    message: 'not found in PATH',
     remediation: getRemediation(),
     docsUrl: `${DOCS_BASE_URL}/install-uninstall/#1-install-nodejs`,
   }

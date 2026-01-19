@@ -24,6 +24,7 @@ test('checkDependencies returns ok when node_modules exists', async (t) => {
   const result = checkDependencies()
 
   t.true(result.ok)
+  t.is(result.message, 'installed')
 })
 
 test('checkDependencies returns not ok when node_modules missing', async (t) => {

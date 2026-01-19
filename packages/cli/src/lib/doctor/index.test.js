@@ -28,16 +28,17 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 12)
+  t.is(checks.length, 13)
 
   const checkNames = checks.map((c) => c.name)
   t.true(checkNames.includes('Operating system'))
   t.true(checkNames.includes('Quire CLI version'))
   t.true(checkNames.includes('Node.js version'))
-  t.true(checkNames.includes('npm available'))
-  t.true(checkNames.includes('Git available'))
-  t.true(checkNames.includes('Quire project detected'))
-  t.true(checkNames.includes('Dependencies installed'))
+  t.true(checkNames.includes('npm'))
+  t.true(checkNames.includes('Git'))
+  t.true(checkNames.includes('PrinceXML'))
+  t.true(checkNames.includes('Quire project'))
+  t.true(checkNames.includes('Dependencies'))
   t.true(checkNames.includes('quire-11ty version'))
   t.true(checkNames.includes('Data files'))
   t.true(checkNames.includes('Build status'))
@@ -61,15 +62,16 @@ test('checkSections exports checks organized by 3 sections', async (t) => {
   t.true(sectionNames.includes('Project'))
   t.true(sectionNames.includes('Outputs'))
 
-  // Environment section should have 5 checks
+  // Environment section should have 6 checks
   const envSection = checkSections.find((s) => s.name === 'Environment')
-  t.is(envSection.checks.length, 5)
+  t.is(envSection.checks.length, 6)
   const envCheckNames = envSection.checks.map((c) => c.name)
   t.true(envCheckNames.includes('Operating system'))
   t.true(envCheckNames.includes('Quire CLI version'))
   t.true(envCheckNames.includes('Node.js version'))
-  t.true(envCheckNames.includes('npm available'))
-  t.true(envCheckNames.includes('Git available'))
+  t.true(envCheckNames.includes('npm'))
+  t.true(envCheckNames.includes('Git'))
+  t.true(envCheckNames.includes('PrinceXML'))
 
   // Project section should have 4 checks
   const projectSection = checkSections.find((s) => s.name === 'Project')
@@ -142,7 +144,7 @@ test('constants are exported', async (t) => {
   t.is(doctor.QUIRE_11TY_PACKAGE, '@thegetty/quire-11ty')
   t.deepEqual(doctor.SECTION_NAMES, ['environment', 'project', 'outputs'])
   t.deepEqual(doctor.CHECK_IDS, [
-    'os', 'cli', 'node', 'npm', 'git',
+    'os', 'cli', 'node', 'npm', 'git', 'prince',
     'project', 'deps', '11ty', 'data',
     'build', 'pdf', 'epub',
   ])
@@ -159,10 +161,11 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
-  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
-  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
+  const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
-  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
@@ -176,6 +179,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+      checkPrinceAvailable: mockCheckPrince,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -193,7 +197,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 12)
+  t.is(results.length, 13)
 
   // Verify each result has expected shape
   for (const result of results) {
@@ -207,6 +211,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   t.true(mockCheckNode.calledOnce)
   t.true(mockCheckNpm.calledOnce)
   t.true(mockCheckGit.calledOnce)
+  t.true(mockCheckPrince.calledOnce)
   t.true(mockCheckProject.calledOnce)
   t.true(mockCheckDeps.calledOnce)
   t.true(mockCheckQuire11ty.calledOnce)
@@ -223,10 +228,11 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
-  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
-  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
+  const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
-  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
@@ -240,6 +246,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+      checkPrinceAvailable: mockCheckPrince,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -275,7 +282,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
 
   // Verify section sizes
   const envSection = sections.find((s) => s.section === 'Environment')
-  t.is(envSection.results.length, 5)
+  t.is(envSection.results.length, 6)
 
   const projectSection = sections.find((s) => s.section === 'Project')
   t.is(projectSection.results.length, 4)
@@ -291,10 +298,11 @@ test('runAllChecksWithSections filters by section name', async (t) => {
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
-  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
-  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
+  const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
-  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
@@ -308,6 +316,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+      checkPrinceAvailable: mockCheckPrince,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -327,7 +336,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
 
   t.is(sections.length, 1)
   t.is(sections[0].section, 'Environment')
-  t.is(sections[0].results.length, 5)
+  t.is(sections[0].results.length, 6)
 
   // Verify only environment checks were called
   t.true(mockCheckOs.calledOnce)
@@ -335,6 +344,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
   t.true(mockCheckNode.calledOnce)
   t.true(mockCheckNpm.calledOnce)
   t.true(mockCheckGit.calledOnce)
+  t.true(mockCheckPrince.calledOnce)
 
   // Verify project and output checks were NOT called
   t.false(mockCheckProject.called)
@@ -353,10 +363,11 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
-  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
-  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
+  const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
-  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
@@ -370,6 +381,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+      checkPrinceAvailable: mockCheckPrince,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -394,7 +406,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   // Verify result names match the requested checks
   const resultNames = sections[0].results.map((r) => r.name)
   t.true(resultNames.includes('Node.js version'))
-  t.true(resultNames.includes('Git available'))
+  t.true(resultNames.includes('Git'))
 
   // Verify only requested checks were called
   t.true(mockCheckNode.calledOnce)
@@ -404,6 +416,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   t.false(mockCheckOs.called)
   t.false(mockCheckCli.called)
   t.false(mockCheckNpm.called)
+  t.false(mockCheckPrince.called)
   t.false(mockCheckProject.called)
   t.false(mockCheckDeps.called)
   t.false(mockCheckQuire11ty.called)
@@ -420,10 +433,11 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
-  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
-  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
+  const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
-  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
   const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
   const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
@@ -437,6 +451,7 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
       checkNodeVersion: mockCheckNode,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+      checkPrinceAvailable: mockCheckPrince,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -491,6 +506,7 @@ test('runAllChecks handles async checks correctly', async (t) => {
       checkNodeVersion: mockSyncCheck,
       checkNpmAvailable: mockAsyncCheck,
       checkGitAvailable: mockAsyncCheck,
+      checkPrinceAvailable: mockSyncCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: mockSyncCheck,
@@ -507,7 +523,7 @@ test('runAllChecks handles async checks correctly', async (t) => {
 
   const results = await runAllChecks()
 
-  t.is(results.length, 12)
+  t.is(results.length, 13)
 
   // Verify async results are properly awaited
   const asyncResults = results.filter((r) => r.message === 'async')
@@ -534,12 +550,13 @@ test('runAllChecks preserves all check result properties', async (t) => {
       checkOsInfo: sandbox.stub().returns({ ok: true, message: 'macOS 14' }),
       checkCliVersion: sandbox.stub().returns(fullResult),
       checkNodeVersion: sandbox.stub().returns({ ok: true, message: null }),
-      checkNpmAvailable: sandbox.stub().resolves({ ok: true, message: null }),
-      checkGitAvailable: sandbox.stub().resolves({ ok: true, message: null }),
+      checkNpmAvailable: sandbox.stub().resolves({ ok: true, message: '10.2.4' }),
+      checkGitAvailable: sandbox.stub().resolves({ ok: true, message: '2.43.0' }),
+      checkPrinceAvailable: sandbox.stub().returns({ ok: true, message: 'installed' }),
     },
     './checks/project/index.js': {
       checkQuireProject: sandbox.stub().returns({ ok: true, message: null }),
-      checkDependencies: sandbox.stub().returns({ ok: true, message: null }),
+      checkDependencies: sandbox.stub().returns({ ok: true, message: 'installed' }),
       checkOutdatedQuire11ty: sandbox.stub().resolves({ ok: true, message: null }),
       checkDataFiles: sandbox.stub().returns({ ok: true, message: null }),
     },
