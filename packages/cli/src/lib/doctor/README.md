@@ -15,6 +15,8 @@ doctor/
 └── checks/                   # Domain-organized check modules
     ├── environment/          # System prerequisites
     │   ├── index.js          # Barrel export
+    │   ├── cli-version.js    # CLI version check
+    │   ├── cli-version.test.js
     │   ├── node-version.js   # Node.js version check
     │   ├── node-version.test.js
     │   ├── npm-available.js  # npm availability check
@@ -51,10 +53,10 @@ doctor/
 ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
 │ checks/environment/ │  │   checks/project/   │  │   checks/outputs/   │
 │                     │  │                     │  │                     │
-│ • checkNodeVersion  │  │ • checkQuireProject │  │ • checkStaleBuild   │
-│ • checkNpmAvailable │  │ • checkDependencies │  │                     │
-│ • checkGitAvailable │  │ • checkOutdated...  │  │                     │
-│                     │  │ • checkDataFiles    │  │                     │
+│ • checkCliVersion   │  │ • checkQuireProject │  │ • checkStaleBuild   │
+│ • checkNodeVersion  │  │ • checkDependencies │  │                     │
+│ • checkNpmAvailable │  │ • checkOutdated...  │  │                     │
+│ • checkGitAvailable │  │ • checkDataFiles    │  │                     │
 └──────────┬──────────┘  └──────────┬──────────┘  └──────────┬──────────┘
            │                        │                        │
            ▼                        ▼                        ▼
@@ -76,7 +78,9 @@ doctor/
 | `#lib/git/` | Git availability check |
 | `#lib/npm/` | npm availability and registry queries |
 | `#lib/conf/config.js` | Configuration (updateChannel for version check) |
+| `#src/packageConfig.js` | CLI package.json for version info |
 | `#src/validators/validate-data-files.js` | YAML validation logic |
+| `update-notifier` | Cached CLI update check info |
 | `semver` | Semantic version comparison |
 | `./constants.js` | Shared constants (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) |
 | `./formatDuration.js` | Human-readable time formatting |
@@ -133,6 +137,7 @@ All check functions return a `CheckResult` object:
 
 | Check | Function | Module | Description |
 |-------|----------|--------|-------------|
+| Quire CLI version | `checkCliVersion()` | `checks/environment/cli-version.js` | Reports CLI version and available updates |
 | Node.js version | `checkNodeVersion()` | `checks/environment/node-version.js` | Verifies Node.js >= 22 |
 | npm available | `checkNpmAvailable()` | `checks/environment/npm-available.js` | Verifies npm in PATH |
 | Git available | `checkGitAvailable()` | `checks/environment/git-available.js` | Verifies git in PATH |
@@ -153,6 +158,14 @@ All check functions return a `CheckResult` object:
 | Build status | `checkStaleBuild()` | `checks/outputs/stale-build.js` | Compares source vs build timestamps |
 
 ## Check Behaviors
+
+### checkCliVersion
+
+| Scenario | Result |
+|----------|--------|
+| Up to date | `ok: true` - "v1.0.0-rc.33 (up to date)" |
+| Update available | `ok: false, level: warn` - "v1.0.0-rc.30 installed, v1.0.0-rc.33 available" |
+| No cached update info | `ok: true` - "v1.0.0-rc.33" (no "up to date" suffix) |
 
 ### checkNodeVersion
 
@@ -222,6 +235,7 @@ All check functions return a `CheckResult` object:
 
 ```javascript
 // Individual check functions (re-exported from domain modules)
+export { checkCliVersion }
 export { checkNodeVersion }
 export { checkNpmAvailable }
 export { checkGitAvailable }
@@ -235,7 +249,7 @@ export { checkStaleBuild }
 export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE }
 
 // Check collections
-export { checks }         // Flat array of all checks
+export { checks }         // Flat array of all checks (9 checks)
 export { checkSections }  // Checks organized by section (3 sections)
 
 // Runners
@@ -247,7 +261,7 @@ export { runAllChecksWithSections }  // Run all, return by section
 
 ### 1. Determine the domain
 
-- **environment/**: System prerequisites (Node.js, npm, Git)
+- **environment/**: System prerequisites (CLI version, Node.js, npm, Git)
 - **project/**: Project configuration and dependencies
 - **outputs/**: Build artifacts and generated files
 

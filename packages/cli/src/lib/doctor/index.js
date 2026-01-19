@@ -7,6 +7,7 @@ import createDebug from '#debug'
 
 // Import checks from domain submodules
 import {
+  checkCliVersion,
   checkNodeVersion,
   checkNpmAvailable,
   checkGitAvailable,
@@ -26,6 +27,7 @@ export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE } from './cons
 
 // Re-export individual checks
 export {
+  checkCliVersion,
   checkNodeVersion,
   checkNpmAvailable,
   checkGitAvailable,
@@ -55,6 +57,7 @@ export const checkSections = [
   {
     name: 'Environment',
     checks: [
+      { name: 'Quire CLI version', check: checkCliVersion },
       { name: 'Node.js version', check: checkNodeVersion },
       { name: 'npm available', check: checkNpmAvailable },
       { name: 'Git available', check: checkGitAvailable },
@@ -81,6 +84,7 @@ export const checkSections = [
  * All available diagnostic checks (flat list for backwards compatibility)
  */
 export const checks = [
+  { name: 'Quire CLI version', check: checkCliVersion },
   { name: 'Node.js version', check: checkNodeVersion },
   { name: 'npm available', check: checkNpmAvailable },
   { name: 'Git available', check: checkGitAvailable },
@@ -130,6 +134,7 @@ export async function runAllChecksWithSections() {
 export default {
   checks,
   checkSections,
+  checkCliVersion,
   checkDataFiles,
   checkDependencies,
   checkGitAvailable,
