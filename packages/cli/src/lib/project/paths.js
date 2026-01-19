@@ -30,6 +30,30 @@ export const SOURCE_DIRECTORIES = Object.freeze([
 ])
 
 /**
+ * Path to data files directory (relative to project root)
+ *
+ * Contains YAML configuration files for the publication:
+ * - publication.yaml - Publication metadata
+ * - config.yaml - Site configuration
+ * - figures.yaml - Figure definitions
+ * - objects.yaml - Object catalog entries
+ * - references.yaml - Bibliography entries
+ *
+ * @constant {string}
+ */
+export const DATA_DIR = 'content/_data'
+
+/**
+ * Required data files that must exist in a Quire project.
+ *
+ * These files are validated by the doctor command and the validate command.
+ * Missing required files will trigger a warning.
+ *
+ * @constant {ReadonlyArray<string>}
+ */
+export const REQUIRED_DATA_FILES = Object.freeze(['publication.yaml'])
+
+/**
  * Project path configuration
  *
  * Provides accessor methods for project paths, computing values on access
