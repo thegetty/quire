@@ -68,6 +68,7 @@ Examples:
         if (!ok && docsUrl) {
           lines.push('')
           lines.push(`    Documentation: ${docsUrl}`)
+          lines.push('')
         }
 
         const output = lines.join('\n')
