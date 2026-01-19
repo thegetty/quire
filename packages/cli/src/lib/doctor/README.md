@@ -36,7 +36,11 @@ doctor/
     └── outputs/              # Build artifacts
         ├── index.js          # Barrel export
         ├── stale-build.js    # Stale build detection
-        └── stale-build.test.js
+        ├── stale-build.test.js
+        ├── pdf-output.js     # PDF output check
+        ├── pdf-output.test.js
+        ├── epub-output.js    # EPUB output check
+        └── epub-output.test.js
 ```
 
 ## Dependency Graph
@@ -156,6 +160,8 @@ All check functions return a `CheckResult` object:
 | Check | Function | Module | Description |
 |-------|----------|--------|-------------|
 | Build status | `checkStaleBuild()` | `checks/outputs/stale-build.js` | Compares source vs build timestamps |
+| PDF output | `checkPdfOutput()` | `checks/outputs/pdf-output.js` | Checks PDF freshness vs _site |
+| EPUB output | `checkEpubOutput()` | `checks/outputs/epub-output.js` | Checks EPUB freshness vs _site |
 
 ## Check Behaviors
 
@@ -231,6 +237,24 @@ All check functions return a `CheckResult` object:
 | Build up to date | `ok: true` - "Build output is up to date" |
 | Build is stale | `ok: false, level: warn` - "Build output is 2 weeks older than source files" |
 
+### checkPdfOutput
+
+| Scenario | Result |
+|----------|--------|
+| No PDF files exist | `ok: true` - "No PDF output (run quire pdf to generate)" |
+| PDF exists, no _site | `ok: true` - "pagedjs.pdf exists (no _site to compare)" |
+| PDF up to date | `ok: true` - "pagedjs.pdf up to date" |
+| PDF is stale | `ok: false, level: warn` - "pagedjs.pdf is 1 hour older than _site" |
+
+### checkEpubOutput
+
+| Scenario | Result |
+|----------|--------|
+| No _epub directory | `ok: true` - "No EPUB output (run quire epub to generate)" |
+| _epub exists, no _site | `ok: true` - "_epub exists (no _site to compare)" |
+| _epub up to date | `ok: true` - "_epub up to date" |
+| _epub is stale | `ok: false, level: warn` - "_epub is 1 hour older than _site" |
+
 ## Exports
 
 ```javascript
@@ -244,12 +268,14 @@ export { checkDependencies }
 export { checkOutdatedQuire11ty }
 export { checkDataFiles }
 export { checkStaleBuild }
+export { checkPdfOutput }
+export { checkEpubOutput }
 
 // Constants
 export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE }
 
 // Check collections
-export { checks }         // Flat array of all checks (9 checks)
+export { checks }         // Flat array of all checks (11 checks)
 export { checkSections }  // Checks organized by section (3 sections)
 
 // Runners
@@ -503,6 +529,6 @@ const { checkStaleBuild } = await esmock('./stale-build.js', {
 | `constants.js` | Shared constants |
 | `formatDuration.js` | Time duration formatting utility |
 | `formatDuration.test.js` | Duration formatting tests |
-| `checks/environment/` | Environment prerequisite checks |
-| `checks/project/` | Project configuration checks |
-| `checks/outputs/` | Build artifact checks |
+| `checks/environment/` | Environment prerequisite checks (4 checks) |
+| `checks/project/` | Project configuration checks (4 checks) |
+| `checks/outputs/` | Build artifact checks (3 checks: stale-build, pdf-output, epub-output) |
