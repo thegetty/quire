@@ -6,6 +6,30 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /**
+ * Source directories that contain content for building.
+ *
+ * These directories are monitored for changes during preview and are used
+ * to determine if a build is stale. Changes to files in these directories
+ * indicate the site needs to be rebuilt.
+ *
+ * @constant {ReadonlyArray<string>}
+ *
+ * @example
+ * // Check all source directories for changes
+ * for (const dir of SOURCE_DIRECTORIES) {
+ *   const mtime = getLatestMtime(dir)
+ *   // ...
+ * }
+ */
+export const SOURCE_DIRECTORIES = Object.freeze([
+  '_data',
+  '_includes',
+  '_layouts',
+  'content',
+  'static',
+])
+
+/**
  * Project path configuration
  *
  * Provides accessor methods for project paths, computing values on access

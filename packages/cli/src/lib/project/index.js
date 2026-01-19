@@ -4,8 +4,8 @@
  * Provides project-level concerns including paths, detection, configuration,
  * build status, and version management.
  */
-import paths, { Paths } from './paths.js'
-import detect from './detect.js'
+import paths, { Paths, SOURCE_DIRECTORIES } from './paths.js'
+import detect, { PROJECT_MARKERS } from './detect.js'
 import { loadProjectConfig } from './config.js'
 import {
   getBuildInfo,
@@ -23,6 +23,8 @@ import {
 } from './version.js'
 
 export {
+  PROJECT_MARKERS,
+  SOURCE_DIRECTORIES,
   detect,
   getBuildInfo,
   hasEpubOutput,
