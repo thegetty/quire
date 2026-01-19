@@ -399,7 +399,7 @@ test('runAllChecks runs all checks and returns results', async (t) => {
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 7)
+  t.is(results.length, 8)
 
   for (const result of results) {
     t.is(typeof result.name, 'string')
@@ -411,7 +411,7 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 7)
+  t.is(checks.length, 8)
 
   const checkNames = checks.map((c) => c.name)
   t.true(checkNames.includes('Node.js version'))
@@ -419,6 +419,7 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('Git available'))
   t.true(checkNames.includes('Quire project detected'))
   t.true(checkNames.includes('Dependencies installed'))
+  t.true(checkNames.includes('quire-11ty version'))
   t.true(checkNames.includes('Data files'))
   t.true(checkNames.includes('Build status'))
 })
@@ -437,9 +438,9 @@ test('checkSections exports checks organized by section', async (t) => {
   const envSection = checkSections.find((s) => s.name === 'Environment')
   t.is(envSection.checks.length, 3)
 
-  // Project section should have 4 checks (including Data files)
+  // Project section should have 5 checks (including quire-11ty version and Data files)
   const projectSection = checkSections.find((s) => s.name === 'Project')
-  t.is(projectSection.checks.length, 4)
+  t.is(projectSection.checks.length, 5)
 })
 
 test('runAllChecksWithSections returns results organized by section', async (t) => {
@@ -616,4 +617,161 @@ test('checkDataFiles returns warning when duplicate IDs exist', async (t) => {
   t.is(result.level, 'warn')
   t.regex(result.remediation, /duplicate IDs/)
   t.regex(result.remediation, /fig-1/)
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// checkOutdatedQuire11ty tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('checkOutdatedQuire11ty returns ok when quire-11ty is not installed', async (t) => {
+  const { sandbox } = t.context
+
+  const path = await import('node:path')
+  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(false),
+      },
+    },
+    'node:path': {
+      default: path.default,
+    },
+  })
+
+  const result = await checkOutdatedQuire11ty()
+
+  t.true(result.ok)
+  t.regex(result.message, /not installed/)
+})
+
+test('checkOutdatedQuire11ty returns ok when version is up to date', async (t) => {
+  const { sandbox } = t.context
+
+  const path = await import('node:path')
+  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.33' })),
+      },
+    },
+    'node:path': {
+      default: path.default,
+    },
+    '#lib/npm/index.js': {
+      default: {
+        view: sandbox.stub().resolves('1.0.0-rc.33'),
+      },
+    },
+    '#lib/conf/config.js': {
+      default: {
+        get: sandbox.stub().returns('rc'),
+      },
+    },
+  })
+
+  const result = await checkOutdatedQuire11ty()
+
+  t.true(result.ok)
+  t.regex(result.message, /1\.0\.0-rc\.33/)
+  t.regex(result.message, /up to date/)
+})
+
+test('checkOutdatedQuire11ty returns warning when version is outdated', async (t) => {
+  const { sandbox } = t.context
+
+  const path = await import('node:path')
+  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.30' })),
+      },
+    },
+    'node:path': {
+      default: path.default,
+    },
+    '#lib/npm/index.js': {
+      default: {
+        view: sandbox.stub().resolves('1.0.0-rc.33'),
+      },
+    },
+    '#lib/conf/config.js': {
+      default: {
+        get: sandbox.stub().returns('rc'),
+      },
+    },
+  })
+
+  const result = await checkOutdatedQuire11ty()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+  t.regex(result.message, /1\.0\.0-rc\.30 installed/)
+  t.regex(result.message, /1\.0\.0-rc\.33 available/)
+  t.truthy(result.remediation)
+  t.truthy(result.docsUrl)
+})
+
+test('checkOutdatedQuire11ty returns warning when cannot read installed version', async (t) => {
+  const { sandbox } = t.context
+
+  const path = await import('node:path')
+  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        readFileSync: sandbox.stub().throws(new Error('ENOENT')),
+      },
+    },
+    'node:path': {
+      default: path.default,
+    },
+  })
+
+  const result = await checkOutdatedQuire11ty()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+  t.regex(result.message, /Could not read/)
+  t.truthy(result.remediation)
+})
+
+test('checkOutdatedQuire11ty returns ok with message when network check fails', async (t) => {
+  const { sandbox } = t.context
+
+  const path = await import('node:path')
+  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.30' })),
+      },
+    },
+    'node:path': {
+      default: path.default,
+    },
+    '#lib/npm/index.js': {
+      default: {
+        view: sandbox.stub().rejects(new Error('Network error')),
+      },
+    },
+    '#lib/conf/config.js': {
+      default: {
+        get: sandbox.stub().returns('rc'),
+      },
+    },
+  })
+
+  const result = await checkOutdatedQuire11ty()
+
+  t.true(result.ok)
+  t.regex(result.message, /1\.0\.0-rc\.30/)
+  t.regex(result.message, /could not check/)
+})
+
+test('default export includes checkOutdatedQuire11ty', async (t) => {
+  const doctor = await import('./index.js')
+
+  t.is(typeof doctor.default.checkOutdatedQuire11ty, 'function')
 })
