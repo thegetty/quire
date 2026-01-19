@@ -11,6 +11,11 @@ import createDebug from '#debug'
 const debug = createDebug('lib:doctor')
 
 /**
+ * Base URL for Quire documentation
+ */
+const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1'
+
+/**
  * Minimum required Node.js major version
  */
 const REQUIRED_NODE_VERSION = 22
@@ -25,6 +30,8 @@ const PROJECT_MARKERS = ['.quire', '.quire-version', '.eleventy.js', 'eleventy.c
  * @typedef {Object} CheckResult
  * @property {boolean} ok - Whether the check passed
  * @property {string|null} message - Optional message with details
+ * @property {string|null} [remediation] - Steps to fix the issue (when ok is false)
+ * @property {string|null} [docsUrl] - Link to relevant documentation (when ok is false)
  */
 
 /**
@@ -35,11 +42,22 @@ export function checkNodeVersion() {
   const current = parseInt(process.version.slice(1), 10)
   const ok = current >= REQUIRED_NODE_VERSION
   debug('Node.js version check: %s (required >= %d)', process.version, REQUIRED_NODE_VERSION)
+
+  if (ok) {
+    return {
+      ok: true,
+      message: `v${process.version.slice(1)} (>= ${REQUIRED_NODE_VERSION} required)`,
+    }
+  }
+
   return {
-    ok,
-    message: ok
-      ? `v${process.version.slice(1)} (>= ${REQUIRED_NODE_VERSION} required)`
-      : `v${process.version.slice(1)} found, but >= ${REQUIRED_NODE_VERSION} required`,
+    ok: false,
+    message: `v${process.version.slice(1)} found, but >= ${REQUIRED_NODE_VERSION} required`,
+    remediation: `Install Node.js ${REQUIRED_NODE_VERSION} or later:
+    • Using nvm: nvm install ${REQUIRED_NODE_VERSION} && nvm use ${REQUIRED_NODE_VERSION}
+    • Using Homebrew (macOS): brew install node@${REQUIRED_NODE_VERSION}
+    • Download from: https://nodejs.org/`,
+    docsUrl: `${DOCS_BASE_URL}/install-uninstall/#1-install-nodejs`,
   }
 }
 
@@ -50,9 +68,19 @@ export function checkNodeVersion() {
 export async function checkNpmAvailable() {
   const ok = await npm.isAvailable()
   debug('npm available: %s', ok)
+
+  if (ok) {
+    return { ok: true, message: null }
+  }
+
   return {
-    ok,
-    message: ok ? null : 'npm not found in PATH',
+    ok: false,
+    message: 'npm not found in PATH',
+    remediation: `npm is included with Node.js. Ensure Node.js is properly installed:
+    • Verify installation: node --version
+    • Reinstall Node.js if needed: https://nodejs.org/
+    • Check your PATH environment variable includes the Node.js bin directory`,
+    docsUrl: `${DOCS_BASE_URL}/install-uninstall/#1-install-nodejs`,
   }
 }
 
@@ -63,9 +91,19 @@ export async function checkNpmAvailable() {
 export async function checkGitAvailable() {
   const ok = await git.isAvailable()
   debug('git available: %s', ok)
+
+  if (ok) {
+    return { ok: true, message: null }
+  }
+
   return {
-    ok,
-    message: ok ? null : 'Git not found in PATH',
+    ok: false,
+    message: 'Git not found in PATH',
+    remediation: `Install Git for your operating system:
+    • macOS: xcode-select --install (or brew install git)
+    • Windows: Download from https://git-scm.com/download/win
+    • Linux: sudo apt-get install git (Debian/Ubuntu)`,
+    docsUrl: `${DOCS_BASE_URL}/install-uninstall/#mac-os-installation`,
   }
 }
 
@@ -76,11 +114,21 @@ export async function checkGitAvailable() {
 export function checkQuireProject() {
   const found = PROJECT_MARKERS.find((marker) => fs.existsSync(marker))
   debug('Quire project marker: %s', found || 'none')
+
+  if (found) {
+    return {
+      ok: true,
+      message: `Detected via ${found}`,
+    }
+  }
+
   return {
-    ok: !!found,
-    message: found
-      ? `Detected via ${found}`
-      : 'No Quire project marker found. Run from a Quire project directory.',
+    ok: false,
+    message: 'No Quire project marker found',
+    remediation: `This command should be run from within a Quire project directory.
+    • Navigate to your project: cd your-project-name
+    • Or create a new project: quire new my-project`,
+    docsUrl: `${DOCS_BASE_URL}/quire-commands/#start-a-new-project`,
   }
 }
 
@@ -104,7 +152,14 @@ export function checkDependencies() {
   if (!hasNodeModules) {
     return {
       ok: false,
-      message: 'node_modules not found. Run "npm install" to install dependencies.',
+      message: 'node_modules not found',
+      remediation: `Install project dependencies by running:
+    • npm install
+
+    If you continue to have issues:
+    • Delete node_modules folder and package-lock.json, then run npm install again
+    • Ensure you have write permissions in the project directory`,
+      docsUrl: `${DOCS_BASE_URL}/quire-commands/#install-dependencies`,
     }
   }
 
