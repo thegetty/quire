@@ -1,6 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon'
 import esmock from 'esmock'
+import path from 'node:path'
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
@@ -61,9 +62,11 @@ test('checkStaleBuild returns warning when source is newer than build', async (t
   existsSync.withArgs('content').returns(true)
   existsSync.returns(false)
 
+  // Use path.join for cross-platform compatibility
+  const filePath = path.join('content', 'file.md')
   const statSync = sandbox.stub()
   statSync.withArgs('_site').returns({ mtimeMs: buildTime })
-  statSync.withArgs('content/file.md').returns({ mtimeMs: sourceTime })
+  statSync.withArgs(filePath).returns({ mtimeMs: sourceTime })
 
   const { checkStaleBuild } = await esmock('./stale-build.js', {
     'node:fs': {
@@ -98,9 +101,11 @@ test('checkStaleBuild includes remediation with build commands', async (t) => {
   existsSync.withArgs('content').returns(true)
   existsSync.returns(false)
 
+  // Use path.join for cross-platform compatibility
+  const filePath = path.join('content', 'page.md')
   const statSync = sandbox.stub()
   statSync.withArgs('_site').returns({ mtimeMs: buildTime })
-  statSync.withArgs('content/page.md').returns({ mtimeMs: sourceTime })
+  statSync.withArgs(filePath).returns({ mtimeMs: sourceTime })
 
   const { checkStaleBuild } = await esmock('./stale-build.js', {
     'node:fs': {
