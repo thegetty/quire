@@ -38,8 +38,7 @@ test('checkPrinceAvailable returns warning when prince is missing', async (t) =>
 
   t.false(result.ok)
   t.is(result.level, 'warn', 'should be a warning, not an error')
-  t.regex(result.message, /not found/)
-  t.regex(result.message, /optional/, 'should indicate PrinceXML is optional')
+  t.is(result.message, 'not found (optional)')
   t.truthy(result.remediation, 'should include remediation guidance')
   t.truthy(result.docsUrl, 'should include documentation link')
 })

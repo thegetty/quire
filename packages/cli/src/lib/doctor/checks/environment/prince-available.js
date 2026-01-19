@@ -64,14 +64,14 @@ export function checkPrinceAvailable() {
   if (ok) {
     return {
       ok: true,
-      message: 'PrinceXML installed',
+      message: 'installed',
     }
   }
 
   return {
     ok: false,
     level: 'warn',
-    message: 'PrinceXML not found (optional)',
+    message: 'not found (optional)',
     remediation: getRemediation(),
     docsUrl: `${DOCS_BASE_URL}/quire-commands/#pdf`,
   }
