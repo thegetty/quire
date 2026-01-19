@@ -164,6 +164,210 @@ test('checkDependencies returns not ok when node_modules missing', async (t) => 
   t.truthy(result.docsUrl, 'should include documentation link')
 })
 
+test('checkStaleBuild returns ok when no _site exists', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkStaleBuild } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(false),
+      },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.true(result.ok)
+  t.regex(result.message, /No build output/)
+})
+
+test('checkStaleBuild returns ok when build is up to date', async (t) => {
+  const { sandbox } = t.context
+
+  const now = Date.now()
+  const { checkStaleBuild } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        statSync: sandbox.stub().returns({ mtimeMs: now }),
+        readdirSync: sandbox.stub().returns([]),
+      },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.true(result.ok)
+  t.regex(result.message, /up to date/)
+})
+
+test('checkStaleBuild returns warning when build is stale', async (t) => {
+  const { sandbox } = t.context
+
+  const oldTime = Date.now() - 3600000 // 1 hour ago
+  const newTime = Date.now()
+
+  const existsStub = sandbox.stub()
+  existsStub.withArgs('_site').returns(true)
+  existsStub.withArgs('content').returns(true)
+  existsStub.returns(false)
+
+  const statStub = sandbox.stub()
+  statStub.withArgs('_site').returns({ mtimeMs: oldTime })
+  statStub.returns({ mtimeMs: newTime })
+
+  const { checkStaleBuild } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: existsStub,
+        statSync: statStub,
+        readdirSync: sandbox.stub().callsFake((dir) => {
+          if (dir === 'content') {
+            return [{ name: 'index.md', isDirectory: () => false }]
+          }
+          return []
+        }),
+      },
+    },
+    'node:path': {
+      default: {
+        join: (...args) => args.join('/'),
+      },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+  t.regex(result.message, /older than source/)
+  t.truthy(result.remediation, 'should include remediation guidance')
+  t.truthy(result.docsUrl, 'should include documentation link')
+})
+
+test('checkStaleBuild formats duration in weeks', async (t) => {
+  const { sandbox } = t.context
+
+  const twoWeeksAgo = Date.now() - 14 * 24 * 60 * 60 * 1000
+  const newTime = Date.now()
+
+  const existsStub = sandbox.stub()
+  existsStub.withArgs('_site').returns(true)
+  existsStub.withArgs('content').returns(true)
+  existsStub.returns(false)
+
+  const statStub = sandbox.stub()
+  statStub.withArgs('_site').returns({ mtimeMs: twoWeeksAgo })
+  statStub.returns({ mtimeMs: newTime })
+
+  const { checkStaleBuild } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: existsStub,
+        statSync: statStub,
+        readdirSync: sandbox.stub().callsFake((dir) => {
+          if (dir === 'content') {
+            return [{ name: 'index.md', isDirectory: () => false }]
+          }
+          return []
+        }),
+      },
+    },
+    'node:path': {
+      default: {
+        join: (...args) => args.join('/'),
+      },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.false(result.ok)
+  t.regex(result.message, /2 weeks/)
+})
+
+test('checkStaleBuild formats duration in months', async (t) => {
+  const { sandbox } = t.context
+
+  const threeMonthsAgo = Date.now() - 90 * 24 * 60 * 60 * 1000
+  const newTime = Date.now()
+
+  const existsStub = sandbox.stub()
+  existsStub.withArgs('_site').returns(true)
+  existsStub.withArgs('content').returns(true)
+  existsStub.returns(false)
+
+  const statStub = sandbox.stub()
+  statStub.withArgs('_site').returns({ mtimeMs: threeMonthsAgo })
+  statStub.returns({ mtimeMs: newTime })
+
+  const { checkStaleBuild } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: existsStub,
+        statSync: statStub,
+        readdirSync: sandbox.stub().callsFake((dir) => {
+          if (dir === 'content') {
+            return [{ name: 'index.md', isDirectory: () => false }]
+          }
+          return []
+        }),
+      },
+    },
+    'node:path': {
+      default: {
+        join: (...args) => args.join('/'),
+      },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.false(result.ok)
+  t.regex(result.message, /3 months/)
+})
+
+test('checkStaleBuild formats duration in years', async (t) => {
+  const { sandbox } = t.context
+
+  const twoYearsAgo = Date.now() - 2 * 365 * 24 * 60 * 60 * 1000
+  const newTime = Date.now()
+
+  const existsStub = sandbox.stub()
+  existsStub.withArgs('_site').returns(true)
+  existsStub.withArgs('content').returns(true)
+  existsStub.returns(false)
+
+  const statStub = sandbox.stub()
+  statStub.withArgs('_site').returns({ mtimeMs: twoYearsAgo })
+  statStub.returns({ mtimeMs: newTime })
+
+  const { checkStaleBuild } = await esmock('./index.js', {
+    'node:fs': {
+      default: {
+        existsSync: existsStub,
+        statSync: statStub,
+        readdirSync: sandbox.stub().callsFake((dir) => {
+          if (dir === 'content') {
+            return [{ name: 'index.md', isDirectory: () => false }]
+          }
+          return []
+        }),
+      },
+    },
+    'node:path': {
+      default: {
+        join: (...args) => args.join('/'),
+      },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.false(result.ok)
+  t.regex(result.message, /2 years/)
+})
+
 test('runAllChecks runs all checks and returns results', async (t) => {
   const { sandbox } = t.context
 
@@ -181,6 +385,8 @@ test('runAllChecks runs all checks and returns results', async (t) => {
     'node:fs': {
       default: {
         existsSync: sandbox.stub().returns(true),
+        statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
+        readdirSync: sandbox.stub().returns([]),
       },
     },
   })
@@ -188,7 +394,7 @@ test('runAllChecks runs all checks and returns results', async (t) => {
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 5)
+  t.is(results.length, 6)
 
   for (const result of results) {
     t.is(typeof result.name, 'string')
@@ -200,7 +406,7 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 5)
+  t.is(checks.length, 6)
 
   const checkNames = checks.map((c) => c.name)
   t.true(checkNames.includes('Node.js version'))
@@ -208,15 +414,77 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('Git available'))
   t.true(checkNames.includes('Quire project detected'))
   t.true(checkNames.includes('Dependencies installed'))
+  t.true(checkNames.includes('Build status'))
+})
+
+test('checkSections exports checks organized by section', async (t) => {
+  const { checkSections } = await import('./index.js')
+
+  t.true(Array.isArray(checkSections))
+  t.is(checkSections.length, 2)
+
+  const sectionNames = checkSections.map((s) => s.name)
+  t.true(sectionNames.includes('Environment'))
+  t.true(sectionNames.includes('Project'))
+
+  // Environment section should have 3 checks
+  const envSection = checkSections.find((s) => s.name === 'Environment')
+  t.is(envSection.checks.length, 3)
+
+  // Project section should have 3 checks
+  const projectSection = checkSections.find((s) => s.name === 'Project')
+  t.is(projectSection.checks.length, 3)
+})
+
+test('runAllChecksWithSections returns results organized by section', async (t) => {
+  const { sandbox } = t.context
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    '#lib/git/index.js': {
+      default: {
+        isAvailable: sandbox.stub().resolves(true),
+      },
+    },
+    '#lib/npm/index.js': {
+      default: {
+        isAvailable: sandbox.stub().resolves(true),
+      },
+    },
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
+        readdirSync: sandbox.stub().returns([]),
+      },
+    },
+  })
+
+  const sections = await runAllChecksWithSections()
+
+  t.true(Array.isArray(sections))
+  t.is(sections.length, 2)
+
+  // Check section structure
+  for (const { section, results } of sections) {
+    t.is(typeof section, 'string')
+    t.true(Array.isArray(results))
+    for (const result of results) {
+      t.is(typeof result.name, 'string')
+      t.is(typeof result.ok, 'boolean')
+    }
+  }
 })
 
 test('default export includes all functions', async (t) => {
   const doctor = await import('./index.js')
 
   t.is(typeof doctor.default.runAllChecks, 'function')
+  t.is(typeof doctor.default.runAllChecksWithSections, 'function')
   t.is(typeof doctor.default.checkNodeVersion, 'function')
   t.is(typeof doctor.default.checkNpmAvailable, 'function')
   t.is(typeof doctor.default.checkGitAvailable, 'function')
   t.is(typeof doctor.default.checkQuireProject, 'function')
   t.is(typeof doctor.default.checkDependencies, 'function')
+  t.is(typeof doctor.default.checkStaleBuild, 'function')
+  t.truthy(doctor.default.checkSections)
 })

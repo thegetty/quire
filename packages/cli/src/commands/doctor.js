@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { runAllChecks } from '#lib/doctor/index.js'
+import { runAllChecksWithSections } from '#lib/doctor/index.js'
 
 /**
  * Quire CLI `doctor` Command
@@ -34,44 +34,61 @@ Examples:
 
     this.logger.info('Running diagnostic checks...\n')
 
-    const results = await runAllChecks()
+    const sections = await runAllChecksWithSections()
     let hasErrors = false
+    let hasWarnings = false
 
-    // Display results
-    for (const { name, ok, message, remediation, docsUrl } of results) {
-      if (!ok) hasErrors = true
+    // Display results by section
+    for (const { section, results } of sections) {
+      this.logger.info(`${section}`)
 
-      const status = ok ? '✓' : '✗'
-      const lines = [`${status} ${name}`]
+      for (const { name, ok, level, message, remediation, docsUrl } of results) {
+        if (!ok) {
+          if (level === 'warn') {
+            hasWarnings = true
+          } else {
+            hasErrors = true
+          }
+        }
 
-      if (message) {
-        lines.push(`  ${message}`)
+        const status = ok ? '✓' : level === 'warn' ? '⚠' : '✗'
+        const lines = [`  ${status} ${name}`]
+
+        if (message) {
+          lines.push(`    ${message}`)
+        }
+
+        // Show remediation guidance for failed checks
+        if (!ok && remediation) {
+          lines.push('')
+          lines.push(`    How to fix:`)
+          lines.push(`    ${remediation}`)
+        }
+
+        if (!ok && docsUrl) {
+          lines.push('')
+          lines.push(`    Documentation: ${docsUrl}`)
+        }
+
+        const output = lines.join('\n')
+        if (ok) {
+          this.logger.info(output)
+        } else if (level === 'warn') {
+          this.logger.warn(output)
+        } else {
+          this.logger.error(output)
+        }
       }
 
-      // Show remediation guidance for failed checks
-      if (!ok && remediation) {
-        lines.push('')
-        lines.push(`  How to fix:`)
-        lines.push(`  ${remediation}`)
-      }
-
-      if (!ok && docsUrl) {
-        lines.push('')
-        lines.push(`  Documentation: ${docsUrl}`)
-      }
-
-      const output = lines.join('\n')
-      if (ok) {
-        this.logger.info(output)
-      } else {
-        this.logger.error(output)
-      }
+      this.logger.info('') // Blank line between sections
     }
 
     if (hasErrors) {
-      this.logger.warn('\nSome checks failed. See above for details.')
+      this.logger.error('Some checks failed. See above for details.')
+    } else if (hasWarnings) {
+      this.logger.warn('All checks passed with warnings.')
     } else {
-      this.logger.info('\nAll checks passed!')
+      this.logger.info('All checks passed!')
     }
   }
 }
