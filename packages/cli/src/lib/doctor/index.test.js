@@ -140,6 +140,12 @@ test('constants are exported', async (t) => {
   t.is(doctor.DOCS_BASE_URL, 'https://quire.getty.edu/docs-v1')
   t.is(doctor.REQUIRED_NODE_VERSION, 22)
   t.is(doctor.QUIRE_11TY_PACKAGE, '@thegetty/quire-11ty')
+  t.deepEqual(doctor.SECTION_NAMES, ['environment', 'project', 'outputs'])
+  t.deepEqual(doctor.CHECK_IDS, [
+    'os', 'cli', 'node', 'npm', 'git',
+    'project', 'deps', '11ty', 'data',
+    'build', 'pdf', 'epub',
+  ])
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -276,6 +282,199 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
 
   const outputsSection = sections.find((s) => s.section === 'Outputs')
   t.is(outputsSection.results.length, 3)
+})
+
+test('runAllChecksWithSections filters by section name', async (t) => {
+  const { sandbox } = t.context
+
+  // Create mock check functions
+  const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
+  const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
+  const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
+  const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
+  const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+  const mockCheckPdf = sandbox.stub().returns({ ok: true, message: 'no PDF' })
+  const mockCheckEpub = sandbox.stub().returns({ ok: true, message: 'no EPUB' })
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkOsInfo: mockCheckOs,
+      checkCliVersion: mockCheckCli,
+      checkNodeVersion: mockCheckNode,
+      checkNpmAvailable: mockCheckNpm,
+      checkGitAvailable: mockCheckGit,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: mockCheckProject,
+      checkDependencies: mockCheckDeps,
+      checkOutdatedQuire11ty: mockCheckQuire11ty,
+      checkDataFiles: mockCheckData,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: mockCheckStale,
+      checkPdfOutput: mockCheckPdf,
+      checkEpubOutput: mockCheckEpub,
+    },
+  })
+
+  // Filter to environment section only (legacy array syntax)
+  const sections = await runAllChecksWithSections(['environment'])
+
+  t.is(sections.length, 1)
+  t.is(sections[0].section, 'Environment')
+  t.is(sections[0].results.length, 5)
+
+  // Verify only environment checks were called
+  t.true(mockCheckOs.calledOnce)
+  t.true(mockCheckCli.calledOnce)
+  t.true(mockCheckNode.calledOnce)
+  t.true(mockCheckNpm.calledOnce)
+  t.true(mockCheckGit.calledOnce)
+
+  // Verify project and output checks were NOT called
+  t.false(mockCheckProject.called)
+  t.false(mockCheckDeps.called)
+  t.false(mockCheckQuire11ty.called)
+  t.false(mockCheckData.called)
+  t.false(mockCheckStale.called)
+  t.false(mockCheckPdf.called)
+  t.false(mockCheckEpub.called)
+})
+
+test('runAllChecksWithSections filters by check ID', async (t) => {
+  const { sandbox } = t.context
+
+  // Create mock check functions
+  const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
+  const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
+  const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
+  const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
+  const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+  const mockCheckPdf = sandbox.stub().returns({ ok: true, message: 'no PDF' })
+  const mockCheckEpub = sandbox.stub().returns({ ok: true, message: 'no EPUB' })
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkOsInfo: mockCheckOs,
+      checkCliVersion: mockCheckCli,
+      checkNodeVersion: mockCheckNode,
+      checkNpmAvailable: mockCheckNpm,
+      checkGitAvailable: mockCheckGit,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: mockCheckProject,
+      checkDependencies: mockCheckDeps,
+      checkOutdatedQuire11ty: mockCheckQuire11ty,
+      checkDataFiles: mockCheckData,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: mockCheckStale,
+      checkPdfOutput: mockCheckPdf,
+      checkEpubOutput: mockCheckEpub,
+    },
+  })
+
+  // Filter to specific checks by ID (node and git from Environment)
+  const sections = await runAllChecksWithSections({ checks: ['node', 'git'] })
+
+  t.is(sections.length, 1)
+  t.is(sections[0].section, 'Environment')
+  t.is(sections[0].results.length, 2)
+
+  // Verify result names match the requested checks
+  const resultNames = sections[0].results.map((r) => r.name)
+  t.true(resultNames.includes('Node.js version'))
+  t.true(resultNames.includes('Git available'))
+
+  // Verify only requested checks were called
+  t.true(mockCheckNode.calledOnce)
+  t.true(mockCheckGit.calledOnce)
+
+  // Verify other checks were NOT called
+  t.false(mockCheckOs.called)
+  t.false(mockCheckCli.called)
+  t.false(mockCheckNpm.called)
+  t.false(mockCheckProject.called)
+  t.false(mockCheckDeps.called)
+  t.false(mockCheckQuire11ty.called)
+  t.false(mockCheckData.called)
+  t.false(mockCheckStale.called)
+  t.false(mockCheckPdf.called)
+  t.false(mockCheckEpub.called)
+})
+
+test('runAllChecksWithSections filters checks across multiple sections', async (t) => {
+  const { sandbox } = t.context
+
+  // Create mock check functions
+  const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
+  const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
+  const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
+  const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
+  const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+  const mockCheckPdf = sandbox.stub().returns({ ok: true, message: 'no PDF' })
+  const mockCheckEpub = sandbox.stub().returns({ ok: true, message: 'no EPUB' })
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkOsInfo: mockCheckOs,
+      checkCliVersion: mockCheckCli,
+      checkNodeVersion: mockCheckNode,
+      checkNpmAvailable: mockCheckNpm,
+      checkGitAvailable: mockCheckGit,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: mockCheckProject,
+      checkDependencies: mockCheckDeps,
+      checkOutdatedQuire11ty: mockCheckQuire11ty,
+      checkDataFiles: mockCheckData,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: mockCheckStale,
+      checkPdfOutput: mockCheckPdf,
+      checkEpubOutput: mockCheckEpub,
+    },
+  })
+
+  // Filter to checks from different sections (node from Environment, pdf from Outputs)
+  const sections = await runAllChecksWithSections({ checks: ['node', 'pdf'] })
+
+  t.is(sections.length, 2)
+
+  // Verify Environment section has only node check
+  const envSection = sections.find((s) => s.section === 'Environment')
+  t.truthy(envSection)
+  t.is(envSection.results.length, 1)
+  t.is(envSection.results[0].name, 'Node.js version')
+
+  // Verify Outputs section has only pdf check
+  const outputsSection = sections.find((s) => s.section === 'Outputs')
+  t.truthy(outputsSection)
+  t.is(outputsSection.results.length, 1)
+  t.is(outputsSection.results[0].name, 'PDF output')
+
+  // Verify only requested checks were called
+  t.true(mockCheckNode.calledOnce)
+  t.true(mockCheckPdf.calledOnce)
+
+  // Project section should not appear (no checks from it)
+  const projectSection = sections.find((s) => s.section === 'Project')
+  t.falsy(projectSection)
 })
 
 test('runAllChecks handles async checks correctly', async (t) => {

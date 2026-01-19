@@ -1,4 +1,4 @@
-import { Command } from 'commander'
+import { Command, Option } from 'commander'
 import program from '#src/main.js'
 import test from 'ava'
 
@@ -45,11 +45,20 @@ test('registered command has no arguments', (t) => {
   t.is(registeredArguments.length, 0, 'doctor command should have no arguments')
 })
 
-test('registered command has no options', (t) => {
+test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Doctor command has no options
-  t.is(command.options.length, 0, 'doctor command should have no options')
+  // Doctor command has unified --check option
+  t.is(command.options.length, 1, 'doctor command should have 1 option')
+
+  const checkOption = command.options.find((opt) => opt.long === '--check')
+  t.truthy(checkOption, '--check option should exist')
+  t.true(checkOption instanceof Option, '--check should be Option instance')
+  t.is(checkOption.short, '-c', '--check should have -c short flag')
+  t.truthy(checkOption.description)
+  t.true(checkOption.description.includes('all'), 'description should mention "all"')
+  t.true(checkOption.description.includes('environment'), 'description should mention section names')
+  t.true(checkOption.description.includes('node'), 'description should mention check IDs')
 })
 
 test('command is accessible via checkup alias', (t) => {

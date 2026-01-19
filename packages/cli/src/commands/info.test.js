@@ -23,17 +23,6 @@ test.beforeEach((t) => {
   // Mock testcwd helper
   t.context.mockTestcwd = t.context.sandbox.stub()
 
-  // Mock execaCommand for external commands
-  t.context.mockExecaCommand = t.context.sandbox.stub()
-  t.context.mockExecaCommand.withArgs('quire --version').resolves({ stdout: '1.0.0-rc.33' })
-  t.context.mockExecaCommand.withArgs('npm --version').resolves({ stdout: '10.2.4' })
-
-  // Mock os module
-  t.context.mockOs = {
-    type: t.context.sandbox.stub().returns('Darwin'),
-    release: t.context.sandbox.stub().returns('23.0.0')
-  }
-
   // Mock fs module
   t.context.mockFs = {
     readFileSync: t.context.sandbox.stub(),
@@ -72,16 +61,12 @@ test.afterEach.always((t) => {
 })
 
 test('info command should validate Quire project in preAction', async (t) => {
-  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockExecaCommand, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -108,16 +93,12 @@ test('info command should validate Quire project in preAction', async (t) => {
 })
 
 test('info command should display project version information', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -135,79 +116,33 @@ test('info command should display project version information', async (t) => {
   // Verify logger.info was called with project information
   t.true(mockLogger.info.called, 'logger.info should be called')
 
-  // Check for project section header (uses current directory name)
+  // Check for project header
   const calls = mockLogger.info.getCalls()
   const hasProjectInfo = calls.some((call) =>
-    call.args[0] && call.args[0].includes('[') && call.args[0].includes(']')
+    call.args[0] && call.args[0].includes('Project:')
   )
-  t.true(hasProjectInfo, 'should display project section')
+  t.true(hasProjectInfo, 'should display project header')
 
   // Check for quire-cli version in output
   const hasCliVersion = calls.some((call) =>
     call.args[0] && call.args[0].includes('quire-cli') && call.args[0].includes('1.0.0-rc.33')
   )
   t.true(hasCliVersion, 'should display quire-cli version')
+
+  // Check for quire-11ty version in output
+  const has11tyVersion = calls.some((call) =>
+    call.args[0] && call.args[0].includes('quire-11ty')
+  )
+  t.true(has11tyVersion, 'should display quire-11ty version')
 })
 
-test('info command should display system information with debug flag', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
+test('info command should display starter version when available', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
-    'node:fs': mockFs
-  }, {
-    '#lib/logger/index.js': {
-      default: () => mockLogger
-    }
-  })
-
-  const command = new InfoCommand()
-  command.config = mockConfig
-  command.logger = mockLogger
-  command.debug = sandbox.stub()
-
-  await command.action({ debug: true }, {})
-
-  // Verify logger.info was called
-  t.true(mockLogger.info.called, 'logger.info should be called')
-
-  // Check for system section header
-  const calls = mockLogger.info.getCalls()
-  const hasSystemInfo = calls.some((call) =>
-    call.args[0] && call.args[0].includes('[System]')
-  )
-  t.true(hasSystemInfo, 'should display system section with debug flag')
-
-  // Check for node version in output (only shown with debug)
-  const hasNodeVersion = calls.some((call) =>
-    call.args[0] && call.args[0].includes('node')
-  )
-  t.true(hasNodeVersion, 'should display node version with debug flag')
-
-  // Check for npm version in output (only shown with debug)
-  const hasNpmVersion = calls.some((call) =>
-    call.args[0] && call.args[0].includes('npm')
-  )
-  t.true(hasNpmVersion, 'should display npm version with debug flag')
-})
-
-test('info command should hide system details without debug flag', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
-
-  const { default: InfoCommand } = await esmock('./info.js', {
-    '#helpers/test-cwd.js': {
-      default: mockTestcwd
-    },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -225,18 +160,36 @@ test('info command should hide system details without debug flag', async (t) => 
   // Verify logger.info was called
   t.true(mockLogger.info.called, 'logger.info should be called')
 
-  // Check that system details are NOT shown without debug flag
+  // Check for starter version in output (from version file)
   const calls = mockLogger.info.getCalls()
-
-  // Node version should not appear in non-debug output
-  const hasNodeVersion = calls.some((call) =>
-    call.args[0] && call.args[0].toLowerCase().includes('node') && !call.args[0].includes('quire')
+  const hasStarterVersion = calls.some((call) =>
+    call.args[0] && call.args[0].includes('starter')
   )
-  t.false(hasNodeVersion, 'should not display node version without debug flag')
+  t.true(hasStarterVersion, 'should display starter version when available')
+})
+
+test('info command no longer has --debug flag (system info moved to doctor)', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+
+  const { default: InfoCommand } = await esmock('./info.js', {
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new InfoCommand()
+
+  // Verify no options are defined
+  t.is(InfoCommand.definition.options.length, 0, 'info command should have no options')
 })
 
 test('info command should handle missing version file', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
 
   // Setup mockFs to throw error for missing version file (simulating file not found)
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -253,10 +206,6 @@ test('info command should handle missing version file', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -283,7 +232,7 @@ test('info command should handle missing version file', async (t) => {
 })
 
 test('info command should handle malformed version file', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
 
   // Setup mockFs to return malformed JSON (simulating corrupted file)
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -300,10 +249,6 @@ test('info command should handle malformed version file', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -333,7 +278,7 @@ test('info command should handle malformed version file', async (t) => {
 })
 
 test('info command should read quire-11ty version from package.json', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
 
   // Override package.json to have specific version
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -353,10 +298,6 @@ test('info command should read quire-11ty version from package.json', async (t) 
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -382,8 +323,8 @@ test('info command should read quire-11ty version from package.json', async (t) 
   t.true(hasEleventyVersion, 'should display quire-11ty version from package.json')
 })
 
-test('info command should log debug information when debug flag is set', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
+test('info command should log debug information', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
 
   const mockDebug = sandbox.stub()
 
@@ -391,10 +332,6 @@ test('info command should log debug information when debug flag is set', async (
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execaCommand: mockExecaCommand
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -407,9 +344,9 @@ test('info command should log debug information when debug flag is set', async (
   command.logger = mockLogger
   command.debug = mockDebug
 
-  await command.action({ debug: true }, {})
+  await command.action({}, {})
 
   // Verify debug was called
-  t.true(mockDebug.called, 'debug should be called with debug flag')
-  t.true(mockDebug.calledWith('called with options %O', { debug: true }))
+  t.true(mockDebug.called, 'debug should be called')
+  t.true(mockDebug.calledWith('called with options %O', {}))
 })
