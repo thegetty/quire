@@ -29,6 +29,8 @@ Common Workflows:
   Generate PDF    quire pdf --build
   Generate EPUB   quire epub --build
 
+  Run 'quire help workflows' for detailed workflow documentation.
+
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
