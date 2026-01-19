@@ -2,6 +2,16 @@ import test from 'ava'
 import sinon from 'sinon'
 import esmock from 'esmock'
 
+/**
+ * Index module tests
+ *
+ * Tests the barrel export, checkSections structure, and runner functions.
+ * Individual check function tests are in the domain test files:
+ * - checks/environment/*.test.js
+ * - checks/project/*.test.js
+ * - checks/outputs/*.test.js
+ */
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
 })
@@ -10,402 +20,9 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkNodeVersion returns ok when version meets requirement', async (t) => {
-  const { checkNodeVersion } = await import('./index.js')
-
-  const result = checkNodeVersion()
-
-  // Current Node.js version should be >= 22 in dev environment
-  t.is(typeof result.ok, 'boolean')
-  t.is(typeof result.message, 'string')
-  t.regex(result.message, /v\d+/)
-})
-
-test('checkNpmAvailable returns ok when npm is available', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkNpmAvailable } = await esmock('./index.js', {
-    '#lib/npm/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(true),
-      },
-    },
-  })
-
-  const result = await checkNpmAvailable()
-
-  t.true(result.ok)
-  t.is(result.message, null)
-})
-
-test('checkNpmAvailable returns not ok when npm is missing', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkNpmAvailable } = await esmock('./index.js', {
-    '#lib/npm/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(false),
-      },
-    },
-  })
-
-  const result = await checkNpmAvailable()
-
-  t.false(result.ok)
-  t.regex(result.message, /npm not found/)
-  t.truthy(result.remediation, 'should include remediation guidance')
-  t.truthy(result.docsUrl, 'should include documentation link')
-})
-
-test('checkGitAvailable returns ok when git is available', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkGitAvailable } = await esmock('./index.js', {
-    '#lib/git/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(true),
-      },
-    },
-  })
-
-  const result = await checkGitAvailable()
-
-  t.true(result.ok)
-  t.is(result.message, null)
-})
-
-test('checkGitAvailable returns not ok when git is missing', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkGitAvailable } = await esmock('./index.js', {
-    '#lib/git/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(false),
-      },
-    },
-  })
-
-  const result = await checkGitAvailable()
-
-  t.false(result.ok)
-  t.regex(result.message, /Git not found/)
-  t.truthy(result.remediation, 'should include remediation guidance')
-  t.truthy(result.docsUrl, 'should include documentation link')
-})
-
-test('checkQuireProject returns ok when marker file exists', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkQuireProject } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().callsFake((path) => path === '.quire'),
-      },
-    },
-  })
-
-  const result = checkQuireProject()
-
-  t.true(result.ok)
-  t.regex(result.message, /Detected via \.quire/)
-})
-
-test('checkQuireProject returns not ok when no marker file exists', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkQuireProject } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(false),
-      },
-    },
-  })
-
-  const result = checkQuireProject()
-
-  t.false(result.ok)
-  t.regex(result.message, /No Quire project marker/)
-  t.truthy(result.remediation, 'should include remediation guidance')
-  t.truthy(result.docsUrl, 'should include documentation link')
-})
-
-test('checkDependencies returns ok when node_modules exists', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkDependencies } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-      },
-    },
-  })
-
-  const result = checkDependencies()
-
-  t.true(result.ok)
-})
-
-test('checkDependencies returns not ok when node_modules missing', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkDependencies } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().callsFake((path) => path === 'package.json'),
-      },
-    },
-  })
-
-  const result = checkDependencies()
-
-  t.false(result.ok)
-  t.regex(result.message, /node_modules not found/)
-  t.truthy(result.remediation, 'should include remediation guidance')
-  t.truthy(result.docsUrl, 'should include documentation link')
-})
-
-test('checkStaleBuild returns ok when no _site exists', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkStaleBuild } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(false),
-      },
-    },
-  })
-
-  const result = checkStaleBuild()
-
-  t.true(result.ok)
-  t.regex(result.message, /No build output/)
-})
-
-test('checkStaleBuild returns ok when build is up to date', async (t) => {
-  const { sandbox } = t.context
-
-  const now = Date.now()
-  const { checkStaleBuild } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        statSync: sandbox.stub().returns({ mtimeMs: now }),
-        readdirSync: sandbox.stub().returns([]),
-      },
-    },
-  })
-
-  const result = checkStaleBuild()
-
-  t.true(result.ok)
-  t.regex(result.message, /up to date/)
-})
-
-test('checkStaleBuild returns warning when build is stale', async (t) => {
-  const { sandbox } = t.context
-
-  const oldTime = Date.now() - 3600000 // 1 hour ago
-  const newTime = Date.now()
-
-  const existsStub = sandbox.stub()
-  existsStub.withArgs('_site').returns(true)
-  existsStub.withArgs('content').returns(true)
-  existsStub.returns(false)
-
-  const statStub = sandbox.stub()
-  statStub.withArgs('_site').returns({ mtimeMs: oldTime })
-  statStub.returns({ mtimeMs: newTime })
-
-  const path = await import('node:path')
-  const { checkStaleBuild } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: existsStub,
-        statSync: statStub,
-        readdirSync: sandbox.stub().callsFake((dir) => {
-          if (dir === 'content') {
-            return [{ name: 'index.md', isDirectory: () => false }]
-          }
-          return []
-        }),
-        readFileSync: sandbox.stub().returns('{}'),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const result = checkStaleBuild()
-
-  t.false(result.ok)
-  t.is(result.level, 'warn')
-  t.regex(result.message, /older than source/)
-  t.truthy(result.remediation, 'should include remediation guidance')
-  t.truthy(result.docsUrl, 'should include documentation link')
-})
-
-test('checkStaleBuild formats duration in weeks', async (t) => {
-  const { sandbox } = t.context
-
-  const twoWeeksAgo = Date.now() - 14 * 24 * 60 * 60 * 1000
-  const newTime = Date.now()
-
-  const existsStub = sandbox.stub()
-  existsStub.withArgs('_site').returns(true)
-  existsStub.withArgs('content').returns(true)
-  existsStub.returns(false)
-
-  const statStub = sandbox.stub()
-  statStub.withArgs('_site').returns({ mtimeMs: twoWeeksAgo })
-  statStub.returns({ mtimeMs: newTime })
-
-  const path = await import('node:path')
-  const { checkStaleBuild } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: existsStub,
-        statSync: statStub,
-        readdirSync: sandbox.stub().callsFake((dir) => {
-          if (dir === 'content') {
-            return [{ name: 'index.md', isDirectory: () => false }]
-          }
-          return []
-        }),
-        readFileSync: sandbox.stub().returns('{}'),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const result = checkStaleBuild()
-
-  t.false(result.ok)
-  t.regex(result.message, /2 weeks/)
-})
-
-test('checkStaleBuild formats duration in months', async (t) => {
-  const { sandbox } = t.context
-
-  const threeMonthsAgo = Date.now() - 90 * 24 * 60 * 60 * 1000
-  const newTime = Date.now()
-
-  const existsStub = sandbox.stub()
-  existsStub.withArgs('_site').returns(true)
-  existsStub.withArgs('content').returns(true)
-  existsStub.returns(false)
-
-  const statStub = sandbox.stub()
-  statStub.withArgs('_site').returns({ mtimeMs: threeMonthsAgo })
-  statStub.returns({ mtimeMs: newTime })
-
-  const path = await import('node:path')
-  const { checkStaleBuild } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: existsStub,
-        statSync: statStub,
-        readdirSync: sandbox.stub().callsFake((dir) => {
-          if (dir === 'content') {
-            return [{ name: 'index.md', isDirectory: () => false }]
-          }
-          return []
-        }),
-        readFileSync: sandbox.stub().returns('{}'),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const result = checkStaleBuild()
-
-  t.false(result.ok)
-  t.regex(result.message, /3 months/)
-})
-
-test('checkStaleBuild formats duration in years', async (t) => {
-  const { sandbox } = t.context
-
-  const twoYearsAgo = Date.now() - 2 * 365 * 24 * 60 * 60 * 1000
-  const newTime = Date.now()
-
-  const existsStub = sandbox.stub()
-  existsStub.withArgs('_site').returns(true)
-  existsStub.withArgs('content').returns(true)
-  existsStub.returns(false)
-
-  const statStub = sandbox.stub()
-  statStub.withArgs('_site').returns({ mtimeMs: twoYearsAgo })
-  statStub.returns({ mtimeMs: newTime })
-
-  const path = await import('node:path')
-  const { checkStaleBuild } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: existsStub,
-        statSync: statStub,
-        readdirSync: sandbox.stub().callsFake((dir) => {
-          if (dir === 'content') {
-            return [{ name: 'index.md', isDirectory: () => false }]
-          }
-          return []
-        }),
-        readFileSync: sandbox.stub().returns('{}'),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const result = checkStaleBuild()
-
-  t.false(result.ok)
-  t.regex(result.message, /2 years/)
-})
-
-test('runAllChecks runs all checks and returns results', async (t) => {
-  const { sandbox } = t.context
-
-  const path = await import('node:path')
-  const { runAllChecks } = await esmock('./index.js', {
-    '#lib/git/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(true),
-      },
-    },
-    '#lib/npm/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(true),
-      },
-    },
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
-        readdirSync: sandbox.stub().returns([]),
-        readFileSync: sandbox.stub().returns('{}'),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const results = await runAllChecks()
-
-  t.true(Array.isArray(results))
-  t.is(results.length, 8)
-
-  for (const result of results) {
-    t.is(typeof result.name, 'string')
-    t.is(typeof result.ok, 'boolean')
-  }
-})
+// ─────────────────────────────────────────────────────────────────────────────
+// Barrel export tests
+// ─────────────────────────────────────────────────────────────────────────────
 
 test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
@@ -422,61 +39,188 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('quire-11ty version'))
   t.true(checkNames.includes('Data files'))
   t.true(checkNames.includes('Build status'))
+
+  // Verify each check has a function
+  for (const { check } of checks) {
+    t.is(typeof check, 'function')
+  }
 })
 
-test('checkSections exports checks organized by section', async (t) => {
+test('checkSections exports checks organized by 3 sections', async (t) => {
   const { checkSections } = await import('./index.js')
 
   t.true(Array.isArray(checkSections))
-  t.is(checkSections.length, 2)
+  t.is(checkSections.length, 3)
 
   const sectionNames = checkSections.map((s) => s.name)
   t.true(sectionNames.includes('Environment'))
   t.true(sectionNames.includes('Project'))
+  t.true(sectionNames.includes('Outputs'))
 
   // Environment section should have 3 checks
   const envSection = checkSections.find((s) => s.name === 'Environment')
   t.is(envSection.checks.length, 3)
+  const envCheckNames = envSection.checks.map((c) => c.name)
+  t.true(envCheckNames.includes('Node.js version'))
+  t.true(envCheckNames.includes('npm available'))
+  t.true(envCheckNames.includes('Git available'))
 
-  // Project section should have 5 checks (including quire-11ty version and Data files)
+  // Project section should have 4 checks
   const projectSection = checkSections.find((s) => s.name === 'Project')
-  t.is(projectSection.checks.length, 5)
+  t.is(projectSection.checks.length, 4)
+  const projectCheckNames = projectSection.checks.map((c) => c.name)
+  t.true(projectCheckNames.includes('Quire project'))
+  t.true(projectCheckNames.includes('Dependencies'))
+  t.true(projectCheckNames.includes('quire-11ty version'))
+  t.true(projectCheckNames.includes('Data files'))
+
+  // Outputs section should have 1 check
+  const outputsSection = checkSections.find((s) => s.name === 'Outputs')
+  t.is(outputsSection.checks.length, 1)
+  t.is(outputsSection.checks[0].name, 'Build status')
 })
 
-test('runAllChecksWithSections returns results organized by section', async (t) => {
+test('default export includes all expected functions', async (t) => {
+  const doctor = await import('./index.js')
+
+  // Runner functions
+  t.is(typeof doctor.default.runAllChecks, 'function')
+  t.is(typeof doctor.default.runAllChecksWithSections, 'function')
+
+  // Check functions
+  t.is(typeof doctor.default.checkNodeVersion, 'function')
+  t.is(typeof doctor.default.checkNpmAvailable, 'function')
+  t.is(typeof doctor.default.checkGitAvailable, 'function')
+  t.is(typeof doctor.default.checkQuireProject, 'function')
+  t.is(typeof doctor.default.checkDependencies, 'function')
+  t.is(typeof doctor.default.checkOutdatedQuire11ty, 'function')
+  t.is(typeof doctor.default.checkDataFiles, 'function')
+  t.is(typeof doctor.default.checkStaleBuild, 'function')
+
+  // Collections
+  t.truthy(doctor.default.checks)
+  t.truthy(doctor.default.checkSections)
+})
+
+test('named exports match default export', async (t) => {
+  const doctor = await import('./index.js')
+
+  t.is(doctor.checkNodeVersion, doctor.default.checkNodeVersion)
+  t.is(doctor.checkNpmAvailable, doctor.default.checkNpmAvailable)
+  t.is(doctor.checkGitAvailable, doctor.default.checkGitAvailable)
+  t.is(doctor.checkQuireProject, doctor.default.checkQuireProject)
+  t.is(doctor.checkDependencies, doctor.default.checkDependencies)
+  t.is(doctor.checkOutdatedQuire11ty, doctor.default.checkOutdatedQuire11ty)
+  t.is(doctor.checkDataFiles, doctor.default.checkDataFiles)
+  t.is(doctor.checkStaleBuild, doctor.default.checkStaleBuild)
+  t.is(doctor.runAllChecks, doctor.default.runAllChecks)
+  t.is(doctor.runAllChecksWithSections, doctor.default.runAllChecksWithSections)
+})
+
+test('constants are exported', async (t) => {
+  const doctor = await import('./index.js')
+
+  t.is(doctor.DOCS_BASE_URL, 'https://quire.getty.edu/docs-v1')
+  t.is(doctor.REQUIRED_NODE_VERSION, 22)
+  t.is(doctor.QUIRE_11TY_PACKAGE, '@thegetty/quire-11ty')
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Runner function tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('runAllChecks runs all checks and returns results array', async (t) => {
   const { sandbox } = t.context
 
-  const path = await import('node:path')
+  // Create mock check functions
+  const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
+  const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
+  const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+
+  const { runAllChecks } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkNodeVersion: mockCheckNode,
+      checkNpmAvailable: mockCheckNpm,
+      checkGitAvailable: mockCheckGit,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: mockCheckProject,
+      checkDependencies: mockCheckDeps,
+      checkOutdatedQuire11ty: mockCheckQuire11ty,
+      checkDataFiles: mockCheckData,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: mockCheckStale,
+    },
+  })
+
+  const results = await runAllChecks()
+
+  t.true(Array.isArray(results))
+  t.is(results.length, 8)
+
+  // Verify each result has expected shape
+  for (const result of results) {
+    t.is(typeof result.name, 'string')
+    t.is(typeof result.ok, 'boolean')
+  }
+
+  // Verify all checks were called
+  t.true(mockCheckNode.calledOnce)
+  t.true(mockCheckNpm.calledOnce)
+  t.true(mockCheckGit.calledOnce)
+  t.true(mockCheckProject.calledOnce)
+  t.true(mockCheckDeps.calledOnce)
+  t.true(mockCheckQuire11ty.calledOnce)
+  t.true(mockCheckData.calledOnce)
+  t.true(mockCheckStale.calledOnce)
+})
+
+test('runAllChecksWithSections returns results organized by 3 sections', async (t) => {
+  const { sandbox } = t.context
+
+  // Create mock check functions
+  const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckGit = sandbox.stub().resolves({ ok: true, message: null })
+  const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
+  const mockCheckDeps = sandbox.stub().returns({ ok: true, message: null })
+  const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
+  const mockCheckData = sandbox.stub().returns({ ok: true, message: '3 files' })
+  const mockCheckStale = sandbox.stub().returns({ ok: true, message: 'up to date' })
+
   const { runAllChecksWithSections } = await esmock('./index.js', {
-    '#lib/git/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(true),
-      },
+    './checks/environment/index.js': {
+      checkNodeVersion: mockCheckNode,
+      checkNpmAvailable: mockCheckNpm,
+      checkGitAvailable: mockCheckGit,
     },
-    '#lib/npm/index.js': {
-      default: {
-        isAvailable: sandbox.stub().resolves(true),
-      },
+    './checks/project/index.js': {
+      checkQuireProject: mockCheckProject,
+      checkDependencies: mockCheckDeps,
+      checkOutdatedQuire11ty: mockCheckQuire11ty,
+      checkDataFiles: mockCheckData,
     },
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
-        readdirSync: sandbox.stub().returns([]),
-        readFileSync: sandbox.stub().returns('{}'),
-      },
-    },
-    'node:path': {
-      default: path.default,
+    './checks/outputs/index.js': {
+      checkStaleBuild: mockCheckStale,
     },
   })
 
   const sections = await runAllChecksWithSections()
 
   t.true(Array.isArray(sections))
-  t.is(sections.length, 2)
+  t.is(sections.length, 3)
 
-  // Check section structure
+  // Verify section structure
+  const sectionNames = sections.map((s) => s.section)
+  t.deepEqual(sectionNames, ['Environment', 'Project', 'Outputs'])
+
+  // Verify each section has results
   for (const { section, results } of sections) {
     t.is(typeof section, 'string')
     t.true(Array.isArray(results))
@@ -485,293 +229,89 @@ test('runAllChecksWithSections returns results organized by section', async (t) 
       t.is(typeof result.ok, 'boolean')
     }
   }
+
+  // Verify section sizes
+  const envSection = sections.find((s) => s.section === 'Environment')
+  t.is(envSection.results.length, 3)
+
+  const projectSection = sections.find((s) => s.section === 'Project')
+  t.is(projectSection.results.length, 4)
+
+  const outputsSection = sections.find((s) => s.section === 'Outputs')
+  t.is(outputsSection.results.length, 1)
 })
 
-test('default export includes all functions', async (t) => {
-  const doctor = await import('./index.js')
-
-  t.is(typeof doctor.default.runAllChecks, 'function')
-  t.is(typeof doctor.default.runAllChecksWithSections, 'function')
-  t.is(typeof doctor.default.checkNodeVersion, 'function')
-  t.is(typeof doctor.default.checkNpmAvailable, 'function')
-  t.is(typeof doctor.default.checkGitAvailable, 'function')
-  t.is(typeof doctor.default.checkQuireProject, 'function')
-  t.is(typeof doctor.default.checkDependencies, 'function')
-  t.is(typeof doctor.default.checkDataFiles, 'function')
-  t.is(typeof doctor.default.checkStaleBuild, 'function')
-  t.truthy(doctor.default.checkSections)
-})
-
-// ─────────────────────────────────────────────────────────────────────────────
-// checkDataFiles tests
-// ─────────────────────────────────────────────────────────────────────────────
-
-test('checkDataFiles returns ok when no data directory exists', async (t) => {
+test('runAllChecks handles async checks correctly', async (t) => {
   const { sandbox } = t.context
 
-  const { checkDataFiles } = await esmock('./index.js', {
-    '#src/validators/validate-data-files.js': {
-      validateDataFiles: sandbox.stub().returns({
-        valid: true,
-        errors: [],
-        fileCount: 0,
-        files: [],
-        notInProject: true,
-      }),
+  // Mix of sync and async checks
+  const mockSyncCheck = sandbox.stub().returns({ ok: true, message: 'sync' })
+  const mockAsyncCheck = sandbox.stub().resolves({ ok: false, level: 'warn', message: 'async' })
+
+  const { runAllChecks } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkNodeVersion: mockSyncCheck,
+      checkNpmAvailable: mockAsyncCheck,
+      checkGitAvailable: mockAsyncCheck,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: mockSyncCheck,
+      checkDependencies: mockSyncCheck,
+      checkOutdatedQuire11ty: mockAsyncCheck,
+      checkDataFiles: mockSyncCheck,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: mockSyncCheck,
     },
   })
 
-  const result = checkDataFiles()
+  const results = await runAllChecks()
 
-  t.true(result.ok)
-  t.regex(result.message, /No content\/_data directory/)
+  t.is(results.length, 8)
+
+  // Verify async results are properly awaited
+  const asyncResults = results.filter((r) => r.message === 'async')
+  t.is(asyncResults.length, 3)
+  for (const result of asyncResults) {
+    t.false(result.ok)
+    t.is(result.level, 'warn')
+  }
 })
 
-test('checkDataFiles returns ok when all YAML files are valid', async (t) => {
+test('runAllChecks preserves all check result properties', async (t) => {
   const { sandbox } = t.context
 
-  const { checkDataFiles } = await esmock('./index.js', {
-    '#src/validators/validate-data-files.js': {
-      validateDataFiles: sandbox.stub().returns({
-        valid: true,
-        errors: [],
-        fileCount: 1,
-        files: [{ file: 'publication.yaml', valid: true, errors: [] }],
-      }),
+  const fullResult = {
+    ok: false,
+    level: 'warn',
+    message: 'Test message',
+    remediation: 'Fix steps',
+    docsUrl: 'https://example.com',
+  }
+
+  const { runAllChecks } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkNodeVersion: sandbox.stub().returns(fullResult),
+      checkNpmAvailable: sandbox.stub().resolves({ ok: true, message: null }),
+      checkGitAvailable: sandbox.stub().resolves({ ok: true, message: null }),
+    },
+    './checks/project/index.js': {
+      checkQuireProject: sandbox.stub().returns({ ok: true, message: null }),
+      checkDependencies: sandbox.stub().returns({ ok: true, message: null }),
+      checkOutdatedQuire11ty: sandbox.stub().resolves({ ok: true, message: null }),
+      checkDataFiles: sandbox.stub().returns({ ok: true, message: null }),
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: sandbox.stub().returns({ ok: true, message: null }),
     },
   })
 
-  const result = checkDataFiles()
+  const results = await runAllChecks()
+  const nodeResult = results.find((r) => r.name === 'Node.js version')
 
-  t.true(result.ok)
-  t.regex(result.message, /1 files validated/)
-})
-
-test('checkDataFiles returns warning when required file is missing', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkDataFiles } = await esmock('./index.js', {
-    '#src/validators/validate-data-files.js': {
-      validateDataFiles: sandbox.stub().returns({
-        valid: false,
-        errors: ['Required file missing: publication.yaml'],
-        fileCount: 0,
-        files: [],
-      }),
-    },
-  })
-
-  const result = checkDataFiles()
-
-  t.false(result.ok)
-  t.is(result.level, 'warn')
-  t.regex(result.message, /1 issue/)
-  t.regex(result.remediation, /publication\.yaml/)
-})
-
-test('checkDataFiles returns warning when YAML has syntax error', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkDataFiles } = await esmock('./index.js', {
-    '#src/validators/validate-data-files.js': {
-      validateDataFiles: sandbox.stub().returns({
-        valid: false,
-        errors: ['invalid.yaml: YAML syntax error at line 1 - unexpected end of stream'],
-        fileCount: 2,
-        files: [
-          { file: 'publication.yaml', valid: true, errors: [] },
-          { file: 'invalid.yaml', valid: false, errors: ['invalid.yaml: YAML syntax error at line 1 - unexpected end of stream'] },
-        ],
-      }),
-    },
-  })
-
-  const result = checkDataFiles()
-
-  t.false(result.ok)
-  t.is(result.level, 'warn')
-  t.regex(result.remediation, /invalid\.yaml/)
-  t.regex(result.remediation, /YAML syntax error/)
-})
-
-test('checkDataFiles returns warning when duplicate IDs exist', async (t) => {
-  const { sandbox } = t.context
-
-  const { checkDataFiles } = await esmock('./index.js', {
-    '#src/validators/validate-data-files.js': {
-      validateDataFiles: sandbox.stub().returns({
-        valid: false,
-        errors: ['figures.yaml: duplicate IDs found: fig-1'],
-        fileCount: 2,
-        files: [
-          { file: 'publication.yaml', valid: true, errors: [] },
-          { file: 'figures.yaml', valid: false, errors: ['figures.yaml: duplicate IDs found: fig-1'] },
-        ],
-      }),
-    },
-  })
-
-  const result = checkDataFiles()
-
-  t.false(result.ok)
-  t.is(result.level, 'warn')
-  t.regex(result.remediation, /duplicate IDs/)
-  t.regex(result.remediation, /fig-1/)
-})
-
-// ─────────────────────────────────────────────────────────────────────────────
-// checkOutdatedQuire11ty tests
-// ─────────────────────────────────────────────────────────────────────────────
-
-test('checkOutdatedQuire11ty returns ok when quire-11ty is not installed', async (t) => {
-  const { sandbox } = t.context
-
-  const path = await import('node:path')
-  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(false),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const result = await checkOutdatedQuire11ty()
-
-  t.true(result.ok)
-  t.regex(result.message, /not installed/)
-})
-
-test('checkOutdatedQuire11ty returns ok when version is up to date', async (t) => {
-  const { sandbox } = t.context
-
-  const path = await import('node:path')
-  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.33' })),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-    '#lib/npm/index.js': {
-      default: {
-        view: sandbox.stub().resolves('1.0.0-rc.33'),
-      },
-    },
-    '#lib/conf/config.js': {
-      default: {
-        get: sandbox.stub().returns('rc'),
-      },
-    },
-  })
-
-  const result = await checkOutdatedQuire11ty()
-
-  t.true(result.ok)
-  t.regex(result.message, /1\.0\.0-rc\.33/)
-  t.regex(result.message, /up to date/)
-})
-
-test('checkOutdatedQuire11ty returns warning when version is outdated', async (t) => {
-  const { sandbox } = t.context
-
-  const path = await import('node:path')
-  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.30' })),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-    '#lib/npm/index.js': {
-      default: {
-        view: sandbox.stub().resolves('1.0.0-rc.33'),
-      },
-    },
-    '#lib/conf/config.js': {
-      default: {
-        get: sandbox.stub().returns('rc'),
-      },
-    },
-  })
-
-  const result = await checkOutdatedQuire11ty()
-
-  t.false(result.ok)
-  t.is(result.level, 'warn')
-  t.regex(result.message, /1\.0\.0-rc\.30 installed/)
-  t.regex(result.message, /1\.0\.0-rc\.33 available/)
-  t.truthy(result.remediation)
-  t.truthy(result.docsUrl)
-})
-
-test('checkOutdatedQuire11ty returns warning when cannot read installed version', async (t) => {
-  const { sandbox } = t.context
-
-  const path = await import('node:path')
-  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().throws(new Error('ENOENT')),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-  })
-
-  const result = await checkOutdatedQuire11ty()
-
-  t.false(result.ok)
-  t.is(result.level, 'warn')
-  t.regex(result.message, /Could not read/)
-  t.truthy(result.remediation)
-})
-
-test('checkOutdatedQuire11ty returns ok with message when network check fails', async (t) => {
-  const { sandbox } = t.context
-
-  const path = await import('node:path')
-  const { checkOutdatedQuire11ty } = await esmock('./index.js', {
-    'node:fs': {
-      default: {
-        existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.30' })),
-      },
-    },
-    'node:path': {
-      default: path.default,
-    },
-    '#lib/npm/index.js': {
-      default: {
-        view: sandbox.stub().rejects(new Error('Network error')),
-      },
-    },
-    '#lib/conf/config.js': {
-      default: {
-        get: sandbox.stub().returns('rc'),
-      },
-    },
-  })
-
-  const result = await checkOutdatedQuire11ty()
-
-  t.true(result.ok)
-  t.regex(result.message, /1\.0\.0-rc\.30/)
-  t.regex(result.message, /could not check/)
-})
-
-test('default export includes checkOutdatedQuire11ty', async (t) => {
-  const doctor = await import('./index.js')
-
-  t.is(typeof doctor.default.checkOutdatedQuire11ty, 'function')
+  t.false(nodeResult.ok)
+  t.is(nodeResult.level, 'warn')
+  t.is(nodeResult.message, 'Test message')
+  t.is(nodeResult.remediation, 'Fix steps')
+  t.is(nodeResult.docsUrl, 'https://example.com')
 })

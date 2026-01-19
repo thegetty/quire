@@ -5,48 +5,80 @@ Diagnostic checks for Quire environment and project health.
 ## Architecture
 
 ```
-┌───────────────────────────────────────────────────────────────────────┐
-│                         doctor/                                       │
-│  ┌─────────────────────────────────────────────────────────────────┐  │
-│  │                        index.js                                 │  │
-│  │  • checkNodeVersion()     • checkQuireProject()                 │  │
-│  │  • checkNpmAvailable()    • checkDependencies()                 │  │
-│  │  • checkGitAvailable()    • checkOutdatedQuire11ty()            │  │
-│  │  • checkStaleBuild()      • checkDataFiles()                    │  │
-│  │  • runAllChecks()         • runAllChecksWithSections()          │  │
-│  └──────────────────────────────┬──────────────────────────────────┘  │
-│                                 │                                     │
-│  ┌──────────────────────────────┴──────────────────────────────────┐  │
-│  │                        formatDuration.js                        │  │
-│  │  • TIME_UNITS              • formatDuration(ms)                 │  │
-│  └─────────────────────────────────────────────────────────────────┘  │
-└───────────────────────────────────────────────────────────────────────┘
-                                  │
-                    ┌─────────────┴─────────────┐
-                    │                           │
-          ┌─────────▼─────────┐       ┌─────────▼─────────┐
-          │     project/      │       │    validators/    │
-          │                   │       │                   │
-          │ • DATA_DIR        │       │ validate-data-    │
-          │ • PROJECT_MARKERS │       │ files.js          │
-          │ • REQUIRED_FILES  │       │                   │
-          │ • SOURCE_DIRS     │       │ • validateYaml-   │
-          └───────────────────┘       │   File()          │
-                                      │ • validateData-   │
-                                      │   Files()         │
-                                      └───────────────────┘
+doctor/
+├── index.js                  # Barrel export, runners, checkSections
+├── index.test.js             # Integration tests for runners
+├── constants.js              # Shared constants (DOCS_BASE_URL, etc.)
+├── formatDuration.js         # Human-readable time formatting
+├── formatDuration.test.js    # Duration formatting tests
+├── README.md                 # This file
+└── checks/                   # Domain-organized check modules
+    ├── environment/          # System prerequisites
+    │   ├── index.js          # Barrel export
+    │   ├── node-version.js   # Node.js version check
+    │   ├── node-version.test.js
+    │   ├── npm-available.js  # npm availability check
+    │   ├── npm-available.test.js
+    │   ├── git-available.js  # Git availability check
+    │   └── git-available.test.js
+    ├── project/              # Project configuration
+    │   ├── index.js          # Barrel export
+    │   ├── quire-project.js  # Project detection check
+    │   ├── quire-project.test.js
+    │   ├── dependencies.js   # node_modules check
+    │   ├── dependencies.test.js
+    │   ├── quire-11ty.js     # Version check
+    │   ├── quire-11ty.test.js
+    │   ├── data-files.js     # YAML validation check
+    │   └── data-files.test.js
+    └── outputs/              # Build artifacts
+        ├── index.js          # Barrel export
+        ├── stale-build.js    # Stale build detection
+        └── stale-build.test.js
+```
+
+## Dependency Graph
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              doctor/index.js                                 │
+│  Imports checks from domain submodules, defines checkSections, runners      │
+└────────────────────────────────────┬────────────────────────────────────────┘
+                                     │
+         ┌───────────────────────────┼───────────────────────────┐
+         │                           │                           │
+         ▼                           ▼                           ▼
+┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+│ checks/environment/ │  │   checks/project/   │  │   checks/outputs/   │
+│                     │  │                     │  │                     │
+│ • checkNodeVersion  │  │ • checkQuireProject │  │ • checkStaleBuild   │
+│ • checkNpmAvailable │  │ • checkDependencies │  │                     │
+│ • checkGitAvailable │  │ • checkOutdated...  │  │                     │
+│                     │  │ • checkDataFiles    │  │                     │
+└──────────┬──────────┘  └──────────┬──────────┘  └──────────┬──────────┘
+           │                        │                        │
+           ▼                        ▼                        ▼
+    ┌──────────────┐     ┌───────────────────┐    ┌──────────────────┐
+    │ constants.js │     │ validators/       │    │ #lib/project/    │
+    │              │     │ validate-data-    │    │ SOURCE_DIRS      │
+    │ DOCS_BASE_URL│     │ files.js          │    │                  │
+    │ NODE_VERSION │     └───────────────────┘    └──────────────────┘
+    │ QUIRE_11TY_  │
+    │ PACKAGE      │
+    └──────────────┘
 ```
 
 ## Dependencies
 
 | Module | Purpose |
 |--------|---------|
-| `#lib/project/` | Project constants (`DATA_DIR`, `PROJECT_MARKERS`, etc.) |
+| `#lib/project/` | Project constants (`DATA_DIR`, `PROJECT_MARKERS`, `SOURCE_DIRECTORIES`) |
 | `#lib/git/` | Git availability check |
 | `#lib/npm/` | npm availability and registry queries |
 | `#lib/conf/config.js` | Configuration (updateChannel for version check) |
 | `#src/validators/validate-data-files.js` | YAML validation logic |
 | `semver` | Semantic version comparison |
+| `./constants.js` | Shared constants (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) |
 | `./formatDuration.js` | Human-readable time formatting |
 
 ## Check Result Type
@@ -99,21 +131,26 @@ All check functions return a `CheckResult` object:
 
 ### Environment Section
 
-| Check | Function | Description |
-|-------|----------|-------------|
-| Node.js version | `checkNodeVersion()` | Verifies Node.js >= 22 |
-| npm available | `checkNpmAvailable()` | Verifies npm in PATH |
-| Git available | `checkGitAvailable()` | Verifies git in PATH |
+| Check | Function | Module | Description |
+|-------|----------|--------|-------------|
+| Node.js version | `checkNodeVersion()` | `checks/environment/node-version.js` | Verifies Node.js >= 22 |
+| npm available | `checkNpmAvailable()` | `checks/environment/npm-available.js` | Verifies npm in PATH |
+| Git available | `checkGitAvailable()` | `checks/environment/git-available.js` | Verifies git in PATH |
 
 ### Project Section
 
-| Check | Function | Description |
-|-------|----------|-------------|
-| Quire project | `checkQuireProject()` | Detects project marker files |
-| Dependencies | `checkDependencies()` | Verifies node_modules exists |
-| quire-11ty version | `checkOutdatedQuire11ty()` | Checks for newer quire-11ty versions |
-| Data files | `checkDataFiles()` | Validates YAML files in content/_data/ |
-| Build status | `checkStaleBuild()` | Compares source vs build timestamps |
+| Check | Function | Module | Description |
+|-------|----------|--------|-------------|
+| Quire project | `checkQuireProject()` | `checks/project/quire-project.js` | Detects project marker files |
+| Dependencies | `checkDependencies()` | `checks/project/dependencies.js` | Verifies node_modules exists |
+| quire-11ty version | `checkOutdatedQuire11ty()` | `checks/project/quire-11ty.js` | Checks for newer quire-11ty versions |
+| Data files | `checkDataFiles()` | `checks/project/data-files.js` | Validates YAML files in content/_data/ |
+
+### Outputs Section
+
+| Check | Function | Module | Description |
+|-------|----------|--------|-------------|
+| Build status | `checkStaleBuild()` | `checks/outputs/stale-build.js` | Compares source vs build timestamps |
 
 ## Check Behaviors
 
@@ -184,7 +221,7 @@ All check functions return a `CheckResult` object:
 ## Exports
 
 ```javascript
-// Individual check functions
+// Individual check functions (re-exported from domain modules)
 export { checkNodeVersion }
 export { checkNpmAvailable }
 export { checkGitAvailable }
@@ -194,9 +231,12 @@ export { checkOutdatedQuire11ty }
 export { checkDataFiles }
 export { checkStaleBuild }
 
+// Constants
+export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE }
+
 // Check collections
 export { checks }         // Flat array of all checks
-export { checkSections }  // Checks organized by section
+export { checkSections }  // Checks organized by section (3 sections)
 
 // Runners
 export { runAllChecks }              // Run all, return flat results
@@ -205,14 +245,28 @@ export { runAllChecksWithSections }  // Run all, return by section
 
 ## Adding a New Check
 
-### 1. Create the check function
+### 1. Determine the domain
+
+- **environment/**: System prerequisites (Node.js, npm, Git)
+- **project/**: Project configuration and dependencies
+- **outputs/**: Build artifacts and generated files
+
+### 2. Create the check file
 
 ```javascript
+// checks/project/my-check.js
+import { DOCS_BASE_URL } from '../../constants.js'
+import createDebug from '#debug'
+
+const debug = createDebug('lib:doctor:my-check')
+
 /**
  * Check description here
- * @returns {CheckResult}
+ * @returns {import('../../index.js').CheckResult}
  */
-export function checkSomething() {
+export function checkMyThing() {
+  debug('Running my check')
+
   // Perform check logic
   const ok = /* condition */
 
@@ -231,57 +285,42 @@ export function checkSomething() {
     docsUrl: `${DOCS_BASE_URL}/relevant-page/`,
   }
 }
+
+export default checkMyThing
 ```
 
-### 2. Add to check arrays
+### 3. Create the test file
 
 ```javascript
-// In checkSections (organized by section)
-export const checkSections = [
-  {
-    name: 'Project',
-    checks: [
-      // ... existing checks
-      { name: 'Something', check: checkSomething },
-    ],
-  },
-]
+// checks/project/my-check.test.js
+import test from 'ava'
+import sinon from 'sinon'
+import esmock from 'esmock'
 
-// In checks (flat list)
-export const checks = [
-  // ... existing checks
-  { name: 'Something', check: checkSomething },
-]
-```
+test.beforeEach((t) => {
+  t.context.sandbox = sinon.createSandbox()
+})
 
-### 3. Add to default export
+test.afterEach.always((t) => {
+  t.context.sandbox.restore()
+})
 
-```javascript
-export default {
-  // ... existing exports
-  checkSomething,
-}
-```
-
-### 4. Write tests
-
-```javascript
-test('checkSomething returns ok when condition met', async (t) => {
-  const { checkSomething } = await esmock('./index.js', {
+test('checkMyThing returns ok when condition met', async (t) => {
+  const { checkMyThing } = await esmock('./my-check.js', {
     // Mock dependencies
   })
 
-  const result = checkSomething()
+  const result = checkMyThing()
 
   t.true(result.ok)
 })
 
-test('checkSomething returns not ok when condition fails', async (t) => {
-  const { checkSomething } = await esmock('./index.js', {
+test('checkMyThing returns not ok when condition fails', async (t) => {
+  const { checkMyThing } = await esmock('./my-check.js', {
     // Mock dependencies for failure case
   })
 
-  const result = checkSomething()
+  const result = checkMyThing()
 
   t.false(result.ok)
   t.truthy(result.remediation)
@@ -289,17 +328,84 @@ test('checkSomething returns not ok when condition fails', async (t) => {
 })
 ```
 
+### 4. Export from domain barrel
+
+```javascript
+// checks/project/index.js
+export { checkQuireProject } from './quire-project.js'
+export { checkDependencies } from './dependencies.js'
+export { checkOutdatedQuire11ty } from './quire-11ty.js'
+export { checkDataFiles } from './data-files.js'
+export { checkMyThing } from './my-check.js'  // Add new export
+```
+
+### 5. Add to main index.js
+
+```javascript
+// In imports
+import {
+  checkQuireProject,
+  checkDependencies,
+  checkOutdatedQuire11ty,
+  checkDataFiles,
+  checkMyThing,  // Add new import
+} from './checks/project/index.js'
+
+// In re-exports
+export {
+  // ... existing exports
+  checkMyThing,
+}
+
+// In checkSections
+export const checkSections = [
+  // ...
+  {
+    name: 'Project',
+    checks: [
+      // ... existing checks
+      { name: 'My thing', check: checkMyThing },
+    ],
+  },
+]
+
+// In checks (flat list)
+export const checks = [
+  // ... existing checks
+  { name: 'My thing', check: checkMyThing },
+]
+
+// In default export
+export default {
+  // ... existing exports
+  checkMyThing,
+}
+```
+
+### 6. Update test count in index.test.js
+
+Update the assertions for check counts if needed.
+
 ## Design Principles
 
-### Separation of Concerns
+### Domain Organization
 
-- **Constants** (paths, markers, required files) live in `project/`
-- **Validation logic** (YAML parsing, schema validation) lives in `validators/`
-- **Diagnostic checks** (returning CheckResult) live in `doctor/`
+Checks are organized by domain rather than technical concern:
+- **environment**: "Do I have what I need to run Quire?"
+- **project**: "Is my project properly configured?"
+- **outputs**: "Are my build outputs valid?"
 
 ### Check Independence
 
 Each check should be independent and not depend on the results of other checks. The runner executes all checks regardless of previous failures.
+
+### Co-located Tests
+
+Each check file has its corresponding test file in the same directory:
+```
+my-check.js
+my-check.test.js
+```
 
 ### Graceful Degradation
 
@@ -329,8 +435,16 @@ Tests use AVA with esmock for ESM module mocking.
 ### Running Tests
 
 ```bash
-# Doctor module tests
+# All doctor tests
+npx ava 'src/lib/doctor/**/*.test.js'
+
+# Main integration tests
 npx ava src/lib/doctor/index.test.js
+
+# Domain-specific tests
+npx ava src/lib/doctor/checks/environment/*.test.js
+npx ava src/lib/doctor/checks/project/*.test.js
+npx ava src/lib/doctor/checks/outputs/*.test.js
 
 # Duration formatting tests
 npx ava src/lib/doctor/formatDuration.test.js
@@ -341,9 +455,9 @@ npx ava src/validators/validate-data-files.test.js
 
 ### Test Patterns
 
-**Mocking the validator:**
+**Mocking dependencies in domain checks:**
 ```javascript
-const { checkDataFiles } = await esmock('./index.js', {
+const { checkDataFiles } = await esmock('./data-files.js', {
   '#src/validators/validate-data-files.js': {
     validateDataFiles: sandbox.stub().returns({
       valid: true,
@@ -357,22 +471,24 @@ const { checkDataFiles } = await esmock('./index.js', {
 
 **Mocking filesystem:**
 ```javascript
-const { checkStaleBuild } = await esmock('./index.js', {
+const { checkStaleBuild } = await esmock('./stale-build.js', {
   'node:fs': {
-    default: {
-      existsSync: sandbox.stub().returns(true),
-      statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
-      readdirSync: sandbox.stub().returns([]),
-    },
+    existsSync: sandbox.stub().returns(true),
+    statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
+    readdirSync: sandbox.stub().returns([]),
   },
 })
 ```
 
-## Files
+## Files Summary
 
 | File | Description |
 |------|-------------|
-| `index.js` | Main module with all check functions |
-| `index.test.js` | Tests for check functions (31 tests) |
+| `index.js` | Barrel export, runners, checkSections |
+| `index.test.js` | Integration tests for runners and sections |
+| `constants.js` | Shared constants |
 | `formatDuration.js` | Time duration formatting utility |
-| `formatDuration.test.js` | Tests for duration formatting (10 tests) |
+| `formatDuration.test.js` | Duration formatting tests |
+| `checks/environment/` | Environment prerequisite checks |
+| `checks/project/` | Project configuration checks |
+| `checks/outputs/` | Build artifact checks |
