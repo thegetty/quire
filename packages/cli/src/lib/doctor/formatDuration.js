@@ -5,6 +5,10 @@
  * particularly useful for displaying how stale a build output is compared
  * to source files.
  *
+ * The stale build check uses this to display appropriate durations like
+ * "Build output is 2 weeks older than source files" or
+ * "Build output is 3 months older than source files" for long-abandoned builds.
+ *
  * @module lib/doctor/formatDuration
  */
 
@@ -28,6 +32,18 @@ const TIME_UNITS = {
  * Converts a time duration to the most appropriate unit (seconds through years),
  * using singular or plural form as needed. The function selects the largest
  * applicable unit to keep output concise.
+ *
+ * ## Duration Thresholds
+ *
+ * | Duration       | Example Output  |
+ * |----------------|-----------------|
+ * | < 1 minute     | "45 seconds"    |
+ * | < 1 hour       | "30 minutes"    |
+ * | < 1 day        | "5 hours"       |
+ * | < 1 week       | "3 days"        |
+ * | < 1 month      | "2 weeks"       |
+ * | < 1 year       | "3 months"      |
+ * | >= 1 year      | "2 years"       |
  *
  * @param {number} ms - Duration in milliseconds. Must be a non-negative number.
  *
