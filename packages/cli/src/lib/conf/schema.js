@@ -6,6 +6,11 @@
  * @see https://github.com/sindresorhus/conf#defaults
  */
 export default {
+  epubEngine: {
+    type: 'string',
+    enum: ['epubjs', 'pandoc'],
+    description: 'Default EPUB engine to use (epubjs, pandoc)'
+  },
   logLevel: {
     type: 'string',
     enum: ['trace', 'debug', 'info', 'warn', 'error', 'silent'],
@@ -27,6 +32,11 @@ export default {
   logUseColor: {
     type: 'boolean',
     description: 'Use colored output for log messages'
+  },
+  pdfEngine: {
+    type: 'string',
+    enum: ['pagedjs', 'prince'],
+    description: 'Default PDF engine to use (pagedjs, prince)'
   },
   projectTemplate: {
     type: 'string',

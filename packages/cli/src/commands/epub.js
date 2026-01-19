@@ -33,8 +33,8 @@ Examples:
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open EPUB in default application' ],
       [
-        '--engine <name>', 'EPUB engine to use', 'epubjs',
-        { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
+        '--engine <name>', 'EPUB engine to use (default: from config or epubjs)',
+        { choices: ['epubjs', 'pandoc'] }
       ],
       [
         '--lib <name>', 'deprecated alias for --engine option',
@@ -51,9 +51,15 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
-    // Support deprecated --lib option (alias for --engine)
-    if (options.lib && !options.engine) {
-      options.engine = options.lib
+    // Resolve engine: CLI --engine > deprecated --lib > config epubEngine > default
+    if (!options.engine) {
+      if (options.lib) {
+        // Support deprecated --lib option
+        options.engine = options.lib
+      } else {
+        // Use config setting or fallback to default
+        options.engine = this.config.get('epubEngine') || 'epubjs'
+      }
     }
 
     // Run build first if --build flag is set and output is missing

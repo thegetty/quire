@@ -31,8 +31,8 @@ Examples:
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open PDF in default application' ],
       [
-        '--engine <name>', 'PDF engine to use', 'pagedjs',
-        { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
+        '--engine <name>', 'PDF engine to use (default: from config or pagedjs)',
+        { choices: ['pagedjs', 'prince'] }
       ],
       [
         '--lib <name>', 'deprecated alias for --engine option',
@@ -49,9 +49,15 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
-    // Support deprecated --lib option (alias for --engine)
-    if (options.lib && !options.engine) {
-      options.engine = options.lib
+    // Resolve engine: CLI --engine > deprecated --lib > config pdfEngine > default
+    if (!options.engine) {
+      if (options.lib) {
+        // Support deprecated --lib option
+        options.engine = options.lib
+      } else {
+        // Use config setting or fallback to default
+        options.engine = this.config.get('pdfEngine') || 'pagedjs'
+      }
     }
 
     // Run build first if --build flag is set and output is missing

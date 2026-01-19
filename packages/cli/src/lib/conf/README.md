@@ -8,7 +8,19 @@ This `quire-cli/lib/config` module manages reading and writing (persisting) opti
 
 ### Configuration
 
+`epubEngine` The default EPUB engine for `quire epub` command; default `'epubjs'`. Options: `'epubjs'`, `'pandoc'`.
+
+```sh
+❯ quire config set epubEngine pandoc
+```
+
 `logLevel` The default logging level for the Quire CLI output; default `'info'`.
+
+`pdfEngine` The default PDF engine for `quire pdf` command; default `'pagedjs'`. Options: `'pagedjs'`, `'prince'`.
+
+```sh
+❯ quire config set pdfEngine prince
+```
 
 `projectTemplate` A default project starter template to use when creating new projects; default `'quire-starter-default'`.
 
