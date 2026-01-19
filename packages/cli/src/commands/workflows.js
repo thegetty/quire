@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { DOCS_BASE_URL } from '#lib/constants.js'
 
 /**
  * Quire CLI `workflows` Command
@@ -50,7 +51,7 @@ Common Workflows:
     quire info                   Show version information
     quire build --verbose        Build with debug output
 
-See full documentation: https://quire.getty.edu/docs-v1/
+See full documentation: ${DOCS_BASE_URL}/
 `,
     version: '1.0.0',
     options: [],

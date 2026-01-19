@@ -8,7 +8,7 @@ Diagnostic checks for Quire environment and project health.
 doctor/
 ├── index.js                  # Barrel export, runners, checkSections
 ├── index.test.js             # Integration tests for runners
-├── constants.js              # Shared constants (DOCS_BASE_URL, etc.)
+├── constants.js              # Re-exports constants from #lib/constants.js
 ├── formatDuration.js         # Human-readable time formatting
 ├── formatDuration.test.js    # Duration formatting tests
 ├── README.md                 # This file
@@ -86,7 +86,7 @@ doctor/
 | `#src/validators/validate-data-files.js` | YAML validation logic |
 | `update-notifier` | Cached CLI update check info |
 | `semver` | Semantic version comparison |
-| `./constants.js` | Shared constants (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) |
+| `./constants.js` | Re-exports from `#lib/constants.js` (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) |
 | `./formatDuration.js` | Human-readable time formatting |
 
 ## Check Result Type
@@ -526,7 +526,7 @@ const { checkStaleBuild } = await esmock('./stale-build.js', {
 |------|-------------|
 | `index.js` | Barrel export, runners, checkSections |
 | `index.test.js` | Integration tests for runners and sections |
-| `constants.js` | Shared constants |
+| `constants.js` | Re-exports from `#lib/constants.js` |
 | `formatDuration.js` | Time duration formatting utility |
 | `formatDuration.test.js` | Duration formatting tests |
 | `checks/environment/` | Environment prerequisite checks (4 checks) |
