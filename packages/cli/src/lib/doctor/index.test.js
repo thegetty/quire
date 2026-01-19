@@ -216,6 +216,7 @@ test('checkStaleBuild returns warning when build is stale', async (t) => {
   statStub.withArgs('_site').returns({ mtimeMs: oldTime })
   statStub.returns({ mtimeMs: newTime })
 
+  const path = await import('node:path')
   const { checkStaleBuild } = await esmock('./index.js', {
     'node:fs': {
       default: {
@@ -227,12 +228,11 @@ test('checkStaleBuild returns warning when build is stale', async (t) => {
           }
           return []
         }),
+        readFileSync: sandbox.stub().returns('{}'),
       },
     },
     'node:path': {
-      default: {
-        join: (...args) => args.join('/'),
-      },
+      default: path.default,
     },
   })
 
@@ -260,6 +260,7 @@ test('checkStaleBuild formats duration in weeks', async (t) => {
   statStub.withArgs('_site').returns({ mtimeMs: twoWeeksAgo })
   statStub.returns({ mtimeMs: newTime })
 
+  const path = await import('node:path')
   const { checkStaleBuild } = await esmock('./index.js', {
     'node:fs': {
       default: {
@@ -271,12 +272,11 @@ test('checkStaleBuild formats duration in weeks', async (t) => {
           }
           return []
         }),
+        readFileSync: sandbox.stub().returns('{}'),
       },
     },
     'node:path': {
-      default: {
-        join: (...args) => args.join('/'),
-      },
+      default: path.default,
     },
   })
 
@@ -301,6 +301,7 @@ test('checkStaleBuild formats duration in months', async (t) => {
   statStub.withArgs('_site').returns({ mtimeMs: threeMonthsAgo })
   statStub.returns({ mtimeMs: newTime })
 
+  const path = await import('node:path')
   const { checkStaleBuild } = await esmock('./index.js', {
     'node:fs': {
       default: {
@@ -312,12 +313,11 @@ test('checkStaleBuild formats duration in months', async (t) => {
           }
           return []
         }),
+        readFileSync: sandbox.stub().returns('{}'),
       },
     },
     'node:path': {
-      default: {
-        join: (...args) => args.join('/'),
-      },
+      default: path.default,
     },
   })
 
@@ -342,6 +342,7 @@ test('checkStaleBuild formats duration in years', async (t) => {
   statStub.withArgs('_site').returns({ mtimeMs: twoYearsAgo })
   statStub.returns({ mtimeMs: newTime })
 
+  const path = await import('node:path')
   const { checkStaleBuild } = await esmock('./index.js', {
     'node:fs': {
       default: {
@@ -353,12 +354,11 @@ test('checkStaleBuild formats duration in years', async (t) => {
           }
           return []
         }),
+        readFileSync: sandbox.stub().returns('{}'),
       },
     },
     'node:path': {
-      default: {
-        join: (...args) => args.join('/'),
-      },
+      default: path.default,
     },
   })
 
@@ -371,6 +371,7 @@ test('checkStaleBuild formats duration in years', async (t) => {
 test('runAllChecks runs all checks and returns results', async (t) => {
   const { sandbox } = t.context
 
+  const path = await import('node:path')
   const { runAllChecks } = await esmock('./index.js', {
     '#lib/git/index.js': {
       default: {
@@ -387,14 +388,18 @@ test('runAllChecks runs all checks and returns results', async (t) => {
         existsSync: sandbox.stub().returns(true),
         statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
         readdirSync: sandbox.stub().returns([]),
+        readFileSync: sandbox.stub().returns('{}'),
       },
+    },
+    'node:path': {
+      default: path.default,
     },
   })
 
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 6)
+  t.is(results.length, 7)
 
   for (const result of results) {
     t.is(typeof result.name, 'string')
@@ -406,7 +411,7 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 6)
+  t.is(checks.length, 7)
 
   const checkNames = checks.map((c) => c.name)
   t.true(checkNames.includes('Node.js version'))
@@ -414,6 +419,7 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('Git available'))
   t.true(checkNames.includes('Quire project detected'))
   t.true(checkNames.includes('Dependencies installed'))
+  t.true(checkNames.includes('Data files'))
   t.true(checkNames.includes('Build status'))
 })
 
@@ -431,14 +437,15 @@ test('checkSections exports checks organized by section', async (t) => {
   const envSection = checkSections.find((s) => s.name === 'Environment')
   t.is(envSection.checks.length, 3)
 
-  // Project section should have 3 checks
+  // Project section should have 4 checks (including Data files)
   const projectSection = checkSections.find((s) => s.name === 'Project')
-  t.is(projectSection.checks.length, 3)
+  t.is(projectSection.checks.length, 4)
 })
 
 test('runAllChecksWithSections returns results organized by section', async (t) => {
   const { sandbox } = t.context
 
+  const path = await import('node:path')
   const { runAllChecksWithSections } = await esmock('./index.js', {
     '#lib/git/index.js': {
       default: {
@@ -455,7 +462,11 @@ test('runAllChecksWithSections returns results organized by section', async (t) 
         existsSync: sandbox.stub().returns(true),
         statSync: sandbox.stub().returns({ mtimeMs: Date.now() }),
         readdirSync: sandbox.stub().returns([]),
+        readFileSync: sandbox.stub().returns('{}'),
       },
+    },
+    'node:path': {
+      default: path.default,
     },
   })
 
@@ -485,6 +496,124 @@ test('default export includes all functions', async (t) => {
   t.is(typeof doctor.default.checkGitAvailable, 'function')
   t.is(typeof doctor.default.checkQuireProject, 'function')
   t.is(typeof doctor.default.checkDependencies, 'function')
+  t.is(typeof doctor.default.checkDataFiles, 'function')
   t.is(typeof doctor.default.checkStaleBuild, 'function')
   t.truthy(doctor.default.checkSections)
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// checkDataFiles tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('checkDataFiles returns ok when no data directory exists', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkDataFiles } = await esmock('./index.js', {
+    '#src/validators/validate-data-files.js': {
+      validateDataFiles: sandbox.stub().returns({
+        valid: true,
+        errors: [],
+        fileCount: 0,
+        files: [],
+        notInProject: true,
+      }),
+    },
+  })
+
+  const result = checkDataFiles()
+
+  t.true(result.ok)
+  t.regex(result.message, /No content\/_data directory/)
+})
+
+test('checkDataFiles returns ok when all YAML files are valid', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkDataFiles } = await esmock('./index.js', {
+    '#src/validators/validate-data-files.js': {
+      validateDataFiles: sandbox.stub().returns({
+        valid: true,
+        errors: [],
+        fileCount: 1,
+        files: [{ file: 'publication.yaml', valid: true, errors: [] }],
+      }),
+    },
+  })
+
+  const result = checkDataFiles()
+
+  t.true(result.ok)
+  t.regex(result.message, /1 files validated/)
+})
+
+test('checkDataFiles returns warning when required file is missing', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkDataFiles } = await esmock('./index.js', {
+    '#src/validators/validate-data-files.js': {
+      validateDataFiles: sandbox.stub().returns({
+        valid: false,
+        errors: ['Required file missing: publication.yaml'],
+        fileCount: 0,
+        files: [],
+      }),
+    },
+  })
+
+  const result = checkDataFiles()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+  t.regex(result.message, /1 issue/)
+  t.regex(result.remediation, /publication\.yaml/)
+})
+
+test('checkDataFiles returns warning when YAML has syntax error', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkDataFiles } = await esmock('./index.js', {
+    '#src/validators/validate-data-files.js': {
+      validateDataFiles: sandbox.stub().returns({
+        valid: false,
+        errors: ['invalid.yaml: YAML syntax error at line 1 - unexpected end of stream'],
+        fileCount: 2,
+        files: [
+          { file: 'publication.yaml', valid: true, errors: [] },
+          { file: 'invalid.yaml', valid: false, errors: ['invalid.yaml: YAML syntax error at line 1 - unexpected end of stream'] },
+        ],
+      }),
+    },
+  })
+
+  const result = checkDataFiles()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+  t.regex(result.remediation, /invalid\.yaml/)
+  t.regex(result.remediation, /YAML syntax error/)
+})
+
+test('checkDataFiles returns warning when duplicate IDs exist', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkDataFiles } = await esmock('./index.js', {
+    '#src/validators/validate-data-files.js': {
+      validateDataFiles: sandbox.stub().returns({
+        valid: false,
+        errors: ['figures.yaml: duplicate IDs found: fig-1'],
+        fileCount: 2,
+        files: [
+          { file: 'publication.yaml', valid: true, errors: [] },
+          { file: 'figures.yaml', valid: false, errors: ['figures.yaml: duplicate IDs found: fig-1'] },
+        ],
+      }),
+    },
+  })
+
+  const result = checkDataFiles()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+  t.regex(result.remediation, /duplicate IDs/)
+  t.regex(result.remediation, /fig-1/)
 })
