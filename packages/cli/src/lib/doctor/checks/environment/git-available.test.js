@@ -1,0 +1,47 @@
+import test from 'ava'
+import sinon from 'sinon'
+import esmock from 'esmock'
+
+test.beforeEach((t) => {
+  t.context.sandbox = sinon.createSandbox()
+})
+
+test.afterEach.always((t) => {
+  t.context.sandbox.restore()
+})
+
+test('checkGitAvailable returns ok when git is available', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkGitAvailable } = await esmock('./git-available.js', {
+    '#lib/git/index.js': {
+      default: {
+        isAvailable: sandbox.stub().resolves(true),
+      },
+    },
+  })
+
+  const result = await checkGitAvailable()
+
+  t.true(result.ok)
+  t.is(result.message, null)
+})
+
+test('checkGitAvailable returns not ok when git is missing', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkGitAvailable } = await esmock('./git-available.js', {
+    '#lib/git/index.js': {
+      default: {
+        isAvailable: sandbox.stub().resolves(false),
+      },
+    },
+  })
+
+  const result = await checkGitAvailable()
+
+  t.false(result.ok)
+  t.regex(result.message, /Git not found/)
+  t.truthy(result.remediation, 'should include remediation guidance')
+  t.truthy(result.docsUrl, 'should include documentation link')
+})
