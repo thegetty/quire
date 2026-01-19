@@ -6,25 +6,25 @@ This directory contains domain-specific modules that encapsulate the core functi
 
 ```
                                     Commands Layer
-                    ┌─────────────────────────────────────────┐
-                    │  build  preview  new  pdf  epub  info   │
-                    └──────────────────┬──────────────────────┘
-                                       │
-                    ┌──────────────────┴──────────────────────┐
-                    │              lib/ modules               │
-                    └─────────────────────────────────────────┘
+                    ┌───────────────────────────────────────────────────┐
+                    │  build  preview  new  pdf  epub  info  doctor    │
+                    └────────────────────────┬──────────────────────────┘
+                                             │
+                    ┌────────────────────────┴──────────────────────────┐
+                    │                   lib/ modules                    │
+                    └───────────────────────────────────────────────────┘
 
-     ┌─────────────────────────────────────────────────────────────────┐
-     │                        Domain Modules                           │
-     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
-     │  │ project/ │  │  11ty/   │  │   pdf/   │  │      epub/       │ │
-     │  │          │  │          │  │          │  │                  │ │
-     │  │ - paths  │  │ - api    │  │ - prince │  │ - pandoc         │ │
-     │  │ - config │  │ - cli    │  │ - paged  │  │                  │ │
-     │  │ - detect │  │          │  │          │  │                  │ │
-     │  │ - version│  │          │  │          │  │                  │ │
-     │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────────┬─────────┘ │
-     └───────┼─────────────┼─────────────┼─────────────────┼───────────┘
+     ┌─────────────────────────────────────────────────────────────────────────┐
+     │                           Domain Modules                                │
+     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────┐  ┌─────────────┐  │
+     │  │ project/ │  │  11ty/   │  │   pdf/   │  │ epub/  │  │   doctor/   │  │
+     │  │          │  │          │  │          │  │        │  │             │  │
+     │  │ - paths  │  │ - api    │  │ - prince │  │-pandoc │  │ - checks    │  │
+     │  │ - config │  │ - cli    │  │ - paged  │  │        │  │ - format    │  │
+     │  │ - detect │  │          │  │          │  │        │  │             │  │
+     │  │ - version│  │          │  │          │  │        │  │             │  │
+     │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └───┬────┘  └──────┬──────┘  │
+     └───────┼─────────────┼─────────────┼────────────┼───────────────┼────────┘
              │             │             │                 │
              │      ┌──────┴─────────────┴─────────────────┘
              │      │
@@ -102,6 +102,45 @@ These modules encapsulate specific business domains of Quire.
 | `default` | EPUB generator façade |
 
 **Dependencies:** `project/`
+
+#### `doctor/`
+**Purpose:** Diagnostic checks for Quire environment and project health.
+
+| Export | Description |
+|--------|-------------|
+| `default` | Object with all check functions and arrays |
+| `checks` | Flat array of all diagnostic checks |
+| `checkSections` | Checks organized by section (Environment, Project) |
+| `runAllChecks()` | Run all checks, return flat results array |
+| `runAllChecksWithSections()` | Run all checks, return results by section |
+| `checkNodeVersion()` | Verify Node.js >= 22 |
+| `checkNpmAvailable()` | Verify npm in PATH |
+| `checkGitAvailable()` | Verify git in PATH |
+| `checkQuireProject()` | Detect project marker files |
+| `checkDependencies()` | Verify node_modules exists |
+| `checkStaleBuild()` | Compare source vs build timestamps |
+
+**Sub-modules:**
+
+| File | Description |
+|------|-------------|
+| `formatDuration.js` | Human-readable time duration formatting |
+
+**Duration Formatting:**
+
+The `formatDuration` function converts milliseconds to the most appropriate time unit:
+
+| Duration       | Example Output  |
+|----------------|-----------------|
+| < 1 minute     | "45 seconds"    |
+| < 1 hour       | "30 minutes"    |
+| < 1 day        | "5 hours"       |
+| < 1 week       | "3 days"        |
+| < 1 month      | "2 weeks"       |
+| < 1 year       | "3 months"      |
+| >= 1 year      | "2 years"       |
+
+**Dependencies:** `project/`, `npm/`, `git/`
 
 #### `installer/`
 **Purpose:** Installation of `@thegetty/quire-11ty` into Quire projects.
