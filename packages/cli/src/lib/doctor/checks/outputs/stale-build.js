@@ -15,9 +15,9 @@ const debug = createDebug('lib:doctor:stale-build')
 /**
  * Get the latest modification time from files in a directory (recursive)
  * @param {string} dir - Directory to scan
- * @returns {number} - Latest mtime in milliseconds, or 0 if directory doesn't exist
+ * @returns {number} - Latest modified timestamp in milliseconds, or 0 if directory doesn't exist
  */
-function getLatestMtime(dir) {
+function getLatestModified(dir) {
   if (!fs.existsSync(dir)) {
     return 0
   }
@@ -62,24 +62,24 @@ export function checkStaleBuild() {
     }
   }
 
-  // Get _site mtime
+  // Get _site last modified time
   const siteStat = fs.statSync(siteDir)
-  const siteMtime = siteStat.mtimeMs
-  debug('_site mtime: %d', siteMtime)
+  const siteLastModified = siteStat.mtimeMs
+  debug('_site lastModified: %d', siteLastModified)
 
   // Find newest source file across all source directories
-  let newestSourceMtime = 0
+  let newestSourceLastModified = 0
   for (const dir of SOURCE_DIRECTORIES) {
-    const mtime = getLatestMtime(dir)
-    if (mtime > newestSourceMtime) {
-      newestSourceMtime = mtime
+    const lastModified = getLatestModified(dir)
+    if (lastModified > newestSourceLastModified) {
+      newestSourceLastModified = lastModified
     }
   }
-  debug('Newest source mtime: %d', newestSourceMtime)
+  debug('Newest source lastModified: %d', newestSourceLastModified)
 
   // If source is newer than build, warn about stale build
-  if (newestSourceMtime > siteMtime) {
-    const staleDuration = formatDuration(newestSourceMtime - siteMtime)
+  if (newestSourceLastModified > siteLastModified) {
+    const staleDuration = formatDuration(newestSourceLastModified - siteLastModified)
     return {
       ok: false,
       level: 'warn',
