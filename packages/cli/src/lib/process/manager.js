@@ -12,7 +12,7 @@
  * @module lib/process/manager
  */
 
-import logger from '#src/lib/logger.js'
+import { logger } from '#lib/logger/index.js'
 
 const LOG_PREFIX = '[CLI:process]'
 

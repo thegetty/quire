@@ -24,7 +24,7 @@ test.afterEach.always((t) => {
 test('processManager exports signal and handler methods', async (t) => {
   const { mockLogger } = t.context
   const processManager = await esmock('./manager.js', {
-    '#src/lib/logger.js': { default: mockLogger },
+    '#lib/logger/index.js': { logger: mockLogger },
   })
 
   t.truthy(processManager.default.signal)
@@ -35,7 +35,7 @@ test('processManager exports signal and handler methods', async (t) => {
 test('processManager.signal is an AbortSignal', async (t) => {
   const { mockLogger } = t.context
   const processManager = await esmock('./manager.js', {
-    '#src/lib/logger.js': { default: mockLogger },
+    '#lib/logger/index.js': { logger: mockLogger },
   })
 
   t.true(processManager.default.signal instanceof AbortSignal)
@@ -44,7 +44,7 @@ test('processManager.signal is an AbortSignal', async (t) => {
 test('onShutdown/onShutdownComplete register and remove handlers', async (t) => {
   const { sandbox, mockLogger } = t.context
   const processManager = await esmock('./manager.js', {
-    '#src/lib/logger.js': { default: mockLogger },
+    '#lib/logger/index.js': { logger: mockLogger },
   })
   const cleanup = sandbox.stub()
 
