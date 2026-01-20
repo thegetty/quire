@@ -1154,3 +1154,133 @@ test.serial('doctor command --json <file> should not write to stdout', async (t)
   t.false(consoleLogStub.called, 'should not write to stdout when file is specified')
   t.true(writeFileSyncStub.calledOnce, 'should write to file instead')
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// --quiet flag tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command --quiet alone should produce no output on success', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  // --quiet alone (no --json) should produce no output
+  await command.action({ quiet: true }, command)
+
+  t.false(consoleLogStub.called, 'should not write to stdout')
+  t.false(mockLogger.info.called, 'should not log any info messages')
+})
+
+test.serial('doctor command --quiet alone should exit with code 1 on failures', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const exitStub = sandbox.stub(process, 'exit')
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'npm', name: 'npm', ok: false, message: 'not found' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  // --quiet alone should still exit with code 1 on failure
+  await command.action({ quiet: true }, command)
+
+  t.true(exitStub.calledWith(1), 'should exit with code 1')
+  t.false(consoleLogStub.called, 'should not output anything')
+  t.false(mockLogger.info.called, 'should not log any info messages')
+})
+
+test.serial('doctor command --quiet --json should suppress stdout JSON output', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  // --quiet with --json should suppress JSON stdout output
+  await command.action({ quiet: true, json: true }, command)
+
+  t.false(consoleLogStub.called, 'should not write JSON to stdout in quiet mode')
+})
+
+test.serial('doctor command --quiet --json <file> should write to file silently', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const writeFileSyncStub = sandbox.stub()
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    'node:fs': {
+      writeFileSync: writeFileSyncStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ quiet: true, json: 'report.json' }, command)
+
+  t.true(writeFileSyncStub.calledOnce, 'should write to file')
+  t.false(
+    mockLogger.info.calledWith(sinon.match(/Results written to/)),
+    'should not log success message in quiet mode'
+  )
+})

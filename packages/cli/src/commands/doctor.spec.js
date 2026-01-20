@@ -48,8 +48,8 @@ test('registered command has no arguments', (t) => {
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Doctor command has --check, --verbose, --errors, --warnings, --json options
-  t.is(command.options.length, 5, 'doctor command should have 5 options')
+  // Doctor command has --check, --verbose, --errors, --warnings, --json, --quiet options
+  t.is(command.options.length, 6, 'doctor command should have 6 options')
 
   // Verify --check option
   const checkOption = command.options.find((opt) => opt.long === '--check')
@@ -89,6 +89,14 @@ test('registered command has correct options', (t) => {
   t.truthy(jsonOption.description)
   t.true(jsonOption.description.includes('JSON'), 'description should mention JSON')
   t.true(jsonOption.description.includes('file'), 'description should mention file output')
+
+  // Verify --quiet option
+  const quietOption = command.options.find((opt) => opt.long === '--quiet')
+  t.truthy(quietOption, '--quiet option should exist')
+  t.true(quietOption instanceof Option, '--quiet should be Option instance')
+  t.is(quietOption.short, '-q', '--quiet should have -q short flag')
+  t.truthy(quietOption.description)
+  t.true(quietOption.description.toLowerCase().includes('ci') || quietOption.description.toLowerCase().includes('exit'), 'description should mention CI or exit code')
 })
 
 test('command is accessible via checkup alias', (t) => {
