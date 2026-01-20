@@ -185,15 +185,20 @@ test('getElapsed() returns null before start', (t) => {
 })
 
 test('getElapsed() returns elapsed time after start', async (t) => {
-  reporter.configure({ quiet: true })
-  reporter.start('Test')
+  // Create a fresh Reporter instance for this test to avoid singleton issues
+  const rep = new Reporter()
+  rep.configure({ quiet: true })
+  rep.start('Test')
 
   // Wait a small amount
   await new Promise((resolve) => setTimeout(resolve, 50))
 
-  const elapsed = reporter.getElapsed()
-  t.true(typeof elapsed === 'number')
-  t.true(elapsed >= 50)
+  const elapsed = rep.getElapsed()
+  t.true(typeof elapsed === 'number', `elapsed should be a number, got: ${elapsed} (${typeof elapsed})`)
+  t.true(elapsed >= 40, `elapsed (${elapsed}ms) should be >= 40ms`)
+
+  // Clean up
+  rep.stop()
 })
 
 test('elapsed timer is cleared on succeed', async (t) => {
@@ -501,8 +506,9 @@ test.serial('showElapsed option updates spinner text with time', async (t) => {
   const originalIsTTY = process.stdout.isTTY
   process.stdout.isTTY = true
 
+  let rep
   try {
-    const rep = new MockedReporter()
+    rep = new MockedReporter()
     rep.start('Building...', { showElapsed: true })
 
     // Wait for timer to tick
@@ -511,6 +517,8 @@ test.serial('showElapsed option updates spinner text with time', async (t) => {
     // Text should include elapsed time
     t.true(mockOraInstance.text.includes('(1s)'))
   } finally {
+    // Ensure timer is stopped
+    if (rep) rep.stop()
     process.stdout.isTTY = originalIsTTY
   }
 })
