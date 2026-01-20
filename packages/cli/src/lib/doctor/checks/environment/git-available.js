@@ -4,6 +4,7 @@
  * @module lib/doctor/checks/environment/git-available
  */
 import git from '#lib/git/index.js'
+import which from 'which'
 import createDebug from '#debug'
 import { getPlatform, Platform } from '#lib/platform.js'
 import { DOCS_BASE_URL } from '../../constants.js'
@@ -59,7 +60,8 @@ export async function checkGitAvailable() {
 
   if (ok) {
     const version = await git.version()
-    return { ok: true, message: version }
+    const gitPath = which.sync('git', { nothrow: true })
+    return { ok: true, message: version, details: gitPath }
   }
 
   const { remediation, docsUrl } = getRemediationAndDocs()
