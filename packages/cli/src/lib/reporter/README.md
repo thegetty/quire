@@ -208,6 +208,4 @@ Spinners are automatically suppressed when:
 
 ## Related
 
-- [ADR: Reporter Module](../../docs/adr-reporter-module.md) - Design decision record
-- [CLI UX Evaluation](../../docs/cli-ux-evaluation.md) - Stage 5 progress indicators
 - [lib/logger](../logger/) - Logging abstraction (different concern)
