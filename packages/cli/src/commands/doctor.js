@@ -1,5 +1,16 @@
+import chalk from 'chalk'
 import Command from '#src/Command.js'
 import { runAllChecksWithSections, checkSections, SECTION_NAMES, CHECK_IDS } from '#lib/doctor/index.js'
+
+/**
+ * Colored status icons for check results
+ */
+const STATUS_ICONS = {
+  passed: chalk.green('✓'),
+  failed: chalk.red('✗'),
+  warning: chalk.yellow('⚠'),
+  na: chalk.dim('○'),
+}
 
 /**
  * Map section name to its check IDs
@@ -111,8 +122,14 @@ Examples:
           }
         }
 
-        // Select appropriate status icon
-        const status = level === 'na' ? '○' : ok ? '✓' : level === 'warn' ? '⚠' : '✗'
+        // Select appropriate status icon (with color)
+        const status = level === 'na'
+          ? STATUS_ICONS.na
+          : ok
+            ? STATUS_ICONS.passed
+            : level === 'warn'
+              ? STATUS_ICONS.warning
+              : STATUS_ICONS.failed
         const statusLine = message ? `  ${status} ${name}: ${message}` : `  ${status} ${name}`
         const lines = [statusLine]
 
@@ -166,7 +183,7 @@ Examples:
     // Show symbol key in verbose mode
     if (options.verbose) {
       this.logger.info('')
-      this.logger.info('Key: ✓ passed  ✗ failed  ⚠ warning  ○ not applicable / not yet generated')
+      this.logger.info(`Key: ${STATUS_ICONS.passed} passed  ${STATUS_ICONS.failed} failed  ${STATUS_ICONS.warning} warning  ${STATUS_ICONS.na} not applicable / not yet generated`)
     }
   }
 }
