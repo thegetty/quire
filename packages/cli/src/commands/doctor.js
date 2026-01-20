@@ -34,17 +34,22 @@ Runs diagnostic checks organized into three sections:
   • Outputs: build, pdf, epub
 
 Examples:
-  quire doctor                       Run all diagnostic checks
-  quire doctor --check all           Run all checks (same as no flag)
-  quire doctor --check environment   Check environment section only
-  quire doctor --check node          Check Node.js version only
-  quire doctor --check "node git"    Check multiple items (space-separated)
-  quire doctor --check node,git      Check multiple items (comma-separated)
-  quire doctor --errors              Show only failed checks
-  quire doctor --warnings            Show only warnings
-  quire doctor --json                Output results as JSON (to stdout)
-  quire doctor --json report.json    Save JSON results to file
-  quire checkup                      Alias for doctor command
+  quire doctor                          Run all diagnostic checks
+  quire doctor --check all              Run all checks (same as no flag)
+  quire doctor --check environment      Check environment section only
+  quire doctor --check node             Check Node.js version only
+  quire doctor --check "node git"       Check multiple items (space-separated)
+  quire doctor --check node,git         Check multiple items (comma-separated)
+  quire doctor --errors                 Show only failed checks
+  quire doctor --warnings               Show only warnings
+  quire doctor --verbose                Show additional details (paths, versions)
+  quire doctor --json                   Output results as JSON (to stdout)
+  quire doctor --json report.json       Save JSON results to file
+  quire checkup                         Alias for doctor command
+
+CI/Scripting:
+  quire doctor --quiet                  Exit code only (0=success, 1=failure)
+  quire doctor --quiet --json out.json  Save JSON report silently
 `,
     version: '1.0.0',
     options: [
@@ -52,10 +57,11 @@ Examples:
         '-c, --check <ids>',
         `run specific check(s): all, ${SECTION_NAMES.join(', ')}, or ${CHECK_IDS.join(', ')}`,
       ],
+      ['-q, --quiet', 'suppress output (exit code only, for CI scripts)'],
       ['-v, --verbose', 'show additional details (paths, versions)'],
       ['-e, --errors', 'show only failed checks'],
       ['-w, --warnings', 'show only warnings'],
-      ['--json [file]', 'output results as JSON (to stdout or file)'],
+      ['--json [file]', 'output results as JSON (to standard out or a file)'],
     ],
   }
 
@@ -110,8 +116,25 @@ Examples:
       return
     }
 
+    // Quiet mode without JSON: just exit with appropriate code
+    if (options.quiet) {
+      this.outputQuiet(sections)
+      return
+    }
+
     // Human-readable output
     this.outputHuman(sections, options, label)
+  }
+
+  /**
+   * Quiet mode: no output, just exit code
+   * @param {Array} sections - Check results organized by section
+   */
+  outputQuiet(sections) {
+    const { exitCode } = formatJson(sections, {})
+    if (exitCode !== 0) {
+      process.exit(exitCode)
+    }
   }
 
   /**
@@ -130,9 +153,11 @@ Examples:
     if (typeof options.json === 'string') {
       const outputPath = path.resolve(options.json)
       fs.writeFileSync(outputPath, json + '\n')
-      this.logger.info(`Results written to ${outputPath}`)
-    } else {
-      // Write to stdout (bypassing logger formatting)
+      if (!options.quiet) {
+        this.logger.info(`Results written to ${outputPath}`)
+      }
+    } else if (!options.quiet) {
+      // Write to stdout (bypassing logger formatting) unless quiet mode
       console.log(json)
     }
 
