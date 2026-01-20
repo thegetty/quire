@@ -5,6 +5,19 @@
  * unified handling of quiet/verbose modes and testability. Follows the
  * singleton pattern like lib/logger.js for easy mocking in tests.
  *
+ * ## Output Modes
+ *
+ * The reporter supports three output modes controlled by command options:
+ *
+ * | Mode | Flag | Behavior |
+ * |------|------|----------|
+ * | Default | (none) | Show spinner with basic status |
+ * | Quiet | `-q, --quiet` | Suppress all output (for CI/scripts) |
+ * | Verbose | `-v, --verbose` | Show detailed progress with paths, timing |
+ *
+ * Note: `--debug` is handled separately and enables DEBUG namespace logging,
+ * not reporter output. Use verbose mode for detailed user-facing output.
+ *
  * @example Production usage
  * import reporter from '#lib/reporter/index.js'
  * reporter.start('Building site...')
@@ -27,6 +40,18 @@
  *   reporter.fail('PDF generation failed')
  *   throw error
  * }
+ *
+ * @example Verbose mode with details
+ * reporter.configure({ verbose: true })
+ * reporter.start('Building site...')
+ * reporter.detail('Output: _site/')
+ * reporter.detail('Pages: 45')
+ * reporter.succeed('Build complete')
+ * // Shows:
+ * // ⠋ Building site...
+ * //   Output: _site/
+ * //   Pages: 45
+ * // ✔ Build complete
  *
  * @example Test mocking
  * const mockReporter = {
@@ -344,6 +369,57 @@ class Reporter {
     }
 
     return this
+  }
+
+  /**
+   * Display a detail line (only shown in verbose mode)
+   *
+   * Use this to provide additional context that's useful for users
+   * who want more information but isn't essential for normal operation.
+   *
+   * @param {string} text - Detail text to display
+   * @returns {Reporter} this instance for chaining
+   *
+   * @example
+   * reporter.configure({ verbose: true })
+   * reporter.start('Building site...')
+   * reporter.detail('Output: _site/')
+   * reporter.detail('Processing 45 pages')
+   * reporter.succeed('Build complete')
+   */
+  detail(text) {
+    // Only show details in verbose mode
+    if (!this.#verbose || this.#shouldSuppress()) {
+      debug('detail (suppressed): %s', text)
+      return this
+    }
+
+    // Print detail with indentation below spinner
+    if (this.#spinner) {
+      // Temporarily stop spinner to print detail
+      const wasSpinning = this.#spinner.isSpinning
+      if (wasSpinning) {
+        this.#spinner.stop()
+      }
+      console.log(`  ${text}`)
+      if (wasSpinning) {
+        this.#spinner.start()
+      }
+    } else {
+      console.log(`  ${text}`)
+    }
+
+    debug('detail: %s', text)
+    return this
+  }
+
+  /**
+   * Check if verbose mode is enabled
+   *
+   * @returns {boolean} True if verbose mode is enabled
+   */
+  isVerbose() {
+    return this.#verbose
   }
 
   /**

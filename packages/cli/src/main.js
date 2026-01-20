@@ -31,6 +31,11 @@ Common Workflows:
 
   Run 'quire help workflows' for detailed workflow documentation.
 
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing, steps)
+  --debug          Enable debug output for developers/troubleshooting
+
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
@@ -38,7 +43,8 @@ Environment Variables:
 
 Examples:
   $ quire build                  Build the publication
-  $ quire build --verbose        Build with debug output
+  $ quire build --verbose        Build with detailed progress
+  $ quire build --debug          Build with debug output
   $ DEBUG=quire:* quire pdf      Generate PDF with debug output
 `
 
@@ -54,8 +60,10 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(version, '-v, --version', 'output quire version number')
-  .option('--verbose', 'enable verbose output for debugging')
+  .version(version, '-V, --version', 'output quire version number')
+  .option('-q, --quiet', 'suppress progress output (for CI/scripts)')
+  .option('-v, --verbose', 'show detailed progress output')
+  .option('--debug', 'enable debug output for troubleshooting')
   .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
@@ -68,11 +76,21 @@ program
   })
 
 /**
- * Handle global --verbose option before any command runs
+ * Handle global options before any command runs
+ *
+ * Output mode semantics:
+ * - --quiet: Suppress progress spinners (for CI/scripts)
+ * - --verbose: Show detailed progress (paths, timing, steps)
+ * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
+ *
+ * These global options are passed through to commands via opts()
+ * and should be merged with command-level options.
  */
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts()
-  if (opts.verbose) {
+
+  // --debug enables the quire:* DEBUG namespace for internal logging
+  if (opts.debug) {
     enableDebug('quire:*')
   }
 })
