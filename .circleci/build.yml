@@ -163,9 +163,8 @@ commands:
           name: Verify Quire environment
           command: |
             mkdir -p reports
-            quire doctor --check environment --json reports/quire-doctor.json || true
-            # Display human-readable output for CI logs
-            quire doctor --check environment
+            # Save JSON artifact silently (--quiet suppresses console output)
+            quire doctor --check environment --json reports/quire-doctor.json --quiet || true
       - store_artifacts:
           path: reports/quire-doctor.json
           destination: diagnostics/quire-doctor.json

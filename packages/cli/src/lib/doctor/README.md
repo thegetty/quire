@@ -2,6 +2,45 @@
 
 Diagnostic checks for Quire environment and project health.
 
+## Command Usage
+
+```bash
+quire doctor                          # Run all diagnostic checks
+quire doctor --check environment      # Check environment section only
+quire doctor --check node,npm         # Check specific items
+quire doctor --verbose                # Show additional details
+quire doctor --errors                 # Show only failed checks
+quire doctor --warnings               # Show only warnings
+quire doctor --json                   # Output as JSON to stdout
+quire doctor --json report.json       # Save JSON to file
+```
+
+### CI/Scripting
+
+The `--quiet` flag suppresses all console output, useful for CI pipelines and scripts.
+
+**Exit code only** (gate a CI step on environment health):
+```bash
+quire doctor --check environment --quiet || exit 1
+```
+
+**Save JSON report silently** (for CI artifacts):
+```bash
+quire doctor --quiet --json reports/doctor.json
+```
+
+**Exit codes:**
+- `0` - All checks passed (warnings don't affect exit code)
+- `1` - One or more checks failed
+
+### Output Formats
+
+| Format | Flag | Use Case |
+|--------|------|----------|
+| Human | (default) | Interactive terminal use |
+| JSON | `--json` | Programmatic consumption, CI artifacts |
+| Quiet | `--quiet` | Exit code only, no output |
+
 ## Architecture
 
 ```
