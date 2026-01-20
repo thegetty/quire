@@ -44,6 +44,7 @@ Examples:
         '-c, --check <ids>',
         `run specific check(s): all, ${SECTION_NAMES.join(', ')}, or ${CHECK_IDS.join(', ')}`,
       ],
+      ['-v, --verbose', 'show additional details (paths, versions)'],
     ],
   }
 
@@ -93,25 +94,30 @@ Examples:
     this.logger.info(`Running ${label}...\n`)
 
     const sections = await runAllChecksWithSections(filterOptions)
-    let hasErrors = false
-    let hasWarnings = false
+    let errorCount = 0
+    let warningCount = 0
 
     // Display results by section
     for (const { section, results } of sections) {
       this.logger.info(`${section}`)
 
-      for (const { name, ok, level, message, remediation, docsUrl } of results) {
+      for (const { name, ok, level, message, details, remediation, docsUrl } of results) {
         if (!ok) {
           if (level === 'warn') {
-            hasWarnings = true
+            warningCount++
           } else {
-            hasErrors = true
+            errorCount++
           }
         }
 
         const status = ok ? '✓' : level === 'warn' ? '⚠' : '✗'
         const statusLine = message ? `  ${status} ${name}: ${message}` : `  ${status} ${name}`
         const lines = [statusLine]
+
+        // Show details when --verbose is enabled
+        if (options.verbose && details) {
+          lines.push(`      ${details}`)
+        }
 
         // Show remediation guidance for failed checks
         if (!ok && remediation) {
@@ -139,11 +145,18 @@ Examples:
       this.logger.info('') // Blank line between sections
     }
 
-    if (hasErrors) {
-      this.logger.error('Some checks failed. See above for details.')
+    if (errorCount > 0) {
+      const errorText = errorCount === 1 ? '1 check failed' : `${errorCount} checks failed`
+      if (warningCount > 0) {
+        const warningText = warningCount === 1 ? '1 warning' : `${warningCount} warnings`
+        this.logger.error(`${errorText}, ${warningText}. See above for details.`)
+      } else {
+        this.logger.error(`${errorText}. See above for details.`)
+      }
       process.exit(1)
-    } else if (hasWarnings) {
-      this.logger.warn('All checks passed with warnings.')
+    } else if (warningCount > 0) {
+      const warningText = warningCount === 1 ? '1 warning' : `${warningCount} warnings`
+      this.logger.warn(`All checks passed with ${warningText}.`)
     } else {
       this.logger.info('All checks passed!')
     }

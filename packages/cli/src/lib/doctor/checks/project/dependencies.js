@@ -4,6 +4,7 @@
  * @module lib/doctor/checks/project/dependencies
  */
 import fs from 'node:fs'
+import path from 'node:path'
 import createDebug from '#debug'
 import { DOCS_BASE_URL } from '../../constants.js'
 
@@ -40,9 +41,11 @@ export function checkDependencies() {
     }
   }
 
+  const nodeModulesPath = path.resolve('node_modules')
   return {
     ok: true,
     message: 'installed',
+    details: nodeModulesPath,
   }
 }
 

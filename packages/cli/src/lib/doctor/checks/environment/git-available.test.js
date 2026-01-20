@@ -20,12 +20,16 @@ test('checkGitAvailable returns ok when git is available', async (t) => {
         version: sandbox.stub().resolves('2.43.0'),
       },
     },
+    which: {
+      sync: sandbox.stub().returns('/usr/bin/git'),
+    },
   })
 
   const result = await checkGitAvailable()
 
   t.true(result.ok)
   t.is(result.message, '2.43.0')
+  t.is(result.details, '/usr/bin/git')
 })
 
 test('checkGitAvailable returns not ok when git is missing', async (t) => {

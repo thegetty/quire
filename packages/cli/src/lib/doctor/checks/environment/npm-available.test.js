@@ -20,12 +20,16 @@ test('checkNpmAvailable returns ok when npm is available', async (t) => {
         version: sandbox.stub().resolves('10.2.4'),
       },
     },
+    which: {
+      sync: sandbox.stub().returns('/usr/local/bin/npm'),
+    },
   })
 
   const result = await checkNpmAvailable()
 
   t.true(result.ok)
   t.is(result.message, '10.2.4')
+  t.is(result.details, '/usr/local/bin/npm')
 })
 
 test('checkNpmAvailable returns not ok when npm is missing', async (t) => {
