@@ -21,17 +21,24 @@ export default class BuildCommand extends Command {
     summary: 'generate HTML site files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-Example:
-  quire build --verbose    Build with detailed output
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing)
+  --debug          Enable debug output for troubleshooting
+
+Examples:
+  quire build                Build the site
+  quire build --verbose      Build with detailed progress
+  quire build --debug        Build with debug output
 
 Note: Run before "quire pdf" or "quire epub" commands.
 `,
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
-      [ '-q', '--quiet', 'run build with no console messages' ],
-      [ '-v', '--verbose', 'run build with verbose console messages' ],
-      [ '--debug', 'run build with debug output to console' ],
+      [ '-q, --quiet', 'suppress progress output' ],
+      [ '-v, --verbose', 'show detailed progress output' ],
+      [ '--debug', 'enable debug output for troubleshooting' ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),
@@ -46,7 +53,7 @@ Note: Run before "quire pdf" or "quire epub" commands.
     this.debug('called with options %O', options)
 
     // Configure reporter for this command
-    reporter.configure({ quiet: options.quiet })
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     reporter.start('Building site...', { showElapsed: true })
 

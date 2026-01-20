@@ -395,5 +395,8 @@ test('build command should configure reporter with quiet option', async (t) => {
   // Run action with quiet option
   await command.action(options, command)
 
-  t.true(mockReporter.configure.calledWith({ quiet: true }), 'reporter.configure should be called with quiet option')
+  t.true(
+    mockReporter.configure.calledWith(sinon.match({ quiet: true })),
+    'reporter.configure should be called with quiet option'
+  )
 })
