@@ -22,9 +22,15 @@ export default class CreateCommand extends Command {
     summary: 'create a new project',
     docsLink: 'quire-commands/#start-and-preview-projects',
     helpText: `
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing)
+  --debug          Enable debug output for troubleshooting
+
 Examples:
   quire new my-project                        Use default starter
   quire new my-project --quire-version 1.0.0  Pin quire-11ty version
+  quire new my-project --verbose              Create with detailed progress
 `,
     version: '1.0.0',
     args: [
@@ -35,7 +41,8 @@ Examples:
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
       [ '--quire-version <version>', 'quire-11ty version to install' ],
       [ '-q, --quiet', 'suppress progress output' ],
-      [ '--debug', 'debug the `quire new` command', false ],
+      [ '-v, --verbose', 'show detailed progress output' ],
+      [ '--debug', 'enable debug output for troubleshooting' ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
     ],
@@ -55,7 +62,7 @@ Examples:
     this.debug('called with options %O', options)
 
     // Configure reporter for this command
-    reporter.configure({ quiet: options.quiet })
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     starter = starter || this.config.get('projectTemplate')
 

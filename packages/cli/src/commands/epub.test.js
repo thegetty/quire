@@ -20,7 +20,6 @@ test.beforeEach((t) => {
 
   t.context.projectRoot = '/project'
 
-  // Stub console methods to suppress output during tests
   // Create mock logger (no global console stubbing needed!)
   t.context.mockLogger = {
     info: t.context.sandbox.stub(),
@@ -29,7 +28,16 @@ test.beforeEach((t) => {
     log: t.context.sandbox.stub(),
     warn: t.context.sandbox.stub()
   }
-  // mockLogger already created above
+
+  // Create mock reporter
+  t.context.mockReporter = {
+    configure: t.context.sandbox.stub().returnsThis(),
+    start: t.context.sandbox.stub().returnsThis(),
+    update: t.context.sandbox.stub().returnsThis(),
+    succeed: t.context.sandbox.stub().returnsThis(),
+    fail: t.context.sandbox.stub().returnsThis(),
+    stop: t.context.sandbox.stub().returnsThis(),
+  }
 })
 
 test.afterEach.always((t) => {
@@ -41,7 +49,7 @@ test.afterEach.always((t) => {
 })
 
 test('epub command should generate EPUB using epubjs engine', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -64,6 +72,9 @@ test('epub command should generate EPUB using epubjs engine', async (t) => {
       },
       hasEpubOutput: () => true
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -79,10 +90,12 @@ test('epub command should generate EPUB using epubjs engine', async (t) => {
   t.true(mockLibEpub.called, 'libEpub should be called')
   t.true(mockLibEpub.calledWith('epubjs'), 'should use epubjs engine')
   t.true(mockEpubGenerator.called, 'EPUB generator should be called')
+  t.true(mockReporter.start.called, 'reporter.start should be called')
+  t.true(mockReporter.succeed.called, 'reporter.succeed should be called')
 })
 
 test('epub command should generate EPUB using pandoc engine', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -105,6 +118,9 @@ test('epub command should generate EPUB using pandoc engine', async (t) => {
       },
       hasEpubOutput: () => true
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -123,7 +139,7 @@ test('epub command should generate EPUB using pandoc engine', async (t) => {
 })
 
 test('epub command should open EPUB when --open flag is provided', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -148,6 +164,9 @@ test('epub command should open EPUB when --open flag is provided', async (t) => 
       },
       hasEpubOutput: () => true
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs,
     open: {
       default: mockOpen
@@ -165,7 +184,7 @@ test('epub command should open EPUB when --open flag is provided', async (t) => 
 })
 
 test('epub command should pass debug option to library', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -190,8 +209,8 @@ test('epub command should pass debug option to library', async (t) => {
     '#lib/logger/index.js': {
       logger: mockLogger
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     'fs-extra': fs,
     open: {
@@ -211,7 +230,7 @@ test('epub command should pass debug option to library', async (t) => {
 })
 
 test('epub command should throw error when build output is missing', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub library module
   const mockEpubGenerator = sandbox.stub()
@@ -229,8 +248,8 @@ test('epub command should throw error when build output is missing', async (t) =
       },
       hasEpubOutput: () => false
     },
-    '#src/lib/logger.js': {
-      default: mockLogger
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     'fs-extra': fs,
     open: {
@@ -250,7 +269,7 @@ test('epub command should throw error when build output is missing', async (t) =
 })
 
 test('epub command should use correct output path', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -271,6 +290,9 @@ test('epub command should use correct output path', async (t) => {
         getEpubDir: () => '_site/epub'
       },
       hasEpubOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     'fs-extra': fs,
     open: {
@@ -290,7 +312,7 @@ test('epub command should use correct output path', async (t) => {
 })
 
 test('epub command should run build first when --build flag is set and output missing', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -326,6 +348,9 @@ test('epub command should run build first when --build flag is set and output mi
         }
       }
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -343,7 +368,7 @@ test('epub command should run build first when --build flag is set and output mi
 })
 
 test('epub command should support deprecated --lib option', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   // Mock the epub generator
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
@@ -365,6 +390,9 @@ test('epub command should support deprecated --lib option', async (t) => {
       },
       hasEpubOutput: () => true
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -381,18 +409,14 @@ test('epub command should support deprecated --lib option', async (t) => {
   t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc from deprecated option')
 })
 
-test('epub command should run build first when --build flag with deprecated --lib option', async (t) => {
-  const { sandbox, fs } = t.context
+test('epub command should call reporter.fail when generation fails', async (t) => {
+  const { sandbox, fs, mockReporter } = t.context
 
-  // Mock the epub generator
-  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
-    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
-  })
+  const epubError = new Error('EPUB generation failed')
 
-  // Mock the epub library module
+  // Mock the epub generator to fail
+  const mockEpubGenerator = sandbox.stub().rejects(epubError)
   const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
-  const mockBuild = sandbox.stub().resolves()
-  let buildCalled = false
 
   // Use esmock to replace imports
   const EPUBCommand = await esmock('./epub.js', {
@@ -404,19 +428,10 @@ test('epub command should run build first when --build flag with deprecated --li
         getProjectRoot: () => '/project',
         getEpubDir: () => '_site/epub'
       },
-      hasEpubOutput: () => {
-        // Return false first (before build), true after build
-        if (!buildCalled) return false
-        return true
-      }
+      hasEpubOutput: () => true
     },
-    '#lib/11ty/index.js': {
-      default: {
-        build: async (opts) => {
-          buildCalled = true
-          return mockBuild(opts)
-        }
-      }
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     'fs-extra': fs,
     open: {
@@ -427,9 +442,52 @@ test('epub command should run build first when --build flag with deprecated --li
   const command = new EPUBCommand()
   command.name = sandbox.stub().returns('epub')
 
-  // Run action with --build flag using deprecated --lib option
-  await command.action({ lib: 'epubjs', build: true }, command)
+  await t.throwsAsync(() => command.action({ engine: 'epubjs' }, command), { message: 'EPUB generation failed' })
 
-  t.true(mockBuild.called, 'build should be called when --build flag is set')
-  t.true(mockEpubGenerator.called, 'EPUB generator should be called after build')
+  t.true(mockReporter.start.called, 'reporter.start should be called')
+  t.true(mockReporter.fail.called, 'reporter.fail should be called on error')
+  t.false(mockReporter.succeed.called, 'reporter.succeed should not be called on error')
+})
+
+test('epub command should configure reporter with quiet option', async (t) => {
+  const { sandbox, fs, mockReporter } = t.context
+
+  // Mock the epub generator
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  // Mock the epub library module
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+
+  // Use esmock to replace imports
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+
+  await command.action({ engine: 'epubjs', quiet: true }, command)
+
+  t.true(
+    mockReporter.configure.calledWith(sinon.match({ quiet: true })),
+    'reporter.configure should be called with quiet option'
+  )
 })

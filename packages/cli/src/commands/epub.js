@@ -23,10 +23,16 @@ export default class EpubCommand extends Command {
     summary: 'generate EPUB e-book',
     docsLink: 'quire-commands/#output-files',
     helpText: `
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing)
+  --debug          Enable debug output for troubleshooting
+
 Examples:
-  quire epub --engine pandoc    Generate EPUB using Pandoc
-  quire epub --open             Generate and open EPUB
-  quire epub --build            Build site first, then generate EPUB
+  quire epub                      Generate EPUB using default engine
+  quire epub --engine pandoc      Generate EPUB using Pandoc
+  quire epub --open               Generate and open EPUB
+  quire epub --build              Build site first, then generate EPUB
 `,
     version: '1.0.0',
     options: [
@@ -41,7 +47,8 @@ Examples:
         { hidden: true, choices: ['epubjs', 'pandoc'], conflicts: 'engine' }
       ],
       [ '-q, --quiet', 'suppress progress output' ],
-      [ '--debug', 'run epub with debug output' ],
+      [ '-v, --verbose', 'show detailed progress output' ],
+      [ '--debug', 'enable debug output for troubleshooting' ],
     ],
   }
 
@@ -53,7 +60,7 @@ Examples:
     this.debug('called with options %O', options)
 
     // Configure reporter for this command
-    reporter.configure({ quiet: options.quiet })
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     // Support deprecated --lib option (alias for --engine)
     if (options.lib && !options.engine) {

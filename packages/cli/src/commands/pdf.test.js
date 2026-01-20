@@ -332,7 +332,7 @@ test('pdf command should configure reporter with quiet option', async (t) => {
   await command.action({ engine: 'pagedjs', quiet: true }, command)
 
   t.true(
-    mockReporter.configure.calledWith({ quiet: true }),
+    mockReporter.configure.calledWith(sinon.match({ quiet: true })),
     'reporter.configure should be called with quiet option'
   )
 })

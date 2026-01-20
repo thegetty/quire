@@ -21,15 +21,23 @@ export default class CleanCommand extends Command {
     summary: 'delete generated files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-Example:
-  quire clean --dry-run    Preview files to be deleted
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing)
+  --debug          Enable debug output for troubleshooting
+
+Examples:
+  quire clean                  Remove build outputs
+  quire clean --dry-run        Preview files to be deleted
+  quire clean --verbose        Clean with detailed progress
 `,
     version: '1.0.0',
     options: [
-      [ '-d', '--dry-run', 'show paths to be cleaned without deleting files' ],
-      [ '-p', '--progress', 'display progress of removing files' ],
-      [ '-v', '--verbose', 'run clean with verbose console messages' ],
-      [ '--debug', 'run clean with debug output to console' ],
+      [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
+      [ '-p, --progress', 'display progress of removing files' ],
+      [ '-q, --quiet', 'suppress progress output' ],
+      [ '-v, --verbose', 'show detailed progress output' ],
+      [ '--debug', 'enable debug output for troubleshooting' ],
     ],
   }
 
