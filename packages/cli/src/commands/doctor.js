@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import Command from '#src/Command.js'
 import { runAllChecksWithSections, checkSections, SECTION_NAMES, CHECK_IDS } from '#lib/doctor/index.js'
 import { formatHuman } from '#lib/doctor/formatters/human.js'
@@ -40,7 +42,8 @@ Examples:
   quire doctor --check node,git      Check multiple items (comma-separated)
   quire doctor --errors              Show only failed checks
   quire doctor --warnings            Show only warnings
-  quire doctor --json                Output results as JSON
+  quire doctor --json                Output results as JSON (to stdout)
+  quire doctor --json report.json    Save JSON results to file
   quire checkup                      Alias for doctor command
 `,
     version: '1.0.0',
@@ -52,7 +55,7 @@ Examples:
       ['-v, --verbose', 'show additional details (paths, versions)'],
       ['-e, --errors', 'show only failed checks'],
       ['-w, --warnings', 'show only warnings'],
-      ['--json', 'output results as JSON (for programmatic use)'],
+      ['--json [file]', 'output results as JSON (to stdout or file)'],
     ],
   }
 
@@ -101,7 +104,7 @@ Examples:
 
     const sections = await runAllChecksWithSections(filterOptions)
 
-    // JSON output mode
+    // JSON output mode (options.json is true for flag-only, or string for file path)
     if (options.json) {
       this.outputJson(sections, options)
       return
@@ -114,7 +117,7 @@ Examples:
   /**
    * Output results as JSON for programmatic consumption
    * @param {Array} sections - Check results organized by section
-   * @param {Object} options - Command options
+   * @param {Object} options - Command options (options.json is true or filename string)
    */
   outputJson(sections, options) {
     const { json, exitCode } = formatJson(sections, {
@@ -123,8 +126,15 @@ Examples:
       verbose: options.verbose,
     })
 
-    // Write to stdout (bypassing logger formatting)
-    console.log(json)
+    // Write to file (if string path provided) or stdout (if just --json flag)
+    if (typeof options.json === 'string') {
+      const outputPath = path.resolve(options.json)
+      fs.writeFileSync(outputPath, json + '\n')
+      this.logger.info(`Results written to ${outputPath}`)
+    } else {
+      // Write to stdout (bypassing logger formatting)
+      console.log(json)
+    }
 
     // Exit with error code if any checks failed
     if (exitCode !== 0) {
