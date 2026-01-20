@@ -3,6 +3,7 @@ import { Option } from 'commander'
 import { api, cli } from '#lib/11ty/index.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
+import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -41,15 +42,26 @@ Note: Run before "quire pdf" or "quire epub" commands.
     super(BuildCommand.definition)
   }
 
-  action(options, command) {
+  async action(options, command) {
     this.debug('called with options %O', options)
 
-    if (options['11ty'] === 'api') {
-      this.debug('running eleventy using lib/11ty api')
-      api.build(options)
-    } else {
-      this.debug('running eleventy using lib/11ty cli')
-      cli.build(options)
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet })
+
+    reporter.start('Building site...', { showElapsed: true })
+
+    try {
+      if (options['11ty'] === 'api') {
+        this.debug('running eleventy using lib/11ty api')
+        await api.build(options)
+      } else {
+        this.debug('running eleventy using lib/11ty cli')
+        await cli.build(options)
+      }
+      reporter.succeed('Build complete')
+    } catch (error) {
+      reporter.fail('Build failed')
+      throw error
     }
   }
 
