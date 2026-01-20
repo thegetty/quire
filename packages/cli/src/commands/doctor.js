@@ -57,11 +57,12 @@ CI/Scripting:
         '-c, --check <ids>',
         `run specific check(s): all, ${SECTION_NAMES.join(', ')}, or ${CHECK_IDS.join(', ')}`,
       ],
-      ['-q, --quiet', 'suppress output (exit code only, for CI scripts)'],
-      ['-v, --verbose', 'show additional details (paths, versions)'],
+      ['-q, --quiet', 'suppress progress output'],
+      ['-v, --verbose', 'show detailed progress output'],
       ['-e, --errors', 'show only failed checks'],
       ['-w, --warnings', 'show only warnings'],
       ['--json [file]', 'output results as JSON (to standard out or a file)'],
+      ['--debug', 'enable debug output for troubleshooting'],
     ],
   }
 
