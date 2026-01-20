@@ -56,16 +56,19 @@ test('registered command has correct options', (t) => {
   // Get all options
   const quirePathOption = command.options.find((opt) => opt.long === '--quire-path')
   const quireVersionOption = command.options.find((opt) => opt.long === '--quire-version')
+  const quietOption = command.options.find((opt) => opt.long === '--quiet')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
   t.truthy(quirePathOption, '--quire-path option should exist')
   t.truthy(quireVersionOption, '--quire-version option should exist')
+  t.truthy(quietOption, '--quiet option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
   t.true(quirePathOption instanceof Option, '--quire-path should be Option instance')
   t.true(quireVersionOption instanceof Option, '--quire-version should be Option instance')
+  t.true(quietOption instanceof Option, '--quiet should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
   // Verify option properties
@@ -76,6 +79,11 @@ test('registered command has correct options', (t) => {
   t.is(quireVersionOption.long, '--quire-version')
   t.truthy(quireVersionOption.description)
   t.true(quireVersionOption.required, '--quire-version should require a value')
+
+  t.is(quietOption.long, '--quiet')
+  t.is(quietOption.short, '-q', '--quiet should have -q short flag')
+  t.truthy(quietOption.description)
+  t.false(quietOption.required, '--quiet should not require a value')
 
   t.is(debugOption.long, '--debug')
   t.truthy(debugOption.description)
@@ -90,5 +98,6 @@ test('command options are accessible via public API', (t) => {
 
   t.true(optionNames.includes('--quire-path'))
   t.true(optionNames.includes('--quire-version'))
+  t.true(optionNames.includes('--quiet'))
   t.true(optionNames.includes('--debug'))
 })
