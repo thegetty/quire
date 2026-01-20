@@ -1041,3 +1041,116 @@ test('doctor command should show "No warnings found" when --warnings finds none'
     'should show no warnings message'
   )
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// --json [file] file output tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command --json <file> should write JSON to file', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  // Mock fs.writeFileSync
+  const writeFileSyncStub = sandbox.stub()
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    'node:fs': {
+      writeFileSync: writeFileSyncStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  // When --json has a value, options.json is the filename string
+  await command.action({ json: 'report.json' }, command)
+
+  t.true(writeFileSyncStub.calledOnce, 'should call writeFileSync once')
+  t.true(
+    writeFileSyncStub.firstCall.args[0].endsWith('report.json'),
+    'should write to specified file'
+  )
+
+  // Verify the content is valid JSON
+  const writtenContent = writeFileSyncStub.firstCall.args[1]
+  t.notThrows(() => JSON.parse(writtenContent.trim()), 'should write valid JSON')
+
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/Results written to/)),
+    'should log success message'
+  )
+})
+
+test.serial('doctor command --json (no file) should write to stdout', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  // When --json is used without a value, options.json is true
+  await command.action({ json: true }, command)
+
+  t.true(consoleLogStub.calledOnce, 'should write to stdout')
+  t.notThrows(() => JSON.parse(consoleLogStub.firstCall.args[0]), 'should output valid JSON')
+})
+
+test.serial('doctor command --json <file> should not write to stdout', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+  const writeFileSyncStub = sandbox.stub()
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    'node:fs': {
+      writeFileSync: writeFileSyncStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ json: 'report.json' }, command)
+
+  t.false(consoleLogStub.called, 'should not write to stdout when file is specified')
+  t.true(writeFileSyncStub.calledOnce, 'should write to file instead')
+})

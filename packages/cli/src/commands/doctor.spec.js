@@ -82,12 +82,13 @@ test('registered command has correct options', (t) => {
   t.is(warningsOption.short, '-w', '--warnings should have -w short flag')
   t.truthy(warningsOption.description)
 
-  // Verify --json option
+  // Verify --json option with optional file parameter
   const jsonOption = command.options.find((opt) => opt.long === '--json')
   t.truthy(jsonOption, '--json option should exist')
   t.true(jsonOption instanceof Option, '--json should be Option instance')
   t.truthy(jsonOption.description)
   t.true(jsonOption.description.includes('JSON'), 'description should mention JSON')
+  t.true(jsonOption.description.includes('file'), 'description should mention file output')
 })
 
 test('command is accessible via checkup alias', (t) => {
