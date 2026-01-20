@@ -11,7 +11,7 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkStaleBuild returns ok when no _site directory exists', async (t) => {
+test('checkStaleBuild returns N/A when no _site directory exists', async (t) => {
   const { sandbox } = t.context
 
   const { checkStaleBuild } = await esmock('./stale-build.js', {
@@ -23,6 +23,7 @@ test('checkStaleBuild returns ok when no _site directory exists', async (t) => {
   const result = checkStaleBuild()
 
   t.true(result.ok)
+  t.is(result.level, 'na', 'should return N/A level when no build output')
   t.regex(result.message, /No build output yet/)
 })
 

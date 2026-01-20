@@ -102,7 +102,8 @@ Examples:
       this.logger.info(`${section}`)
 
       for (const { name, ok, level, message, details, remediation, docsUrl } of results) {
-        if (!ok) {
+        // Count errors and warnings (N/A checks are not counted)
+        if (!ok && level !== 'na') {
           if (level === 'warn') {
             warningCount++
           } else {
@@ -110,7 +111,8 @@ Examples:
           }
         }
 
-        const status = ok ? '✓' : level === 'warn' ? '⚠' : '✗'
+        // Select appropriate status icon
+        const status = level === 'na' ? '○' : ok ? '✓' : level === 'warn' ? '⚠' : '✗'
         const statusLine = message ? `  ${status} ${name}: ${message}` : `  ${status} ${name}`
         const lines = [statusLine]
 
@@ -133,7 +135,7 @@ Examples:
         }
 
         const output = lines.join('\n')
-        if (ok) {
+        if (ok || level === 'na') {
           this.logger.info(output)
         } else if (level === 'warn') {
           this.logger.warn(output)
@@ -159,6 +161,12 @@ Examples:
       this.logger.warn(`All checks passed with ${warningText}.`)
     } else {
       this.logger.info('All checks passed!')
+    }
+
+    // Show symbol key in verbose mode
+    if (options.verbose) {
+      this.logger.info('')
+      this.logger.info('Key: ✓ passed  ✗ failed  ⚠ warning  ○ not applicable / not yet generated')
     }
   }
 }

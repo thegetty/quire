@@ -29,6 +29,7 @@ export function checkEpubOutput() {
     debug('No _epub directory found')
     return {
       ok: true,
+      level: 'na',
       message: 'No EPUB output (run quire epub to generate)',
     }
   }
