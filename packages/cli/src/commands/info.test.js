@@ -72,12 +72,9 @@ test.afterEach.always((t) => {
 })
 
 test('info command should validate Quire project in preAction', async (t) => {
-  const { mockLogger, mockTestcwd, mockConfig, mockExecaCommand, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockExecaCommand, mockOs, mockFs } = t.context
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -86,11 +83,16 @@ test('info command should validate Quire project in preAction', async (t) => {
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Mock Commander.js command object
   const mockCommand = {
@@ -108,10 +110,7 @@ test('info command should validate Quire project in preAction', async (t) => {
 test('info command should display project version information', async (t) => {
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -120,11 +119,16 @@ test('info command should display project version information', async (t) => {
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action({}, {})
 
@@ -148,10 +152,7 @@ test('info command should display project version information', async (t) => {
 test('info command should display system information with debug flag', async (t) => {
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -160,11 +161,16 @@ test('info command should display system information with debug flag', async (t)
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action({ debug: true }, {})
 
@@ -194,10 +200,7 @@ test('info command should display system information with debug flag', async (t)
 test('info command should hide system details without debug flag', async (t) => {
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -206,11 +209,16 @@ test('info command should hide system details without debug flag', async (t) => 
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action({}, {})
 
@@ -241,10 +249,7 @@ test('info command should handle missing version file', async (t) => {
     return ''
   })
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -253,11 +258,16 @@ test('info command should handle missing version file', async (t) => {
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action({}, {})
 
@@ -286,10 +296,7 @@ test('info command should handle malformed version file', async (t) => {
     return ''
   })
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -298,11 +305,16 @@ test('info command should handle malformed version file', async (t) => {
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action({}, {})
 
@@ -337,10 +349,7 @@ test('info command should read quire-11ty version from package.json', async (t) 
     return ''
   })
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -349,11 +358,16 @@ test('info command should read quire-11ty version from package.json', async (t) 
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   await command.action({}, {})
 
@@ -371,10 +385,9 @@ test('info command should read quire-11ty version from package.json', async (t) 
 test('info command should log debug information when debug flag is set', async (t) => {
   const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExecaCommand, mockOs, mockFs } = t.context
 
-  const InfoCommand = await esmock('./info.js', {
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
+  const mockDebug = sandbox.stub()
+
+  const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
@@ -383,20 +396,20 @@ test('info command should log debug information when debug flag is set', async (
     },
     'node:os': mockOs,
     'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new InfoCommand()
-  command.name = () => 'info'
   command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = mockDebug
 
   await command.action({ debug: true }, {})
 
-  // Verify debug message was logged
-  t.true(mockLogger.debug.called, 'logger.debug should be called with debug flag')
-
-  // Check for debug message format
-  const debugCall = mockLogger.debug.getCall(0)
-  t.truthy(debugCall, 'logger.debug should have been called')
-  t.true(debugCall.args[0].includes('Command'), 'debug message should contain "Command"')
-  t.is(debugCall.args[1], 'info', 'debug message should contain command name')
+  // Verify debug was called
+  t.true(mockDebug.called, 'debug should be called with debug flag')
+  t.true(mockDebug.calledWith('called with options %O', { debug: true }))
 })

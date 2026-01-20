@@ -59,19 +59,21 @@ test('create command should initialize starter and install quire', async (t) => 
   }
 
   // Use esmock to replace imports
-  const CreateCommand = await esmock('./create.js', {
+  const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
     'fs-extra': fs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new CreateCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('new')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action
   await command.action('/new-project', 'starter-template', {})
@@ -101,19 +103,21 @@ test('create command should use default starter from config when not provided', 
   }
 
   // Use esmock to replace imports
-  const CreateCommand = await esmock('./create.js', {
+  const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
     'fs-extra': fs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new CreateCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('new')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action without starter argument
   await command.action('/new-project', null, {})
@@ -141,19 +145,21 @@ test('create command should pass quire-version option to installInProject', asyn
   }
 
   // Use esmock to replace imports
-  const CreateCommand = await esmock('./create.js', {
+  const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
     'fs-extra': fs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new CreateCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('new')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   const options = { quireVersion: '1.0.0-rc.10' }
 
@@ -191,19 +197,21 @@ test('create command should handle initStarter errors gracefully', async (t) => 
   }
 
   // Use esmock to replace imports
-  const CreateCommand = await esmock('./create.js', {
+  const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
     'fs-extra': fs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new CreateCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('new')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action - should throw ProjectCreateError
   const thrown = await t.throwsAsync(
@@ -221,6 +229,8 @@ test('create command should handle initStarter errors gracefully', async (t) => 
 test('create command should pass through debug option', async (t) => {
   const { sandbox, fs, mockLogger } = t.context
 
+  const mockDebug = sandbox.stub()
+
   // Mock quire library
   const mockQuire = {
     initStarter: sandbox.stub().callsFake(async (starter, projectPath) => {
@@ -237,20 +247,24 @@ test('create command should pass through debug option', async (t) => {
   }
 
   // Use esmock to replace imports
-  const CreateCommand = await esmock('./create.js', {
+  const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': { installer: mockQuire },
-    '#lib/logger/index.js': { logger: mockLogger },
     'fs-extra': fs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new CreateCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('new')
+  command.logger = mockLogger
+  command.debug = mockDebug
 
   // Run action with debug option
   await command.action('/new-project', 'starter-template', { debug: true })
 
-  t.true(mockLogger.info.called, 'logger.info should be called with debug option')
+  t.true(mockDebug.called, 'debug should be called with debug option')
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
 })
 
@@ -273,19 +287,21 @@ test('create command should pass quire-path option to methods', async (t) => {
   }
 
   // Use esmock to replace imports
-  const CreateCommand = await esmock('./create.js', {
+  const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
     },
-    '#lib/logger/index.js': {
-      logger: mockLogger
-    },
     'fs-extra': fs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
   })
 
   const command = new CreateCommand()
   command.config = mockConfig
-  command.name = sandbox.stub().returns('new')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   const options = { quirePath: '/custom/path/to/quire-11ty' }
 

@@ -62,12 +62,12 @@ The Quire CLI is a command-line interface for creating and managing Quire digita
 
 | Module | Purpose | Pattern |
 |--------|---------|---------|
-| `lib/11ty` | Eleventy API and CLI integration | Facade |
+| `lib/11ty` | Eleventy API and CLI integration | Façade |
 | `lib/conf` | CLI-level configuration management | Singleton |
 | `lib/installer` | Project creation and quire-11ty installation | Exported functions |
 | `lib/project` | Project paths, detection, config, versions | Class + singleton |
 
-### External Process Facades
+### External Process Façade
 
 | Module | Purpose | Pattern |
 |--------|---------|---------|
@@ -85,7 +85,7 @@ The Quire CLI is a command-line interface for creating and managing Quire digita
 
 | Module | Purpose |
 |--------|---------|
-| `lib/logger` | Logging facade with loglevel + chalk (log levels, colors, prefixes) |
+| `lib/logger` | Logging façade with loglevel + chalk (log levels, colors, prefixes) |
 | `lib/i18n` | Internationalization (in development) |
 
 ## Helpers
@@ -104,7 +104,7 @@ The Quire CLI is a command-line interface for creating and managing Quire digita
 Used for global operations where a single instance is shared:
 - `config` - CLI configuration
 - `git` (default export) - global git operations
-- `logger` - logging facade (also supports factory pattern for module-specific loggers)
+- `logger` - logging façade (also supports factory pattern for module-specific loggers)
 - `npm` - npm CLI operations
 
 ### Class Pattern

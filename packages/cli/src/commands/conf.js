@@ -1,5 +1,4 @@
 import Command from '#src/Command.js'
-import { logger } from '#lib/logger/index.js'
 
 /**
  * Quire CLI `conf` Command
@@ -28,17 +27,15 @@ export default class ConfCommand extends Command {
    * @return     {Promise}
    */
   async action(key, value, options = {}) {
-    if (options.debug) {
-      logger.info('Command \'%s\' called with options %o', this.name(), options)
-    }
+    this.debug('called with options %O', options)
 
     // this.outputHelp()
 
-    logger.info('quire-cli configuration %s', this.config.path)
+    this.logger.info('quire-cli configuration %s', this.config.path)
 
     for (const [ key, value ] of Object.entries(this.config.store)) {
       if (key.startsWith('__internal__') && !options.debug) continue
-      logger.info('%s: %O', key, value)
+      this.logger.info('%s: %O', key, value)
     }
   }
 }

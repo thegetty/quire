@@ -107,6 +107,7 @@ commands.forEach((command) => {
   }
 
   // Wrap action in centralized error handler
+  // Using apply() preserves `this` context for `this.debug` and `this.logger`
   subCommand.action(async (...args) => {
     try {
       await action.apply(command, args)

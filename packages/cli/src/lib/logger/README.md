@@ -1,6 +1,6 @@
 # Logger Module
 
-A logging facade for the Quire CLI that provides colored output, log level filtering, and module-specific prefixes. Aligned with the 11ty package logging format for a consistent user experience.
+A logging façade for the Quire CLI that provides colored output, log level filtering, and module-specific prefixes. Aligned with the 11ty package logging format for a consistent user experience.
 
 ## Features
 
@@ -9,6 +9,63 @@ A logging facade for the Quire CLI that provides colored output, log level filte
 - **Module-specific prefixes** for traceable log messages
 - **Configuration integration** reads level from `QUIRE_LOG_LEVEL` environment variable
 - **11ty format alignment** consistent `[quire] LEVEL prefix message` output
+- **Namespace debugging** via [debug](https://github.com/debug-js/debug) for surgical internal debugging
+
+## Two Logging Systems
+
+The logger module provides two complementary systems:
+
+| System | Purpose | Environment Variable | Use Case |
+|--------|---------|---------------------|----------|
+| **Logger** (loglevel) | User-facing output | `QUIRE_LOG_LEVEL` | Status messages, warnings, errors |
+| **Debug** (debug) | Developer debugging | `DEBUG` | Internal tracing, troubleshooting |
+
+### When to Use Each
+
+```javascript
+// User-facing output - use logger
+import { logger } from '#lib/logger/index.js'
+logger.info('Building PDF...')      // Always relevant to users
+logger.error('Build failed')        // User needs to see this
+
+// Internal debugging - use debug
+import createDebug from '#lib/logger/debug.js'
+const debug = createDebug('lib:pdf')
+debug('printer options: %O', opts)  // Only developers care about this
+```
+
+## Command Integration
+
+The base `Command` class provides inherited `logger` and `debug` properties to all commands:
+
+```javascript
+// In a command class - use inherited properties
+export default class BuildCommand extends Command {
+  async action(options, command) {
+    // Debug output (via DEBUG env var)
+    this.debug('called with options %O', options)
+
+    // User-facing logger
+    this.logger.info('Building publication...')
+    this.logger.warn('Deprecated option used')
+    this.logger.error('Build failed')
+  }
+}
+```
+
+Each command automatically gets:
+- `this.logger` - A logger with prefix `commands:{name}` (e.g., `commands:build`)
+- `this.debug` - A debug instance with namespace `quire:commands:{name}`
+
+This ensures consistent prefixes and makes it easy to filter debug output:
+
+```bash
+# Debug all commands
+DEBUG=quire:commands:* quire build
+
+# Debug specific command
+DEBUG=quire:commands:build quire build
+```
 
 ## Usage
 
@@ -216,8 +273,152 @@ This architecture ensures:
 2. All loggers (including module-level ones) use the configured level
 3. Tests can set the env var before importing to control levels
 
+## Debug Module
+
+The debug module provides namespace-based debugging using the industry-standard [debug](https://github.com/debug-js/debug) package. This aligns with Eleventy core, which uses the same system.
+
+### Basic Usage
+
+```javascript
+// Short import alias
+import createDebug from '#debug'
+
+// Or full path
+// import createDebug from '#lib/logger/debug.js'
+
+const debug = createDebug('lib:pdf')
+
+debug('starting PDF generation')
+debug('options: %O', options)
+debug('processing file: %s', filename)
+```
+
+### Enabling Debug Output
+
+Debug output is controlled via the `DEBUG` environment variable:
+
+```bash
+# Single namespace
+DEBUG=quire:lib:pdf quire pdf
+
+# Wildcard matching
+DEBUG=quire:lib:* quire build
+
+# All Quire debug output
+DEBUG=quire:* quire build
+
+# Combined with Eleventy debugging
+DEBUG=quire:*,Eleventy:* quire build
+
+# Exclude specific namespaces
+DEBUG=quire:*,-quire:lib:git quire create my-project
+```
+
+### Namespace Conventions
+
+Use colon-separated namespaces that mirror the module path:
+
+| Module Path | Namespace |
+|-------------|-----------|
+| `lib/pdf/index.js` | `lib:pdf` |
+| `lib/pdf/paged.js` | `lib:pdf:paged` |
+| `commands/build.js` | `commands:build` |
+| `helpers/test-cwd.js` | `helpers:cwd` |
+
+### Debug API Reference
+
+#### `createDebug(namespace)`
+
+Creates a debug instance with the `quire:` prefix.
+
+```javascript
+import createDebug from '#lib/logger/debug.js'
+const debug = createDebug('lib:pdf')
+// Creates debugger with namespace: quire:lib:pdf
+```
+
+#### `createRawDebug(namespace)`
+
+Creates a debug instance without the `quire:` prefix.
+
+```javascript
+import { createRawDebug } from '#lib/logger/debug.js'
+const debug = createRawDebug('my:custom:namespace')
+```
+
+#### `isDebugEnabled(namespace)`
+
+Check if debug output is enabled for a namespace.
+
+```javascript
+import { isDebugEnabled } from '#lib/logger/debug.js'
+
+if (isDebugEnabled('lib:pdf')) {
+  // Expensive debug-only computation
+  const details = computeExpensiveDebugInfo()
+  debug('details: %O', details)
+}
+```
+
+#### `enableDebug(namespaces)` / `disableDebug()`
+
+Programmatically enable/disable debug output.
+
+```javascript
+import { enableDebug, disableDebug } from '#lib/logger/debug.js'
+
+enableDebug('quire:lib:*')
+// ... debugging code ...
+disableDebug()
+```
+
+### Debug Formatters
+
+The `debug` package supports printf-style formatters:
+
+| Formatter | Description |
+|-----------|-------------|
+| `%s` | String |
+| `%d` | Number |
+| `%j` | JSON |
+| `%O` | Pretty-print object (multi-line) |
+| `%o` | Pretty-print object (single-line) |
+| `%%` | Literal `%` |
+
+```javascript
+debug('user: %s, count: %d', username, count)
+debug('config: %O', config)  // Pretty printed
+debug('inline: %o', { a: 1 })  // Single line
+```
+
+### Extending Debug Instances
+
+Debug instances can be extended for sub-modules:
+
+```javascript
+const debug = createDebug('lib:pdf')
+const debugPaged = debug.extend('paged')
+// debugPaged.namespace === 'quire:lib:pdf:paged'
+```
+
+### Testing with Debug
+
+```javascript
+import test from 'ava'
+import { enableDebug, disableDebug } from '#lib/logger/debug.js'
+
+test.serial('debug output test', (t) => {
+  enableDebug('quire:test:*')
+
+  // Test code that uses debug...
+
+  disableDebug()
+})
+```
+
 ## Related
 
 - [11ty chalk factory](../../../11ty/_lib/chalk/index.js) - 11ty's equivalent logger
+- [debug package](https://github.com/debug-js/debug) - Underlying debug library
 - [conf module](../conf/) - Configuration management
 - [cli-architecture.md](../../docs/cli-architecture.md) - Architecture documentation

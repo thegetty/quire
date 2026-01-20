@@ -1,7 +1,6 @@
 import Command from '#src/Command.js'
 import generatePdf from '#lib/pdf/index.js'
 import open from 'open'
-import { logger } from '#lib/logger/index.js'
 
 /**
  * Quire CLI `pdf` Command
@@ -32,9 +31,7 @@ export default class PDFCommand extends Command {
   }
 
   async action(options, command) {
-    if (options.debug) {
-      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
-    }
+    this.debug('called with options %O', options)
 
     const output = await generatePdf(options)
 

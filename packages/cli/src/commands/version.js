@@ -1,5 +1,4 @@
 import Command from '#src/Command.js'
-import { logger } from '#lib/logger/index.js'
 import { setVersion } from '#lib/project/index.js'
 import { latest } from '#lib/installer/index.js'
 import testcwd from '#helpers/test-cwd.js'
@@ -42,9 +41,7 @@ export default class VersionCommand extends Command {
    * @param {Object} options - Command options
    */
   async action(version, options = {}) {
-    if (options.debug) {
-      logger.info('Command \'%s\' called with options %o', this.name, options)
-    }
+    this.debug('called with options %O', options)
 
     // Validate and resolve the version against npm registry
     const resolvedVersion = await latest(version)

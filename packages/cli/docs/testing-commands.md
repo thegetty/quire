@@ -237,6 +237,109 @@ The spec tests verify the **contract** between our Command classes and Commander
 3. **Prevents regressions** - Ensures the public API remains stable
 4. **Tests what matters** - Focuses on the interface users interact with
 
+## Mocking Logger and Debug in Integration Tests
+
+Commands inherit `this.logger` and `this.debug` from the base `Command` class. To test logging behavior, you need to:
+
+1. Use esmock's global mock (third parameter) to mock `createLogger`
+2. Assign the mock logger and debug to the command instance after construction
+
+### Pattern for Mocking Logger/Debug
+
+```javascript
+import test from 'ava'
+import esmock from 'esmock'
+import sinon from 'sinon'
+
+test.beforeEach((t) => {
+  t.context.sandbox = sinon.createSandbox()
+
+  // Create mock logger
+  t.context.mockLogger = {
+    info: t.context.sandbox.stub(),
+    error: t.context.sandbox.stub(),
+    debug: t.context.sandbox.stub(),
+    warn: t.context.sandbox.stub(),
+    trace: t.context.sandbox.stub()
+  }
+})
+
+test.afterEach.always((t) => {
+  t.context.sandbox.restore()
+})
+
+test('command logs expected messages', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  // Use global mock (third parameter) for createLogger
+  const { default: MyCommand } = await esmock('./my-command.js', {
+    // Local mocks for dependencies
+    '#lib/some-dependency/index.js': { someFn: sandbox.stub() }
+  }, {
+    // Global mock - affects Command base class
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new MyCommand()
+
+  // Assign mock logger and debug to instance
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({}, {})
+
+  // Assert on logger calls
+  t.true(mockLogger.info.called, 'logger.info should be called')
+  t.true(mockLogger.info.calledWith('Expected message'))
+})
+```
+
+### Testing Debug Output
+
+To verify debug calls:
+
+```javascript
+test('command logs debug information', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockDebug = sandbox.stub()
+
+  const { default: MyCommand } = await esmock('./my-command.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new MyCommand()
+  command.logger = mockLogger
+  command.debug = mockDebug
+
+  await command.action({ debug: true }, {})
+
+  t.true(mockDebug.called, 'debug should be called')
+  t.true(mockDebug.calledWith('called with options %O', { debug: true }))
+})
+```
+
+### Why Global Mocks?
+
+The logger is imported by the base `Command` class, not by the command itself. Using esmock's global mock (third parameter) ensures the mock is applied when `Command` imports `createLogger`.
+
+## Cross-Platform Testing
+
+When writing tests that involve file paths, use `path.join()` instead of hardcoded path strings to ensure tests pass on both Unix and Windows:
+
+```javascript
+// ✅ Good - works on all platforms
+import path from 'node:path'
+t.is(output, path.join('/project', '_site', 'output.pdf'))
+
+// ❌ Bad - fails on Windows (uses backslashes)
+t.is(output, '/project/_site/output.pdf')
+```
+
 ## Cross-Platform Testing
 
 The CLI runs on macOS, Linux, and Windows. Tests must work correctly across all platforms.
