@@ -576,3 +576,143 @@ test('runAllChecks preserves all check result properties', async (t) => {
   t.is(cliResult.remediation, 'Fix steps')
   t.is(cliResult.docsUrl, 'https://example.com')
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Timeout tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('DEFAULT_CHECK_TIMEOUT is exported and has reasonable value', async (t) => {
+  const { DEFAULT_CHECK_TIMEOUT } = await import('./index.js')
+
+  t.is(typeof DEFAULT_CHECK_TIMEOUT, 'number')
+  t.is(DEFAULT_CHECK_TIMEOUT, 10000, 'default timeout should be 10 seconds')
+})
+
+test('runAllChecksWithSections handles slow checks with timeout', async (t) => {
+  const { sandbox } = t.context
+
+  // Create a check that takes longer than the timeout
+  const slowCheck = sandbox.stub().callsFake(() =>
+    new Promise((resolve) => setTimeout(() => resolve({ ok: true, message: 'slow' }), 200))
+  )
+  const fastCheck = sandbox.stub().returns({ ok: true, message: 'fast' })
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkOsInfo: fastCheck,
+      checkCliVersion: fastCheck,
+      checkNodeVersion: slowCheck,
+      checkNpmAvailable: fastCheck,
+      checkGitAvailable: fastCheck,
+      checkPrinceAvailable: fastCheck,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: fastCheck,
+      checkDependencies: fastCheck,
+      checkOutdatedQuire11ty: fastCheck,
+      checkDataFiles: fastCheck,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: fastCheck,
+      checkPdfOutput: fastCheck,
+      checkEpubOutput: fastCheck,
+    },
+  })
+
+  // Use a very short timeout (50ms) to trigger the timeout
+  const sections = await runAllChecksWithSections({ checks: ['node'], timeout: 50 })
+
+  t.is(sections.length, 1)
+  const nodeResult = sections[0].results[0]
+
+  // Should have timed out
+  t.false(nodeResult.ok)
+  t.is(nodeResult.level, 'timeout')
+  t.regex(nodeResult.message, /skipped.*timed out/)
+  t.truthy(nodeResult.remediation)
+})
+
+test('runAllChecksWithSections completes checks within timeout', async (t) => {
+  const { sandbox } = t.context
+
+  // Create a check that completes quickly
+  const fastCheck = sandbox.stub().returns({ ok: true, message: 'fast' })
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkOsInfo: fastCheck,
+      checkCliVersion: fastCheck,
+      checkNodeVersion: fastCheck,
+      checkNpmAvailable: fastCheck,
+      checkGitAvailable: fastCheck,
+      checkPrinceAvailable: fastCheck,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: fastCheck,
+      checkDependencies: fastCheck,
+      checkOutdatedQuire11ty: fastCheck,
+      checkDataFiles: fastCheck,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: fastCheck,
+      checkPdfOutput: fastCheck,
+      checkEpubOutput: fastCheck,
+    },
+  })
+
+  // Use a long timeout - check should complete well before
+  const sections = await runAllChecksWithSections({ checks: ['node'], timeout: 5000 })
+
+  t.is(sections.length, 1)
+  const nodeResult = sections[0].results[0]
+
+  // Should have completed successfully
+  t.true(nodeResult.ok)
+  t.is(nodeResult.message, 'fast')
+})
+
+test('runAllChecksWithSections includes check id in results', async (t) => {
+  const { sandbox } = t.context
+
+  const fastCheck = sandbox.stub().returns({ ok: true, message: 'fast' })
+
+  const { runAllChecksWithSections } = await esmock('./index.js', {
+    './checks/environment/index.js': {
+      checkOsInfo: fastCheck,
+      checkCliVersion: fastCheck,
+      checkNodeVersion: fastCheck,
+      checkNpmAvailable: fastCheck,
+      checkGitAvailable: fastCheck,
+      checkPrinceAvailable: fastCheck,
+    },
+    './checks/project/index.js': {
+      checkQuireProject: fastCheck,
+      checkDependencies: fastCheck,
+      checkOutdatedQuire11ty: fastCheck,
+      checkDataFiles: fastCheck,
+    },
+    './checks/outputs/index.js': {
+      checkStaleBuild: fastCheck,
+      checkPdfOutput: fastCheck,
+      checkEpubOutput: fastCheck,
+    },
+  })
+
+  const sections = await runAllChecksWithSections({ checks: ['node', 'npm'] })
+
+  // Each result should have an id property
+  for (const { results } of sections) {
+    for (const result of results) {
+      t.truthy(result.id, 'result should have id property')
+      t.is(typeof result.id, 'string')
+    }
+  }
+
+  // Verify specific IDs
+  const envSection = sections.find((s) => s.section === 'Environment')
+  const nodeResult = envSection.results.find((r) => r.name === 'Node.js version')
+  const npmResult = envSection.results.find((r) => r.name === 'npm')
+
+  t.is(nodeResult.id, 'node')
+  t.is(npmResult.id, 'npm')
+})
