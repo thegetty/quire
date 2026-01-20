@@ -178,10 +178,11 @@ test('shows progress during build', async (t) => {
 
 ### Why ora?
 
+Automatic supression of output when the `--quiet` or `--json` flags are set or TTY is detected support the four primary user-groups/use-cases: non-technical, developer, maintainer, and programmatic use.
+
+
 | Factor | ora | Alternatives |
 |--------|-----|--------------|
-| Already installed | Yes | Would add dependency |
-| Weekly downloads | 46.8M | cli-progress: 5.3M |
 | Bundle size | 30.4 kB | cli-progress: 62.2 kB |
 | Maintenance | Active | progress: 7 years dormant |
 | Complexity | Simple | listr2: over-engineered |
