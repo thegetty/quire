@@ -156,6 +156,20 @@ commands:
           name: Install test dependencies
           command: npm ci --foreground-scripts
 
+  verify_environment:
+    description: "Run quire doctor to verify CI environment is ready for testing"
+    steps:
+      - run:
+          name: Verify Quire environment
+          command: |
+            mkdir -p reports
+            quire doctor --check environment --json reports/quire-doctor.json || true
+            # Display human-readable output for CI logs
+            quire doctor --check environment
+      - store_artifacts:
+          path: reports/quire-doctor.json
+          destination: diagnostics/quire-doctor.json
+
   run_tests:
     steps:
       - run:
@@ -233,6 +247,7 @@ jobs:
           key: *npm_cache_key
       - build_install_cli-<< parameters.os >>
       - install_optional-<< parameters.os >>
+      - verify_environment
       - install_test_dependencies
       - save_npm_cache-<< parameters.os >>
       - test-<< parameters.os >>
