@@ -21,6 +21,7 @@ import {
 } from '#lib/project/index.js'
 import { VersionNotFoundError } from '#src/errors/index.js'
 import { logger } from '#lib/logger/index.js'
+import reporter from '#lib/reporter/index.js'
 import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -85,6 +86,7 @@ export async function initStarter(starter, projectPath, options = {}) {
   /**
    * Clone starter project repository
    */
+  reporter.start('Cloning starter project...')
   const repo = new Git(projectPath)
   await repo.clone(starter, '.')
 
@@ -94,6 +96,7 @@ export async function initStarter(starter, projectPath, options = {}) {
    *
    * Uses 'latest' to get the latest semantic version compatible with version ranges
    */
+  reporter.update('Resolving quire-11ty version...')
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
   const quireVersion = await latest(options.quireVersion || quire11tyVersion)
   setVersion(quireVersion, projectPath)
@@ -108,6 +111,7 @@ export async function initStarter(starter, projectPath, options = {}) {
   writeVersionFile(projectPath, versionInfo)
 
   // Re-initialize project directory as a new git repository
+  reporter.update('Initializing git repository...')
   await fs.remove(path.join(projectPath, '.git'))
 
   /**
@@ -162,11 +166,14 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
 
   // Copy if passed a path and it exists, otherwise attempt to download the tarball
   if (fs.existsSync(quirePath)) {
+    reporter.update('Copying local quire-11ty package...')
     fs.cpSync(quirePath, tempDir, { recursive: true })
   } else {
+    reporter.update(`Downloading quire-11ty ${quireVersion}...`)
     await npm.pack(quire11tyPackage, tempDir, { debug: options.debug, quiet: !options.debug })
 
     // Extract only the package dir from the archive and strip it from the extracted path
+    reporter.update('Extracting package...')
     const tarballPath = path.join(tempDir, `thegetty-quire-11ty-${quireVersion}.tgz`)
     await execaCommand(`tar -xzf ${tarballPath} -C ${tempDir} --strip-components=1 package/`)
 
@@ -186,6 +193,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Installing with --prefer-offline prioritizes local cache,
    * falling back to network only when necessary.
    */
+  reporter.update('Installing dependencies (this may take a few minutes)...')
   try {
     if (options.cleanCache) {
       // Nota bene: cache is self-healing, this should not be necessary.
@@ -196,7 +204,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
     logger.warn('Failed to install dependencies')
     debug('install error: %O', error)
     fs.rmSync(projectPath, { recursive: true })
-    return
+    throw error
   }
 
   // Remove temporary 11ty install directory before committing
@@ -207,6 +215,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Create an additional commit of new @thegetty/quire-11ty files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
+  reporter.update('Finalizing project...')
   await repo.add('.')
   await repo.commit('Adds `@thegetty/quire-11ty` files')
 }
