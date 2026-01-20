@@ -31,6 +31,7 @@ export function checkPdfOutput() {
     debug('No PDF files found')
     return {
       ok: true,
+      level: 'na',
       message: 'No PDF output (run quire pdf to generate)',
     }
   }

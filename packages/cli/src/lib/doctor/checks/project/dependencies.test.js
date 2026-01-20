@@ -52,7 +52,7 @@ test('checkDependencies returns not ok when node_modules missing', async (t) => 
   t.truthy(result.docsUrl, 'should include documentation link')
 })
 
-test('checkDependencies returns ok when no package.json (not in project)', async (t) => {
+test('checkDependencies returns N/A when no package.json (not in project)', async (t) => {
   const { sandbox } = t.context
 
   const { checkDependencies } = await esmock('./dependencies.js', {
@@ -66,5 +66,6 @@ test('checkDependencies returns ok when no package.json (not in project)', async
   const result = checkDependencies()
 
   t.true(result.ok)
+  t.is(result.level, 'na', 'should return N/A level when not in project')
   t.regex(result.message, /No package\.json/)
 })

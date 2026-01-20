@@ -10,7 +10,7 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkEpubOutput returns ok when no _epub directory exists', async (t) => {
+test('checkEpubOutput returns N/A when no _epub directory exists', async (t) => {
   const { sandbox } = t.context
 
   const { checkEpubOutput } = await esmock('./epub-output.js', {
@@ -22,6 +22,7 @@ test('checkEpubOutput returns ok when no _epub directory exists', async (t) => {
   const result = checkEpubOutput()
 
   t.true(result.ok)
+  t.is(result.level, 'na', 'should return N/A level when no EPUB output')
   t.regex(result.message, /No EPUB output/)
 })
 

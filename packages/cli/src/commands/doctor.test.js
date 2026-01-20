@@ -484,6 +484,151 @@ test('doctor command should display plural warning count', async (t) => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
+// N/A (not applicable) state tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('doctor command should display N/A checks with open circle indicator', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Outputs',
+      results: [
+        {
+          name: 'Build status',
+          ok: true,
+          level: 'na',
+          message: 'No build output yet (run quire build)',
+        },
+        {
+          name: 'PDF output',
+          ok: true,
+          level: 'na',
+          message: 'No PDF output (run quire pdf to generate)',
+        },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  // N/A checks should use ○ indicator
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/○/)),
+    'should display open circle indicator for N/A checks'
+  )
+})
+
+test('doctor command should not count N/A checks in summary', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Outputs',
+      results: [
+        { name: 'Build status', ok: true, level: 'na', message: 'No build output' },
+        { name: 'PDF output', ok: true, level: 'na', message: 'No PDF output' },
+        { name: 'EPUB output', ok: true, level: 'na', message: 'No EPUB output' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  // Should report all checks passed (N/A checks don't count as failures)
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/All checks passed/)),
+    'should report all checks passed when only N/A checks exist'
+  )
+})
+
+test.serial('doctor command should not count N/A checks when mixed with errors', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const exitStub = sinon.stub(process, 'exit')
+
+  try {
+    const mockSections = [
+      {
+        section: 'Environment',
+        results: [
+          { name: 'npm', ok: false, message: 'not found' },
+        ],
+      },
+      {
+        section: 'Outputs',
+        results: [
+          { name: 'Build status', ok: true, level: 'na', message: 'No build output' },
+          { name: 'PDF output', ok: true, level: 'na', message: 'No PDF output' },
+        ],
+      },
+    ]
+
+    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+
+    const command = new DoctorCommand()
+    command.logger = mockLogger
+
+    await command.action({}, command)
+
+    // Should only report 1 error (N/A checks not counted)
+    t.true(
+      mockLogger.error.calledWith(sinon.match(/1 check failed/)),
+      'should only count actual errors, not N/A checks'
+    )
+  } finally {
+    exitStub.restore()
+  }
+})
+
+test('doctor command should use info logger for N/A checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Outputs',
+      results: [
+        { name: 'PDF output', ok: true, level: 'na', message: 'No PDF output' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  // N/A should go through info, not warn or error
+  const infoCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const hasNaInInfo = infoCalls.some((arg) => arg && arg.includes('○') && arg.includes('PDF output'))
+  t.true(hasNaInInfo, 'N/A checks should be logged via info')
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Verbose flag tests
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -578,4 +723,61 @@ test('doctor command should handle checks without details in verbose mode', asyn
   })
 
   t.true(mockLogger.info.calledWith(sinon.match(/v22\.0\.0/)), 'should still display message')
+})
+
+test('doctor command should display symbol key in verbose mode', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ verbose: true }, command)
+
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/Key:.*✓.*passed.*✗.*failed.*⚠.*warning.*○.*not applicable.*not yet generated/)),
+    'should display symbol key in verbose mode'
+  )
+})
+
+test('doctor command should not display symbol key without verbose flag', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  const allCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const hasKey = allCalls.some((arg) => arg && arg.includes('Key:'))
+  t.false(hasKey, 'should not display symbol key without verbose flag')
 })

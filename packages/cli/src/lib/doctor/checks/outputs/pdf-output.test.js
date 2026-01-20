@@ -10,7 +10,7 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkPdfOutput returns ok when no PDF files exist', async (t) => {
+test('checkPdfOutput returns N/A when no PDF files exist', async (t) => {
   const { sandbox } = t.context
 
   const { checkPdfOutput } = await esmock('./pdf-output.js', {
@@ -22,6 +22,7 @@ test('checkPdfOutput returns ok when no PDF files exist', async (t) => {
   const result = checkPdfOutput()
 
   t.true(result.ok)
+  t.is(result.level, 'na', 'should return N/A level when no PDF output')
   t.regex(result.message, /No PDF output/)
 })
 

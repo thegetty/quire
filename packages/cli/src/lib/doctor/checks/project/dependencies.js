@@ -23,6 +23,7 @@ export function checkDependencies() {
   if (!hasPackageJson) {
     return {
       ok: true,
+      level: 'na',
       message: 'No package.json (not in project directory)',
     }
   }
