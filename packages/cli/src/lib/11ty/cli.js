@@ -2,6 +2,29 @@ import { execa } from 'execa'
 import fs from 'node:fs'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
+import processManager from '#lib/process/manager.js'
+
+/**
+ * Spawn a cancellable subprocess with output piped to stdout
+ *
+ * @param {string[]} command - Command arguments for node
+ * @param {Object} options - Spawn options
+ * @param {string} options.cwd - Working directory
+ * @param {Object} options.env - Environment variables
+ * @returns {import('execa').ExecaChildProcess}
+ */
+const spawn = (command, { cwd, env }) => {
+  const subprocess = execa('node', command, {
+    all: true,
+    cwd,
+    env,
+    execPath: process.execPath,
+    cancelSignal: processManager.signal,
+    gracefulCancel: true,
+  })
+  subprocess.all.pipe(process.stdout)
+  return subprocess
+}
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -76,6 +99,10 @@ const factory = (options = {}) => {
  * @see https://www.11ty.dev/docs/usage/#command-line-usage
  */
 export default {
+  /**
+   * Run Eleventy build via CLI
+   * @param {Object} options - Build options
+   */
   build: async (options = {}) => {
     console.info('[CLI:11ty] running eleventy build')
 
@@ -85,20 +112,26 @@ export default {
 
     env.ELEVENTY_ENV = 'production'
 
-    const build = execa('node', command, {
-      all: true,
-      cwd: projectRoot,
-      env,
-      execPath: process.execPath
-    })
-    build.all.pipe(process.stdout)
-    await build
+    try {
+      const build = spawn(command, { cwd: projectRoot, env })
+      await build
 
-    if (build.exitCode !== 0) {
-      process.exit(build.exitCode)
+      if (build.exitCode !== 0) {
+        process.exit(build.exitCode)
+      }
+    } catch (error) {
+      if (error.isCanceled) {
+        console.info('[CLI:11ty] build cancelled')
+        return
+      }
+      throw error
     }
   },
 
+  /**
+   * Run Eleventy development server via CLI
+   * @param {Object} options - Serve options
+   */
   serve: async (options = {}) => {
     console.info(`[CLI:11ty] running eleventy serve`)
 
@@ -110,11 +143,14 @@ export default {
 
     env.ELEVENTY_ENV = 'development'
 
-    await execa('node', command, {
-      all: true,
-      cwd: projectRoot,
-      env,
-      execPath: process.execPath
-    }).all.pipe(process.stdout)
-  }
+    try {
+      await spawn(command, { cwd: projectRoot, env })
+    } catch (error) {
+      if (error.isCanceled) {
+        console.info('[CLI:11ty] server stopped')
+        return
+      }
+      throw error
+    }
+  },
 }

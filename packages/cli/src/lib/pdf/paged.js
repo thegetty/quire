@@ -4,6 +4,7 @@ import fs from 'fs-extra'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import processManager from '#lib/process/manager.js'
 import { splitPdf } from './split.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -42,7 +43,13 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
   let printer = new Printer(printerOptions)
 
-  printer.on('page', (page,pageElement,breakToken) => {
+  // Register cleanup handler for graceful shutdown
+  processManager.onShutdown('pagedjs', () => {
+    console.info('[CLI:lib/pdf/pagedjs] closing printer')
+    printer.close()
+  })
+
+  printer.on('page', (page, pageElement, breakToken) => {
     if (page.position === 0) {
       console.info(`[CLI:lib/pdf/pagedjs] loaded`)
     } 
@@ -122,8 +129,11 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
     // Leave the printer open for debug logs
     if (!options.debug) {
-      printer.close()    
+      printer.close()
     }
+
+    // Unregister cleanup handler
+    processManager.onShutdownComplete('pagedjs')
 
     if (file && output) {
       console.info(`[CLI:lib/pdf/pagedjs] writing file(s)`)

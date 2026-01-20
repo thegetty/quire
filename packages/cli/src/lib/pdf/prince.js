@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { splitPdf } from './split.js'
 import fs from 'fs-extra'
 
+import processManager from '#lib/process/manager.js'
 import which from '#helpers/which.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -50,13 +51,20 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     fs.mkdirsSync(dir)
   }
   
-  // Execute the page mapping PDF build  
+  // Execute the page mapping PDF build
   let pageMap = {}
   try {
-    const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput])  
+    const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput], {
+      cancelSignal: processManager.signal,
+      gracefulCancel: true
+    })
     pageMap = JSON.parse(pageMapOutput.stdout)
-  } catch (err) {
-    console.error(`Generating the PDF page map failed with the error ${err.stderr}`)
+  } catch (error) {
+    if (error.isCanceled) {
+      console.info('[CLI:lib/pdf/prince] PDF generation cancelled')
+      return
+    }
+    console.error(`Generating the PDF page map failed with the error ${error.stderr}`)
     process.exit(1)
   }
 
@@ -64,7 +72,10 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
   if (pdfConfig?.pagePDF?.coverPage === true && fs.existsSync(coversInput)) {
 
-    const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput])
+    const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput], {
+      cancelSignal: processManager.signal,
+      gracefulCancel: true
+    })
     const coversMap = JSON.parse(coversPageMapOutput.stdout)
 
     for (const pageId of Object.keys(coversMap))  {
@@ -77,11 +88,18 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
   }
 
-  let stderror,stdout
+  let stderror, stdout
 
   try {
-    ({ stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput]))
+    ({ stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput], {
+      cancelSignal: processManager.signal,
+      gracefulCancel: true
+    }))
   } catch (err) {
+    if (err.isCanceled) {
+      console.info('[CLI:lib/pdf/prince] PDF generation cancelled')
+      return
+    }
     console.error(`Printing the PDF failed with the error ${err.stderr}`)
     process.exit(1)
   }
