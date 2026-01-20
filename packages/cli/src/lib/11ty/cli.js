@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
 import processManager from '#lib/process/manager.js'
+import { BuildFailedError } from '#src/errors/index.js'
 
 /**
  * Spawn a cancellable subprocess with output piped to stdout
@@ -117,7 +118,7 @@ export default {
       await build
 
       if (build.exitCode !== 0) {
-        process.exit(build.exitCode)
+        throw new BuildFailedError(`Eleventy exited with code ${build.exitCode}`)
       }
     } catch (error) {
       if (error.isCanceled) {

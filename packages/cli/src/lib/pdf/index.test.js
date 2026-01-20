@@ -174,12 +174,8 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
 // Error handling tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('generatePdf exits with error for unrecognized library', async (t) => {
+test('generatePdf throws InvalidPdfLibraryError for unrecognized library', async (t) => {
   const { sandbox } = t.context
-
-  // Make process.exit throw to stop execution
-  const exitError = new Error('process.exit called')
-  sandbox.stub(process, 'exit').throws(exitError)
 
   const mockLogger = {
     info: sandbox.stub(),
@@ -196,20 +192,14 @@ test.serial('generatePdf exits with error for unrecognized library', async (t) =
     '#lib/logger/index.js': { logger: mockLogger }
   })
 
-  await t.throwsAsync(
-    () => generatePdf.default({ lib: 'unknown-library' }),
-    { message: 'process.exit called' }
-  )
+  const error = await t.throwsAsync(() => generatePdf.default({ lib: 'unknown-library' }))
 
-  t.true(mockLogger.error.calledWith(sinon.match(/Unrecognized PDF library/)))
+  t.is(error.code, 'INVALID_PDF_LIBRARY')
+  t.true(error.message.includes('unknown-library'))
 })
 
-test.serial('generatePdf exits with error when pdf.html is missing', async (t) => {
+test('generatePdf throws MissingBuildOutputError when pdf.html is missing', async (t) => {
   const { sandbox } = t.context
-
-  // Make process.exit throw to stop execution
-  const exitError = new Error('process.exit called')
-  sandbox.stub(process, 'exit').throws(exitError)
 
   const mockPaths = {
     getProjectRoot: () => '/project',
@@ -235,13 +225,10 @@ test.serial('generatePdf exits with error when pdf.html is missing', async (t) =
     '#lib/logger/index.js': { logger: mockLogger }
   })
 
-  await t.throwsAsync(
-    () => generatePdf.default({ lib: 'pagedjs' }),
-    { message: 'process.exit called' }
-  )
+  const error = await t.throwsAsync(() => generatePdf.default({ lib: 'pagedjs' }))
 
-  t.true(mockLogger.error.calledWith(sinon.match(/Unable to find PDF input/)))
-  t.true(mockLogger.error.calledWith(sinon.match(/quire build/)))
+  t.is(error.code, 'BUILD_OUTPUT_MISSING')
+  t.true(error.message.includes('pdf.html'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -123,10 +123,10 @@ test('latest() throws error when no compatible version found', async (t) => {
     '#src/packageConfig.js': { default: { version: '1.0.0' } }
   })
 
-  await t.throwsAsync(
-    () => latest('^99.0.0'),
-    { message: /couldn't find a version/ }
-  )
+  const error = await t.throwsAsync(() => latest('^99.0.0'))
+
+  t.is(error.code, 'VERSION_NOT_FOUND')
+  t.true(error.message.includes('^99.0.0'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -195,7 +195,7 @@ test('initStarter() throws when target directory is not empty', async (t) => {
 
   await t.throwsAsync(
     () => initStarter('https://github.com/test/starter', '/project'),
-    { message: /non-empty/ }
+    { message: /non-empty directory/ }
   )
 })
 

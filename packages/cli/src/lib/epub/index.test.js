@@ -92,19 +92,17 @@ test('getEpubLib normalizes library name variations', async (t) => {
 // Error handling tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test('getEpubLib returns undefined for unrecognized library', async (t) => {
+test('getEpubLib throws InvalidEpubLibraryError for unrecognized library', async (t) => {
   const { sandbox } = t.context
-
-  const consoleErrorStub = sandbox.stub(console, 'error')
 
   const getEpubLib = await esmock('./index.js', {
     '#helpers/os-utils.js': { dynamicImport: sandbox.stub() }
   })
 
-  const result = await getEpubLib.default('unknown-library')
+  const error = await t.throwsAsync(() => getEpubLib.default('unknown-library'))
 
-  t.is(result, undefined)
-  t.true(consoleErrorStub.calledWith(sinon.match(/Unrecognized EPUB library/)))
+  t.is(error.code, 'INVALID_EPUB_LIBRARY')
+  t.true(error.message.includes('unknown-library'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

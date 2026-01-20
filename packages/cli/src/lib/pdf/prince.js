@@ -7,6 +7,7 @@ import fs from 'fs-extra'
 
 import processManager from '#lib/process/manager.js'
 import which from '#helpers/which.js'
+import { PdfGenerationError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -21,7 +22,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   /**
    * @see https://www.princexml.com/doc/command-line/#options
    */
-  
+
   const { pdfConfig } = options
 
   // These options run once to get the map pages to essays
@@ -40,17 +41,17 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     pageMapOptions.push('--debug')
     cmdOptions.push('--debug')
   }
-  
+
   if (options.verbose) {
     pageMapOptions.push('--verbose')
     cmdOptions.push('--verbose')
   }
 
   const { dir } = path.parse(output)
-  if (!fs.existsSync(dir)) { 
+  if (!fs.existsSync(dir)) {
     fs.mkdirsSync(dir)
   }
-  
+
   // Execute the page mapping PDF build
   let pageMap = {}
   try {
@@ -64,8 +65,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
       console.info('[CLI:lib/pdf/prince] PDF generation cancelled')
       return
     }
-    console.error(`Generating the PDF page map failed with the error ${error.stderr}`)
-    process.exit(1)
+    throw new PdfGenerationError('Prince', 'page map generation', error.stderr)
   }
 
   let coversData
@@ -80,7 +80,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
 
     for (const pageId of Object.keys(coversMap))  {
       if (pageId in pageMap) {
-        pageMap[pageId].coverPage = coversMap[pageId].startPage       
+        pageMap[pageId].coverPage = coversMap[pageId].startPage
       }
     }
 
@@ -95,17 +95,16 @@ export default async (publicationInput, coversInput, output, options = {}) => {
       cancelSignal: processManager.signal,
       gracefulCancel: true
     }))
-  } catch (err) {
-    if (err.isCanceled) {
+  } catch (error) {
+    if (error.isCanceled) {
       console.info('[CLI:lib/pdf/prince] PDF generation cancelled')
       return
     }
-    console.error(`Printing the PDF failed with the error ${err.stderr}`)
-    process.exit(1)
+    throw new PdfGenerationError('Prince', 'PDF printing', error.stderr)
   }
 
   const pdfData = fs.readFileSync(output,null)
-  
+
   let files = await splitPdf(pdfData,coversData,pageMap,pdfConfig)
   Object.entries(files).forEach( async ([filePath,pagePdf]) => {
     await fs.promises.writeFile(filePath,pagePdf)

@@ -1,27 +1,32 @@
 import { ManifestToEpub } from 'epubjs-cli'
 import fs from 'fs-extra'
 import { pathToFileURL } from 'node:url'
+import { EpubGenerationError } from '#src/errors/index.js'
 
 /**
  * A façade module for the EPUB.js library
  * @see https://github.com/futurepress/epubjs-cli
  */
 export default async (input, output, options = {}) => {
+  console.info(`[CLI:lib/epub/epubjs] Generating ePub from ${input}`)
+
+  const url = pathToFileURL(`${input}/manifest.json`).toString()
+
+  let epub
   try {
-    console.info(`[CLI:lib/epub/epubjs] Generating ePub from ${input}`)
+    epub = await new ManifestToEpub(url)
+  } catch (error) {
+    throw new EpubGenerationError('Epub.js', 'manifest loading', error.message)
+  }
 
-    const url = pathToFileURL(`${input}/manifest.json`).toString()
+  let file
+  try {
+    file = await epub.save()
+  } catch (error) {
+    throw new EpubGenerationError('Epub.js', 'file generation', error.message)
+  }
 
-    const epub = await new ManifestToEpub(url)
-      .catch((error) => console.error(error))
-
-    const file = await epub.save()
-      .catch((error) => console.error(error))
-
-    if (file && output) {
-      fs.writeFile(output, file, (error) => { if (error) throw error })
-    }
-  } catch (ERR_FILE_NOT_FOUND) {
-    console.error(`[CLI:lib/epub/epubjs] file not found ${input}`)
+  if (file && output) {
+    await fs.writeFile(output, file)
   }
 }
