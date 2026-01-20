@@ -48,9 +48,10 @@ test('registered command has no arguments', (t) => {
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Doctor command has unified --check option
-  t.is(command.options.length, 1, 'doctor command should have 1 option')
+  // Doctor command has --check and --verbose options
+  t.is(command.options.length, 2, 'doctor command should have 2 options')
 
+  // Verify --check option
   const checkOption = command.options.find((opt) => opt.long === '--check')
   t.truthy(checkOption, '--check option should exist')
   t.true(checkOption instanceof Option, '--check should be Option instance')
@@ -59,6 +60,13 @@ test('registered command has correct options', (t) => {
   t.true(checkOption.description.includes('all'), 'description should mention "all"')
   t.true(checkOption.description.includes('environment'), 'description should mention section names')
   t.true(checkOption.description.includes('node'), 'description should mention check IDs')
+
+  // Verify --verbose option
+  const verboseOption = command.options.find((opt) => opt.long === '--verbose')
+  t.truthy(verboseOption, '--verbose option should exist')
+  t.true(verboseOption instanceof Option, '--verbose should be Option instance')
+  t.is(verboseOption.short, '-v', '--verbose should have -v short flag')
+  t.truthy(verboseOption.description)
 })
 
 test('command is accessible via checkup alias', (t) => {

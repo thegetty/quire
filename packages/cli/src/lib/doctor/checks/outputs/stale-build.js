@@ -58,6 +58,7 @@ export function checkStaleBuild() {
     debug('No _site directory found, skipping stale build check')
     return {
       ok: true,
+      level: 'na',
       message: 'No build output yet (run quire build)',
     }
   }
