@@ -19,12 +19,18 @@ test('checkDependencies returns ok when node_modules exists', async (t) => {
         existsSync: sandbox.stub().returns(true),
       },
     },
+    'node:path': {
+      default: {
+        resolve: sandbox.stub().callsFake((p) => `/test/project/${p}`),
+      },
+    },
   })
 
   const result = checkDependencies()
 
   t.true(result.ok)
   t.is(result.message, 'installed')
+  t.is(result.details, '/test/project/node_modules')
 })
 
 test('checkDependencies returns not ok when node_modules missing', async (t) => {

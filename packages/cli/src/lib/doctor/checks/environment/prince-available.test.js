@@ -23,6 +23,7 @@ test('checkPrinceAvailable returns ok when prince is available', async (t) => {
 
   t.true(result.ok)
   t.regex(result.message, /installed/)
+  t.is(result.details, '/usr/local/bin/prince')
 })
 
 test('checkPrinceAvailable returns warning when prince is missing', async (t) => {

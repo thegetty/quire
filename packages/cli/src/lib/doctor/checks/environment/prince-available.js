@@ -14,12 +14,11 @@ import { DOCS_BASE_URL } from '../../constants.js'
 const debug = createDebug('lib:doctor:prince-available')
 
 /**
- * Check if prince binary is available
- * @returns {boolean}
+ * Get prince binary path if available
+ * @returns {string|null} Path to prince binary or null if not found
  */
-function isPrinceAvailable() {
-  const result = which.sync('prince', { nothrow: true })
-  return !!result
+function getPrincePath() {
+  return which.sync('prince', { nothrow: true })
 }
 
 /**
@@ -58,13 +57,15 @@ function getRemediation() {
  * @returns {import('../../index.js').CheckResult}
  */
 export function checkPrinceAvailable() {
-  const ok = isPrinceAvailable()
+  const princePath = getPrincePath()
+  const ok = !!princePath
   debug('prince available: %s', ok)
 
   if (ok) {
     return {
       ok: true,
       message: 'installed',
+      details: princePath,
     }
   }
 

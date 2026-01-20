@@ -115,8 +115,8 @@ test.serial('doctor command should report failed checks', async (t) => {
 
     t.true(mockLogger.error.called, 'should log error for failed check')
     t.true(
-      mockLogger.error.calledWith(sinon.match(/Some checks failed/)),
-      'should report failures'
+      mockLogger.error.calledWith(sinon.match(/1 check failed/)),
+      'should report failure count'
     )
   } finally {
     exitStub.restore()
@@ -210,8 +210,8 @@ test('doctor command should display warnings with warning indicator', async (t) 
     'should display warning indicator'
   )
   t.true(
-    mockLogger.warn.calledWith(sinon.match(/All checks passed with warnings/)),
-    'should report passed with warnings'
+    mockLogger.warn.calledWith(sinon.match(/All checks passed with 1 warning/)),
+    'should report passed with warning count'
   )
 })
 
@@ -376,10 +376,206 @@ test.serial('doctor command should not exit when only warnings exist', async (t)
 
     t.false(exitStub.called, 'should not call process.exit for warnings')
     t.true(
-      mockLogger.warn.calledWith(sinon.match(/All checks passed with warnings/)),
-      'should report passed with warnings'
+      mockLogger.warn.calledWith(sinon.match(/All checks passed with 1 warning/)),
+      'should report passed with warning count'
     )
   } finally {
     exitStub.restore()
   }
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Summary count tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command should display plural error count', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const exitStub = sinon.stub(process, 'exit')
+
+  try {
+    const mockSections = [
+      {
+        section: 'Environment',
+        results: [
+          { name: 'npm', ok: false, message: 'not found' },
+          { name: 'Git', ok: false, message: 'not found' },
+        ],
+      },
+    ]
+
+    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+
+    const command = new DoctorCommand()
+    command.logger = mockLogger
+
+    await command.action({}, command)
+
+    t.true(
+      mockLogger.error.calledWith(sinon.match(/2 checks failed/)),
+      'should use plural for multiple errors'
+    )
+  } finally {
+    exitStub.restore()
+  }
+})
+
+test.serial('doctor command should display errors and warnings together', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const exitStub = sinon.stub(process, 'exit')
+
+  try {
+    const mockSections = [
+      {
+        section: 'Environment',
+        results: [
+          { name: 'npm', ok: false, message: 'not found' },
+          { name: 'Git', ok: false, level: 'warn', message: 'outdated' },
+          { name: 'Prince', ok: false, level: 'warn', message: 'not found' },
+        ],
+      },
+    ]
+
+    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+
+    const command = new DoctorCommand()
+    command.logger = mockLogger
+
+    await command.action({}, command)
+
+    t.true(
+      mockLogger.error.calledWith(sinon.match(/1 check failed, 2 warnings/)),
+      'should display both error and warning counts'
+    )
+  } finally {
+    exitStub.restore()
+  }
+})
+
+test('doctor command should display plural warning count', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Project',
+      results: [
+        { name: 'Build', ok: false, level: 'warn', message: 'stale' },
+        { name: 'PDF', ok: false, level: 'warn', message: 'stale' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  t.true(
+    mockLogger.warn.calledWith(sinon.match(/All checks passed with 2 warnings/)),
+    'should use plural for multiple warnings'
+  )
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Verbose flag tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('doctor command should display details when --verbose is passed', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'npm', ok: true, message: '10.2.4', details: '/usr/local/bin/npm' },
+        { name: 'Git', ok: true, message: '2.43.0', details: '/usr/bin/git' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ verbose: true }, command)
+
+  // Should display details for each check
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/\/usr\/local\/bin\/npm/)),
+    'should display npm path in verbose mode'
+  )
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/\/usr\/bin\/git/)),
+    'should display git path in verbose mode'
+  )
+})
+
+test('doctor command should not display details when --verbose is not passed', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'npm', ok: true, message: '10.2.4', details: '/usr/local/bin/npm' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({}, command)
+
+  // Should not display details path
+  const allCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const hasPathInOutput = allCalls.some((arg) => arg && arg.includes('/usr/local/bin/npm'))
+  t.false(hasPathInOutput, 'should not display npm path without verbose flag')
+})
+
+test('doctor command should handle checks without details in verbose mode', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'Node.js version', ok: true, message: 'v22.0.0' }, // no details field
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  // Should not throw when details is undefined
+  await t.notThrowsAsync(async () => {
+    await command.action({ verbose: true }, command)
+  })
+
+  t.true(mockLogger.info.calledWith(sinon.match(/v22\.0\.0/)), 'should still display message')
 })

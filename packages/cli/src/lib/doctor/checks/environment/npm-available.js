@@ -4,6 +4,7 @@
  * @module lib/doctor/checks/environment/npm-available
  */
 import npm from '#lib/npm/index.js'
+import which from 'which'
 import createDebug from '#debug'
 import { getPlatform, Platform } from '#lib/platform.js'
 import { DOCS_BASE_URL } from '../../constants.js'
@@ -50,7 +51,8 @@ export async function checkNpmAvailable() {
 
   if (ok) {
     const version = await npm.version()
-    return { ok: true, message: version }
+    const npmPath = which.sync('npm', { nothrow: true })
+    return { ok: true, message: version, details: npmPath }
   }
 
   return {
