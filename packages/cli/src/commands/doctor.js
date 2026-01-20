@@ -1,16 +1,7 @@
-import chalk from 'chalk'
 import Command from '#src/Command.js'
 import { runAllChecksWithSections, checkSections, SECTION_NAMES, CHECK_IDS } from '#lib/doctor/index.js'
-
-/**
- * Colored status icons for check results
- */
-const STATUS_ICONS = {
-  passed: chalk.green('✓'),
-  failed: chalk.red('✗'),
-  warning: chalk.yellow('⚠'),
-  na: chalk.dim('○'),
-}
+import { formatHuman } from '#lib/doctor/formatters/human.js'
+import { formatJson } from '#lib/doctor/formatters/json.js'
 
 /**
  * Map section name to its check IDs
@@ -47,6 +38,9 @@ Examples:
   quire doctor --check node          Check Node.js version only
   quire doctor --check "node git"    Check multiple items (space-separated)
   quire doctor --check node,git      Check multiple items (comma-separated)
+  quire doctor --errors              Show only failed checks
+  quire doctor --warnings            Show only warnings
+  quire doctor --json                Output results as JSON
   quire checkup                      Alias for doctor command
 `,
     version: '1.0.0',
@@ -56,6 +50,9 @@ Examples:
         `run specific check(s): all, ${SECTION_NAMES.join(', ')}, or ${CHECK_IDS.join(', ')}`,
       ],
       ['-v, --verbose', 'show additional details (paths, versions)'],
+      ['-e, --errors', 'show only failed checks'],
+      ['-w, --warnings', 'show only warnings'],
+      ['--json', 'output results as JSON (for programmatic use)'],
     ],
   }
 
@@ -102,88 +99,80 @@ Examples:
       }
     }
 
-    this.logger.info(`Running ${label}...\n`)
-
     const sections = await runAllChecksWithSections(filterOptions)
-    let errorCount = 0
-    let warningCount = 0
 
-    // Display results by section
-    for (const { section, results } of sections) {
-      this.logger.info(`${section}`)
-
-      for (const { name, ok, level, message, details, remediation, docsUrl } of results) {
-        // Count errors and warnings (N/A checks are not counted)
-        if (!ok && level !== 'na') {
-          if (level === 'warn') {
-            warningCount++
-          } else {
-            errorCount++
-          }
-        }
-
-        // Select appropriate status icon (with color)
-        const status = level === 'na'
-          ? STATUS_ICONS.na
-          : ok
-            ? STATUS_ICONS.passed
-            : level === 'warn'
-              ? STATUS_ICONS.warning
-              : STATUS_ICONS.failed
-        const statusLine = message ? `  ${status} ${name}: ${message}` : `  ${status} ${name}`
-        const lines = [statusLine]
-
-        // Show details when --verbose is enabled
-        if (options.verbose && details) {
-          lines.push(`      ${details}`)
-        }
-
-        // Show remediation guidance for failed checks
-        if (!ok && remediation) {
-          lines.push('')
-          lines.push(`    How to fix:`)
-          lines.push(`    ${remediation}`)
-        }
-
-        if (!ok && docsUrl) {
-          lines.push('')
-          lines.push(`    Documentation: ${docsUrl}`)
-          lines.push('')
-        }
-
-        const output = lines.join('\n')
-        if (ok || level === 'na') {
-          this.logger.info(output)
-        } else if (level === 'warn') {
-          this.logger.warn(output)
-        } else {
-          this.logger.error(output)
-        }
-      }
-
-      this.logger.info('') // Blank line between sections
+    // JSON output mode
+    if (options.json) {
+      this.outputJson(sections, options)
+      return
     }
 
-    if (errorCount > 0) {
-      const errorText = errorCount === 1 ? '1 check failed' : `${errorCount} checks failed`
-      if (warningCount > 0) {
-        const warningText = warningCount === 1 ? '1 warning' : `${warningCount} warnings`
-        this.logger.error(`${errorText}, ${warningText}. See above for details.`)
-      } else {
-        this.logger.error(`${errorText}. See above for details.`)
+    // Human-readable output
+    this.outputHuman(sections, options, label)
+  }
+
+  /**
+   * Output results as JSON for programmatic consumption
+   * @param {Array} sections - Check results organized by section
+   * @param {Object} options - Command options
+   */
+  outputJson(sections, options) {
+    const { json, exitCode } = formatJson(sections, {
+      errors: options.errors,
+      warnings: options.warnings,
+      verbose: options.verbose,
+    })
+
+    // Write to stdout (bypassing logger formatting)
+    console.log(json)
+
+    // Exit with error code if any checks failed
+    if (exitCode !== 0) {
+      process.exit(exitCode)
+    }
+  }
+
+  /**
+   * Output results in human-readable format
+   * @param {Array} sections - Check results organized by section
+   * @param {Object} options - Command options
+   * @param {string} label - Description of checks being run
+   */
+  outputHuman(sections, options, label) {
+    const { lines, summary, key, exitCode, isEmpty } = formatHuman(sections, {
+      errors: options.errors,
+      warnings: options.warnings,
+      verbose: options.verbose,
+      label,
+    })
+
+    // Handle case where filters excluded all results
+    if (isEmpty) {
+      for (const { text, level } of lines) {
+        this.logger[level](text)
       }
-      process.exit(1)
-    } else if (warningCount > 0) {
-      const warningText = warningCount === 1 ? '1 warning' : `${warningCount} warnings`
-      this.logger.warn(`All checks passed with ${warningText}.`)
-    } else {
-      this.logger.info('All checks passed!')
+      return
     }
 
-    // Show symbol key in verbose mode
-    if (options.verbose) {
+    // Output all formatted lines with appropriate log level
+    for (const { text, level } of lines) {
+      this.logger[level](text)
+    }
+
+    // Output summary
+    if (summary) {
+      this.logger[summary.level](summary.text)
+    }
+
+    // Output key (verbose mode only)
+    if (key) {
       this.logger.info('')
-      this.logger.info(`Key: ${STATUS_ICONS.passed} passed  ${STATUS_ICONS.failed} failed  ${STATUS_ICONS.warning} warning  ${STATUS_ICONS.na} not applicable / not yet generated`)
+      this.logger[key.level](key.text)
+    }
+
+    // Exit with error code if any checks failed
+    if (exitCode !== 0) {
+      process.exit(exitCode)
     }
   }
 }

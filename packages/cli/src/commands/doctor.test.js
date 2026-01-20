@@ -781,3 +781,263 @@ test('doctor command should not display symbol key without verbose flag', async 
   const hasKey = allCalls.some((arg) => arg && arg.includes('Key:'))
   t.false(hasKey, 'should not display symbol key without verbose flag')
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JSON output tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command should output valid JSON when --json flag is used', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+        { id: 'npm', name: 'npm', ok: true, message: '10.2.4', details: '/usr/local/bin/npm' },
+      ],
+    },
+  ]
+
+  // Capture console.log output
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ json: true }, command)
+
+  // Should call console.log with JSON
+  t.true(consoleLogStub.calledOnce, 'should call console.log once')
+
+  const output = consoleLogStub.firstCall.args[0]
+  const parsed = JSON.parse(output)
+
+  t.truthy(parsed.summary, 'should have summary object')
+  t.is(parsed.summary.passed, 2, 'should count passed checks')
+  t.is(parsed.summary.failed, 0, 'should count failed checks')
+  t.truthy(parsed.checks, 'should have checks array')
+  t.is(parsed.checks.length, 2, 'should include all checks')
+  t.is(parsed.checks[0].id, 'node', 'check should have id')
+  t.is(parsed.checks[0].status, 'passed', 'check should have status')
+})
+
+test.serial('doctor command JSON output should exit with code 1 when checks fail', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const exitStub = sandbox.stub(process, 'exit')
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: false, message: 'v18.0.0 found' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ json: true }, command)
+
+  t.true(exitStub.calledWith(1), 'should exit with code 1')
+
+  const output = consoleLogStub.firstCall.args[0]
+  const parsed = JSON.parse(output)
+  t.is(parsed.summary.failed, 1, 'should count failed check')
+})
+
+test.serial('doctor command JSON output should include remediation for failed checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        {
+          id: 'node',
+          name: 'Node.js version',
+          ok: false,
+          message: 'v18.0.0 found',
+          remediation: 'Install Node.js 22+',
+          docsUrl: 'https://example.com/docs',
+        },
+      ],
+    },
+  ]
+
+  // Stub process.exit to prevent test from exiting
+  sandbox.stub(process, 'exit')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ json: true }, command)
+
+  const output = consoleLogStub.firstCall.args[0]
+  const parsed = JSON.parse(output)
+
+  t.is(parsed.checks[0].remediation, 'Install Node.js 22+', 'should include remediation')
+  t.is(parsed.checks[0].docsUrl, 'https://example.com/docs', 'should include docsUrl')
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// --errors and --warnings filter tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command --errors flag should show only failed checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+        { id: 'npm', name: 'npm', ok: false, message: 'not found' },
+        { id: 'git', name: 'Git', ok: false, level: 'warn', message: 'old version' },
+      ],
+    },
+  ]
+
+  sandbox.stub(process, 'exit')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ errors: true }, command)
+
+  // Should only show failed checks (not passed or warnings)
+  const errorCalls = mockLogger.error.getCalls().map((call) => call.args[0])
+  const hasNpm = errorCalls.some((arg) => arg && arg.includes('npm'))
+  t.true(hasNpm, 'should show failed npm check')
+
+  // Should not show passed or warning checks in output
+  const infoCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const hasNode = infoCalls.some((arg) => arg && arg.includes('Node.js') && arg.includes('✓'))
+  t.false(hasNode, 'should not show passed Node.js check')
+})
+
+test.serial('doctor command --warnings flag should show only warning checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+        { id: 'cli', name: 'CLI version', ok: false, level: 'warn', message: 'update available' },
+        { id: 'npm', name: 'npm', ok: false, message: 'not found' },
+      ],
+    },
+  ]
+
+  sandbox.stub(process, 'exit')
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ warnings: true }, command)
+
+  // Should show warning checks
+  const warnCalls = mockLogger.warn.getCalls().map((call) => call.args[0])
+  const hasCli = warnCalls.some((arg) => arg && arg.includes('CLI version'))
+  t.true(hasCli, 'should show CLI version warning')
+
+  // Should not show passed checks
+  const infoCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const hasNode = infoCalls.some((arg) => arg && arg.includes('Node.js') && arg.includes('✓'))
+  t.false(hasNode, 'should not show passed Node.js check')
+})
+
+test('doctor command should show "No failed checks found" when --errors finds none', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+        { id: 'npm', name: 'npm', ok: true, message: '10.2.4' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ errors: true }, command)
+
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/No failed checks found/)),
+    'should show no failed checks message'
+  )
+})
+
+test('doctor command should show "No warnings found" when --warnings finds none', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js version', ok: true, message: 'v22.0.0' },
+      ],
+    },
+  ]
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action({ warnings: true }, command)
+
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/No warnings found/)),
+    'should show no warnings message'
+  )
+})

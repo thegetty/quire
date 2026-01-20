@@ -54,14 +54,48 @@ export {
 const debug = createDebug('lib:doctor')
 
 /**
+ * Default timeout for async checks (in milliseconds)
+ * Prevents hanging checks from blocking the doctor command
+ */
+export const DEFAULT_CHECK_TIMEOUT = 10_000 // 10 seconds
+
+/**
  * Check result type
  * @typedef {Object} CheckResult
  * @property {boolean} ok - Whether the check passed
- * @property {'error'|'warn'} [level] - Severity level (default: 'error')
+ * @property {'error'|'warn'|'na'|'timeout'} [level] - Severity level (default: 'error')
  * @property {string|null} message - Optional message with details
+ * @property {string|null} [details] - Additional details (shown in verbose mode)
  * @property {string|null} [remediation] - Steps to fix the issue (when ok is false)
  * @property {string|null} [docsUrl] - Link to relevant documentation (when ok is false)
  */
+
+/**
+ * Run a check function with a timeout
+ * @param {Function} checkFn - The check function to run
+ * @param {string} checkId - ID of the check (for error messages)
+ * @param {number} [timeout=DEFAULT_CHECK_TIMEOUT] - Timeout in milliseconds
+ * @returns {Promise<CheckResult>}
+ */
+async function runCheckWithTimeout(checkFn, checkId, timeout = DEFAULT_CHECK_TIMEOUT) {
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error(`Check '${checkId}' timed out after ${timeout}ms`))
+    }, timeout)
+  })
+
+  try {
+    return await Promise.race([checkFn(), timeoutPromise])
+  } catch (error) {
+    debug('Check %s failed with error: %s', checkId, error.message)
+    return {
+      ok: false,
+      level: 'timeout',
+      message: `skipped (timed out after ${timeout}ms)`,
+      remediation: `The '${checkId}' check is taking too long to complete. This may indicate a network issue or a problem with the tool being checked.`,
+    }
+  }
+}
 
 /**
  * All available diagnostic checks organized by section
@@ -148,15 +182,20 @@ export const SECTION_NAMES = ['environment', 'project', 'outputs']
  * @param {Object} [options] - Filter options
  * @param {string[]} [options.sections] - Optional array of section names to run (lowercase)
  * @param {string[]} [options.checks] - Optional array of check IDs to run
- * @returns {Promise<Array<{section: string, results: Array<{name: string, ok: boolean, message: string|null}>}>>}
+ * @param {number} [options.timeout] - Timeout in milliseconds for each check (default: DEFAULT_CHECK_TIMEOUT)
+ * @returns {Promise<Array<{section: string, results: Array<{id: string, name: string, ok: boolean, message: string|null}>}>>}
  */
 export async function runAllChecksWithSections(options = {}) {
-  const { sections: filterSections = null, checks: filterChecks = null } = options
+  const {
+    sections: filterSections = null,
+    checks: filterChecks = null,
+    timeout = DEFAULT_CHECK_TIMEOUT,
+  } = options
 
   // Handle legacy call signature: runAllChecksWithSections(['environment'])
   const sectionsFilter = Array.isArray(options) ? options : filterSections
 
-  debug('Running diagnostic checks with sections, filter: %o, checks: %o', sectionsFilter, filterChecks)
+  debug('Running diagnostic checks with sections, filter: %o, checks: %o, timeout: %d', sectionsFilter, filterChecks, timeout)
   const sections = []
 
   for (const { name: sectionName, checks: sectionChecks } of checkSections) {
@@ -172,8 +211,8 @@ export async function runAllChecksWithSections(options = {}) {
         continue
       }
 
-      const result = await check()
-      results.push({ name, ...result })
+      const result = await runCheckWithTimeout(check, id, timeout)
+      results.push({ id, name, ...result })
     }
 
     // Only include section if it has results
@@ -205,4 +244,5 @@ export default {
   runAllChecksWithSections,
   CHECK_IDS,
   SECTION_NAMES,
+  DEFAULT_CHECK_TIMEOUT,
 }

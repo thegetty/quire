@@ -48,8 +48,8 @@ test('registered command has no arguments', (t) => {
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Doctor command has --check and --verbose options
-  t.is(command.options.length, 2, 'doctor command should have 2 options')
+  // Doctor command has --check, --verbose, --errors, --warnings, --json options
+  t.is(command.options.length, 5, 'doctor command should have 5 options')
 
   // Verify --check option
   const checkOption = command.options.find((opt) => opt.long === '--check')
@@ -67,6 +67,27 @@ test('registered command has correct options', (t) => {
   t.true(verboseOption instanceof Option, '--verbose should be Option instance')
   t.is(verboseOption.short, '-v', '--verbose should have -v short flag')
   t.truthy(verboseOption.description)
+
+  // Verify --errors option
+  const errorsOption = command.options.find((opt) => opt.long === '--errors')
+  t.truthy(errorsOption, '--errors option should exist')
+  t.true(errorsOption instanceof Option, '--errors should be Option instance')
+  t.is(errorsOption.short, '-e', '--errors should have -e short flag')
+  t.truthy(errorsOption.description)
+
+  // Verify --warnings option
+  const warningsOption = command.options.find((opt) => opt.long === '--warnings')
+  t.truthy(warningsOption, '--warnings option should exist')
+  t.true(warningsOption instanceof Option, '--warnings should be Option instance')
+  t.is(warningsOption.short, '-w', '--warnings should have -w short flag')
+  t.truthy(warningsOption.description)
+
+  // Verify --json option
+  const jsonOption = command.options.find((opt) => opt.long === '--json')
+  t.truthy(jsonOption, '--json option should exist')
+  t.true(jsonOption instanceof Option, '--json should be Option instance')
+  t.truthy(jsonOption.description)
+  t.true(jsonOption.description.includes('JSON'), 'description should mention JSON')
 })
 
 test('command is accessible via checkup alias', (t) => {
