@@ -1,10 +1,9 @@
 import Command from '#src/Command.js'
-import paths, { hasEpubOutput } from '#lib/project/index.js'
+import { hasEpubOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
-import libEpub from '#lib/epub/index.js'
+import generateEpub from '#lib/epub/index.js'
 import open from 'open'
-import path from 'node:path'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -29,15 +28,17 @@ Output Modes:
   --debug          Enable debug output for troubleshooting
 
 Examples:
-  quire epub                      Generate EPUB using default engine
-  quire epub --engine pandoc      Generate EPUB using Pandoc
-  quire epub --open               Generate and open EPUB
-  quire epub --build              Build site first, then generate EPUB
+  quire epub                        Generate EPUB using default engine
+  quire epub --engine pandoc        Generate EPUB using Pandoc
+  quire epub --open                 Generate and open EPUB
+  quire epub --build                Build site first, then generate EPUB
+  quire epub --output my-book.epub  Generate EPUB with custom output path
 `,
     version: '1.0.0',
     options: [
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open EPUB in default application' ],
+      [ '-o, --output <path>', 'output file path (default: {engine}.epub)' ],
       [
         '--engine <name>', 'EPUB engine to use', 'epubjs',
         { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
@@ -85,12 +86,9 @@ Examples:
     reporter.start(`Generating EPUB using ${options.engine}...`, { showElapsed: true })
 
     try {
-      const projectRoot = paths.getProjectRoot()
-      const input = path.join(projectRoot, paths.getEpubDir())
-      const output = path.join(projectRoot, `${options.engine}.epub`)
-
-      const epubLib = await libEpub(options.engine, { debug: options.debug })
-      await epubLib(input, output)
+      // Pass engine as lib (matching lib/pdf interface)
+      const epubOptions = { ...options, lib: options.engine }
+      const output = await generateEpub(epubOptions)
 
       reporter.succeed('EPUB generated')
 
