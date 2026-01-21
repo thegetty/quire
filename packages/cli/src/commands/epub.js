@@ -1,11 +1,12 @@
 import Command from '#src/Command.js'
-import { hasEpubOutput } from '#lib/project/index.js'
+import paths, { hasEpubOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
 import generateEpub from '#lib/epub/index.js'
 import open from 'open'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `epub` Command
@@ -78,25 +79,15 @@ Examples:
     // Check for build output (will throw if missing)
     // TODO: Add interactive prompt when build output missing and --build not used
     if (!hasEpubOutput()) {
-      const error = new Error('EPUB output not found. Run "quire build" first, or use --build flag.')
-      error.code = 'ENOBUILD'
-      throw error
+      throw new MissingBuildOutputError('EPUB', paths.getEpubDir())
     }
 
-    reporter.start(`Generating EPUB using ${options.engine}...`, { showElapsed: true })
+    // Pass engine as lib (matching lib/pdf interface)
+    // Reporter lifecycle is owned by the façade (lib/epub/index.js)
+    const epubOptions = { ...options, lib: options.engine }
+    const output = await generateEpub(epubOptions)
 
-    try {
-      // Pass engine as lib (matching lib/pdf interface)
-      const epubOptions = { ...options, lib: options.engine }
-      const output = await generateEpub(epubOptions)
-
-      reporter.succeed('EPUB generated')
-
-      if (fs.existsSync(output) && options.open) open(output)
-    } catch (error) {
-      reporter.fail('EPUB generation failed')
-      throw error
-    }
+    if (fs.existsSync(output) && options.open) open(output)
   }
 
   preAction(thisCommand, actionCommand) {
