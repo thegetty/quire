@@ -334,6 +334,136 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
   t.is(output, path.join('/project', 'pagedjs.pdf'))
 })
 
+test('generatePdf uses --output option when provided (absolute path)', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPdfLib = sandbox.stub().resolves()
+  const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getOutputDir: () => '_site'
+  }
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true)
+  }
+
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
+  }
+
+  const pdfConfig = {
+    outputDir: '_downloads',
+    filename: 'my-publication'
+  }
+
+  const generatePdf = await esmock('./index.js', {
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#lib/project/index.js': {
+      default: mockPaths,
+      loadProjectConfig: sandbox.stub().resolves({ pdf: pdfConfig })
+    },
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter }
+  })
+
+  const output = await generatePdf.default({ lib: 'pagedjs', output: '/custom/path/book.pdf' })
+
+  t.is(output, '/custom/path/book.pdf')
+  // Verify the custom path was passed to the PDF library
+  const [, , pdfPath] = mockPdfLib.firstCall.args
+  t.is(pdfPath, '/custom/path/book.pdf')
+})
+
+test('generatePdf uses --output option when provided (relative path)', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPdfLib = sandbox.stub().resolves()
+  const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getOutputDir: () => '_site'
+  }
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true)
+  }
+
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
+  }
+
+  const generatePdf = await esmock('./index.js', {
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#lib/project/index.js': {
+      default: mockPaths,
+      loadProjectConfig: sandbox.stub().resolves({ pdf: null })
+    },
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter }
+  })
+
+  const output = await generatePdf.default({ lib: 'pagedjs', output: 'output/my-book.pdf' })
+
+  // Relative path should be resolved against project root
+  t.is(output, path.join('/project', 'output/my-book.pdf'))
+})
+
+test('generatePdf --output option overrides pdf config', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPdfLib = sandbox.stub().resolves()
+  const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getOutputDir: () => '_site'
+  }
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true)
+  }
+
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
+  }
+
+  const pdfConfig = {
+    outputDir: '_downloads',
+    filename: 'configured-name'
+  }
+
+  const generatePdf = await esmock('./index.js', {
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#lib/project/index.js': {
+      default: mockPaths,
+      loadProjectConfig: sandbox.stub().resolves({ pdf: pdfConfig })
+    },
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter }
+  })
+
+  const output = await generatePdf.default({ lib: 'pagedjs', output: 'custom.pdf' })
+
+  // --output should override the config path
+  t.is(output, path.join('/project', 'custom.pdf'))
+  // Default would have been: /project/_site/_downloads/configured-name.pdf
+})
+
 // ─────────────────────────────────────────────────────────────────────────────
 // PDF library invocation tests
 // ─────────────────────────────────────────────────────────────────────────────
