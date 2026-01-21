@@ -1,11 +1,13 @@
 import { dynamicImport } from '#helpers/os-utils.js'
+import which from '#helpers/which.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'fs-extra'
 import paths from '#lib/project/index.js'
+import reporter from '#lib/reporter/index.js'
 import { InvalidEpubLibraryError } from '#src/errors/index.js'
-import { logger } from '#lib/logger/index.js'
 import createDebug from '#debug'
+import ENGINE_METADATA from './engines.js'
 import { ENGINES } from './schema.js'
 
 export { ENGINES }
@@ -19,7 +21,7 @@ const debug = createDebug('lib:epub')
  * Resolve the EPUB library implementation
  *
  * @param {string} name - Library name to resolve
- * @returns {{ name: string, path: string }} Resolved library info
+ * @returns {Object} Resolved engine with absolute module path
  * @throws {InvalidEpubLibraryError} When library name is not recognized
  */
 function resolveLibrary(name) {
@@ -27,12 +29,28 @@ function resolveLibrary(name) {
 
   switch (normalizedName) {
     case 'epubjs':
-      return { name: 'Epub.js', path: path.join(__dirname, 'epub.js') }
+    case 'epub':
+      return { ...ENGINE_METADATA.epubjs, path: path.join(__dirname, ENGINE_METADATA.epubjs.module) }
     case 'pandoc':
-      return { name: 'Pandoc', path: path.join(__dirname, 'pandoc.js') }
+      return { ...ENGINE_METADATA.pandoc, path: path.join(__dirname, ENGINE_METADATA.pandoc.module) }
     default:
       throw new InvalidEpubLibraryError(name)
   }
+}
+
+/**
+ * Check if the required binary for an engine is available
+ *
+ * @param {Object} engine - Engine definition from ENGINES
+ * @throws {ToolNotFoundError} When required binary is not in PATH
+ */
+function checkEngineAvailable(engine) {
+  if (!engine.requiresBinary) {
+    return // No binary required (e.g., epubjs uses Node.js)
+  }
+
+  const result = which(engine.requiresBinary, engine.toolInfo)
+  debug('found %s at %s', engine.requiresBinary, result)
 }
 
 /**
@@ -74,6 +92,9 @@ export default async function generateEpub(options = {}) {
 
   debug('resolved library: %s → %s', libName, lib.name)
 
+  // Check engine availability BEFORE starting reporter (fail fast with clean error)
+  checkEngineAvailable(lib)
+
   const projectRoot = paths.getProjectRoot()
   const inputDir = path.join(projectRoot, paths.getEpubDir())
 
@@ -93,9 +114,17 @@ export default async function generateEpub(options = {}) {
 
   const { default: epubLib } = await dynamicImport(lib.path)
 
-  logger.info(`Generating EPUB using ${lib.name}...`)
-  await epubLib(inputDir, epubPath, options)
+  reporter.start(`Generating EPUB using ${lib.name}...`, { showElapsed: true })
+  reporter.detail(`Input: ${inputDir}`)
+  reporter.detail(`Output: ${epubPath}`)
 
-  logger.info(`EPUB saved to ${epubPath}`)
+  try {
+    await epubLib(inputDir, epubPath, options)
+    reporter.succeed(`EPUB saved to ${epubPath}`)
+  } catch (error) {
+    reporter.fail(`EPUB generation failed`)
+    throw error
+  }
+
   return epubPath
 }
