@@ -148,12 +148,12 @@ class Quire11ty {
    */
   async close() {
     if (this.activeInstance) {
-      console.info(`${LOG_PREFIX} shutting down Eleventy`)
+      debug('shutting down Eleventy')
       try {
         await this.activeInstance.close()
       } catch (error) {
         // Ignore errors during shutdown (may already be closing)
-        console.debug(`${LOG_PREFIX} close error (may be expected): ${error.message}`)
+        debug('close error (may be expected): %s', error.message)
       }
       this.activeInstance = null
     }
