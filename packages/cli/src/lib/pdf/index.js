@@ -17,6 +17,10 @@ const debug = createDebug('lib:pdf')
 
 /**
  * Resolve the PDF library implementation
+ *
+ * @param {string} name - Library name to resolve
+ * @returns {{ name: string, path: string }} Resolved library info
+ * @throws {InvalidPdfLibraryError} When library name is not recognized
  */
 function resolveLibrary(name) {
   const normalizedName = name.replace(/[-_.\s]/g, '').toLowerCase()
@@ -29,7 +33,7 @@ function resolveLibrary(name) {
     case 'princexml':
       return { name: 'Prince', path: path.join(__dirname, 'prince.js') }
     default:
-      return null
+      throw new InvalidPdfLibraryError(name)
   }
 }
 
@@ -44,46 +48,25 @@ function getOutputPath(projectRoot, outputDir, pdfConfig, libName) {
 }
 
 /**
- * Resolve the output path, handling relative paths and ensuring .pdf extension
- *
- * @param {string} customOutput - User-provided output path
- * @param {string} projectRoot - Project root directory
- * @returns {string} Resolved absolute path with .pdf extension
- */
-function resolveOutputPath(customOutput, projectRoot) {
-  // Resolve relative paths against project root
-  const resolved = path.isAbsolute(customOutput)
-    ? customOutput
-    : path.join(projectRoot, customOutput)
-
-  // Ensure .pdf extension
-  return resolved.endsWith('.pdf') ? resolved : `${resolved}.pdf`
-}
-
-/**
  * Generate a PDF from the built publication
  *
  * @param {Object} options - Generation options
  * @param {string} [options.lib='pagedjs'] - PDF library to use ('pagedjs' or 'prince')
- * @param {string} [options.output] - Custom output path (relative to project root or absolute)
  * @param {boolean} [options.debug] - Enable debug output
+ * @returns {Promise<string>} Absolute path to the generated PDF file
  */
 export default async function generatePdf(options = {}) {
   const libName = options.lib || 'pagedjs'
   const lib = resolveLibrary(libName)
 
-  if (!lib) {
-    throw new InvalidPdfLibraryError(libName)
-  }
-
   debug('resolved library: %s → %s', libName, lib.name)
 
   const projectRoot = paths.getProjectRoot()
-  const outputDir = paths.getOutputDir()
+  const buildOutputDir = paths.getOutputDir()
   const config = await loadProjectConfig(projectRoot)
 
-  const publicationInput = path.join(projectRoot, outputDir, 'pdf.html')
-  const coversInput = path.join(projectRoot, outputDir, 'pdf-covers.html')
+  const publicationInput = path.join(projectRoot, buildOutputDir, 'pdf.html')
+  const coversInput = path.join(projectRoot, buildOutputDir, 'pdf-covers.html')
 
   debug('input: %s', publicationInput)
   debug('covers: %s', coversInput)
@@ -92,18 +75,14 @@ export default async function generatePdf(options = {}) {
     throw new MissingBuildOutputError('pdf.html', publicationInput)
   }
 
-  // Use custom output path if provided, otherwise use default
-  const output = options.output
-    ? resolveOutputPath(options.output, projectRoot)
-    : getOutputPath(projectRoot, outputDir, config.pdf, libName)
-
-  debug('output: %s', output)
+  const pdfPath = getOutputPath(projectRoot, buildOutputDir, config.pdf, libName)
+  debug('output: %s', pdfPath)
 
   const { default: pdfLib } = await dynamicImport(lib.path)
 
   logger.info(`Generating PDF using ${lib.name}...`)
-  await pdfLib(publicationInput, coversInput, output, { ...options, pdfConfig: config.pdf })
+  await pdfLib(publicationInput, coversInput, pdfPath, { ...options, pdfConfig: config.pdf })
 
-  logger.info(`PDF saved to ${output}`)
-  return output
+  logger.info(`PDF saved to ${pdfPath}`)
+  return pdfPath
 }
