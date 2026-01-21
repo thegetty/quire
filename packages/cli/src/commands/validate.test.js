@@ -108,6 +108,7 @@ test('validate command should handle validation errors', async (t) => {
 
   const command = new ValidateCommand()
   command.name = sandbox.stub().returns('validate')
+  command.logger = mockLogger
 
   // Run action - should throw ValidationError when there are validation errors
   const error = t.throws(() => command.action({}, command), { instanceOf: ValidationError })
