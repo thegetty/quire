@@ -5,6 +5,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import processManager from '#lib/process/manager.js'
+import reporter from '#lib/reporter/index.js'
 import { splitPdf } from './split.js'
 import { PdfGenerationError } from '#src/errors/index.js'
 import createDebug from '#debug'
@@ -81,6 +82,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   debug('pdf options: %O', pdfOptions)
 
   debug('printing %s', publicationInput)
+  reporter.update('Rendering PDF...')
 
   let file
   try {
@@ -95,6 +97,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   let coversFile
 
   debug('generating page map')
+  reporter.update('Generating page map...')
   try {
     const pages = await printer.browser.pages()
 
@@ -110,6 +113,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
 
   if ( pdfConfig?.pagePDF?.coverPage===true && fs.existsSync(coversInput) ) {
     debug('printing covers %s', coversInput)
+    reporter.update('Rendering cover pages...')
 
     const coverPrinter = new Printer(printerOptions)
 
@@ -153,6 +157,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
 
   if (file && pdfPath) {
     debug('writing files')
+    reporter.update('Writing PDF files...')
 
     try {
       const { dir } = path.parse(pdfPath)

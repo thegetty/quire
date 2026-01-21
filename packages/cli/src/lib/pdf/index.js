@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'fs-extra'
 import paths, { loadProjectConfig } from '#lib/project/index.js'
-import { logger } from '#lib/logger/index.js'
+import reporter from '#lib/reporter/index.js'
 import { InvalidPdfLibraryError, MissingBuildOutputError } from '#src/errors/index.js'
 import createDebug from '#debug'
 
@@ -77,9 +77,17 @@ export default async function generatePdf(options = {}) {
 
   const { default: pdfLib } = await dynamicImport(lib.path)
 
-  logger.info(`Generating PDF using ${lib.name}...`)
-  await pdfLib(publicationInput, coversInput, pdfPath, { ...options, pdfConfig: config.pdf })
+  reporter.start(`Generating PDF using ${lib.name}...`, { showElapsed: true })
+  reporter.detail(`Input: ${publicationInput}`)
+  reporter.detail(`Output: ${pdfPath}`)
 
-  logger.info(`PDF saved to ${pdfPath}`)
+  try {
+    await pdfLib(publicationInput, coversInput, pdfPath, { ...options, pdfConfig: config.pdf })
+    reporter.succeed(`PDF saved to ${pdfPath}`)
+  } catch (error) {
+    reporter.fail(`PDF generation failed`)
+    throw error
+  }
+
   return pdfPath
 }
