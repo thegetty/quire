@@ -77,9 +77,9 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
     throw new PdfGenerationError('Prince', 'output directory creation', error.message)
   }
 
-  // Execute the page mapping PDF build
-  debug('generating page map')
-  reporter.update('Generating page map...')
+  // Execute page map extraction (renders PDF with script to extract page info, then discards it)
+  debug('analyzing document structure')
+  reporter.update('Analyzing document structure...')
   let pageMap = {}
   try {
     const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput], {

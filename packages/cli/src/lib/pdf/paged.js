@@ -100,8 +100,8 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   // Now it's printed, create the pageMap by running JS in the printer's context
   let coversFile
 
-  debug('generating page map')
-  reporter.update('Generating page map...')
+  debug('extracting page map')
+  reporter.update('Extracting page map...')
   try {
     const pages = await printer.browser.pages()
 
