@@ -296,24 +296,32 @@ See [packages/cli/src/lib/logger/README.md](packages/cli/src/lib/logger/README.m
 
 ### Error Handling
 
-The CLI uses a structured error hierarchy for consistent error handling.
+The CLI uses a structured error hierarchy with domain-specific exit codes. Commands and library modules **throw errors** rather than calling `process.exit()` directly, which keeps code testable and routes all exits through a centralized handler.
 
-**Error classes:**
-- `QuireError` - Base class for all Quire errors
-- `ValidationError` - Configuration/input validation errors
-- `YamlValidationError` - YAML parsing errors
+**Error domains:**
+
+| Exit Code | Domain | Example Errors |
+|-----------|--------|----------------|
+| 2 | Project | `NotInProjectError`, `ProjectCreateError` |
+| 3 | Build | `BuildFailedError`, `ConfigFileNotFoundError` |
+| 4 | Validation | `ValidationError` |
+| 5 | Output | `PdfGenerationError`, `MissingBuildOutputError` |
+| 6 | Install | `DependencyInstallError`, `VersionNotFoundError` |
 
 **In code:**
 ```javascript
-import QuireError from '#src/errors/quire-error.js'
+import { ConfigFileNotFoundError } from '#src/errors/index.js'
 
-throw new QuireError('Operation failed', {
-  code: 'ERR_OPERATION_FAILED',
-  cause: originalError
-})
+// Throw instead of process.exit() - centralized handler formats and exits
+if (!fs.existsSync(configPath)) {
+  throw new ConfigFileNotFoundError(configPath)
+}
 ```
 
-See [packages/cli/src/errors/](packages/cli/src/errors/) for available error classes.
+See [packages/cli/docs/error-handling.md](packages/cli/docs/error-handling.md) for complete documentation including:
+- Error class hierarchy and base class API
+- How to create new error types
+- Testing patterns for error handling
 
 ## CircleCI Integration
 
