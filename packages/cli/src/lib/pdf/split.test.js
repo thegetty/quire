@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -427,12 +428,14 @@ test('splitPdf combines outputDir with pdfConfig.outputDir', async (t) => {
   const pageMap = {
     'page-intro': { startPage: 0, endPage: 2 }
   }
-  const pdfConfig = { filename: 'mybook', outputDir: '_downloads/pdf' }
+  // Nota bene: use path.join() for cross-platform compatibility in assertions
+  const pdfOutputDir = path.join('_downloads', 'pdf')
+  const pdfConfig = { filename: 'mybook', outputDir: pdfOutputDir }
 
   const result = await splitPdf(Buffer.from([]), undefined, pageMap, pdfConfig)
 
   const filePath = Object.keys(result)[0]
   t.true(filePath.includes('_site'))
-  t.true(filePath.includes('_downloads/pdf'))
+  t.true(filePath.includes(pdfOutputDir))
   t.true(filePath.includes('mybook-intro.pdf'))
 })
