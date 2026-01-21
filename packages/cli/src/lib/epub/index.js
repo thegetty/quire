@@ -63,6 +63,7 @@ function resolveOutputPath(customOutput, projectRoot) {
  * @param {string} [options.lib='epubjs'] - EPUB library to use ('epubjs' or 'pandoc')
  * @param {string} [options.output] - Custom output path (relative to project root or absolute)
  * @param {boolean} [options.debug] - Enable debug output
+ * @returns {Promise<string>} Absolute path to the generated EPUB file
  */
 export default async function generateEpub(options = {}) {
   const libName = options.lib || 'epubjs'
@@ -71,27 +72,27 @@ export default async function generateEpub(options = {}) {
   debug('resolved library: %s → %s', libName, lib.name)
 
   const projectRoot = paths.getProjectRoot()
-  const input = path.join(projectRoot, paths.getEpubDir())
+  const inputDir = path.join(projectRoot, paths.getEpubDir())
 
-  // Use custom output path if provided, otherwise use default
-  const output = options.output
+  // Resolve output path from user option or default to {libName}.epub
+  const epubPath = options.output
     ? resolveOutputPath(options.output, projectRoot)
     : getOutputPath(projectRoot, libName)
 
   // Ensure parent directory exists (epub generators use fs.writeFile directly)
-  const outputDir = path.dirname(output)
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true })
+  const epubDir = path.dirname(epubPath)
+  if (!fs.existsSync(epubDir)) {
+    fs.mkdirSync(epubDir, { recursive: true })
   }
 
-  debug('input: %s', input)
-  debug('output: %s', output)
+  debug('input: %s', inputDir)
+  debug('output: %s', epubPath)
 
   const { default: epubLib } = await dynamicImport(lib.path)
 
   logger.info(`Generating EPUB using ${lib.name}...`)
-  await epubLib(input, output, options)
+  await epubLib(inputDir, epubPath, options)
 
-  logger.info(`EPUB saved to ${output}`)
-  return output
+  logger.info(`EPUB saved to ${epubPath}`)
+  return epubPath
 }
