@@ -81,23 +81,15 @@ Examples:
     const input = path.join(projectRoot, paths.getEpubDir())
 
     if (!hasEpubOutput()) {
-      throw new MissingBuildOutputError('epub', input)
+      throw new MissingBuildOutputError('EPUB', paths.getEpubDir())
     }
 
-    reporter.start(`Generating EPUB using ${options.engine}...`, { showElapsed: true })
+    // Pass engine as lib (matching lib/pdf interface)
+    // Reporter lifecycle is owned by the façade (lib/epub/index.js)
+    const epubOptions = { ...options, lib: options.engine }
+    const output = await generateEpub(epubOptions)
 
-    try {
-      // Pass engine as lib (matching lib/pdf interface)
-      const epubOptions = { ...options, lib: options.engine }
-      const output = await generateEpub(epubOptions)
-
-      reporter.succeed('EPUB generated')
-
-      if (fs.existsSync(output) && options.open) open(output)
-    } catch (error) {
-      reporter.fail('EPUB generation failed')
-      throw error
-    }
+    if (fs.existsSync(output) && options.open) open(output)
   }
 
   preAction(thisCommand, actionCommand) {

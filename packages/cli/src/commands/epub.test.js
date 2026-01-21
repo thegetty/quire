@@ -50,8 +50,7 @@ test('epub command should call generateEpub with epubjs engine', async (t) => {
 
   t.true(mockGenerateEpub.called, 'generateEpub should be called')
   t.is(mockGenerateEpub.firstCall.args[0].lib, 'epubjs', 'should pass lib to generateEpub')
-  t.true(mockReporter.start.called, 'reporter.start should be called')
-  t.true(mockReporter.succeed.called, 'reporter.succeed should be called')
+  // Nota bene: reporter.start/succeed are called by façade (lib/epub/index.js), not the command
 })
 
 test('epub command should call generateEpub with pandoc engine', async (t) => {
@@ -187,7 +186,7 @@ test('epub command should pass debug option to generateEpub', async (t) => {
   t.true(mockGenerateEpub.firstCall.args[0].debug, 'should pass debug option')
 })
 
-test('epub command should throw error when build output is missing', async (t) => {
+test('epub command should throw MissingBuildOutputError when build output is missing', async (t) => {
   const { sandbox, mockReporter } = t.context
 
   const mockGenerateEpub = sandbox.stub().resolves('/project/epubjs.epub')
@@ -197,6 +196,7 @@ test('epub command should throw error when build output is missing', async (t) =
       default: mockGenerateEpub
     },
     '#lib/project/index.js': {
+      default: { getEpubDir: () => '_epub' },
       hasEpubOutput: () => false
     },
     '#lib/reporter/index.js': {
@@ -215,8 +215,8 @@ test('epub command should throw error when build output is missing', async (t) =
 
   const error = await t.throwsAsync(() => command.action({ engine: 'epubjs' }, command))
 
-  t.is(error.code, 'ENOBUILD', 'should throw ENOBUILD error')
-  t.regex(error.message, /quire build/, 'error should mention quire build')
+  t.is(error.code, 'BUILD_OUTPUT_MISSING', 'should throw BUILD_OUTPUT_MISSING error')
+  t.regex(error.message, /EPUB/, 'error should mention EPUB')
   t.false(mockGenerateEpub.called, 'generateEpub should not be called when build output is missing')
 })
 
@@ -299,7 +299,7 @@ test('epub command should support deprecated --lib option', async (t) => {
   t.is(mockGenerateEpub.firstCall.args[0].lib, 'pandoc', 'should pass lib to generateEpub from deprecated option')
 })
 
-test('epub command should call reporter.fail when generation fails', async (t) => {
+test('epub command should propagate errors from generateEpub', async (t) => {
   const { sandbox, mockReporter } = t.context
 
   const epubError = new Error('EPUB generation failed')
@@ -326,11 +326,8 @@ test('epub command should call reporter.fail when generation fails', async (t) =
   const command = new EPUBCommand()
   command.name = sandbox.stub().returns('epub')
 
+  // Error is propagated; reporter lifecycle is handled by façade (lib/epub/index.js)
   await t.throwsAsync(() => command.action({ engine: 'epubjs' }, command), { message: 'EPUB generation failed' })
-
-  t.true(mockReporter.start.called, 'reporter.start should be called')
-  t.true(mockReporter.fail.called, 'reporter.fail should be called on error')
-  t.false(mockReporter.succeed.called, 'reporter.succeed should not be called on error')
 })
 
 test('epub command should configure reporter with quiet option', async (t) => {
