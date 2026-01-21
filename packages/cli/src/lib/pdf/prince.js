@@ -131,10 +131,14 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   reporter.update('Rendering PDF...')
 
   try {
-    await execa('prince', [...cmdOptions, publicationInput], {
+    const { stderr } = await execa('prince', [...cmdOptions, publicationInput], {
       cancelSignal: processManager.signal,
       gracefulCancel: true
     })
+    // Prince may emit warnings to stderr even on success (CSS warnings, font substitutions, etc.)
+    if (stderr) {
+      debug('prince warnings: %s', stderr)
+    }
   } catch (error) {
     if (error.isCanceled) {
       debug('PDF printing cancelled')
