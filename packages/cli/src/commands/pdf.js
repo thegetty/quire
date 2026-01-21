@@ -53,8 +53,11 @@ Examples:
 
   async action(options, command) {
     this.debug('called with options %O', options)
-
-    // Configure reporter for this command
+    /**
+     * Configure reporter for this command
+     * reporter lifecycle (start/succeed/fail) is handled by the façade,
+     * not by the command.
+     */
     reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     // Resolve engine: CLI --engine > deprecated --lib > config pdfEngine > default
@@ -73,31 +76,15 @@ Examples:
       this.debug('running build before pdf generation')
       reporter.start('Building site...', { showElapsed: true })
       await eleventy.build({ debug: options.debug })
+      reporter.succeed('Build complete')
     }
 
-    // Check for build output (will throw if missing)
-    // TODO: Add interactive prompt when build output missing and --build not used
-    if (!hasSiteOutput()) {
-      const projectRoot = paths.getProjectRoot()
-      const sitePath = path.join(projectRoot, '_site')
-      throw new MissingBuildOutputError('PDF', sitePath)
-    }
+    // Generate PDF - façade handles validation, progress, and errors
+    const pdfOptions = { ...options, lib: options.engine }
+    const output = await generatePdf(pdfOptions)
 
-    reporter.start(`Generating PDF using ${options.engine}...`, { showElapsed: true })
-
-    try {
-      // Pass engine (not lib) to generatePdf
-      const pdfOptions = { ...options, lib: options.engine }
-      const output = await generatePdf(pdfOptions)
-
-      reporter.succeed('PDF generated')
-
-      if (options.open) {
-        open(output)
-      }
-    } catch (error) {
-      reporter.fail('PDF generation failed')
-      throw error
+    if (options.open) {
+      open(output)
     }
   }
 
