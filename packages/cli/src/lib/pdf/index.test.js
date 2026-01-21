@@ -85,8 +85,11 @@ test('generatePdf resolves prince library correctly', async (t) => {
     detail: sandbox.stub().returnsThis()
   }
 
+  const mockWhich = sandbox.stub().returns('/usr/local/bin/prince')
+
   const generatePdf = await esmock('./index.js', {
     '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#helpers/which.js': { default: mockWhich },
     '#lib/project/index.js': {
       default: mockPaths,
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
@@ -124,8 +127,11 @@ test('generatePdf normalizes library name variations', async (t) => {
     detail: sandbox.stub().returnsThis()
   }
 
+  const mockWhich = sandbox.stub().returns('/usr/local/bin/prince')
+
   const generatePdf = await esmock('./index.js', {
     '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#helpers/which.js': { default: mockWhich },
     '#lib/project/index.js': {
       default: mockPaths,
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
@@ -180,6 +186,134 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
   await generatePdf.default({})
 
   t.true(mockDynamicImport.firstCall.args[0].includes('paged.js'))
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Engine availability tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('generatePdf throws ToolNotFoundError when prince is not in PATH', async (t) => {
+  const { sandbox } = t.context
+
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
+  }
+
+  // Import the actual ToolNotFoundError to throw from mock
+  const { ToolNotFoundError } = await import('#src/errors/index.js')
+
+  // Mock which to throw ToolNotFoundError (simulating prince not found)
+  const mockWhich = sandbox.stub().callsFake((executable, toolInfo) => {
+    throw new ToolNotFoundError(executable, toolInfo)
+  })
+
+  const generatePdf = await esmock('./index.js', {
+    '#helpers/os-utils.js': { dynamicImport: sandbox.stub() },
+    '#helpers/which.js': { default: mockWhich },
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project', getOutputDir: () => '_site' },
+      loadProjectConfig: sandbox.stub()
+    },
+    'fs-extra': { existsSync: sandbox.stub() },
+    '#lib/reporter/index.js': { default: mockReporter }
+  })
+
+  const error = await t.throwsAsync(() => generatePdf.default({ lib: 'prince' }))
+
+  t.is(error.code, 'TOOL_NOT_FOUND')
+  t.true(error.message.includes('PrinceXML'))
+  t.true(error.suggestion.includes('princexml.com'))
+  t.true(error.suggestion.includes('pagedjs')) // Fallback suggestion
+  // Reporter should NOT have been started (fail fast before spinner)
+  t.false(mockReporter.start.called)
+})
+
+test('generatePdf does not check binary for pagedjs (built-in engine)', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPdfLib = sandbox.stub().resolves()
+  const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getOutputDir: () => '_site'
+  }
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true)
+  }
+
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
+  }
+
+  const mockWhich = sandbox.stub().throws(new Error('which should not be called for pagedjs'))
+
+  const generatePdf = await esmock('./index.js', {
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#helpers/which.js': { default: mockWhich },
+    '#lib/project/index.js': {
+      default: mockPaths,
+      loadProjectConfig: sandbox.stub().resolves({ pdf: null })
+    },
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter }
+  })
+
+  // Should not throw - pagedjs doesn't require an external binary
+  await t.notThrowsAsync(() => generatePdf.default({ lib: 'pagedjs' }))
+  // which should not have been called
+  t.false(mockWhich.called)
+})
+
+test('generatePdf succeeds when prince is in PATH', async (t) => {
+  const { sandbox } = t.context
+
+  const mockPdfLib = sandbox.stub().resolves()
+  const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
+
+  const mockPaths = {
+    getProjectRoot: () => '/project',
+    getOutputDir: () => '_site'
+  }
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true)
+  }
+
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
+  }
+
+  const mockWhich = sandbox.stub().returns('/usr/local/bin/prince') // Prince found
+
+  const generatePdf = await esmock('./index.js', {
+    '#helpers/os-utils.js': { dynamicImport: mockDynamicImport },
+    '#helpers/which.js': { default: mockWhich },
+    '#lib/project/index.js': {
+      default: mockPaths,
+      loadProjectConfig: sandbox.stub().resolves({ pdf: null })
+    },
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter }
+  })
+
+  // Should succeed when prince is found
+  await t.notThrowsAsync(() => generatePdf.default({ lib: 'prince' }))
+  t.true(mockWhich.calledWith('prince', sinon.match.object))
+  t.true(mockReporter.start.called)
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
