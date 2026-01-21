@@ -77,7 +77,8 @@
     "pdf-lib": "^1.17.1",
     "read-package-up": "^11.0.0",
     "semver": "^7.3.8",
-    "update-notifier": "^7.3.1"
+    "update-notifier": "^7.3.1",
+    "which": "^2.0.2"
   },
   "devDependencies": {
     "ava": "^6.2.0",
