@@ -90,6 +90,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   } catch (error) {
     if (error.isCanceled) {
       debug('page map generation cancelled')
+      reporter.warn('PDF generation cancelled')
       return
     }
     throw new PdfGenerationError('Prince', 'page map generation', error.stderr)
@@ -118,6 +119,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
     } catch (error) {
       if (error.isCanceled) {
         debug('cover page map generation cancelled')
+        reporter.warn('PDF generation cancelled')
         return
       }
       throw new PdfGenerationError('Prince', 'cover page map generation', error.stderr || error.message)
@@ -127,16 +129,16 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
 
   debug('printing PDF')
   reporter.update('Rendering PDF...')
-  let stderror, stdout
 
   try {
-    ({ stderror, stdout } = await execa('prince', [...cmdOptions, publicationInput], {
+    await execa('prince', [...cmdOptions, publicationInput], {
       cancelSignal: processManager.signal,
       gracefulCancel: true
-    }))
+    })
   } catch (error) {
     if (error.isCanceled) {
       debug('PDF printing cancelled')
+      reporter.warn('PDF generation cancelled')
       return
     }
     throw new PdfGenerationError('Prince', 'PDF printing', error.stderr)
