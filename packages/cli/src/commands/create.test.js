@@ -3,7 +3,6 @@ import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 import { Volume, createFsFromVolume } from 'memfs'
-import { ProjectCreateError } from '#src/errors/index.js'
 
 test.beforeEach((t) => {
   // Create sinon sandbox for mocking
@@ -214,11 +213,13 @@ test('create command should handle initStarter errors gracefully', async (t) => 
   command.debug = sandbox.stub()
 
   // Run action - should throw ProjectCreateError
+  // Note: We check error properties instead of instanceOf because esmock creates
+  // a separate module instance with its own class reference
   const thrown = await t.throwsAsync(
-    () => command.action('/new-project', 'starter-template', {}),
-    { instanceOf: ProjectCreateError }
+    () => command.action('/new-project', 'starter-template', {})
   )
 
+  t.is(thrown.name, 'ProjectCreateError', 'error should be ProjectCreateError')
   t.is(thrown.code, 'PROJECT_CREATE_FAILED', 'error should have correct code')
   t.is(thrown.exitCode, 2, 'error should have correct exit code')
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
