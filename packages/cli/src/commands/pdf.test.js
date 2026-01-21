@@ -47,8 +47,7 @@ test('pdf command should call generatePdf with pagedjs engine', async (t) => {
 
   t.true(mockGeneratePdf.called, 'generatePdf should be called')
   t.is(mockGeneratePdf.firstCall.args[0].lib, 'pagedjs', 'should pass lib to generatePdf')
-  t.true(mockReporter.start.called, 'reporter.start should be called')
-  t.true(mockReporter.succeed.called, 'reporter.succeed should be called')
+  // Nota bene: reporter lifecycle (start/succeed/fail) is handled by the façade, not the command
 })
 
 test('pdf command should call generatePdf with prince engine', async (t) => {
@@ -172,17 +171,20 @@ test('pdf command should pass debug option to generatePdf', async (t) => {
   t.true(mockGeneratePdf.firstCall.args[0].debug, 'should pass debug option')
 })
 
-test('pdf command should throw error when build output is missing', async (t) => {
+test('pdf command should propagate MissingBuildOutputError from façade', async (t) => {
   const { sandbox, mockReporter } = t.context
 
-  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+  // Simulate the façade throwing MissingBuildOutputError when pdf.html is missing
+  const missingBuildError = new Error('Cannot generate pdf.html: build output not found')
+  missingBuildError.code = 'BUILD_OUTPUT_MISSING'
+  const mockGeneratePdf = sandbox.stub().rejects(missingBuildError)
 
   const PDFCommand = await esmock('./pdf.js', {
     '#lib/pdf/index.js': {
       default: mockGeneratePdf
     },
     '#lib/project/index.js': {
-      hasSiteOutput: () => false
+      hasSiteOutput: () => true // Command doesn't check this for validation anymore
     },
     '#lib/reporter/index.js': {
       default: mockReporter
@@ -197,9 +199,8 @@ test('pdf command should throw error when build output is missing', async (t) =>
 
   const error = await t.throwsAsync(() => command.action({ engine: 'pagedjs' }, command))
 
-  t.is(error.code, 'ENOBUILD', 'should throw ENOBUILD error')
-  t.regex(error.message, /quire build/, 'error should mention quire build')
-  t.false(mockGeneratePdf.called, 'generatePdf should not be called when build output is missing')
+  t.is(error.code, 'BUILD_OUTPUT_MISSING', 'should propagate error code from façade')
+  t.true(mockGeneratePdf.called, 'generatePdf should be called (validation is in façade)')
 })
 
 test('pdf command should run build first when --build flag is set and output missing', async (t) => {
@@ -275,7 +276,7 @@ test('pdf command should support deprecated --lib option', async (t) => {
   t.is(mockGeneratePdf.firstCall.args[0].lib, 'prince', 'should pass lib to generatePdf from deprecated option')
 })
 
-test('pdf command should call reporter.fail when generation fails', async (t) => {
+test('pdf command should propagate errors from generatePdf', async (t) => {
   const { sandbox, mockReporter } = t.context
 
   const pdfError = new Error('PDF generation failed')
@@ -301,9 +302,8 @@ test('pdf command should call reporter.fail when generation fails', async (t) =>
 
   await t.throwsAsync(() => command.action({ engine: 'pagedjs' }, command), { message: 'PDF generation failed' })
 
-  t.true(mockReporter.start.called, 'reporter.start should be called')
-  t.true(mockReporter.fail.called, 'reporter.fail should be called on error')
-  t.false(mockReporter.succeed.called, 'reporter.succeed should not be called on error')
+  // Note: reporter lifecycle (start/succeed/fail) is handled by the façade, not the command
+  t.true(mockGeneratePdf.called, 'generatePdf should be called')
 })
 
 test('pdf command should configure reporter with quiet option', async (t) => {
