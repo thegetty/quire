@@ -13,8 +13,10 @@ The CLI uses a structured error handling approach that provides:
 
 ## Architecture
 
+Commands and library modules **throw errors** rather than calling `process.exit()` directly. This keeps modules testable and routes all exits through a centralized handler:
+
 ```
-Command Action
+Command Action ─► throws QuireError or Error
      │
      ▼
   try/catch wrapper (main.js)
@@ -22,13 +24,14 @@ Command Action
      ▼ (on error)
   handleError()
      │
-     ├─► QuireError: Format and display with code, suggestion, docs link
+     ├─► QuireError ──► Format with code, suggestion, docs link ──► exit(exitCode)
      │
-     └─► Other Error: Display as unexpected, prompt to report issue
-     │
-     ▼
-  process.exit(exitCode)
+     └─► Other Error ─► Display as unexpected, prompt to report ─► exit(1)
 ```
+
+Signal-based exits (Ctrl-C, SIGTERM) are handled separately by the process manager module using POSIX conventions (SIGINT → 130, SIGTERM → 143).
+
+Standard POSIX values (`ENOENT=2`, `EIO=5`) are designed for system-level errors. Using these codes for Quire would lose semantic precision; code 2 does not disambiguate between running `quire` commands outside a project, missing a config file, or missing build output. Instead, exit codes are aligned with user workflow stages (see [Exit Codes](#exit-codes)).
 
 ## Error Classes
 
@@ -40,7 +43,7 @@ All custom errors extend `QuireError`:
 import QuireError from '#src/errors/quire-error.js'
 
 class MyError extends QuireError {
-  constructor(details) {
+  constructor(details, originalError) {
     super(`Error message: ${details}`, {
       code: 'MY_ERROR_CODE',        // Searchable error code
       exitCode: 1,                   // Process exit code
@@ -48,29 +51,33 @@ class MyError extends QuireError {
       docsUrl: 'https://...',        // Documentation link
       filePath: '/path/to/file'      // Related file (optional)
     })
+    // Optionally preserve the original error for debugging
+    this.cause = originalError
   }
 }
 ```
 
 ### Error Hierarchy
 
+Exported errors (available via `#src/errors/index.js`):
+
 ```
 src/errors/
 ├── quire-error.js              # Base class
 ├── index.js                    # Barrel exports
 ├── project/                    # Exit code: 2
+│   ├── index.js
 │   ├── not-in-project-error.js
 │   └── project-create-error.js
 ├── build/                      # Exit code: 3
+│   ├── index.js
 │   ├── build-failed-error.js
 │   ├── config-file-not-found-error.js
 │   └── config-field-missing-error.js
 ├── validation/                 # Exit code: 4
-│   ├── validation-error.js
-│   ├── yaml-validation-error.js
-│   ├── yaml-parse-error.js
-│   └── yaml-duplicate-id-error.js
+│   └── validation-error.js     # Exported directly (no index.js)
 ├── output/                     # Exit code: 5
+│   ├── index.js
 │   ├── epub-generation-error.js
 │   ├── invalid-epub-library-error.js
 │   ├── invalid-pdf-library-error.js
@@ -78,9 +85,12 @@ src/errors/
 │   ├── pdf-generation-error.js
 │   └── tool-not-found-error.js
 └── install/                    # Exit code: 6
+    ├── index.js
     ├── dependency-install-error.js
     └── version-not-found-error.js
 ```
+
+> **Note**: The validation folder also contains `yaml-parse-error.js`, `yaml-validation-error.js`, and `yaml-duplicate-error.js` for internal use by the YAML validator, but these are not exported through the barrel.
 
 ## Exit Codes
 
@@ -226,12 +236,14 @@ export default class MyNewError extends QuireError {
 }
 ```
 
-2. Export from domain index:
+2. Export from domain index (if one exists):
 
 ```javascript
 // src/errors/output/index.js
 export { default as MyNewError } from './my-new-error.js'
 ```
+
+> **Note**: The validation folder exports directly from the main index.js without a domain index.js file.
 
 3. Export from main index:
 
