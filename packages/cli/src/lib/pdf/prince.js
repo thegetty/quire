@@ -6,6 +6,7 @@ import { splitPdf } from './split.js'
 import fs from 'fs-extra'
 
 import processManager from '#lib/process/manager.js'
+import reporter from '#lib/reporter/index.js'
 import which from '#helpers/which.js'
 import { PdfGenerationError } from '#src/errors/index.js'
 import createDebug from '#debug'
@@ -74,6 +75,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
 
   // Execute the page mapping PDF build
   debug('generating page map')
+  reporter.update('Generating page map...')
   let pageMap = {}
   try {
     const pageMapOutput = await execa('prince', [...pageMapOptions, publicationInput], {
@@ -94,6 +96,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
 
   if (pdfConfig?.pagePDF?.coverPage === true && fs.existsSync(coversInput)) {
     debug('generating cover page map')
+    reporter.update('Rendering cover pages...')
     try {
       const coversPageMapOutput = await execa('prince', [...pageMapOptions, coversInput], {
         cancelSignal: processManager.signal,
@@ -119,6 +122,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   }
 
   debug('printing PDF')
+  reporter.update('Rendering PDF...')
   let stderror, stdout
 
   try {
@@ -143,6 +147,7 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   }
 
   debug('splitting PDF')
+  reporter.update('Writing PDF files...')
   try {
     const files = await splitPdf(pdfData, coversData, pageMap, pdfConfig)
 

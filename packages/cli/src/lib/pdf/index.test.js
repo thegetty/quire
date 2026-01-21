@@ -37,9 +37,12 @@ test('generatePdf resolves pagedjs library correctly', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -49,14 +52,14 @@ test('generatePdf resolves pagedjs library correctly', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   await generatePdf.default({ lib: 'pagedjs' })
 
   t.true(mockDynamicImport.calledOnce)
   t.true(mockDynamicImport.firstCall.args[0].includes('paged.js'))
-  t.true(mockLogger.info.calledWith(sinon.match(/Paged\.js/)))
+  t.true(mockReporter.start.calledWith(sinon.match(/Paged\.js/)))
 })
 
 test('generatePdf resolves prince library correctly', async (t) => {
@@ -74,9 +77,12 @@ test('generatePdf resolves prince library correctly', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -86,13 +92,13 @@ test('generatePdf resolves prince library correctly', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   await generatePdf.default({ lib: 'prince' })
 
   t.true(mockDynamicImport.firstCall.args[0].includes('prince.js'))
-  t.true(mockLogger.info.calledWith(sinon.match(/Prince/)))
+  t.true(mockReporter.start.calledWith(sinon.match(/Prince/)))
 })
 
 test('generatePdf normalizes library name variations', async (t) => {
@@ -110,9 +116,12 @@ test('generatePdf normalizes library name variations', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -122,7 +131,7 @@ test('generatePdf normalizes library name variations', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   // Test "paged" variant
@@ -150,9 +159,12 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -162,7 +174,7 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   await generatePdf.default({})
@@ -177,9 +189,12 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
 test('generatePdf throws InvalidPdfLibraryError for unrecognized library', async (t) => {
   const { sandbox } = t.context
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -189,7 +204,7 @@ test('generatePdf throws InvalidPdfLibraryError for unrecognized library', async
       loadProjectConfig: sandbox.stub()
     },
     'fs-extra': { existsSync: sandbox.stub() },
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   const error = await t.throwsAsync(() => generatePdf.default({ lib: 'unknown-library' }))
@@ -210,9 +225,12 @@ test('generatePdf throws MissingBuildOutputError when pdf.html is missing', asyn
     existsSync: sandbox.stub().returns(false)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -222,7 +240,7 @@ test('generatePdf throws MissingBuildOutputError when pdf.html is missing', asyn
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   const error = await t.throwsAsync(() => generatePdf.default({ lib: 'pagedjs' }))
@@ -250,9 +268,12 @@ test('generatePdf uses pdf config for output path when available', async (t) => 
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const pdfConfig = {
@@ -267,7 +288,7 @@ test('generatePdf uses pdf config for output path when available', async (t) => 
       loadProjectConfig: sandbox.stub().resolves({ pdf: pdfConfig })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
@@ -290,9 +311,12 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -302,7 +326,7 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
@@ -329,9 +353,12 @@ test('generatePdf passes correct arguments to PDF library', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const pdfConfig = {
@@ -346,7 +373,7 @@ test('generatePdf passes correct arguments to PDF library', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: pdfConfig })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   await generatePdf.default({ lib: 'pagedjs', debug: true })
@@ -375,9 +402,12 @@ test('generatePdf passes options through to PDF library', async (t) => {
     existsSync: sandbox.stub().returns(true)
   }
 
-  const mockLogger = {
-    info: sandbox.stub(),
-    error: sandbox.stub()
+  const mockReporter = {
+    start: sandbox.stub().returnsThis(),
+    update: sandbox.stub().returnsThis(),
+    succeed: sandbox.stub().returnsThis(),
+    fail: sandbox.stub().returnsThis(),
+    detail: sandbox.stub().returnsThis()
   }
 
   const generatePdf = await esmock('./index.js', {
@@ -387,7 +417,7 @@ test('generatePdf passes options through to PDF library', async (t) => {
       loadProjectConfig: sandbox.stub().resolves({ pdf: null })
     },
     'fs-extra': mockFs,
-    '#lib/logger/index.js': { logger: mockLogger }
+    '#lib/reporter/index.js': { default: mockReporter }
   })
 
   await generatePdf.default({
