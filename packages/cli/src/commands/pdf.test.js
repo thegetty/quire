@@ -336,3 +336,33 @@ test('pdf command should configure reporter with quiet option', async (t) => {
     'reporter.configure should be called with quiet option'
   )
 })
+
+test('pdf command should pass output option to generatePdf', async (t) => {
+  const { sandbox, mockReporter } = t.context
+
+  const customOutput = '/custom/path/my-book.pdf'
+  const mockGeneratePdf = sandbox.stub().resolves(customOutput)
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+
+  await command.action({ engine: 'pagedjs', output: customOutput }, command)
+
+  t.true(mockGeneratePdf.called, 'generatePdf should be called')
+  t.is(mockGeneratePdf.firstCall.args[0].output, customOutput, 'should pass output option to generatePdf')
+})

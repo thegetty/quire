@@ -27,15 +27,17 @@ Output Modes:
   --debug          Enable debug output for troubleshooting
 
 Examples:
-  quire pdf                      Generate PDF using default engine
-  quire pdf --engine prince      Generate PDF using PrinceXML
-  quire pdf --build              Build site first, then generate PDF
-  quire pdf --verbose            Generate with detailed progress
+  quire pdf                       Generate PDF using default engine
+  quire pdf --engine prince       Generate PDF using PrinceXML
+  quire pdf --build               Build site first, then generate PDF
+  quire pdf --output my-book.pdf  Generate PDF with custom output path
+  quire pdf --verbose             Generate with detailed progress
 `,
     version: '1.0.0',
     options: [
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open PDF in default application' ],
+      [ '-o, --output <path>', 'output file path (default: from project config)' ],
       [
         '--engine <name>', 'PDF engine to use', 'pagedjs',
         { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
