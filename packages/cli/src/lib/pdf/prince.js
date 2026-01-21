@@ -7,18 +7,24 @@ import fs from 'fs-extra'
 
 import processManager from '#lib/process/manager.js'
 import reporter from '#lib/reporter/index.js'
-import which from '#helpers/which.js'
 import { PdfGenerationError } from '#src/errors/index.js'
 import createDebug from '#debug'
+import ENGINES from './engines.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const debug = createDebug('lib:pdf:prince')
 
+/** Re-export engine metadata from central registry */
+export const metadata = ENGINES.prince
+
 /**
  * A façade module for interacting with the Prince CLI.
  * @see https://www.princexml.com/doc/command-line/
+ *
+ * Prince availability is checked by the parent façade (lib/pdf/index.js)
+ * before this module is loaded, so we can assume prince is in PATH.
  *
  * @param {string} publicationInput - Path to the publication HTML file
  * @param {string} coversInput - Path to the covers HTML file
@@ -27,8 +33,6 @@ const debug = createDebug('lib:pdf:prince')
  * @returns {Promise<string>} Path to the generated PDF file
  */
 export default async (publicationInput, coversInput, pdfPath, options = {}) => {
-  which('prince')
-
   debug('input: %s', publicationInput)
   debug('covers: %s', coversInput)
   debug('output: %s', pdfPath)

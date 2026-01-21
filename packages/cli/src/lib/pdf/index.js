@@ -1,10 +1,12 @@
 import { dynamicImport } from '#helpers/os-utils.js'
+import which from '#helpers/which.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'fs-extra'
 import paths, { loadProjectConfig } from '#lib/project/index.js'
 import reporter from '#lib/reporter/index.js'
 import { InvalidPdfLibraryError, MissingBuildOutputError } from '#src/errors/index.js'
+import ENGINES from './engines.js'
 import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -16,7 +18,7 @@ const debug = createDebug('lib:pdf')
  * Resolve the PDF library implementation
  *
  * @param {string} name - Library name to resolve
- * @returns {{ name: string, path: string }} Resolved library info
+ * @returns {Object} Resolved engine with absolute module path
  * @throws {InvalidPdfLibraryError} When library name is not recognized
  */
 function resolveLibrary(name) {
@@ -25,13 +27,28 @@ function resolveLibrary(name) {
   switch (normalizedName) {
     case 'paged':
     case 'pagedjs':
-      return { name: 'Paged.js', path: path.join(__dirname, 'paged.js') }
+      return { ...ENGINES.pagedjs, path: path.join(__dirname, ENGINES.pagedjs.module) }
     case 'prince':
     case 'princexml':
-      return { name: 'Prince', path: path.join(__dirname, 'prince.js') }
+      return { ...ENGINES.prince, path: path.join(__dirname, ENGINES.prince.module) }
     default:
       throw new InvalidPdfLibraryError(name)
   }
+}
+
+/**
+ * Check if the required binary for an engine is available
+ *
+ * @param {Object} engine - Engine definition from ENGINES
+ * @throws {ToolNotFoundError} When required binary is not in PATH
+ */
+function checkEngineAvailable(engine) {
+  if (!engine.requiresBinary) {
+    return // No binary required (e.g., pagedjs uses Node.js)
+  }
+
+  const result = which(engine.requiresBinary, engine.toolInfo)
+  debug('found %s at %s', engine.requiresBinary, result)
 }
 
 /**
@@ -85,6 +102,9 @@ export default async function generatePdf(options = {}) {
   const lib = resolveLibrary(libName)
 
   debug('resolved library: %s → %s', libName, lib.name)
+
+  // Check engine availability BEFORE starting reporter (fail fast with clean error)
+  checkEngineAvailable(lib)
 
   const projectRoot = paths.getProjectRoot()
   const buildOutputDir = paths.getOutputDir()

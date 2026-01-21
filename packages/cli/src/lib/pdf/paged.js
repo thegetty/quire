@@ -8,12 +8,16 @@ import processManager from '#lib/process/manager.js'
 import reporter from '#lib/reporter/index.js'
 import { splitPdf } from './split.js'
 import { PdfGenerationError } from '#src/errors/index.js'
+import ENGINES from './engines.js'
 import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const debug = createDebug('lib:pdf:paged')
+
+/** Re-export engine metadata from central registry */
+export const metadata = ENGINES.pagedjs
 
 /**
  * A façade module for interacting with Paged.js and pagedjs-cli
