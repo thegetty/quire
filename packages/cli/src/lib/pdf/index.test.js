@@ -10,6 +10,17 @@ import test from 'ava'
  * Uses esmock to isolate the module from file system and external PDF tools.
  */
 
+/**
+ * Create a cross-platform absolute path for testing
+ * Uses platform-appropriate root (C:\ on Windows, / on Unix)
+ * @param {...string} segments - Path segments to join
+ * @returns {string} Platform-appropriate absolute path
+ */
+function testPath(...segments) {
+  const root = process.platform === 'win32' ? 'C:\\' : '/'
+  return path.join(root, ...segments)
+}
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
 })
@@ -29,7 +40,7 @@ test('generatePdf resolves pagedjs library correctly', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -69,7 +80,7 @@ test('generatePdf resolves prince library correctly', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -111,7 +122,7 @@ test('generatePdf normalizes library name variations', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -157,7 +168,7 @@ test('generatePdf defaults to pagedjs when no library specified', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -215,7 +226,7 @@ test('generatePdf throws ToolNotFoundError when prince is not in PATH', async (t
     '#helpers/os-utils.js': { dynamicImport: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich },
     '#lib/project/index.js': {
-      default: { getProjectRoot: () => '/project', getOutputDir: () => '_site' },
+      default: { getProjectRoot: () => testPath('project'), getOutputDir: () => '_site' },
       loadProjectConfig: sandbox.stub()
     },
     'fs-extra': { existsSync: sandbox.stub() },
@@ -239,7 +250,7 @@ test('generatePdf does not check binary for pagedjs (built-in engine)', async (t
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -281,7 +292,7 @@ test('generatePdf succeeds when prince is in PATH', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -334,7 +345,7 @@ test('generatePdf throws InvalidPdfLibraryError for unrecognized library', async
   const generatePdf = await esmock('./index.js', {
     '#helpers/os-utils.js': { dynamicImport: sandbox.stub() },
     '#lib/project/index.js': {
-      default: { getProjectRoot: () => '/project', getOutputDir: () => '_site' },
+      default: { getProjectRoot: () => testPath('project'), getOutputDir: () => '_site' },
       loadProjectConfig: sandbox.stub()
     },
     'fs-extra': { existsSync: sandbox.stub() },
@@ -351,7 +362,7 @@ test('generatePdf throws MissingBuildOutputError when pdf.html is missing', asyn
   const { sandbox } = t.context
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -394,7 +405,7 @@ test('generatePdf uses pdf config for output path when available', async (t) => 
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -427,7 +438,7 @@ test('generatePdf uses pdf config for output path when available', async (t) => 
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
 
-  t.is(output, path.join('/project', '_site', '_downloads', 'my-publication.pdf'))
+  t.is(output, path.join(testPath('project'), '_site', '_downloads', 'my-publication.pdf'))
 })
 
 test('generatePdf uses fallback output path when no pdf config', async (t) => {
@@ -437,7 +448,7 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -465,7 +476,7 @@ test('generatePdf uses fallback output path when no pdf config', async (t) => {
 
   const output = await generatePdf.default({ lib: 'pagedjs' })
 
-  t.is(output, path.join('/project', 'pagedjs.pdf'))
+  t.is(output, path.join(testPath('project'), 'pagedjs.pdf'))
 })
 
 test('generatePdf uses --output option when provided (absolute path)', async (t) => {
@@ -475,7 +486,7 @@ test('generatePdf uses --output option when provided (absolute path)', async (t)
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -506,12 +517,13 @@ test('generatePdf uses --output option when provided (absolute path)', async (t)
     '#lib/reporter/index.js': { default: mockReporter }
   })
 
-  const output = await generatePdf.default({ lib: 'pagedjs', output: '/custom/path/book.pdf' })
+  const customPath = testPath('custom', 'path', 'book.pdf')
+  const output = await generatePdf.default({ lib: 'pagedjs', output: customPath })
 
-  t.is(output, '/custom/path/book.pdf')
+  t.is(output, customPath)
   // Verify the custom path was passed to the PDF library
   const [, , pdfPath] = mockPdfLib.firstCall.args
-  t.is(pdfPath, '/custom/path/book.pdf')
+  t.is(pdfPath, customPath)
 })
 
 test('generatePdf uses --output option when provided (relative path)', async (t) => {
@@ -521,7 +533,7 @@ test('generatePdf uses --output option when provided (relative path)', async (t)
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -550,7 +562,7 @@ test('generatePdf uses --output option when provided (relative path)', async (t)
   const output = await generatePdf.default({ lib: 'pagedjs', output: 'output/my-book.pdf' })
 
   // Relative path should be resolved against project root
-  t.is(output, path.join('/project', 'output/my-book.pdf'))
+  t.is(output, path.join(testPath('project'), 'output/my-book.pdf'))
 })
 
 test('generatePdf --output option overrides pdf config', async (t) => {
@@ -560,7 +572,7 @@ test('generatePdf --output option overrides pdf config', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -594,8 +606,8 @@ test('generatePdf --output option overrides pdf config', async (t) => {
   const output = await generatePdf.default({ lib: 'pagedjs', output: 'custom.pdf' })
 
   // --output should override the config path
-  t.is(output, path.join('/project', 'custom.pdf'))
-  // Default would have been: /project/_site/_downloads/configured-name.pdf
+  t.is(output, path.join(testPath('project'), 'custom.pdf'))
+  // Default would have been: {projectRoot}/_site/_downloads/configured-name.pdf
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -609,7 +621,7 @@ test('generatePdf passes correct arguments to PDF library', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 
@@ -644,9 +656,9 @@ test('generatePdf passes correct arguments to PDF library', async (t) => {
 
   t.true(mockPdfLib.calledOnce)
   const [input, covers, output, options] = mockPdfLib.firstCall.args
-  t.is(input, path.join('/project', '_site', 'pdf.html'))
-  t.is(covers, path.join('/project', '_site', 'pdf-covers.html'))
-  t.is(output, path.join('/project', '_site', '_downloads', 'publication.pdf'))
+  t.is(input, path.join(testPath('project'), '_site', 'pdf.html'))
+  t.is(covers, path.join(testPath('project'), '_site', 'pdf-covers.html'))
+  t.is(output, path.join(testPath('project'), '_site', '_downloads', 'publication.pdf'))
   t.true(options.debug)
   t.deepEqual(options.pdfConfig, pdfConfig)
 })
@@ -658,7 +670,7 @@ test('generatePdf passes options through to PDF library', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockPdfLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getOutputDir: () => '_site'
   }
 

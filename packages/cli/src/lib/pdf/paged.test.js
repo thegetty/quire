@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -8,6 +9,16 @@ import test from 'ava'
  * Tests error handling paths that are difficult to trigger in E2E tests.
  * The happy path is covered by E2E tests with real Paged.js/Puppeteer.
  */
+
+/**
+ * Create a cross-platform absolute path for testing
+ * @param {...string} segments - Path segments to join
+ * @returns {string} Platform-appropriate absolute path
+ */
+function testPath(...segments) {
+  const root = process.platform === 'win32' ? 'C:\\' : '/'
+  return path.join(root, ...segments)
+}
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
@@ -76,7 +87,7 @@ test('throws PdfGenerationError when PDF rendering fails', async (t) => {
   })
 
   const error = await t.throwsAsync(() =>
-    paged.default('/input.html', '/covers.html', '/output.pdf', {})
+    paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -102,7 +113,7 @@ test('throws PdfGenerationError when page map extraction fails', async (t) => {
   })
 
   const error = await t.throwsAsync(() =>
-    paged.default('/input.html', '/covers.html', '/output.pdf', {})
+    paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -141,7 +152,7 @@ test('throws PdfGenerationError when cover PDF rendering fails', async (t) => {
   }
 
   const error = await t.throwsAsync(() =>
-    paged.default('/input.html', '/covers.html', '/output.pdf', options)
+    paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), options)
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -181,7 +192,7 @@ test('throws PdfGenerationError when cover page map extraction fails', async (t)
   }
 
   const error = await t.throwsAsync(() =>
-    paged.default('/input.html', '/covers.html', '/output.pdf', options)
+    paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), options)
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -211,7 +222,7 @@ test('throws PdfGenerationError when PDF file write fails', async (t) => {
   })
 
   const error = await t.throwsAsync(() =>
-    paged.default('/input.html', '/covers.html', '/restricted/output.pdf', {})
+    paged.default(testPath('input.html'), testPath('covers.html'), testPath('restricted', 'output.pdf'), {})
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -234,7 +245,7 @@ test('closes printer on successful completion when not in debug mode', async (t)
     './split.js': { splitPdf: sandbox.stub().resolves({}) }
   })
 
-  await paged.default('/input.html', '/covers.html', '/output.pdf', { debug: false })
+  await paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), { debug: false })
 
   t.true(mockPrinter.close.called)
   t.true(mockProcessManager.onShutdownComplete.calledWith('pagedjs'))
@@ -254,7 +265,102 @@ test('keeps printer open when in debug mode', async (t) => {
     './split.js': { splitPdf: sandbox.stub().resolves({}) }
   })
 
-  await paged.default('/input.html', '/covers.html', '/output.pdf', { debug: true })
+  await paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), { debug: true })
 
   t.false(mockPrinter.close.called)
+})
+
+test('registers console event handler for browser warnings and errors', async (t) => {
+  const { sandbox, mockReporter, mockProcessManager, mockFs } = t.context
+
+  const mockPrinter = createMockPrinter(sandbox)
+  const MockPrinter = sandbox.stub().returns(mockPrinter)
+
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const paged = await esmock('./paged.js', {
+    'pagedjs-cli': MockPrinter,
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter },
+    '#lib/process/manager.js': { default: mockProcessManager },
+    '#debug': { default: mockCreateDebug },
+    './split.js': { splitPdf: sandbox.stub().resolves({}) }
+  })
+
+  await paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
+
+  // Verify console handler was registered
+  const consoleHandler = mockPrinter.on.getCalls().find(call => call.args[0] === 'console')
+  t.truthy(consoleHandler, 'console event handler should be registered')
+
+  // Simulate console warning
+  const handler = consoleHandler.args[1]
+  handler('warning', 'CSS property not supported')
+
+  t.true(mockDebug.calledWith('browser %s: %s', 'warning', 'CSS property not supported'))
+})
+
+test('logs browser errors via debug', async (t) => {
+  const { sandbox, mockReporter, mockProcessManager, mockFs } = t.context
+
+  const mockPrinter = createMockPrinter(sandbox)
+  const MockPrinter = sandbox.stub().returns(mockPrinter)
+
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const paged = await esmock('./paged.js', {
+    'pagedjs-cli': MockPrinter,
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter },
+    '#lib/process/manager.js': { default: mockProcessManager },
+    '#debug': { default: mockCreateDebug },
+    './split.js': { splitPdf: sandbox.stub().resolves({}) }
+  })
+
+  await paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
+
+  // Get console handler
+  const consoleHandler = mockPrinter.on.getCalls().find(call => call.args[0] === 'console')
+  const handler = consoleHandler.args[1]
+
+  // Simulate console error
+  handler('error', 'Script error:', 'undefined is not a function')
+
+  t.true(mockDebug.calledWith('browser %s: %s', 'error', 'Script error: undefined is not a function'))
+})
+
+test('ignores non-warning/error console messages', async (t) => {
+  const { sandbox, mockReporter, mockProcessManager, mockFs } = t.context
+
+  const mockPrinter = createMockPrinter(sandbox)
+  const MockPrinter = sandbox.stub().returns(mockPrinter)
+
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const paged = await esmock('./paged.js', {
+    'pagedjs-cli': MockPrinter,
+    'fs-extra': mockFs,
+    '#lib/reporter/index.js': { default: mockReporter },
+    '#lib/process/manager.js': { default: mockProcessManager },
+    '#debug': { default: mockCreateDebug },
+    './split.js': { splitPdf: sandbox.stub().resolves({}) }
+  })
+
+  await paged.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
+
+  // Get console handler
+  const consoleHandler = mockPrinter.on.getCalls().find(call => call.args[0] === 'console')
+  const handler = consoleHandler.args[1]
+
+  // Reset debug stub to check only calls after handler invocation
+  mockDebug.resetHistory()
+
+  // Simulate console log (should be ignored)
+  handler('log', 'Debug info')
+
+  // Should not have logged this message (info/log messages are ignored)
+  t.false(mockDebug.calledWith('browser %s: %s', 'log', 'Debug info'))
 })
