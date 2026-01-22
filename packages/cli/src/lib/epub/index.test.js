@@ -10,6 +10,16 @@ import test from 'ava'
  * Uses esmock to isolate the module from file system and external EPUB tools.
  */
 
+/**
+ * Create a cross-platform absolute path for testing
+ * @param {...string} segments - Path segments to join
+ * @returns {string} Platform-appropriate absolute path
+ */
+function testPath(...segments) {
+  const root = process.platform === 'win32' ? 'C:\\' : '/'
+  return path.join(root, ...segments)
+}
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
 })
@@ -29,7 +39,7 @@ test('generateEpub resolves epubjs library correctly', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -67,7 +77,7 @@ test('generateEpub resolves pandoc library correctly', async (t) => {
   const mockWhich = sandbox.stub().returns('/usr/local/bin/pandoc')
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -105,7 +115,7 @@ test('generateEpub normalizes library name variations', async (t) => {
   const mockWhich = sandbox.stub().returns('/usr/local/bin/pandoc')
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -146,7 +156,7 @@ test('generateEpub defaults to epubjs when no library specified', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -182,7 +192,7 @@ test('generateEpub throws InvalidEpubLibraryError for unrecognized library', asy
   const { sandbox } = t.context
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -217,7 +227,7 @@ test('generateEpub uses default output path based on library name', async (t) =>
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -242,7 +252,7 @@ test('generateEpub uses default output path based on library name', async (t) =>
 
   const output = await generateEpub.default({ lib: 'epubjs' })
 
-  t.is(output, path.join('/project', 'epubjs.epub'))
+  t.is(output, path.join(testPath('project'), 'epubjs.epub'))
 })
 
 test('generateEpub uses custom output path when provided', async (t) => {
@@ -252,7 +262,7 @@ test('generateEpub uses custom output path when provided', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -277,7 +287,7 @@ test('generateEpub uses custom output path when provided', async (t) => {
 
   const output = await generateEpub.default({ lib: 'epubjs', output: 'my-book.epub' })
 
-  t.is(output, path.join('/project', 'my-book.epub'))
+  t.is(output, path.join(testPath('project'), 'my-book.epub'))
 })
 
 test('generateEpub resolves relative output path against project root', async (t) => {
@@ -287,7 +297,7 @@ test('generateEpub resolves relative output path against project root', async (t
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -312,7 +322,7 @@ test('generateEpub resolves relative output path against project root', async (t
 
   const output = await generateEpub.default({ lib: 'epubjs', output: '_downloads/book' })
 
-  t.is(output, path.join('/project', '_downloads', 'book.epub'))
+  t.is(output, path.join(testPath('project'), '_downloads', 'book.epub'))
 })
 
 test('generateEpub uses absolute output path directly', async (t) => {
@@ -322,7 +332,7 @@ test('generateEpub uses absolute output path directly', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -345,9 +355,10 @@ test('generateEpub uses absolute output path directly', async (t) => {
     '#lib/reporter/index.js': { default: mockReporter }
   })
 
-  const output = await generateEpub.default({ lib: 'epubjs', output: '/custom/path/book.epub' })
+  const customPath = testPath('custom', 'path', 'book.epub')
+  const output = await generateEpub.default({ lib: 'epubjs', output: customPath })
 
-  t.is(output, '/custom/path/book.epub')
+  t.is(output, customPath)
 })
 
 test('generateEpub adds .epub extension if missing', async (t) => {
@@ -357,7 +368,7 @@ test('generateEpub adds .epub extension if missing', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -382,7 +393,7 @@ test('generateEpub adds .epub extension if missing', async (t) => {
 
   const output = await generateEpub.default({ lib: 'epubjs', output: 'my-book' })
 
-  t.is(output, path.join('/project', 'my-book.epub'))
+  t.is(output, path.join(testPath('project'), 'my-book.epub'))
 })
 
 test('generateEpub creates output directory if missing', async (t) => {
@@ -392,7 +403,7 @@ test('generateEpub creates output directory if missing', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -418,7 +429,7 @@ test('generateEpub creates output directory if missing', async (t) => {
   await generateEpub.default({ lib: 'epubjs', output: '_downloads/book.epub' })
 
   t.true(mockFs.mkdirSync.calledOnce)
-  t.is(mockFs.mkdirSync.firstCall.args[0], path.join('/project', '_downloads'))
+  t.is(mockFs.mkdirSync.firstCall.args[0], path.join(testPath('project'), '_downloads'))
   t.deepEqual(mockFs.mkdirSync.firstCall.args[1], { recursive: true })
 })
 
@@ -433,7 +444,7 @@ test('generateEpub passes correct arguments to EPUB library', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
@@ -460,8 +471,8 @@ test('generateEpub passes correct arguments to EPUB library', async (t) => {
 
   t.true(mockEpubLib.calledOnce)
   const [input, output, options] = mockEpubLib.firstCall.args
-  t.is(input, path.join('/project', '_epub'))
-  t.is(output, path.join('/project', 'epubjs.epub'))
+  t.is(input, path.join(testPath('project'), '_epub'))
+  t.is(output, path.join(testPath('project'), 'epubjs.epub'))
   t.true(options.debug)
 })
 
@@ -472,7 +483,7 @@ test('generateEpub passes options through to EPUB library', async (t) => {
   const mockDynamicImport = sandbox.stub().resolves({ default: mockEpubLib })
 
   const mockPaths = {
-    getProjectRoot: () => '/project',
+    getProjectRoot: () => testPath('project'),
     getEpubDir: () => '_epub'
   }
 
