@@ -400,9 +400,12 @@ test('splitPdf uses outputDir from paths.getOutputDir()', async (t) => {
   const { sandbox } = t.context
   const mockDoc = createMockPdfDoc(sandbox, 10)
 
+  // Nota bene: use path.join() for cross-platform compatibility in mock return value
+  const customOutput = path.join('custom', 'output')
+
   const { splitPdf } = await esmock('./split.js', {
     'pdf-lib': { PDFDocument: { load: sandbox.stub().resolves(mockDoc) } },
-    '#lib/11ty/index.js': { paths: { getOutputDir: () => '/custom/output' } }
+    '#lib/11ty/index.js': { paths: { getOutputDir: () => customOutput } }
   })
 
   const pageMap = {
@@ -413,7 +416,8 @@ test('splitPdf uses outputDir from paths.getOutputDir()', async (t) => {
   const result = await splitPdf(Buffer.from([]), undefined, pageMap, pdfConfig)
 
   const filePath = Object.keys(result)[0]
-  t.true(filePath.startsWith('/custom/output'))
+  // Nota bene: use includes() for cross-platform compatibility (Windows vs Unix paths)
+  t.true(filePath.includes(customOutput), 'output path should include custom output directory')
 })
 
 test('splitPdf combines outputDir with pdfConfig.outputDir', async (t) => {
