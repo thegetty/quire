@@ -20,7 +20,7 @@ import {
   setVersion,
   writeVersionFile,
 } from '#lib/project/index.js'
-import { VersionNotFoundError } from '#src/errors/index.js'
+import { DirectoryNotEmptyError, VersionNotFoundError } from '#src/errors/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -72,8 +72,7 @@ export async function initStarter(starter, projectPath, options = {}) {
 
   // If the target directory exists it must be empty
   if (!isEmpty(projectPath)) {
-    const location = projectPath === '.' ? 'the current directory' : projectPath
-    throw new Error(`[CLI:installer] cannot create project in a non-empty directory ${location}`)
+    throw new DirectoryNotEmptyError(projectPath)
   }
 
   console.debug('[CLI:installer] init-starter',
@@ -193,8 +192,11 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
     await npm.install(projectPath, { saveDev: true, preferOffline: true })
   } catch (error) {
     console.warn(`[CLI:installer]`, error)
-    fs.rmSync(projectPath, { recursive: true })
-    return
+    // Nota bene: Auto-deletion of projectPath is disabled to prevent accidental data loss.
+    // The project directory may contain user content that predates this install attempt.
+    // TODO: Implement safe cleanup that tracks whether we created the directory.
+    // fs.rmSync(projectPath, { recursive: true })
+    throw error
   }
 
   // Remove temporary 11ty install directory before committing

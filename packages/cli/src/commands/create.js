@@ -2,7 +2,7 @@ import Command from '#src/Command.js'
 import { Option } from 'commander'
 import fs from 'fs-extra'
 import { installer } from '#lib/installer/index.js'
-import { ProjectCreateError } from '#src/errors/index.js'
+import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -69,16 +69,21 @@ export default class CreateCommand extends Command {
         quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
         this.logger.error(error.message)
-        // Only remove directory if it wasn't pre-existing user content
-        if (!error.message.includes('not empty')) {
-          fs.removeSync(projectPath)
-        }
+        /**
+         * Nota bene: Auto-deletion of projectPath is disabled to prevent accidental data loss.
+         * @TODO implement safe cleaup that either tracks whether quire created the directory,
+         * or prompt the user for confirmation before deleting any files.
+         */
+        // if (!(error instanceof DirectoryNotEmptyError)) {
+        //   fs.removeSync(projectPath)
+        // }
         throw new ProjectCreateError(projectPath, error.message)
       }
 
       // Check if initStarter returned without a version
       if (!quireVersion) {
-        fs.removeSync(projectPath)
+        // Nota bene: Auto-deletion disabled - see comment above
+        // fs.removeSync(projectPath)
         throw new ProjectCreateError(projectPath, 'Failed to determine Quire version')
       }
 

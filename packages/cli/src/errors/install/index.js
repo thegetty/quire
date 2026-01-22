@@ -6,4 +6,5 @@
  * @module errors/install
  */
 export { default as DependencyInstallError } from './dependency-install-error.js'
+export { default as DirectoryNotEmptyError } from './directory-not-empty-error.js'
 export { default as VersionNotFoundError } from './version-not-found-error.js'
