@@ -6,8 +6,7 @@
  *
  * @module lib/installer
  */
-import { IS_WINDOWS } from '#helpers/os-utils.js'
-import { execaCommand } from 'execa'
+import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
@@ -166,8 +165,9 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
     await npm.pack(quire11tyPackage, tempDir, { debug: options.debug, quiet: !options.debug })
 
     // Extract only the package dir from the archive and strip it from the extracted path
+    // Nota bene: Use array-based execa() to prevent command injection via path variables
     const tarballPath = path.join(tempDir, `thegetty-quire-11ty-${quireVersion}.tgz`)
-    await execaCommand(`tar -xzf ${tarballPath} -C ${tempDir} --strip-components=1 package/`)
+    await execa('tar', ['-xzf', tarballPath, '-C', tempDir, '--strip-components=1', 'package/'])
 
     fs.rmSync(tarballPath)
   }

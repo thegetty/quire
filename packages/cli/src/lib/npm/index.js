@@ -21,7 +21,7 @@
  * @see https://docs.npmjs.com/cli/ - npm CLI documentation
  * @module npm
  */
-import { execa, execaCommand } from 'execa'
+import { execa } from 'execa'
 import fetch from 'node-fetch'
 import semver from 'semver'
 import which from '#helpers/which.js'
@@ -41,7 +41,7 @@ class Npm {
   async cacheClean(cwd) {
     console.debug(`${LOG_PREFIX} cleaning npm cache`)
     const options = cwd ? { cwd } : {}
-    await execaCommand('npm cache clean --force', options)
+    await execa('npm', ['cache', 'clean', '--force'], options)
   }
 
   /**
@@ -86,10 +86,11 @@ class Npm {
    */
   async init(cwd, options = {}) {
     const { yes = true } = options
-    const flags = yes ? '--yes' : ''
+    const args = ['init']
+    if (yes) args.push('--yes')
 
     console.debug(`${LOG_PREFIX} initializing package.json in ${cwd}`)
-    await execaCommand(`npm init ${flags}`.trim(), { cwd })
+    await execa('npm', args, { cwd })
   }
 
   /**
@@ -103,13 +104,12 @@ class Npm {
    */
   async install(cwd, options = {}) {
     const { preferOffline = false, saveDev = false } = options
-    const flags = [
-      preferOffline && '--prefer-offline',
-      saveDev && '--save-dev'
-    ].filter(Boolean).join(' ')
+    const args = ['install']
+    if (preferOffline) args.push('--prefer-offline')
+    if (saveDev) args.push('--save-dev')
 
     console.debug(`${LOG_PREFIX} installing dependencies in ${cwd}`)
-    await execaCommand(`npm install ${flags}`.trim(), { cwd })
+    await execa('npm', args, { cwd })
   }
 
   /**
@@ -132,12 +132,13 @@ class Npm {
    */
   async pack(packageSpec, destination, options = {}) {
     const { debug = false, quiet = true } = options
-    const verbosity = debug ? '--debug' : (quiet ? '--quiet' : '')
+    const args = ['pack']
+    if (debug) args.push('--debug')
+    else if (quiet) args.push('--quiet')
+    args.push('--pack-destination', destination, packageSpec)
 
     console.debug(`${LOG_PREFIX} packing ${packageSpec} to ${destination}`)
-    await execaCommand(
-      `npm pack ${verbosity} --pack-destination ${destination} ${packageSpec}`.trim()
-    )
+    await execa('npm', args)
   }
 
   /**
@@ -159,7 +160,7 @@ class Npm {
    * @returns {Promise<string>} npm version string
    */
   async version() {
-    const { stdout } = await execaCommand('npm --version')
+    const { stdout } = await execa('npm', ['--version'])
     return stdout
   }
 
