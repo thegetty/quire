@@ -274,3 +274,43 @@ test('isAvailable() returns false when git is not found in PATH', async (t) => {
 
   t.false(result)
 })
+
+test('instance add() logs stderr via debug when present', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({ stderr: 'warning: LF will be replaced by CRLF' })
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+    '#debug': { default: mockCreateDebug }
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.add('file.js')
+
+  t.true(mockDebug.calledWith('git add stderr: %s', 'warning: LF will be replaced by CRLF'))
+})
+
+test('instance commit() logs stderr via debug when present', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({ stderr: '[main abc1234] commit message' })
+  const mockWhich = sandbox.stub().returns('/usr/bin/git')
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const { Git } = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+    '#debug': { default: mockCreateDebug }
+  })
+
+  const repo = new Git('/path/to/project')
+  await repo.commit('test commit')
+
+  t.true(mockDebug.calledWith('git commit stderr: %s', '[main abc1234] commit message'))
+})

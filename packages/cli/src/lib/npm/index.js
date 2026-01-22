@@ -42,7 +42,10 @@ class Npm {
   async cacheClean(cwd) {
     debug('cleaning npm cache')
     const options = cwd ? { cwd } : {}
-    await execa('npm', ['cache', 'clean', '--force'], options)
+    const { stderr } = await execa('npm', ['cache', 'clean', '--force'], options)
+    if (stderr) {
+      debug('npm cache clean stderr: %s', stderr)
+    }
   }
 
   /**
@@ -91,7 +94,10 @@ class Npm {
     if (yes) args.push('--yes')
 
     debug('initializing package.json in %s', cwd)
-    await execa('npm', args, { cwd })
+    const { stderr } = await execa('npm', args, { cwd })
+    if (stderr) {
+      debug('npm init stderr: %s', stderr)
+    }
   }
 
   /**
@@ -110,7 +116,10 @@ class Npm {
     if (saveDev) args.push('--save-dev')
 
     debug('installing dependencies in %s', cwd)
-    await execa('npm', args, { cwd })
+    const { stderr } = await execa('npm', args, { cwd })
+    if (stderr) {
+      debug('npm install stderr: %s', stderr)
+    }
   }
 
   /**
@@ -134,12 +143,18 @@ class Npm {
   async pack(packageSpec, destination, options = {}) {
     const { debug: debugMode = false, quiet = true } = options
     const args = ['pack']
-    if (debugMode) args.push('--debug')
-    else if (quiet) args.push('--quiet')
+    if (debugMode) {
+      args.push('--debug')
+    } else if (quiet) {
+      args.push('--quiet')
+    }
     args.push('--pack-destination', destination, packageSpec)
 
     debug('packing %s to %s', packageSpec, destination)
-    await execa('npm', args)
+    const { stderr } = await execa('npm', args)
+    if (stderr) {
+      debug('npm pack stderr: %s', stderr)
+    }
   }
 
   /**
