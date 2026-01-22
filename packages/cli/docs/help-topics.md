@@ -147,6 +147,17 @@ See [documentation](https://quire.getty.edu/docs-v1/) for more.
 | `title` | No | Display title (defaults to filename) |
 | `description` | No | One-line description for topic list (defaults to empty) |
 
+### Frontmatter Parsing Limitations
+
+The frontmatter parser uses a simple regex approach (`/^---\n([\s\S]*?)\n---/`) rather than a full-featured library like `gray-matter`. This is intentional for help topics since they are developer-controlled content, but has some limitations:
+
+- **Unix line endings only**: Expects `\n` (LF), not `\r\n` (CRLF). Topic files must use Unix line endings.
+- **Opening delimiter must be first**: The `---` must appear at the very start of the file with no leading whitespace or BOM.
+- **No document separator support**: Does not recognize `...` as an alternative closing delimiter.
+- **Silent failure**: Invalid YAML returns an empty object rather than throwing an error.
+
+These limitations are acceptable because topics are controlled content committed to the repository. For user-supplied content, consider using `gray-matter` instead.
+
 ## Rendering
 
 Topics are rendered for terminal display using:
