@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -8,6 +9,16 @@ import test from 'ava'
  * Tests error handling paths that are difficult to trigger in E2E tests.
  * The happy path is covered by E2E tests with real Prince installation.
  */
+
+/**
+ * Create a cross-platform absolute path for testing
+ * @param {...string} segments - Path segments to join
+ * @returns {string} Platform-appropriate absolute path
+ */
+function testPath(...segments) {
+  const root = process.platform === 'win32' ? 'C:\\' : '/'
+  return path.join(root, ...segments)
+}
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
@@ -56,7 +67,7 @@ test('throws PdfGenerationError when page map generation fails', async (t) => {
   })
 
   const error = await t.throwsAsync(() =>
-    prince.default('/input.html', '/covers.html', '/output.pdf', {})
+    prince.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -83,7 +94,7 @@ test('throws PdfGenerationError when PDF printing fails', async (t) => {
   })
 
   const error = await t.throwsAsync(() =>
-    prince.default('/input.html', '/covers.html', '/output.pdf', {})
+    prince.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -115,7 +126,7 @@ test('throws PdfGenerationError when cover page map generation fails', async (t)
   }
 
   const error = await t.throwsAsync(() =>
-    prince.default('/input.html', '/covers.html', '/output.pdf', options)
+    prince.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), options)
   )
 
   t.is(error.code, 'PDF_FAILED')
@@ -137,7 +148,7 @@ test('warns and returns when page map generation is cancelled', async (t) => {
     '#lib/process/manager.js': { default: mockProcessManager }
   })
 
-  const result = await prince.default('/input.html', '/covers.html', '/output.pdf', {})
+  const result = await prince.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
 
   t.is(result, undefined)
   t.true(mockReporter.warn.calledWith('PDF generation cancelled'))
@@ -159,7 +170,7 @@ test('warns and returns when PDF printing is cancelled', async (t) => {
     '#lib/process/manager.js': { default: mockProcessManager }
   })
 
-  const result = await prince.default('/input.html', '/covers.html', '/output.pdf', {})
+  const result = await prince.default(testPath('input.html'), testPath('covers.html'), testPath('output.pdf'), {})
 
   t.is(result, undefined)
   t.true(mockReporter.warn.calledWith('PDF generation cancelled'))
@@ -181,7 +192,7 @@ test('throws PdfGenerationError when output directory creation fails', async (t)
   })
 
   const error = await t.throwsAsync(() =>
-    prince.default('/input.html', '/covers.html', '/restricted/output.pdf', {})
+    prince.default(testPath('input.html'), testPath('covers.html'), testPath('restricted', 'output.pdf'), {})
   )
 
   t.is(error.code, 'PDF_FAILED')

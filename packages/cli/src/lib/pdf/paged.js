@@ -73,6 +73,13 @@ export default async (publicationInput, coversInput, pdfPath, options = {}) => {
     debug('post-processing')
   })
 
+  // Capture browser console messages for debugging
+  printer.on('console', (type, ...args) => {
+    if (type === 'warning' || type === 'error') {
+      debug('browser %s: %s', type, args.join(' '))
+    }
+  })
+
   /**
    * Configure the Paged.js PDF options
    * @see
