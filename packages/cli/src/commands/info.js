@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import npm from '#lib/npm/index.js'
-import { execaCommand } from 'execa'
+import { execa } from 'execa'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
@@ -77,7 +77,7 @@ export default class InfoCommand extends Command {
           {
             name: 'quire-cli',
             get: async () => {
-              const { stdout } = await execaCommand('quire --version')
+              const { stdout } = await execa('quire', ['--version'])
               return stdout
             },
           },

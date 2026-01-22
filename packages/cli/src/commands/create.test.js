@@ -367,8 +367,8 @@ test('create command initial commit does not include temporary install artifacts
       Git: MockGit,
     },
     'execa': {
-      // Mock tar extraction command
-      execaCommand: sandbox.stub().resolves(),
+      // Mock tar extraction command (uses array-based execa, not execaCommand)
+      execa: sandbox.stub().resolves(),
     },
   })
 

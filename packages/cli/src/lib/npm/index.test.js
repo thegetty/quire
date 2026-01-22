@@ -20,139 +20,139 @@ test.afterEach.always((t) => {
 test('version() calls npm --version and returns stdout', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({ stdout: '10.2.4' })
+  const mockExeca = sandbox.stub().resolves({ stdout: '10.2.4' })
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   const result = await npm.version()
 
   t.is(result, '10.2.4')
-  t.true(mockExecaCommand.calledOnce)
-  t.true(mockExecaCommand.calledWith('npm --version'))
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('npm', ['--version']))
 })
 
 test('init() calls npm init with --yes flag by default', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.init('/path/to/project')
 
-  t.true(mockExecaCommand.calledOnce)
-  t.true(mockExecaCommand.calledWith('npm init --yes', { cwd: '/path/to/project' }))
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('npm', ['init', '--yes'], { cwd: '/path/to/project' }))
 })
 
 test('init() omits --yes flag when yes option is false', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.init('/path/to/project', { yes: false })
 
-  t.true(mockExecaCommand.calledWith('npm init', { cwd: '/path/to/project' }))
+  t.true(mockExeca.calledWith('npm', ['init'], { cwd: '/path/to/project' }))
 })
 
 test('install() calls npm install with correct flags', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.install('/path/to/project', { saveDev: true, preferOffline: true })
 
-  t.true(mockExecaCommand.calledOnce)
-  t.true(mockExecaCommand.calledWith('npm install --prefer-offline --save-dev', { cwd: '/path/to/project' }))
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('npm', ['install', '--prefer-offline', '--save-dev'], { cwd: '/path/to/project' }))
 })
 
 test('install() calls npm install without flags when no options provided', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.install('/path/to/project')
 
-  t.true(mockExecaCommand.calledWith('npm install', { cwd: '/path/to/project' }))
+  t.true(mockExeca.calledWith('npm', ['install'], { cwd: '/path/to/project' }))
 })
 
 test('pack() calls npm pack with package spec and destination', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.pack('@thegetty/quire-11ty@1.0.0', '/tmp/dest', { quiet: true })
 
-  t.true(mockExecaCommand.calledOnce)
-  t.true(mockExecaCommand.calledWith(
-    'npm pack --quiet --pack-destination /tmp/dest @thegetty/quire-11ty@1.0.0'
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith(
+    'npm', ['pack', '--quiet', '--pack-destination', '/tmp/dest', '@thegetty/quire-11ty@1.0.0']
   ))
 })
 
 test('pack() uses --debug flag when debug option is true', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.pack('@thegetty/quire-11ty@1.0.0', '/tmp/dest', { debug: true, quiet: false })
 
-  t.true(mockExecaCommand.calledWith(
-    'npm pack --debug --pack-destination /tmp/dest @thegetty/quire-11ty@1.0.0'
+  t.true(mockExeca.calledWith(
+    'npm', ['pack', '--debug', '--pack-destination', '/tmp/dest', '@thegetty/quire-11ty@1.0.0']
   ))
 })
 
 test('cacheClean() calls npm cache clean --force', async (t) => {
   const { sandbox } = t.context
 
-  const mockExecaCommand = sandbox.stub().resolves({})
+  const mockExeca = sandbox.stub().resolves({})
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execaCommand: mockExecaCommand, execa: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
   await npm.cacheClean('/path/to/project')
 
-  t.true(mockExecaCommand.calledOnce)
-  t.true(mockExecaCommand.calledWith('npm cache clean --force', { cwd: '/path/to/project' }))
+  t.true(mockExeca.calledOnce)
+  t.true(mockExeca.calledWith('npm', ['cache', 'clean', '--force'], { cwd: '/path/to/project' }))
 })
 
 test('view() calls npm view with package name and field', async (t) => {
