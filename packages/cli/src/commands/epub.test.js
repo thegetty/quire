@@ -211,7 +211,7 @@ test('epub command should pass debug option to library', async (t) => {
 })
 
 test('epub command should throw error when build output is missing', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockLogger } = t.context
 
   // Mock the epub library module
   const mockEpubGenerator = sandbox.stub()
