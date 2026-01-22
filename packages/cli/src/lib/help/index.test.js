@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -155,5 +156,5 @@ test('getTopicsDir() returns the topics directory path', async (t) => {
   const dir = getTopicsDir()
 
   t.true(dir.endsWith('topics'))
-  t.true(dir.includes('lib/help'))
+  t.true(dir.includes(`lib${path.sep}help`))
 })
