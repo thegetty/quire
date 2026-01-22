@@ -30,7 +30,6 @@
       },
       "required": ["controls", "copyButton", "globalControls"]
     },
-
     "analytics": {
       "type": "object",
       "properties": {
@@ -38,14 +37,12 @@
       },
       "required": ["googleId"]
     },
-
     "bylineFormat": {
       "oneOf": [
         { "type": "string", "enum": ["name", "name-title"] },
         { "type": "boolean", "enum": [false] }
       ]
     },
-
     "bibliography": {
       "type": "object",
       "properties": {
@@ -55,7 +52,6 @@
       },
       "required": ["displayOnPage", "displayShort", "heading"]
     },
-
     "citations": {
       "type": "object",
       "properties": {
@@ -67,7 +63,6 @@
       },
       "required": ["divider", "popupStyle"]
     },
-
     "entryPage": {
       "type": "object",
       "properties": {
@@ -76,7 +71,6 @@
       },
       "required": ["sideBySide", "objectLinkText"]
     },
-
     "epub": {
       "type": "object",
       "properties": {
@@ -85,7 +79,6 @@
       },
       "required": ["defaultCoverImage", "outputDir"]
     },
-
     "footnotes": {
       "type": "object",
       "properties": {
@@ -93,7 +86,6 @@
       },
       "required": ["backlinkSymbol"]
     },
-
     "figures": {
       "type": "object",
       "properties": {
@@ -103,9 +95,7 @@
       },
       "required": ["assetDir", "enableModal", "imageDir"]
     },
-
     "licenseIcons": { "type": "boolean" },
-
     "localization": {
       "type": "object",
       "properties": {
@@ -113,12 +103,10 @@
       },
       "required": ["defaultLocale"]
     },
-
     "menuType": {
       "type": "string",
       "enum": ["full", "brief"]
     },
-
     "navigation": {
       "type": "object",
       "properties": {
@@ -127,7 +115,6 @@
       },
       "required": ["nextButtonText", "prevButtonText"]
     },
-
     "pageTitle": {
       "type": "object",
       "properties": {
@@ -135,13 +122,11 @@
       },
       "required": ["labelDivider"]
     },
-
     "pdf": {
       "type": "object",
       "properties": {
         "filename": { "type": "string" },
         "outputDir": { "type": "string" },
-
         "pagePDF": {
           "type": "object",
           "properties": {
@@ -161,7 +146,6 @@
           },
           "required": ["accessLinks", "coverPage", "output"]
         },
-
         "publicationPDF": {
           "type": "object",
           "properties": {
@@ -172,7 +156,6 @@
       },
       "required": ["filename", "outputDir", "pagePDF", "publicationPDF"]
     },
-
     "ref": {
       "type": "object",
       "properties": {
@@ -180,9 +163,7 @@
       },
       "required": ["sequenceTransition"]
     },
-
     "searchEnabled": { "type": "boolean" },
-
     "tableOfContents": {
       "type": "object",
       "properties": {
@@ -191,10 +172,8 @@
       "required": ["contributorDivider"]
     }
   },
-
   "required": [
     "accordion",
-    "analytics",
     "bylineFormat",
     "bibliography",
     "citations",
