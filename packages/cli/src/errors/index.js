@@ -38,6 +38,7 @@ export {
 // Install errors (exit code: 6)
 export {
   DependencyInstallError,
+  DirectoryNotEmptyError,
   VersionNotFoundError
 } from './install/index.js'
 
