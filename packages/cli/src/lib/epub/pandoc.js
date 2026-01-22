@@ -57,9 +57,14 @@ export default async (input, output, options = {}) => {
   debug('inputs: %d XHTML files', inputs.length)
 
   try {
-    await execa('pandoc', [...cmdOptions, ...inputs])
+    const { stderr } = await execa('pandoc', [...cmdOptions, ...inputs])
+    // Pandoc may emit warnings to stderr even on success
+    if (stderr) {
+      debug('pandoc stderr: %s', stderr)
+    }
   } catch (error) {
-    throw new EpubGenerationError('Pandoc', 'EPUB generation', error.stderr || error.message)
+    const details = error.stderr || error.message
+    throw new EpubGenerationError(`Pandoc EPUB generation failed: ${details}`)
   }
 
   debug('complete')
