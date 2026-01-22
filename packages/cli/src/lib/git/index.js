@@ -74,7 +74,10 @@ class Git {
   async add(files) {
     const fileList = Array.isArray(files) ? files : [files]
     debug('staging files in %s: %s', this.#resolvedCwd(), fileList.join(', '))
-    await execa('git', ['add', ...fileList], this.#getOptions())
+    const { stderr } = await execa('git', ['add', ...fileList], this.#getOptions())
+    if (stderr) {
+      debug('git add stderr: %s', stderr)
+    }
   }
 
   /**
@@ -87,7 +90,10 @@ class Git {
   async clone(url, destination = '.') {
     const resolvedDest = path.resolve(this.#resolvedCwd(), destination)
     debug('cloning %s to %s', url, resolvedDest)
-    await execa('git', ['clone', url, destination], this.#getOptions())
+    const { stderr } = await execa('git', ['clone', url, destination], this.#getOptions())
+    if (stderr) {
+      debug('git clone stderr: %s', stderr)
+    }
   }
 
   /**
@@ -98,7 +104,10 @@ class Git {
    */
   async commit(message) {
     debug('committing in %s: %s...', this.#resolvedCwd(), message.substring(0, 50))
-    await execa('git', ['commit', '-m', message], this.#getOptions())
+    const { stderr } = await execa('git', ['commit', '-m', message], this.#getOptions())
+    if (stderr) {
+      debug('git commit stderr: %s', stderr)
+    }
   }
 
   /**
@@ -108,7 +117,10 @@ class Git {
    */
   async init() {
     debug('initializing repository in %s', this.#resolvedCwd())
-    await execa('git', ['init'], this.#getOptions())
+    const { stderr } = await execa('git', ['init'], this.#getOptions())
+    if (stderr) {
+      debug('git init stderr: %s', stderr)
+    }
   }
 
   /**
@@ -128,7 +140,10 @@ class Git {
   async rm(files) {
     const fileList = Array.isArray(files) ? files : [files]
     debug('removing files in %s: %s', this.#resolvedCwd(), fileList.join(', '))
-    await execa('git', ['rm', ...fileList], this.#getOptions())
+    const { stderr } = await execa('git', ['rm', ...fileList], this.#getOptions())
+    if (stderr) {
+      debug('git rm stderr: %s', stderr)
+    }
   }
 
   /**
