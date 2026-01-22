@@ -21,7 +21,7 @@
  * @see https://docs.npmjs.com/cli/ - npm CLI documentation
  * @module npm
  */
-import { execa, execaCommand } from 'execa'
+import { execa } from 'execa'
 import fetch from 'node-fetch'
 import semver from 'semver'
 import which from '#helpers/which.js'
@@ -42,7 +42,10 @@ class Npm {
   async cacheClean(cwd) {
     debug('cleaning npm cache')
     const options = cwd ? { cwd } : {}
-    await execaCommand('npm cache clean --force', options)
+    const { stderr } = await execa('npm', ['cache', 'clean', '--force'], options)
+    if (stderr) {
+      debug('npm cache clean stderr: %s', stderr)
+    }
   }
 
   /**
@@ -87,10 +90,14 @@ class Npm {
    */
   async init(cwd, options = {}) {
     const { yes = true } = options
-    const flags = yes ? '--yes' : ''
+    const args = ['init']
+    if (yes) args.push('--yes')
 
     debug('initializing package.json in %s', cwd)
-    await execaCommand(`npm init ${flags}`.trim(), { cwd })
+    const { stderr } = await execa('npm', args, { cwd })
+    if (stderr) {
+      debug('npm init stderr: %s', stderr)
+    }
   }
 
   /**
@@ -104,13 +111,15 @@ class Npm {
    */
   async install(cwd, options = {}) {
     const { preferOffline = false, saveDev = false } = options
-    const flags = [
-      preferOffline && '--prefer-offline',
-      saveDev && '--save-dev'
-    ].filter(Boolean).join(' ')
+    const args = ['install']
+    if (preferOffline) args.push('--prefer-offline')
+    if (saveDev) args.push('--save-dev')
 
     debug('installing dependencies in %s', cwd)
-    await execaCommand(`npm install ${flags}`.trim(), { cwd })
+    const { stderr } = await execa('npm', args, { cwd })
+    if (stderr) {
+      debug('npm install stderr: %s', stderr)
+    }
   }
 
   /**
@@ -133,12 +142,19 @@ class Npm {
    */
   async pack(packageSpec, destination, options = {}) {
     const { debug: debugMode = false, quiet = true } = options
-    const verbosity = debugMode ? '--debug' : (quiet ? '--quiet' : '')
+    const args = ['pack']
+    if (debugMode) {
+      args.push('--debug')
+    } else if (quiet) {
+      args.push('--quiet')
+    }
+    args.push('--pack-destination', destination, packageSpec)
 
     debug('packing %s to %s', packageSpec, destination)
-    await execaCommand(
-      `npm pack ${verbosity} --pack-destination ${destination} ${packageSpec}`.trim()
-    )
+    const { stderr } = await execa('npm', args)
+    if (stderr) {
+      debug('npm pack stderr: %s', stderr)
+    }
   }
 
   /**
@@ -160,7 +176,7 @@ class Npm {
    * @returns {Promise<string>} npm version string
    */
   async version() {
-    const { stdout } = await execaCommand('npm --version')
+    const { stdout } = await execa('npm', ['--version'])
     return stdout
   }
 
