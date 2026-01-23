@@ -29,7 +29,14 @@ test.beforeEach((t) => {
     log: t.context.sandbox.stub(),
     warn: t.context.sandbox.stub()
   }
-  // mockLogger already created above
+
+  // Create mock reporter for tests that need it
+  t.context.mockReporter = {
+    configure: t.context.sandbox.stub().returnsThis(),
+    start: t.context.sandbox.stub().returnsThis(),
+    succeed: t.context.sandbox.stub().returnsThis(),
+    fail: t.context.sandbox.stub().returnsThis()
+  }
 })
 
 test.afterEach.always((t) => {
