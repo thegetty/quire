@@ -381,7 +381,7 @@ test('epub command should support deprecated --lib option', async (t) => {
   t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc from deprecated option')
 })
 
-test('epub command should run build first when --build flag is set and output missing', async (t) => {
+test('epub command should run build first when --build flag with deprecated --lib option', async (t) => {
   const { sandbox, fs } = t.context
 
   // Mock the epub generator
@@ -427,7 +427,7 @@ test('epub command should run build first when --build flag is set and output mi
   const command = new EPUBCommand()
   command.name = sandbox.stub().returns('epub')
 
-  // Run action with --build flag
+  // Run action with --build flag using deprecated --lib option
   await command.action({ lib: 'epubjs', build: true }, command)
 
   t.true(mockBuild.called, 'build should be called when --build flag is set')
