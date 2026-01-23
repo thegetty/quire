@@ -3,8 +3,35 @@ import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
 import packageConfig from '#src/packageConfig.js'
+import { enableDebug } from '#lib/logger/debug.js'
 
 const { version } = packageConfig
+
+/**
+ * Base URL for documentation links appended to command help text
+ */
+const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1/'
+
+/**
+ * Join base URL with path, handling trailing/leading slashes correctly
+ * @param {string} path - Path to append to base URL
+ * @returns {string} Full URL
+ */
+const docsUrl = (path) => new URL(path, DOCS_BASE_URL).href
+
+const mainHelpText = `
+Docs: ${DOCS_BASE_URL}
+
+Environment Variables:
+  DEBUG=quire:*          Enable debug output for all modules
+  DEBUG=quire:lib:pdf    Enable debug output for PDF module only
+  DEBUG=quire:lib:*      Enable debug output for all lib modules
+
+Examples:
+  $ quire build                  Build the publication
+  $ quire build --verbose        Build with debug output
+  $ DEBUG=quire:* quire pdf      Generate PDF with debug output
+`
 
 /**
  * Quire CLI implements the command pattern.
@@ -18,7 +45,9 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(version,  '-v, --version', 'output quire version number')
+  .version(version, '-v, --version', 'output quire version number')
+  .option('--verbose', 'enable verbose output for debugging')
+  .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
@@ -30,19 +59,38 @@ program
   })
 
 /**
+ * Handle global --verbose option before any command runs
+ */
+program.hook('preAction', (thisCommand) => {
+  const opts = thisCommand.opts()
+  if (opts.verbose) {
+    enableDebug('quire:*')
+  }
+})
+
+/**
  * Register each command as a subcommand of this program
- *
- * @todo refactor command definition to allow for per-command custom help text
  * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, alias, aliases, args, description, name, options } = command
+  const { action, alias, aliases, args, description, docsLink, helpText, name, options, summary } = command
 
   const subCommand = program
     .command(name)
     .description(description)
+    .summary(summary || description)
     .addHelpCommand()
     .showHelpAfterError()
+
+  // Append docs link and/or custom help text after built-in help
+  const customHelpText = [
+    docsLink && `Docs: ${docsUrl(docsLink)}`,
+    helpText?.trim()
+  ].filter(Boolean).join('\n\n')
+
+  if (customHelpText) {
+    subCommand.addHelpText('after', '\n' + customHelpText)
+  }
 
   if (alias instanceof String) {
     subCommand.alias(alias)

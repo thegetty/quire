@@ -15,6 +15,8 @@ export default class PDFCommand extends Command {
     name: 'pdf',
     description: 'Generate publication PDF',
     summary: 'run build pdf',
+    docsLink: 'quire-commands/#output-files',
+    helpText: 'Note: Requires "quire build" to be run first.',
     version: '1.0.0',
     options: [
       [

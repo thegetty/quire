@@ -15,6 +15,11 @@ export default class PreviewCommand extends Command {
     name: 'preview',
     description: 'Run the development server and watch on file changes',
     summary: 'run the development server',
+    docsLink: 'quire-commands/#start-and-preview-projects',
+    helpText: `
+Example:
+  quire preview --port 3000    Run on custom port
+`,
     version: '1.1.0',
     options: [
       [ '-p', '--port <port>', 'configure development server port', 8080 ],

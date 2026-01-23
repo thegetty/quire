@@ -7,24 +7,52 @@
  */
 export default {
   logLevel: {
-    type: 'string'
+    type: 'string',
+    enum: ['trace', 'debug', 'info', 'warn', 'error', 'silent'],
+    description: 'Minimum log level to display (trace, debug, info, warn, error, silent)'
+  },
+  logPrefix: {
+    type: 'string',
+    description: 'Prefix text shown before log messages'
+  },
+  logPrefixStyle: {
+    type: 'string',
+    enum: ['bracket', 'emoji', 'plain', 'none'],
+    description: 'Style for displaying the log prefix (bracket: [quire], emoji: 📖, plain: quire:, none: no prefix)'
+  },
+  logShowLevel: {
+    type: 'boolean',
+    description: 'Show log level label (INFO, WARN, etc.) in output'
+  },
+  logUseColor: {
+    type: 'boolean',
+    description: 'Use colored output for log messages'
   },
   projectTemplate: {
-    type: 'string'
+    type: 'string',
+    format: 'uri',
+    description: 'URL of the default project template for quire new'
   },
   quire11tyPath: {
-    type: 'string'
+    type: 'string',
+    description: 'Path to the quire-11ty package (use "." for local development)'
   },
   quireVersion: {
-    type: 'string'
+    type: 'string',
+    description: 'Version of quire-11ty to use ("latest" or specific version)'
   },
   updateChannel: {
-    type: 'string'
+    type: 'string',
+    enum: ['stable', 'rc', 'beta', 'alpha'],
+    description: 'Release channel for updates (stable, rc, beta, alpha)'
   },
   updateInterval: {
-    type: 'string'
+    type: 'string',
+    enum: ['DAILY', 'WEEKLY', 'MONTHLY', 'NEVER'],
+    description: 'How often to check for updates (DAILY, WEEKLY, MONTHLY, NEVER)'
   },
   versionFile: {
-    type: 'string'
+    type: 'string',
+    description: 'Filename used to identify Quire projects'
   }
 }

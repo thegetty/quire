@@ -175,7 +175,7 @@ test.serial('beforeEachMigration logs migration info', async (t) => {
   t.true(consoleInfoStub.calledOnce)
   t.true(consoleInfoStub.firstCall.args[0].includes('0.9.0'))
   t.true(consoleInfoStub.firstCall.args[0].includes('1.0.0'))
-  t.true(consoleInfoStub.firstCall.args[0].includes('migrating'))
+  t.true(consoleInfoStub.firstCall.args[0].includes('Migrating'))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -244,11 +244,12 @@ test('schema module defines types for all default keys', async (t) => {
   }
 })
 
-test('schema module defines string types for all properties', async (t) => {
+test('schema module defines valid types for all properties', async (t) => {
   const schema = await import('./schema.js')
 
+  const validTypes = ['string', 'boolean', 'number', 'object', 'array']
   for (const [key, value] of Object.entries(schema.default)) {
-    t.is(value.type, 'string', `${key} should be of type string`)
+    t.true(validTypes.includes(value.type), `${key} should have a valid type`)
   }
 })
 

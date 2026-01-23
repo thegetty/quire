@@ -74,9 +74,18 @@ test('version command should validate Quire project in preAction', async (t) => 
 test('version command should accept version argument', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
+  const mockLatest = sandbox.stub().resolves('1.0.0-rc.33')
+  const mockSetVersion = sandbox.stub()
+
   const { default: VersionCommand } = await esmock('./version.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#lib/installer/index.js': {
+      latest: mockLatest
+    },
+    '#lib/project/index.js': {
+      setVersion: mockSetVersion
     }
   }, {
     '#lib/logger/index.js': {
@@ -91,18 +100,26 @@ test('version command should accept version argument', async (t) => {
   // Call action with version argument
   await command.action('1.0.0-rc.33', {})
 
-  // Currently the command just validates, doesn't throw
-  t.pass('command should accept valid version argument')
+  t.true(mockLatest.calledWith('1.0.0-rc.33'), 'latest should be called with version')
+  t.true(mockSetVersion.calledWith('1.0.0-rc.33'), 'setVersion should be called with resolved version')
 })
 
 test('version command should log debug information when debug flag is set', async (t) => {
   const { sandbox, mockLogger, mockTestcwd } = t.context
 
   const mockDebug = sandbox.stub()
+  const mockLatest = sandbox.stub().resolves('1.0.0-rc.33')
+  const mockSetVersion = sandbox.stub()
 
   const { default: VersionCommand } = await esmock('./version.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#lib/installer/index.js': {
+      latest: mockLatest
+    },
+    '#lib/project/index.js': {
+      setVersion: mockSetVersion
     }
   }, {
     '#lib/logger/index.js': {
