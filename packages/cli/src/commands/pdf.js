@@ -1,9 +1,11 @@
 import Command from '#src/Command.js'
-import { hasSiteOutput } from '#lib/project/index.js'
+import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import generatePdf from '#lib/pdf/index.js'
 import open from 'open'
+import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `pdf` Command
@@ -61,9 +63,9 @@ Examples:
     // Check for build output (will throw if missing)
     // TODO: Add interactive prompt when build output missing and --build not used
     if (!hasSiteOutput()) {
-      const error = new Error('Build output not found. Run "quire build" first, or use --build flag.')
-      error.code = 'ENOBUILD'
-      throw error
+      const projectRoot = paths.getProjectRoot()
+      const sitePath = path.join(projectRoot, '_site')
+      throw new MissingBuildOutputError('PDF', sitePath)
     }
 
     // Pass engine (not lib) to generatePdf
