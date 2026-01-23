@@ -75,7 +75,7 @@ export default class Command {
   }
 
   definition() {
-    return this.prototype.definition
+    return this.constructor.definition
   }
 
   action() {

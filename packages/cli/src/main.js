@@ -1,4 +1,5 @@
-import { Argument, Command, Option } from 'commander'
+import { Command, Argument, Option } from 'commander'
+import { arrayToArgument, arrayToOption } from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
@@ -21,6 +22,14 @@ const docsUrl = (path) => new URL(path, DOCS_BASE_URL).href
 
 const mainHelpText = `
 Docs: ${DOCS_BASE_URL}
+
+Common Workflows:
+  New project     quire new my-book && cd my-book && quire preview
+  Build for web   quire build
+  Generate PDF    quire pdf --build
+  Generate EPUB   quire epub --build
+
+  Run 'quire help workflows' for detailed workflow documentation.
 
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
@@ -73,10 +82,10 @@ program.hook('preAction', (thisCommand) => {
  * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, alias, aliases, args, description, docsLink, helpText, name, options, summary } = command
+  const { action, alias, aliases, args, description, docsLink, helpText, hidden, name, options, summary } = command
 
   const subCommand = program
-    .command(name)
+    .command(name, { hidden })
     .description(description)
     .summary(summary || description)
     .addHelpCommand()
@@ -92,7 +101,7 @@ commands.forEach((command) => {
     subCommand.addHelpText('after', '\n' + customHelpText)
   }
 
-  if (alias instanceof String) {
+  if (typeof alias === 'string') {
     subCommand.alias(alias)
   }
 
@@ -101,38 +110,22 @@ commands.forEach((command) => {
   }
 
   /**
-   * @see https://github.com/tj/commander.js#more-configuration-1
+   * Register arguments with the subcommand
    */
   if (Array.isArray(args)) {
-    args.forEach(([ name, description, configuration = {} ]) => {
-      const argument = new Argument(name, description)
-      if (configuration.choices) argument.choices(configuration.choices)
-      if (configuration.default) argument.default(configuration.default)
+    args.forEach((entry) => {
+      const argument = entry instanceof Argument ? entry : arrayToArgument(entry)
       subCommand.addArgument(argument)
     })
   }
 
   /**
-   * @see https://github.com/tj/commander.js/#options
-   * @see https://github.com/tj/commander.js/#more-configuration
+   * Register options with the subcommand
    */
   if (Array.isArray(options)) {
     options.forEach((entry) => {
-      if (entry instanceof Option) {
-        // Handle Option objects directly for advanced configurations
-        subCommand.addOption(entry)
-      } else if (Array.isArray(entry)) {
-        if (entry[0]?.startsWith('-') && entry[1]?.startsWith('--')) {
-          // option flags are defined separately: ['-s', '--long', ...]
-          const [short, long, ...rest] = entry
-          subCommand.option(`${short}, ${long}`, ...rest)
-        } else {
-          // option flags defined in a single string: ['-s --long', ...]
-          subCommand.option(...entry)
-        }
-      } else {
-        console.error('Options must be defined as arrays or Option instances')
-      }
+      const option = entry instanceof Option ? entry : arrayToOption(entry)
+      subCommand.addOption(option)
     })
   }
 

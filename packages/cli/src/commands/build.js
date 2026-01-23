@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { Option } from 'commander'
 import { api, cli } from '#lib/11ty/index.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
@@ -16,19 +17,23 @@ export default class BuildCommand extends Command {
   static definition = {
     name: 'build',
     description: 'Generate publication outputs',
-    summary: 'run build',
+    summary: 'generate HTML site files',
     docsLink: 'quire-commands/#output-files',
-    helpText: 'Note: Run before "quire pdf" or "quire epub" commands.',
+    helpText: `
+Example:
+  quire build --verbose    Build with detailed output
+
+Note: Run before "quire pdf" or "quire epub" commands.
+`,
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
       [ '-q', '--quiet', 'run build with no console messages' ],
       [ '-v', '--verbose', 'run build with verbose console messages' ],
-      [
-        '--11ty <module>', 'use the specified 11ty module', 'api',
-        { choices: ['api', 'cli'], default: 'api' }
-      ],
       [ '--debug', 'run build with debug output to console' ],
+      // Use Option object syntax to configure this as a hidden option
+      new Option('--11ty <module>', 'use the specified 11ty module')
+        .choices(['api', 'cli']).default('api').hideHelp(),
     ],
   }
 
@@ -48,10 +53,10 @@ export default class BuildCommand extends Command {
     }
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
 
-    const options = command.opts()
+    const options = thisCommand.opts()
     this.debug('pre-action with options %O', options)
     clean(paths.getProjectRoot(), paths.toObject(), options)
   }

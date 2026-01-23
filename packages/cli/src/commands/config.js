@@ -3,55 +3,55 @@ import schema from '#lib/conf/schema.js'
 import defaults from '#lib/conf/defaults.js'
 
 /**
- * Valid operations for the conf command
+ * Valid operations for the settings command
  */
-const OPERATIONS = ['get', 'set', 'delete', 'reset', 'path']
+const OPERATIONS = Object.freeze(['get', 'set', 'delete', 'reset', 'path'])
 
 /**
- * Quire CLI `conf` Command
+ * Quire CLI `settings` Command
  *
  * Manages quire-cli configuration with explicit subcommand operations.
  *
  * @example
- * // Show all configuration
- * quire conf
+ * // Show all settings
+ * quire settings
  *
  * // Get a single value
- * quire conf get logLevel
+ * quire settings get logLevel
  *
  * // Set a value
- * quire conf set logLevel debug
+ * quire settings set logLevel debug
  *
  * // Delete a key (reset to default)
- * quire conf delete logLevel
+ * quire settings delete logLevel
  *
- * // Reset all configuration to defaults
- * quire conf reset
+ * // Reset all settings to defaults
+ * quire settings reset
  *
  * // Reset a single key to default
- * quire conf reset logLevel
+ * quire settings reset logLevel
  *
- * // Show config file path
- * quire conf path
+ * // Show settings file path
+ * quire settings path
  *
- * @class      ConfCommand
+ * @class      SettingsCommand
  * @extends    {Command}
  */
-export default class ConfCommand extends Command {
+export default class SettingsCommand extends Command {
   static definition = {
-    name: 'conf',
-    aliases: ['config', 'configure'],
-    description: 'Manage the Quire CLI configuration.',
-    summary: 'read/write quire-cli configuration options',
+    name: 'settings',
+    aliases: ['prefs', 'preferences', 'conf', 'config', 'configure'],
+    description: 'Manage Quire CLI settings.',
+    summary: 'view and modify CLI settings',
     docsLink: 'quire-commands/',
     helpText: `
 Examples:
-  quire conf                    Show all configuration
-  quire conf get <key>          Get a single value
-  quire conf set <key> <value>  Set a value
-  quire conf delete <key>       Delete (reset to default)
-  quire conf reset [key]        Reset all or single key
-  quire conf path               Show config file path
+  quire settings                    Show all settings
+  quire settings get <key>          Get a single value
+  quire settings set <key> <value>  Set a value
+  quire settings delete <key>       Delete (reset to default)
+  quire settings reset [key]        Reset all or single key
+  quire settings path               Show settings file path
 `,
     version: '2.0.0',
     args: [
@@ -65,7 +65,7 @@ Examples:
   }
 
   constructor() {
-    super(ConfCommand.definition)
+    super(SettingsCommand.definition)
   }
 
   /**
