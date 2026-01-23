@@ -18,6 +18,7 @@ import paths from './paths.js'
 export function getBuildInfo(projectRoot = paths.getProjectRoot()) {
   const sitePath = path.join(projectRoot, '_site')
   const epubPath = path.join(projectRoot, '_epub')
+  const pdfFiles = ['pagedjs.pdf', 'prince.pdf']
 
   const info = {
     site: {
@@ -30,6 +31,11 @@ export function getBuildInfo(projectRoot = paths.getProjectRoot()) {
       path: epubPath,
       mtime: null,
     },
+    pdf: {
+      exists: false,
+      paths: [],
+      mtime: null,
+    },
   }
 
   // Get modification times if directories exist
@@ -38,6 +44,20 @@ export function getBuildInfo(projectRoot = paths.getProjectRoot()) {
   }
   if (info.epub.exists) {
     info.epub.mtime = fs.statSync(epubPath).mtime
+  }
+
+  // Check for PDF files
+  for (const file of pdfFiles) {
+    const pdfPath = path.join(projectRoot, file)
+    if (fs.existsSync(pdfPath)) {
+      info.pdf.exists = true
+      info.pdf.paths.push(pdfPath)
+      // Use most recent mtime if multiple PDFs exist
+      const mtime = fs.statSync(pdfPath).mtime
+      if (!info.pdf.mtime || mtime > info.pdf.mtime) {
+        info.pdf.mtime = mtime
+      }
+    }
   }
 
   return info

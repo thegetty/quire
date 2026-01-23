@@ -84,6 +84,7 @@ test('getBuildInfo returns correct status for existing builds', async (t) => {
   vol.fromJSON({
     [memfsPath('_site', 'index.html')]: '<html></html>',
     [memfsPath('_epub', 'content.opf')]: '<package></package>',
+    [memfsPath('pagedjs.pdf')]: '%PDF-1.4',
   })
 
   const { getBuildInfo } = await esmock('./build.js', {
@@ -99,6 +100,10 @@ test('getBuildInfo returns correct status for existing builds', async (t) => {
   t.true(info.epub.exists)
   t.is(info.epub.path, nativePath('_epub'))
   t.truthy(info.epub.mtime)
+
+  t.true(info.pdf.exists)
+  t.deepEqual(info.pdf.paths, [nativePath('pagedjs.pdf')])
+  t.truthy(info.pdf.mtime)
 })
 
 test('getBuildInfo returns correct status for missing builds', async (t) => {
@@ -119,6 +124,31 @@ test('getBuildInfo returns correct status for missing builds', async (t) => {
 
   t.false(info.epub.exists)
   t.is(info.epub.mtime, null)
+
+  t.false(info.pdf.exists)
+  t.deepEqual(info.pdf.paths, [])
+  t.is(info.pdf.mtime, null)
+})
+
+test('getBuildInfo returns multiple PDF paths when both exist', async (t) => {
+  const { vol } = t.context
+
+  vol.fromJSON({
+    [memfsPath('pagedjs.pdf')]: '%PDF-1.4',
+    [memfsPath('prince.pdf')]: '%PDF-1.4',
+  })
+
+  const { getBuildInfo } = await esmock('./build.js', {
+    'node:fs': createFsFromVolume(vol),
+  })
+
+  const info = getBuildInfo(testRoot)
+
+  t.true(info.pdf.exists)
+  t.is(info.pdf.paths.length, 2)
+  t.true(info.pdf.paths.includes(nativePath('pagedjs.pdf')))
+  t.true(info.pdf.paths.includes(nativePath('prince.pdf')))
+  t.truthy(info.pdf.mtime)
 })
 
 test('requireBuildOutput throws when site output missing', async (t) => {
