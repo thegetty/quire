@@ -6,6 +6,7 @@ import libEpub from '#lib/epub/index.js'
 import open from 'open'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `epub` Command
@@ -63,14 +64,13 @@ Examples:
 
     // Check for build output (will throw if missing)
     // TODO: Add interactive prompt when build output missing and --build not used
-    if (!hasEpubOutput()) {
-      const error = new Error('EPUB output not found. Run "quire build" first, or use --build flag.')
-      error.code = 'ENOBUILD'
-      throw error
-    }
-
     const projectRoot = paths.getProjectRoot()
     const input = path.join(projectRoot, paths.getEpubDir())
+
+    if (!hasEpubOutput()) {
+      throw new MissingBuildOutputError('epub', input)
+    }
+
     const output = path.join(projectRoot, `${options.engine}.epub`)
 
     const epubLib = await libEpub(options.engine, { debug: options.debug })

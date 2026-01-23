@@ -241,8 +241,8 @@ test('epub command should throw error when build output is missing', async (t) =
   // Run action - should throw error when output doesn't exist
   const error = await t.throwsAsync(() => command.action({ engine: 'epubjs' }, command))
 
-  t.is(error.code, 'ENOBUILD', 'should throw ENOBUILD error')
-  t.regex(error.message, /quire build/, 'error should mention quire build')
+  t.is(error.code, 'BUILD_OUTPUT_MISSING', 'should throw BUILD_OUTPUT_MISSING error')
+  t.regex(error.message, /build output not found/, 'error should mention build output not found')
   t.false(mockEpubGenerator.called, 'EPUB generator should not be called when input is missing')
 })
 
