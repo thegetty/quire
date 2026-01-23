@@ -14,7 +14,6 @@ import testcwd from '#helpers/test-cwd.js'
 export default class PreviewCommand extends Command {
   static definition = {
     name: 'preview',
-    aliases: ['serve'],
     description: 'Run the development server and watch on file changes',
     summary: 'start local preview server',
     docsLink: 'quire-commands/#start-and-preview-projects',
