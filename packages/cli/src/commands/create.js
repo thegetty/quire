@@ -3,6 +3,7 @@ import { Option } from 'commander'
 import fs from 'fs-extra'
 import { installer } from '#lib/installer/index.js'
 import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js'
+import reporter from '#lib/reporter/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -33,6 +34,7 @@ Examples:
     options: [
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
       [ '--quire-version <version>', 'quire-11ty version to install' ],
+      [ '-q, --quiet', 'suppress progress output' ],
       [ '--debug', 'debug the `quire new` command', false ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
@@ -51,6 +53,9 @@ Examples:
    */
   async action(projectPath, starter, options = {}) {
     this.debug('called with options %O', options)
+
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet })
 
     starter = starter || this.config.get('projectTemplate')
 
@@ -74,6 +79,7 @@ Examples:
       try {
         quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
+        reporter.fail('Failed to initialize project')
         this.logger.error(error.message)
         /**
          * Nota bene: Auto-deletion of projectPath is disabled to prevent accidental data loss.
@@ -94,6 +100,7 @@ Examples:
       }
 
       await installer.installInProject(projectPath, quireVersion, options)
+      reporter.succeed('Project created successfully')
     }
   }
 }
