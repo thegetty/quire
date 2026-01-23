@@ -2,7 +2,7 @@ import Command from '#src/Command.js'
 import paths, { hasEpubOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
-import libEpub from '#lib/epub/index.js'
+import libEpub, { ENGINES } from '#lib/epub/index.js'
 import open from 'open'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
@@ -33,12 +33,12 @@ Examples:
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open EPUB in default application' ],
       [
-        '--engine <name>', 'EPUB engine to use', 'epubjs',
-        { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
+        '--engine <name>', 'EPUB engine to use (default: from config or epubjs)',
+        { choices: ENGINES }
       ],
       [
         '--lib <name>', 'deprecated alias for --engine option',
-        { hidden: true, choices: ['epubjs', 'pandoc'], conflicts: 'engine' }
+        { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
       [ '--debug', 'run epub with debug output' ],
     ],
@@ -51,9 +51,15 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
-    // Support deprecated --lib option (alias for --engine)
-    if (options.lib && !options.engine) {
-      options.engine = options.lib
+    // Resolve engine: CLI --engine > deprecated --lib > config epubEngine > default
+    if (!options.engine) {
+      if (options.lib) {
+        // Support deprecated --lib option
+        options.engine = options.lib
+      } else {
+        // Use config setting or fallback to default
+        options.engine = this.config.get('epubEngine') || 'epubjs'
+      }
     }
 
     // Run build first if --build flag is set and output is missing

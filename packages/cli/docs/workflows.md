@@ -84,6 +84,20 @@ quire pdf --engine pagedjs
 quire pdf --engine prince
 ```
 
+### Setting a Default PDF Engine
+
+Set your preferred PDF engine in config to avoid specifying `--engine` each time:
+
+```bash
+# Set PrinceXML as default
+quire config set pdfEngine prince
+
+# Now `quire pdf` uses PrinceXML automatically
+quire pdf --build
+```
+
+The `--engine` flag always overrides the config setting when specified.
+
 ---
 
 ## Generating EPUB
@@ -110,6 +124,20 @@ quire epub --engine epubjs
 # Use Pandoc
 quire epub --engine pandoc
 ```
+
+### Setting a Default EPUB Engine
+
+Set your preferred EPUB engine in config:
+
+```bash
+# Set Pandoc as default
+quire config set epubEngine pandoc
+
+# Now `quire epub` uses Pandoc automatically
+quire epub --build
+```
+
+The `--engine` flag always overrides the config setting when specified.
 
 ---
 

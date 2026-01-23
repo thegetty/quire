@@ -6,6 +6,10 @@
  */
 export default {
   /**
+   * Default EPUB engine for quire epub command.
+   */
+  epubEngine: 'epubjs',
+  /**
    * Logging level for the Quire CLI output.
    */
   logLevel: 'info',
@@ -30,6 +34,10 @@ export default {
    * Whether to use colored output in terminal.
    */
   logUseColor: true,
+  /**
+   * Default PDF engine for quire pdf command.
+   */
+  pdfEngine: 'pagedjs',
   /**
    * Project starter template to use when creating new projects.
    */

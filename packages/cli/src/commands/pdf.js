@@ -1,7 +1,7 @@
 import Command from '#src/Command.js'
 import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
-import generatePdf from '#lib/pdf/index.js'
+import generatePdf, { ENGINES } from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
@@ -31,12 +31,12 @@ Examples:
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open PDF in default application' ],
       [
-        '--engine <name>', 'PDF engine to use', 'pagedjs',
-        { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
+        '--engine <name>', 'PDF engine to use (default: from config or pagedjs)',
+        { choices: ENGINES }
       ],
       [
         '--lib <name>', 'deprecated alias for --engine option',
-        { hidden: true, choices: ['pagedjs', 'prince'], conflicts: 'engine' }
+        { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
       [ '--debug', 'run build with debug output to console' ],
     ],
@@ -49,9 +49,15 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
-    // Support deprecated --lib option (alias for --engine)
-    if (options.lib && !options.engine) {
-      options.engine = options.lib
+    // Resolve engine: CLI --engine > deprecated --lib > config pdfEngine > default
+    if (!options.engine) {
+      if (options.lib) {
+        // Support deprecated --lib option
+        options.engine = options.lib
+      } else {
+        // Use config setting or fallback to default
+        options.engine = this.config.get('pdfEngine') || 'pagedjs'
+      }
     }
 
     // Run build first if --build flag is set and output is missing

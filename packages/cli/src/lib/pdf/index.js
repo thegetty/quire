@@ -6,6 +6,9 @@ import paths, { loadProjectConfig } from '#lib/project/index.js'
 import { logger } from '#lib/logger/index.js'
 import { InvalidPdfLibraryError, MissingBuildOutputError } from '#src/errors/index.js'
 import createDebug from '#debug'
+import { ENGINES } from './schema.js'
+
+export { ENGINES }
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

@@ -2,10 +2,15 @@
  * Quire configuration schema
  * @see https://github.com/sindresorhus/conf#schema
  *
- * Nota bene: schema default values will are overwritten by `defaults.js` values
+ * Nota bene: default values here are overwritten by values in defaults.js
  * @see https://github.com/sindresorhus/conf#defaults
  */
+import { schema as epubEngineSchema } from '#lib/epub/schema.js'
+import { schema as pdfEngineSchema } from '#lib/pdf/schema.js'
+
 export default {
+  epubEngine: epubEngineSchema,
+  pdfEngine: pdfEngineSchema,
   logLevel: {
     type: 'string',
     enum: ['trace', 'debug', 'info', 'warn', 'error', 'silent'],

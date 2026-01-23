@@ -238,3 +238,90 @@ test('pdf command should support deprecated --lib option', async (t) => {
   t.true(mockGeneratePdf.called, 'generatePdf should be called with deprecated --lib')
   t.is(mockGeneratePdf.firstCall.args[0].lib, 'prince', 'should pass lib to generatePdf from deprecated option')
 })
+
+test('pdf command should use pdfEngine from config when --engine not specified', async (t) => {
+  const { sandbox } = t.context
+
+  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+  // Mock config to return 'prince' for pdfEngine
+  command.config = { get: (key) => key === 'pdfEngine' ? 'prince' : undefined }
+
+  // No --engine specified, should use config value
+  await command.action({}, command)
+
+  t.true(mockGeneratePdf.called, 'generatePdf should be called')
+  t.is(mockGeneratePdf.firstCall.args[0].lib, 'prince', 'should use pdfEngine from config')
+})
+
+test('pdf command should use default engine when --engine not specified and config not set', async (t) => {
+  const { sandbox } = t.context
+
+  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+  // Mock config to return undefined (no pdfEngine set)
+  command.config = { get: () => undefined }
+
+  // No --engine specified, no config, should use default 'pagedjs'
+  await command.action({}, command)
+
+  t.true(mockGeneratePdf.called, 'generatePdf should be called')
+  t.is(mockGeneratePdf.firstCall.args[0].lib, 'pagedjs', 'should use default pagedjs when no config')
+})
+
+test('pdf command --engine flag should override config pdfEngine', async (t) => {
+  const { sandbox } = t.context
+
+  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+  // Mock config to return 'prince' for pdfEngine
+  command.config = { get: (key) => key === 'pdfEngine' ? 'prince' : undefined }
+
+  // --engine pagedjs should override config's 'prince'
+  await command.action({ engine: 'pagedjs' }, command)
+
+  t.true(mockGeneratePdf.called, 'generatePdf should be called')
+  t.is(mockGeneratePdf.firstCall.args[0].lib, 'pagedjs', 'CLI --engine should override config')
+})

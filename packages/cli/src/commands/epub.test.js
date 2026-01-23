@@ -377,3 +377,117 @@ test('epub command should support deprecated --lib option', async (t) => {
   t.true(mockLibEpub.called, 'libEpub should be called with deprecated --lib')
   t.true(mockLibEpub.calledWith('pandoc'), 'should use pandoc from deprecated option')
 })
+
+test('epub command should use epubEngine from config when --engine not specified', async (t) => {
+  const { sandbox, fs } = t.context
+
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => true
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+  // Mock config to return 'pandoc' for epubEngine
+  command.config = { get: (key) => key === 'epubEngine' ? 'pandoc' : undefined }
+
+  // No --engine specified, should use config value
+  await command.action({}, command)
+
+  t.true(mockLibEpub.called, 'libEpub should be called')
+  t.true(mockLibEpub.calledWith('pandoc'), 'should use epubEngine from config')
+})
+
+test('epub command should use default engine when --engine not specified and config not set', async (t) => {
+  const { sandbox, fs } = t.context
+
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => true
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+  // Mock config to return undefined (no epubEngine set)
+  command.config = { get: () => undefined }
+
+  // No --engine specified, no config, should use default 'epubjs'
+  await command.action({}, command)
+
+  t.true(mockLibEpub.called, 'libEpub should be called')
+  t.true(mockLibEpub.calledWith('epubjs'), 'should use default epubjs when no config')
+})
+
+test('epub command --engine flag should override config epubEngine', async (t) => {
+  const { sandbox, fs } = t.context
+
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => true
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+  // Mock config to return 'pandoc' for epubEngine
+  command.config = { get: (key) => key === 'epubEngine' ? 'pandoc' : undefined }
+
+  // --engine epubjs should override config's 'pandoc'
+  await command.action({ engine: 'epubjs' }, command)
+
+  t.true(mockLibEpub.called, 'libEpub should be called')
+  t.true(mockLibEpub.calledWith('epubjs'), 'CLI --engine should override config')
+})
