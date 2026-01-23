@@ -136,21 +136,45 @@ commands.forEach((command) => {
     })
   }
 
+  /**
+   * Command lifecycle hook: called after action handler and nested subcommands
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#life-cycle-hooks
+   */
   if (command.postAction) {
-    subCommand.hook('postAction', (thisCommand, actionCommand) => {
-      command.postAction.call(command, thisCommand, actionCommand)
+    subCommand.hook('postAction', async (thisCommand, actionCommand) => {
+      try {
+        await command.postAction.call(command, thisCommand, actionCommand)
+      } catch (error) {
+        handleError(error)
+      }
     })
   }
 
+  /**
+   * Command lifecycle hook: called before action handler and nested subcommands
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#life-cycle-hooks
+   */
   if (command.preAction) {
-    subCommand.hook('preAction', (thisCommand, actionCommand) => {
-      command.preAction.call(command, thisCommand, actionCommand)
+    subCommand.hook('preAction', async (thisCommand, actionCommand) => {
+      try {
+        await command.preAction.call(command, thisCommand, actionCommand)
+      } catch (error) {
+        handleError(error)
+      }
     })
   }
 
+  /**
+   * Subcommand lifecyle hook: called before parsing direct subcommand
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#life-cycle-hooks
+   */
   if (command.preSubcommand) {
-    subCommand.hook('preSubcommand', (thisCommand, theSubcommand) => {
-      command.preSubcommand.call(command, thisCommand, theSubcommand)
+    subCommand.hook('preSubcommand', async (thisCommand, theSubcommand) => {
+      try {
+        await command.preSubcommand.call(command, thisCommand, theSubcommand)
+      } catch (error) {
+        handleError(error)
+      }
     })
   }
 
