@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 import paths, { loadProjectConfig } from '#lib/project/index.js'
 import reporter from '#lib/reporter/index.js'
 import { InvalidPdfLibraryError, MissingBuildOutputError } from '#src/errors/index.js'
-import ENGINES from './engines.js'
+import ENGINE_METADATA from './engines.js'
 import createDebug from '#debug'
 import { ENGINES } from './schema.js'
 
@@ -30,10 +30,10 @@ function resolveLibrary(name) {
   switch (normalizedName) {
     case 'paged':
     case 'pagedjs':
-      return { ...ENGINES.pagedjs, path: path.join(__dirname, ENGINES.pagedjs.module) }
+      return { ...ENGINE_METADATA.pagedjs, path: path.join(__dirname, ENGINE_METADATA.pagedjs.module) }
     case 'prince':
     case 'princexml':
-      return { ...ENGINES.prince, path: path.join(__dirname, ENGINES.prince.module) }
+      return { ...ENGINE_METADATA.prince, path: path.join(__dirname, ENGINE_METADATA.prince.module) }
     default:
       throw new InvalidPdfLibraryError(name)
   }
