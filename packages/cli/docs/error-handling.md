@@ -87,6 +87,8 @@ src/errors/
 └── install/                    # Exit code: 6
     ├── index.js
     ├── dependency-install-error.js
+    ├── directory-not-empty-error.js
+    ├── invalid-path-error.js
     └── version-not-found-error.js
 ```
 
@@ -223,6 +225,7 @@ test('handleError calls exit with correct code', (t) => {
 ```javascript
 // src/errors/output/my-new-error.js
 import QuireError from '../quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 export default class MyNewError extends QuireError {
   constructor(details) {
@@ -230,7 +233,7 @@ export default class MyNewError extends QuireError {
       code: 'MY_NEW_ERROR',
       exitCode: 5,  // Use domain's exit code
       suggestion: 'How to fix this',
-      docsUrl: `${QuireError.DOCS_BASE}/relevant-page/`
+      docsUrl: docsUrl('relevant-page')
     })
   }
 }
@@ -264,6 +267,58 @@ if (condition) {
   throw new MyNewError('specific details')
 }
 ```
+
+## Constructor Signature Design
+
+Error classes use **domain-specific constructor signatures** rather than a unified options-based pattern. This is an intentional architectural decision.
+
+> Error classes should encapsulate their domain knowledge—the error class knows what message to show, what exit code to use, and what docs to link. The caller only needs to provide the domain-specific context.
+
+### Design Rationale
+
+Each error class accepts parameters that are semantically meaningful for that error type:
+
+```javascript
+// Domain-specific: parameters match the error's semantics
+throw new InvalidPathError(quirePath, resolvedPath)
+throw new ToolNotFoundError('prince', 'https://princexml.com')
+throw new ConfigFieldMissingError('title', 'publication.yaml')
+
+// NOT: generic options object
+throw new InvalidPathError({ originalPath: quirePath, resolvedPath })
+```
+
+**Advantages of domain-specific signatures:**
+
+1. **Self-documenting call sites**: The parameters communicate intent without needing to read the error class
+2. **Type safety**: Each parameter has a defined purpose; harder to pass wrong data
+3. **Encapsulated defaults**: The error class owns its message template, exit code, and docs URL
+4. **Simpler call sites**: No need to construct an options object for common cases
+
+**When to add optional overrides:**
+
+Some errors accept an optional `options` parameter for rare cases where defaults should be overridden:
+
+```javascript
+// VersionNotFoundError allows custom suggestion
+constructor(packageName, reason, options = {}) {
+  const defaultSuggestion = isLocalPath
+    ? 'Ensure the local package has a valid package.json'
+    : `Run 'npm view ${packageName} versions'`
+
+  super(message, {
+    suggestion: options.suggestion || defaultSuggestion,
+    // ...
+  })
+}
+```
+
+### Guidelines for New Error Classes
+
+1. **Use semantic parameters**: Name parameters after what they represent, not how they're used
+2. **Compute messages internally**: The error class should format the user-facing message
+3. **Set sensible defaults**: Exit code, docs URL, and suggestion should rarely need overriding
+4. **Add optional overrides sparingly**: Only when there's a real use case for customization
 
 ## Error Code Naming Convention
 
