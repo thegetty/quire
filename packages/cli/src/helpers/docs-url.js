@@ -29,6 +29,4 @@ export { DOCS_BASE }
  * docsUrl('quire-commands')
  * // => 'https://quire.getty.edu/docs-v1/quire-commands'
  */
-export function docsUrl(path) {
-  return new URL(path, DOCS_BASE).href
-}
+export const docsUrl = (path) => new URL(path, DOCS_BASE).href
