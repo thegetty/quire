@@ -187,13 +187,27 @@ test('handleError calls exit with correct code', (t) => {
 
 ## Error Output Format
 
+Error codes (e.g., `BUILD_OUTPUT_MISSING`) are only displayed when the `--debug` flag is used. This keeps normal error output focused on the actionable message while providing technical details for troubleshooting.
+
 ### Standard Error
+
+```
+[quire] ERROR  Cannot generate PDF: build output not found
+  File: /project/_site/pdf.html
+  Suggestion: Run 'quire build' first, then try again
+  Learn more: https://quire.getty.edu/docs-v1/quire-commands/
+```
+
+### Standard Error (with --debug)
 
 ```
 [quire] ERROR  BUILD_OUTPUT_MISSING Cannot generate PDF: build output not found
   File: /project/_site/pdf.html
   Suggestion: Run 'quire build' first, then try again
   Learn more: https://quire.getty.edu/docs-v1/quire-commands/
+[quire] DEBUG  Stack trace:
+[quire] DEBUG  MissingBuildOutputError: Cannot generate PDF: build output not found
+                   at generatePdf (/packages/cli/src/lib/pdf/index.js:42:15)
 ```
 
 ### Multiple Errors (Validation)
@@ -201,19 +215,16 @@ test('handleError calls exit with correct code', (t) => {
 ```
 [quire] ERROR  Invalid YAML: missing required field
 [quire] ERROR  Duplicate ID 'fig-1' found
-[quire] ERROR  VALIDATION_FAILED Validation failed with 2 error(s)
+[quire] ERROR  Validation failed with 2 error(s)
   Suggestion: Fix the errors listed above and run validation again
   Learn more: https://quire.getty.edu/docs-v1/troubleshooting/
 ```
 
-### Unexpected Error (with --debug)
+### Unexpected Error
 
 ```
 [quire] ERROR  Unexpected error: Cannot read property 'map' of undefined
 [quire] INFO   Please report this issue: https://github.com/thegetty/quire/issues
-[quire] DEBUG  Stack trace:
-[quire] DEBUG  TypeError: Cannot read property 'map' of undefined
-                   at processData (/packages/cli/src/lib/pdf/index.js:42:15)
 ```
 
 ## Adding New Errors
