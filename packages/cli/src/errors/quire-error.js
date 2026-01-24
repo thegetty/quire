@@ -1,5 +1,3 @@
-import { DOCS_BASE } from '#helpers/docs-url.js'
-
 /**
  * Base error class for all Quire CLI errors
  *
@@ -12,11 +10,6 @@ import { DOCS_BASE } from '#helpers/docs-url.js'
  * @property {string} filePath - Source file that caused the error (optional)
  */
 export default class QuireError extends Error {
-  /**
-   * @deprecated Use `import { DOCS_BASE } from '#helpers/docs-url.js'` instead
-   */
-  static DOCS_BASE = DOCS_BASE
-
   constructor(message, options = {}) {
     super(message)
     this.name = this.constructor.name
