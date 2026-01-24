@@ -39,6 +39,7 @@ export {
 export {
   DependencyInstallError,
   DirectoryNotEmptyError,
+  InvalidPathError,
   VersionNotFoundError
 } from './install/index.js'
 
