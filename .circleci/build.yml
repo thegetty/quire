@@ -167,9 +167,11 @@ commands:
             git config --global user.name "Quire CI"
       - run:
           name: Run CLI tests
+          no_output_timeout: 10m
           command: npm run test --workspace packages/cli
       - run:
           name: Run 11ty tests
+          no_output_timeout: 10m
           command: npm run test --workspace packages/11ty
       - run:
           name: Run end-to-end tests
@@ -208,9 +210,11 @@ commands:
             git config --global user.name "Quire CI"
       - run:
           name: Run CLI tests
+          no_output_timeout: 10m
           command: npm run test --workspace packages/cli
       - run:
           name: Run 11ty tests
+          no_output_timeout: 10m
           command: npm run test --workspace packages/11ty
       - run:
           name: Run end-to-end tests (<< parameters.e2e_variant >>)
