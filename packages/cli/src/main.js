@@ -156,7 +156,8 @@ commands.forEach((command) => {
       try {
         await command.postAction.call(command, thisCommand, actionCommand)
       } catch (error) {
-        handleError(error)
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
@@ -170,7 +171,8 @@ commands.forEach((command) => {
       try {
         await command.preAction.call(command, thisCommand, actionCommand)
       } catch (error) {
-        handleError(error)
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
@@ -184,7 +186,8 @@ commands.forEach((command) => {
       try {
         await command.preSubcommand.call(command, thisCommand, theSubcommand)
       } catch (error) {
-        handleError(error)
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
@@ -195,7 +198,8 @@ commands.forEach((command) => {
     try {
       await action.apply(command, args)
     } catch (error) {
-      handleError(error)
+      const { debug } = program.opts()
+      handleError(error, { debug })
     }
   })
 
