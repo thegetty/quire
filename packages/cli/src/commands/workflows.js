@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { DOCS_BASE_URL } from '#lib/constants.js'
+import { DOCS_BASE } from '#helpers/docs-url.js'
 
 /**
  * Quire CLI `workflows` Command
@@ -51,7 +51,7 @@ Common Workflows:
     quire info                   Show version information
     quire build --verbose        Build with debug output
 
-See full documentation: ${DOCS_BASE_URL}/
+See full documentation: ${DOCS_BASE}
 `,
     version: '1.0.0',
     options: [],

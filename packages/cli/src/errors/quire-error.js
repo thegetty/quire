@@ -10,8 +10,6 @@
  * @property {string} filePath - Source file that caused the error (optional)
  */
 export default class QuireError extends Error {
-  static DOCS_BASE = 'https://quire.getty.edu/docs-v1'
-
   constructor(message, options = {}) {
     super(message)
     this.name = this.constructor.name

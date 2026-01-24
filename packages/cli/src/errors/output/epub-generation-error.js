@@ -1,4 +1,5 @@
 import QuireError from '../quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * Error thrown when EPUB generation fails
@@ -11,7 +12,7 @@ export default class EpubGenerationError extends QuireError {
         code: 'EPUB_FAILED',
         exitCode: 5,
         suggestion: 'Check that your publication built successfully first',
-        docsUrl: `${QuireError.DOCS_BASE}/epub-output/`
+        docsUrl: docsUrl('epub-output')
       }
     )
   }

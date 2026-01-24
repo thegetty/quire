@@ -1,4 +1,5 @@
 import QuireError from '../quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * Error thrown when attempting to create a project in a non-empty directory
@@ -15,7 +16,8 @@ export default class DirectoryNotEmptyError extends QuireError {
         code: 'DIRECTORY_NOT_EMPTY',
         exitCode: 2,
         filePath: path,
-        suggestion: 'Choose an empty directory or create a new one'
+        suggestion: 'Choose an empty directory or create a new one',
+        docsUrl: docsUrl('install-uninstall')
       }
     )
   }
