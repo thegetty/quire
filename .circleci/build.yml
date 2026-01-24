@@ -10,6 +10,9 @@ parameters:
   node_version:
     type: string
     default: "22.10.0"
+  playwright_version:
+    type: string
+    default: "1.52.0"
   run-build-test-workflow:
     type: boolean
     default: false
@@ -41,7 +44,7 @@ executors:
 
   playwright:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.52.0-noble
+      - image: mcr.microsoft.com/playwright:v<< pipeline.parameters.playwright_version >>-noble
 
   win:
     machine:
@@ -59,8 +62,12 @@ anchors:
       ignore:
         - /^docs\/.*/
 
+  # Nota bene: Each platform must use a separate cache key to avoid cross-platform conflicts.
+  # Using a shared key each platform will overwrite the cache with incompatible paths.
   # TODO: Integrate the release version as a variable for use in npm pack
-  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  - &npm_cache_key_linux linux-package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  - &npm_cache_key_macos macos-package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  - &npm_cache_key_win win-package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
   # Chocolatey cache key for Windows installs
   - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
 
@@ -241,22 +248,37 @@ commands:
     steps:
       - run_tests
 
+  restore_npm_cache-linux:
+    steps:
+      - restore_cache:
+          key: *npm_cache_key_linux
+
+  restore_npm_cache-macos:
+    steps:
+      - restore_cache:
+          key: *npm_cache_key_macos
+
+  restore_npm_cache-win:
+    steps:
+      - restore_cache:
+          key: *npm_cache_key_win
+
   save_npm_cache-linux:
     steps:
       - save_cache:
-          key: *npm_cache_key
+          key: *npm_cache_key_linux
           paths: *npm_cache_paths_unix
 
   save_npm_cache-macos:
     steps:
       - save_cache:
-          key: *npm_cache_key
+          key: *npm_cache_key_macos
           paths: *npm_cache_paths_unix
 
   save_npm_cache-win:
     steps:
       - save_cache:
-          key: *npm_cache_key
+          key: *npm_cache_key_win
           paths: *npm_cache_paths_win
 
 jobs:
@@ -266,8 +288,7 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      - restore_cache:
-          key: *npm_cache_key
+      - restore_npm_cache-<< parameters.os >>
       - build_install_cli-<< parameters.os >>
       - install_optional-<< parameters.os >>
       - install_test_dependencies
@@ -283,8 +304,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - restore_cache:
-          key: *npm_cache_key
+      - restore_npm_cache-win
       - build_install_cli-win
       - install_optional-win
       - install_test_dependencies
