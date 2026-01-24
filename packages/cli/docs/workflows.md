@@ -100,6 +100,35 @@ The `--engine` flag always overrides the config setting when specified.
 
 ---
 
+## Serving the Built Site
+
+Preview your built publication without live-reload or file watching:
+
+```bash
+# Serve the built site (requires prior `quire build`)
+quire serve
+
+# Build first if needed, then serve
+quire serve --build
+
+# Use a custom port
+quire serve --port 3000
+
+# Open browser automatically
+quire serve --build --open
+```
+
+### When to Use `serve` vs `preview`
+
+| Command | Use Case |
+|---------|----------|
+| `quire preview` | Active development with live-reload |
+| `quire serve` | Final review of built output before deployment |
+
+The `serve` command starts a lightweight static file server for `_site/` without Eleventy's development overhead. Use it to verify the final build before deploying.
+
+---
+
 ## Generating EPUB
 
 Create an e-book version of your publication:
@@ -152,10 +181,13 @@ quire clean
 # 2. Build the HTML site
 quire build
 
-# 3. Generate PDF
+# 3. Review the built site locally
+quire serve --open
+
+# 4. Generate PDF
 quire pdf --open
 
-# 4. Generate EPUB
+# 5. Generate EPUB
 quire epub --open
 ```
 
