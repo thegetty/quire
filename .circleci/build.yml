@@ -157,7 +157,7 @@ commands:
           name: Install test dependencies
           command: npm ci --foreground-scripts
 
-  run_tests:
+  run_tests_all:
     description: "Run all tests (CLI, 11ty, e2e) - used by Linux and macOS"
     steps:
       - set_git_identity
@@ -189,8 +189,9 @@ commands:
       - store_artifacts:
           path: publication.zip
 
-  run_tests_win_root:
-    description: "Run tests on Windows for root publication (persists shared files)"
+  # Windows setup: run CLI + 11ty tests once, then persist workspace for parallel e2e jobs
+  run_tests_win:
+    description: "Run CLI and 11ty tests on Windows, persist workspace for e2e jobs"
     steps:
       - set_git_identity
       - run:
@@ -201,12 +202,25 @@ commands:
           name: Run 11ty tests
           no_output_timeout: 10m
           command: npm run test --workspace packages/11ty
+      - store_test_results:
+          path: reports
+      # Persist workspace for parallel e2e jobs
+      # Includes node_modules, packages, and quire-cli tarball for global install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  # Windows e2e: root publication variant (also persists shared files for browser tests)
+  run_tests_e2e_win_root:
+    description: "Run e2e tests on Windows for root publication"
+    steps:
+      - set_git_identity
       - run:
           name: Run end-to-end tests (root)
           no_output_timeout: 30m
           command: mkdir -p reports && E2E_VARIANT=root npm run test:e2e
-      # Persist shared files + root publication
-      # Nota bene: Only the root variant persists shared files to avoid workspace conflicts
+      # Persist shared files + root publication for browser tests
       - persist_to_workspace:
           root: .
           paths:
@@ -220,18 +234,11 @@ commands:
       - store_artifacts:
           path: publication.zip
 
-  run_tests_win_pathname:
-    description: "Run tests on Windows for pathname publication (unique files only)"
+  # Windows e2e: pathname publication variant (unique files only)
+  run_tests_e2e_win_pathname:
+    description: "Run e2e tests on Windows for pathname publication"
     steps:
       - set_git_identity
-      - run:
-          name: Run CLI tests
-          no_output_timeout: 10m
-          command: npm run test --workspace packages/cli
-      - run:
-          name: Run 11ty tests
-          no_output_timeout: 10m
-          command: npm run test --workspace packages/11ty
       - run:
           name: Run end-to-end tests (pathname)
           no_output_timeout: 30m
@@ -254,19 +261,6 @@ commands:
           command: |
             git config --global user.email quire@getty.edu
             git config --global user.name "Quire CI"
-
-  test-linux:
-    steps:
-      - run_tests
-
-  test-macos:
-    steps:
-      - run_tests
-
-  # Windows uses parallel jobs instead of run_tests
-  test-win:
-    steps:
-      - run_tests
 
   restore_npm_cache-linux:
     steps:
@@ -313,10 +307,12 @@ jobs:
       - install_optional-<< parameters.os >>
       - install_test_dependencies
       - save_npm_cache-<< parameters.os >>
-      - test-<< parameters.os >>
+      - run_tests_all
 
-  build_install_test_win_root:
-    description: "Windows build with root publication e2e test"
+  # Windows setup job - installs everything, runs CLI + 11ty tests once
+  # Persists workspace for parallel e2e jobs
+  build_install_win:
+    description: "Windows setup - install CLI, run unit tests, persist for e2e jobs"
     executor: win
     steps:
       - checkout
@@ -325,19 +321,41 @@ jobs:
       - install_optional-win
       - install_test_dependencies
       - save_npm_cache-win
-      - run_tests_win_root
+      - run_tests_win
 
-  build_install_test_win_pathname:
-    description: "Windows build with pathname publication e2e test"
+  # Windows e2e job for root publication variant
+  # Attaches workspace, installs quire-cli globally, runs root e2e only
+  test_win_root:
+    description: "Windows e2e test - root publication"
     executor: win
     steps:
-      - checkout
-      - restore_npm_cache-win
-      - build_install_cli-win
-      - install_optional-win
-      - install_test_dependencies
-      - save_npm_cache-win
-      - run_tests_win_pathname
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: *choco-cache_key
+      - node/install:
+          node-version: << pipeline.parameters.node_version >>
+      - run:
+          name: Install quire-cli globally
+          command: npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
+      - run_tests_e2e_win_root
+
+  # Windows e2e job for pathname publication variant
+  # Attaches workspace, installs quire-cli globally, runs pathname e2e only
+  test_win_pathname:
+    description: "Windows e2e test - pathname publication"
+    executor: win
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: *choco-cache_key
+      - node/install:
+          node-version: << pipeline.parameters.node_version >>
+      - run:
+          name: Install quire-cli globally
+          command: npm install thegetty-quire-cli-*.tgz --global --ignore-scripts --foreground-scripts
+      - run_tests_e2e_win_pathname
 
   browser_test:
     description: "Tests the output of the publication build -- must be separate for the playwright executor"
@@ -368,12 +386,15 @@ workflows:
       - build_install_test:
           name: build_install_test-macos
           os: macos
-
-      # Windows runs two parallel jobs to split slow e2e tests
-      # Each job runs one variant: 'root' or 'pathname'
-      - build_install_test_win_root
-      - build_install_test_win_pathname
-
+      # Windows uses a setup job followed by parallel e2e test jobs
+      # This avoids duplicating slow install steps (Node, Chrome, npm ci)
+      - build_install_win
+      - test_win_root:
+          requires:
+            - build_install_win
+      - test_win_pathname:
+          requires:
+            - build_install_win
       - browser_test:
           name: browser_test-linux
           requires:
@@ -386,5 +407,5 @@ workflows:
       - browser_test:
           name: browser_test-win
           requires:
-            - build_install_test_win_root
-            - build_install_test_win_pathname
+            - test_win_root
+            - test_win_pathname
