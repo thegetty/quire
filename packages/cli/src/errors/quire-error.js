@@ -1,3 +1,5 @@
+import { DOCS_BASE } from '#helpers/docs-url.js'
+
 /**
  * Base error class for all Quire CLI errors
  *
@@ -10,7 +12,10 @@
  * @property {string} filePath - Source file that caused the error (optional)
  */
 export default class QuireError extends Error {
-  static DOCS_BASE = 'https://quire.getty.edu/docs-v1'
+  /**
+   * @deprecated Use `import { DOCS_BASE } from '#helpers/docs-url.js'` instead
+   */
+  static DOCS_BASE = DOCS_BASE
 
   constructor(message, options = {}) {
     super(message)

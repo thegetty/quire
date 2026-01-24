@@ -26,8 +26,8 @@ export { DOCS_BASE }
  * // => 'https://quire.getty.edu/docs-v1/install-uninstall'
  *
  * @example
- * docsUrl('troubleshooting/')
- * // => 'https://quire.getty.edu/docs-v1/troubleshooting/'
+ * docsUrl('quire-commands')
+ * // => 'https://quire.getty.edu/docs-v1/quire-commands'
  */
 export function docsUrl(path) {
   return new URL(path, DOCS_BASE).href
