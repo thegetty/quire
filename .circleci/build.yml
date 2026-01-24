@@ -160,11 +160,7 @@ commands:
   run_tests:
     description: "Run all tests (CLI, 11ty, e2e) - used by Linux and macOS"
     steps:
-      - run:
-          name: Set git user identity
-          command: |
-            git config --global user.email quire@getty.edu
-            git config --global user.name "Quire CI"
+      - set_git_identity
       - run:
           name: Run CLI tests
           no_output_timeout: 10m
@@ -177,7 +173,6 @@ commands:
           name: Run end-to-end tests
           no_output_timeout: 30m
           command: mkdir -p reports && npm run test:e2e
-
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
           root: .
@@ -188,26 +183,16 @@ commands:
             - test-publication-pathname/_site
             - test-publication/_site
             - _tests
-
       - store_test_results:
           path: reports
-
       # TODO: Turn this off when we're happy with snapshot coverage of browser tests
       - store_artifacts:
           path: publication.zip
 
-  run_tests_win_parallel:
-    description: "Run tests on Windows with parallelized e2e (root/pathname split across 2 jobs)"
-    parameters:
-      e2e_variant:
-        type: string
-        description: "E2E variant to run: 'root' or 'pathname'"
+  run_tests_win_root:
+    description: "Run tests on Windows for root publication (persists shared files)"
     steps:
-      - run:
-          name: Set git user identity
-          command: |
-            git config --global user.email quire@getty.edu
-            git config --global user.name "Quire CI"
+      - set_git_identity
       - run:
           name: Run CLI tests
           no_output_timeout: 10m
@@ -217,27 +202,58 @@ commands:
           no_output_timeout: 10m
           command: npm run test --workspace packages/11ty
       - run:
-          name: Run end-to-end tests (<< parameters.e2e_variant >>)
+          name: Run end-to-end tests (root)
           no_output_timeout: 30m
-          command: mkdir -p reports && E2E_VARIANT=<< parameters.e2e_variant >> npm run test:e2e
-
-      # Persist the site build for browser testing and submit test reports
-      # Each variant persists its own publication directory
+          command: mkdir -p reports && E2E_VARIANT=root npm run test:e2e
+      # Persist shared files + root publication
+      # Nota bene: Only the root variant persists shared files to avoid workspace conflicts
       - persist_to_workspace:
           root: .
           paths:
             - package.json
             - playwright.config.js
             - reports
-            - test-publication/_site
-            - test-publication-pathname/_site
             - _tests
-
+            - test-publication/_site
       - store_test_results:
           path: reports
-
       - store_artifacts:
           path: publication.zip
+
+  run_tests_win_pathname:
+    description: "Run tests on Windows for pathname publication (unique files only)"
+    steps:
+      - set_git_identity
+      - run:
+          name: Run CLI tests
+          no_output_timeout: 10m
+          command: npm run test --workspace packages/cli
+      - run:
+          name: Run 11ty tests
+          no_output_timeout: 10m
+          command: npm run test --workspace packages/11ty
+      - run:
+          name: Run end-to-end tests (pathname)
+          no_output_timeout: 30m
+          command: mkdir -p reports && E2E_VARIANT=pathname npm run test:e2e
+      # Persist only pathname publication (shared files come from root variant)
+      - persist_to_workspace:
+          root: .
+          paths:
+            - test-publication-pathname/_site
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: publication.zip
+
+  set_git_identity:
+    description: "Configure git user identity for commits during tests"
+    steps:
+      - run:
+          name: Set git user identity
+          command: |
+            git config --global user.email quire@getty.edu
+            git config --global user.name "Quire CI"
 
   test-linux:
     steps:
@@ -299,12 +315,8 @@ jobs:
       - save_npm_cache-<< parameters.os >>
       - test-<< parameters.os >>
 
-  build_install_test_win_parallel:
-    description: "Windows build with parallelized e2e tests (root/pathname split)"
-    parameters:
-      e2e_variant:
-        type: string
-        description: "E2E variant to run: 'root' or 'pathname'"
+  build_install_test_win_root:
+    description: "Windows build with root publication e2e test"
     executor: win
     steps:
       - checkout
@@ -313,8 +325,19 @@ jobs:
       - install_optional-win
       - install_test_dependencies
       - save_npm_cache-win
-      - run_tests_win_parallel:
-          e2e_variant: << parameters.e2e_variant >>
+      - run_tests_win_root
+
+  build_install_test_win_pathname:
+    description: "Windows build with pathname publication e2e test"
+    executor: win
+    steps:
+      - checkout
+      - restore_npm_cache-win
+      - build_install_cli-win
+      - install_optional-win
+      - install_test_dependencies
+      - save_npm_cache-win
+      - run_tests_win_pathname
 
   browser_test:
     description: "Tests the output of the publication build -- must be separate for the playwright executor"
@@ -348,12 +371,8 @@ workflows:
 
       # Windows runs two parallel jobs to split slow e2e tests
       # Each job runs one variant: 'root' or 'pathname'
-      - build_install_test_win_parallel:
-          name: build_install_test-win-root
-          e2e_variant: root
-      - build_install_test_win_parallel:
-          name: build_install_test-win-pathname
-          e2e_variant: pathname
+      - build_install_test_win_root
+      - build_install_test_win_pathname
 
       - browser_test:
           name: browser_test-linux
@@ -367,5 +386,5 @@ workflows:
       - browser_test:
           name: browser_test-win
           requires:
-            - build_install_test-win-root
-            - build_install_test-win-pathname
+            - build_install_test_win_root
+            - build_install_test_win_pathname
