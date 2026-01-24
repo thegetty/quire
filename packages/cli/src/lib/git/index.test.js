@@ -314,3 +314,140 @@ test('instance commit() logs stderr via debug when present', async (t) => {
 
   t.true(mockDebug.calledWith('git commit stderr: %s', '[main abc1234] commit message'))
 })
+
+// isRemoteUrl() tests
+test('isRemoteUrl() returns true for https URLs', async (t) => {
+  const { isRemoteUrl } = await import('./index.js')
+
+  t.true(isRemoteUrl('https://github.com/user/repo'))
+  t.true(isRemoteUrl('https://github.com/user/repo.git'))
+})
+
+test('isRemoteUrl() returns true for http URLs', async (t) => {
+  const { isRemoteUrl } = await import('./index.js')
+
+  t.true(isRemoteUrl('http://github.com/user/repo'))
+})
+
+test('isRemoteUrl() returns true for git@ SSH URLs', async (t) => {
+  const { isRemoteUrl } = await import('./index.js')
+
+  t.true(isRemoteUrl('git@github.com:user/repo.git'))
+  t.true(isRemoteUrl('git@gitlab.com:user/repo'))
+})
+
+test('isRemoteUrl() returns true for ssh:// URLs', async (t) => {
+  const { isRemoteUrl } = await import('./index.js')
+
+  t.true(isRemoteUrl('ssh://git@github.com/user/repo.git'))
+})
+
+test('isRemoteUrl() returns true for git:// URLs', async (t) => {
+  const { isRemoteUrl } = await import('./index.js')
+
+  t.true(isRemoteUrl('git://github.com/user/repo.git'))
+})
+
+test('isRemoteUrl() returns false for local paths', async (t) => {
+  const { isRemoteUrl } = await import('./index.js')
+
+  t.false(isRemoteUrl('/path/to/local/repo'))
+  t.false(isRemoteUrl('./relative/path'))
+  t.false(isRemoteUrl('../parent/path'))
+  t.false(isRemoteUrl('local-folder'))
+})
+
+// isGitRepository() tests
+test('isGitRepository() returns true when .git directory exists', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true)
+  }
+
+  const { isGitRepository } = await esmock('./index.js', {
+    'node:fs': mockFs
+  })
+
+  const result = isGitRepository('/path/to/repo')
+
+  t.true(result)
+  t.true(mockFs.existsSync.calledOnce)
+})
+
+test('isGitRepository() returns false when .git directory does not exist', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(false)
+  }
+
+  const { isGitRepository } = await esmock('./index.js', {
+    'node:fs': mockFs
+  })
+
+  const result = isGitRepository('/path/without/git')
+
+  t.false(result)
+})
+
+// validateCloneSource() tests
+test('validateCloneSource() returns valid for remote URLs', async (t) => {
+  const { validateCloneSource } = await import('./index.js')
+
+  t.deepEqual(validateCloneSource('https://github.com/user/repo'), { valid: true })
+  t.deepEqual(validateCloneSource('git@github.com:user/repo.git'), { valid: true })
+})
+
+test('validateCloneSource() returns invalid when local path does not exist', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(false)
+  }
+
+  const { validateCloneSource } = await esmock('./index.js', {
+    'node:fs': mockFs
+  })
+
+  const result = validateCloneSource('/nonexistent/path')
+
+  t.false(result.valid)
+  t.is(result.reason, 'path does not exist')
+})
+
+test('validateCloneSource() returns invalid when path is not a git repository', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub()
+      .onFirstCall().returns(true)   // path exists
+      .onSecondCall().returns(false) // .git does not exist
+  }
+
+  const { validateCloneSource } = await esmock('./index.js', {
+    'node:fs': mockFs
+  })
+
+  const result = validateCloneSource('/path/without/git')
+
+  t.false(result.valid)
+  t.is(result.reason, 'not a git repository')
+})
+
+test('validateCloneSource() returns valid for local git repository', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true) // both path and .git exist
+  }
+
+  const { validateCloneSource } = await esmock('./index.js', {
+    'node:fs': mockFs
+  })
+
+  const result = validateCloneSource('/path/to/repo')
+
+  t.true(result.valid)
+  t.is(result.reason, undefined)
+})
