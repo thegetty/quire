@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -14,6 +15,125 @@ test.beforeEach((t) => {
 
 test.afterEach.always((t) => {
   t.context.sandbox.restore()
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getVersionFromPath() tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('getVersionFromPath() throws InvalidPathError when path does not exist', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(false),
+    readJsonSync: sandbox.stub()
+  }
+
+  const { getVersionFromPath } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: {} },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { default: {} },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  const error = t.throws(() => getVersionFromPath('/nonexistent/path'))
+
+  t.is(error.code, 'INVALID_PATH', 'should throw InvalidPathError')
+  t.true(error.message.includes('/nonexistent/path'))
+})
+
+test('getVersionFromPath() throws VersionNotFoundError when package.json is missing', async (t) => {
+  const { sandbox } = t.context
+
+  const resolvedQuirePath = path.resolve('/local/quire')
+  const packageJsonPath = path.join(resolvedQuirePath, 'package.json')
+
+  const existsSyncStub = sandbox.stub()
+  existsSyncStub.withArgs(resolvedQuirePath).returns(true)
+  existsSyncStub.withArgs(packageJsonPath).returns(false)
+
+  const mockFs = {
+    existsSync: existsSyncStub,
+    readJsonSync: sandbox.stub()
+  }
+
+  const { getVersionFromPath } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: {} },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { default: {} },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  const error = t.throws(() => getVersionFromPath('/local/quire'))
+
+  t.is(error.code, 'VERSION_NOT_FOUND', 'should throw VersionNotFoundError')
+  t.true(error.message.includes('package.json not found'))
+})
+
+test('getVersionFromPath() throws VersionNotFoundError when package.json has no version', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true),
+    readJsonSync: sandbox.stub().returns({ name: '@thegetty/quire-11ty' }) // no version
+  }
+
+  const { getVersionFromPath } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: {} },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { default: {} },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  const error = t.throws(() => getVersionFromPath('/local/quire'))
+
+  t.is(error.code, 'VERSION_NOT_FOUND', 'should throw VersionNotFoundError')
+  t.true(error.message.includes('no version field'))
+})
+
+test('getVersionFromPath() returns version and resolved path when valid', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    existsSync: sandbox.stub().returns(true),
+    readJsonSync: sandbox.stub().returns({ version: '1.0.0-local' })
+  }
+
+  const { getVersionFromPath } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: {} },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { default: {} },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  const result = getVersionFromPath('/local/quire')
+
+  t.is(result.version, '1.0.0-local')
+  t.truthy(result.resolvedPath)
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -292,3 +412,134 @@ test('installer object exports all required functions', async (t) => {
   t.is(typeof installer.latest, 'function', 'should export latest')
   t.is(typeof installer.versions, 'function', 'should export versions')
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// installInProject() quirePath validation tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('installInProject() throws InvalidPathError when quirePath does not exist', async (t) => {
+  const { sandbox } = t.context
+
+  // Create a mock Git class
+  class MockGit {
+    constructor() {}
+    rm() { return Promise.resolve() }
+    add() { return Promise.resolve() }
+    commit() { return Promise.resolve() }
+  }
+
+  const mockFs = {
+    mkdirSync: sandbox.stub(),
+    existsSync: sandbox.stub().returns(false)
+  }
+
+  const { installInProject } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: {} },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { Git: MockGit },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  const error = await t.throwsAsync(
+    () => installInProject('/project', '1.0.0', { quirePath: '/nonexistent/path' })
+  )
+
+  t.is(error.code, 'INVALID_PATH', 'should throw InvalidPathError')
+  t.true(error.message.includes('--quire-path does not exist'))
+  t.true(error.message.includes('/nonexistent/path'))
+})
+
+test('installInProject() throws InvalidPathError with resolved path for relative quirePath', async (t) => {
+  const { sandbox } = t.context
+
+  // Create a mock Git class
+  class MockGit {
+    constructor() {}
+    rm() { return Promise.resolve() }
+    add() { return Promise.resolve() }
+    commit() { return Promise.resolve() }
+  }
+
+  const mockFs = {
+    mkdirSync: sandbox.stub(),
+    existsSync: sandbox.stub().returns(false)
+  }
+
+  const { installInProject } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: {} },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { Git: MockGit },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  const error = await t.throwsAsync(
+    () => installInProject('/project', '1.0.0', { quirePath: '../relative/path' })
+  )
+
+  t.is(error.code, 'INVALID_PATH', 'should throw InvalidPathError')
+  t.true(error.message.includes('--quire-path does not exist'))
+  t.true(error.message.includes('../relative/path'))
+  t.true(error.message.includes('resolved to:'), 'should show resolved path for relative paths')
+})
+
+test('installInProject() copies from quirePath when it exists', async (t) => {
+  const { sandbox } = t.context
+
+  // Create a mock Git class
+  class MockGit {
+    constructor() {}
+    rm() { return Promise.resolve() }
+    add() { return Promise.resolve() }
+    commit() { return Promise.resolve() }
+  }
+
+  const cpSyncStub = sandbox.stub()
+  const rmSyncStub = sandbox.stub()
+
+  const mockFs = {
+    mkdirSync: sandbox.stub(),
+    existsSync: sandbox.stub().returns(true),
+    readJsonSync: sandbox.stub().returns({ version: '1.0.0-local' }),
+    cpSync: cpSyncStub,
+    rmSync: rmSyncStub
+  }
+
+  const mockNpm = {
+    install: sandbox.stub().resolves()
+  }
+
+  const { installInProject } = await esmock('./index.js', {
+    '#lib/npm/index.js': { default: mockNpm },
+    '#lib/project/index.js': {
+      getVersionsFromStarter: sandbox.stub(),
+      setVersion: sandbox.stub(),
+      writeVersionFile: sandbox.stub()
+    },
+    '#lib/git/index.js': { Git: MockGit },
+    'fs-extra': mockFs,
+    '#helpers/is-empty.js': { isEmpty: sandbox.stub() },
+    '#src/packageConfig.js': { default: { version: '1.0.0' } }
+  })
+
+  await installInProject('/project', '1.0.0', { quirePath: '/local/quire-11ty' })
+
+  // Should copy from local path, not download
+  t.true(cpSyncStub.called, 'should copy from local path')
+  const [srcPath] = cpSyncStub.firstCall.args
+  t.is(srcPath, path.resolve('/local/quire-11ty'), 'should use resolved quirePath as source')
+})
+
+// Nota bene: Version reading from local package.json is now done in initStarter
+// via getVersionFromPath, not in installInProject. See getVersionFromPath tests above.
