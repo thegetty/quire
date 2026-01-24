@@ -10,7 +10,7 @@ import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
-import { Git } from '#lib/git/index.js'
+import { Git, validateCloneSource } from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
 import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
@@ -19,7 +19,7 @@ import {
   setVersion,
   writeVersionFile,
 } from '#lib/project/index.js'
-import { DirectoryNotEmptyError, InvalidPathError, VersionNotFoundError } from '#src/errors/index.js'
+import { DirectoryNotEmptyError, InvalidPathError, InvalidStarterError, VersionNotFoundError } from '#src/errors/index.js'
 import { logger } from '#lib/logger/index.js'
 import createDebug from '#debug'
 
@@ -111,10 +111,17 @@ export async function initStarter(starter, projectPath, options = {}) {
   /**
    * Validate arguments before any side effects (directory creation, cloning)
    */
-  let quirePathInfo
+
+  // Validate starter is a valid clone source (URL or local git repo)
+  const starterValidation = validateCloneSource(starter)
+  if (!starterValidation.valid) {
+    throw new InvalidStarterError(starter, starterValidation.reason)
+  }
+
+  // Validate --quire-path points to a valid local quire-11ty package
+  let localQuire11tyInfo
   if (options.quirePath) {
-    // Validate --quire-path exists before creating project directory
-    quirePathInfo = getVersionFromPath(options.quirePath)
+    localQuire11tyInfo = getVersionFromPath(options.quirePath)
   }
 
   // Ensure that the target path exists
@@ -131,8 +138,8 @@ export async function initStarter(starter, projectPath, options = {}) {
   /**
    * Clone starter project repository
    */
-  const repo = new Git(projectPath)
-  await repo.clone(starter, '.')
+  const repository = new Git(projectPath)
+  await repository.clone(starter, '.')
 
   /**
    * Determine the quire-11ty version to use in the new project:
@@ -144,9 +151,9 @@ export async function initStarter(starter, projectPath, options = {}) {
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
 
   let quireVersion
-  if (quirePathInfo) {
-    // Use the pre-validated local path info
-    const { version, resolvedPath } = quirePathInfo
+  if (localQuire11tyInfo) {
+    // Use the pre-validated local quire-11ty package
+    const { version, resolvedPath } = localQuire11tyInfo
     quireVersion = version
     logger.info(`Using local quire-11ty: ${version} from ${resolvedPath}`)
   } else {
@@ -179,9 +186,9 @@ export async function initStarter(starter, projectPath, options = {}) {
    * Create an initial commit of files in new repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
-  await repo.init()
-  await repo.add('.')
-  await repo.commit('Initial Commit')
+  await repository.init()
+  await repository.add('.')
+  await repository.commit('Initial Commit')
   return quireVersion
 }
 
@@ -206,9 +213,9 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Delete the starter project package configuration so that it can be replaced
    * with the @thegetty/quire-11ty configuration
    */
-  const repo = new Git(projectPath)
+  const repository = new Git(projectPath)
   try {
-    await repo.rm(['package.json'])
+    await repository.rm(['package.json'])
   } catch (error) {
     debug('error removing package.json: %O', error)
   }
@@ -277,8 +284,8 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Create an additional commit of new @thegetty/quire-11ty files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
-  await repo.add('.')
-  await repo.commit('Adds `@thegetty/quire-11ty` files')
+  await repository.add('.')
+  await repository.commit('Adds `@thegetty/quire-11ty` files')
 }
 
 /**

@@ -1,4 +1,5 @@
 import esmock from 'esmock'
+import path from 'node:path'
 import sinon from 'sinon'
 import test from 'ava'
 
@@ -534,7 +535,7 @@ test('installInProject() copies from quirePath when it exists', async (t) => {
   // Should copy from local path, not download
   t.true(cpSyncStub.called, 'should copy from local path')
   const [srcPath] = cpSyncStub.firstCall.args
-  t.is(srcPath, '/local/quire-11ty', 'should use resolved quirePath as source')
+  t.is(srcPath, path.resolve('/local/quire-11ty'), 'should use resolved quirePath as source')
 })
 
 // Nota bene: Version reading from local package.json is now done in initStarter
