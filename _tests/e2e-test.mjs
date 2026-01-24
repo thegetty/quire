@@ -1,22 +1,44 @@
 /**
  * integration-test.mjs
- * 
+ *
  * Integration tests for quire-cli + quire-11ty + quire-starter-default.
- * 
+ *
  * This script tests a few things in a specific order:
  *  - Already-installed quire-cli must create a new publication with this repo's quire-11ty
  *  - Publication must build successfully
  *  - Built publication must test functionally correctly in a browser (see publication-cover.spec.js, here)
  *  - PDF must build successfully
  *  - epub must build successfully
- * 
- **/ 
+ *
+ * Environment variables:
+ *  - E2E_VARIANT: Controls which tests to run
+ *    - 'root': Only run root publication test (no pathname)
+ *    - 'pathname': Only run pathname publication test
+ *    - 'all' or unset: Run both tests (default)
+ *
+ **/
 
 import fs from 'node:fs'
 import { execa } from 'execa'
 import path from 'node:path'
 import yaml from 'js-yaml'
 import test from 'ava'
+
+/**
+ * E2E test variant - controls which publication tests to run
+ * Used for parallelizing Windows CI where e2e tests are slow
+ */
+const VALID_VARIANTS = ['all', 'root', 'pathname']
+const variant = process.env.E2E_VARIANT || 'all'
+
+if (!VALID_VARIANTS.includes(variant)) {
+  throw new Error(
+    `Invalid E2E_VARIANT: '${variant}'. Valid values: ${VALID_VARIANTS.join(', ')}`
+  )
+}
+
+const runRoot = variant === 'all' || variant === 'root'
+const runPathname = variant === 'all' || variant === 'pathname'
 
 /**
  * Sanitize a string for safe inclusion in XML/TAP output;
@@ -116,6 +138,11 @@ test.serial('Confirm quire-cli is installed and accessible', async (t) => {
 })
 
 test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
+  if (!runRoot) {
+    t.log('Skipping root publication test (E2E_VARIANT=%s)', variant)
+    return t.pass()
+  }
+
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
 
   process.chdir(publicationName)
@@ -125,17 +152,45 @@ test.serial('Create the default publication and build the site, epub, pdf', asyn
 })
 
 test.serial('Create the default publication with a pathname and build the site, epub, pdf', async (t) => {
+  if (!runPathname) {
+    t.log('Skipping pathname publication test (E2E_VARIANT=%s)', variant)
+    return t.pass()
+  }
+
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, pathedPub ])
 
   process.chdir(pathedPub)
   changePubUrl(`http://localhost:8080/${ pathedPub }/`, t)
 
-  await buildSitePdfEpub()
+  await buildSitePdfEpub(t)
   process.chdir(repoRoot)
   t.pass()
 })
 
-// Package built site products for artifact storage and stage pathed publication
+// Package built site products for artifact storage
 test.after(async (t) => {
-  await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub'), path.join(publicationPath, 'epubjs.epub')])
+  const zipArgs = ['-r', publicationZip]
+
+  // Only include directories that were built based on variant
+  if (runRoot && fs.existsSync(publicationPath)) {
+    zipArgs.push(
+      path.join(publicationPath, '_site'),
+      path.join(publicationPath, '_epub'),
+      path.join(publicationPath, 'epubjs.epub')
+    )
+  }
+
+  const pathedPubPath = path.join(repoRoot, pathedPub)
+  if (runPathname && fs.existsSync(pathedPubPath)) {
+    zipArgs.push(
+      path.join(pathedPubPath, '_site'),
+      path.join(pathedPubPath, '_epub'),
+      path.join(pathedPubPath, 'epubjs.epub')
+    )
+  }
+
+  // Only run zip if we have files to zip
+  if (zipArgs.length > 2) {
+    await execa('zip', zipArgs)
+  }
 })

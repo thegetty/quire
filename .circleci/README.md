@@ -32,22 +32,25 @@ Setup Workflow (path-filtering)
        ↓
     build_install_test workflow
        ↓
-       ├─ build_install_test-linux   (parallel)
-       ├─ build_install_test-macos   (parallel)
-       └─ build_install_test-win     (parallel)
-            ↓
-            ├─ browser_test-linux  (4 shards)
-            ├─ browser_test-macos  (4 shards)
-            └─ browser_test-win    (4 shards)
+       ├─ build_install_test-linux        (1 job)
+       ├─ build_install_test-macos        (1 job)
+       ├─ build_install_test-win-root     (parallel)  ─┐
+       └─ build_install_test-win-pathname (parallel)  ─┤ Windows e2e split
+            ↓                                          │
+            ├─ browser_test-linux  (4 shards)          │
+            ├─ browser_test-macos  (4 shards)          │
+            └─ browser_test-win    (4 shards) ←────────┘ waits for both
 ```
 
 **Execution flow:**
 1. **Setup configuration** ([config.yml](.circleci/config.yml)) - Path filtering decides whether to continue
 2. **Build & test configuration** ([build.yml](.circleci/build.yml)) - Contains all build/test jobs
-3. **Build jobs** run in parallel across 3 platforms (~5-9 min each)
-4. **Browser test jobs** run only after corresponding build job completes (4 parallel shards per platform = 12 total jobs, ~2-3 min per shard)
+3. **Build jobs** run in parallel across platforms:
+   - Linux and macOS: 1 job each (~5-7 min)
+   - Windows: 2 parallel jobs (root + pathname variants, ~6-7 min each)
+4. **Browser test jobs** run only after corresponding build job(s) complete (4 parallel shards per platform = 12 total jobs, ~2-3 min per shard)
 
-**Total pipeline time:** ~7-12 minutes (bottlenecked by slowest platform's build + browser tests)
+**Total pipeline time:** ~7-10 minutes (Windows e2e parallelization reduces bottleneck)
 
 **Configuration Split:** CircleCI dynamic configuration requires separate setup and continuation files. The setup file (config.yml) contains `setup: true` and uses the path-filtering orb. When code files change, it continues to build.yml which contains all the actual build and test workflows.
 
@@ -185,6 +188,12 @@ Tests run in this sequence (see `commands.run_tests` around [config.yml:153-170]
 
 **Why slower:** Windows VMs are slower than Docker containers. npm on Windows has higher I/O overhead. Historically 7x slower before cache optimizations.
 
+**E2E parallelization:** Windows runs two parallel build jobs to split the slow e2e tests:
+- `build_install_test-win-root`: Runs root publication test only (`E2E_VARIANT=root`)
+- `build_install_test-win-pathname`: Runs pathname publication test only (`E2E_VARIANT=pathname`)
+
+This reduces Windows e2e time from ~13 min to ~7 min by running both variants concurrently on separate VMs. Browser tests wait for both jobs to complete before running.
+
 **Dependencies:** Node.js + [Chocolatey](https://community.chocolatey.org/) packages (Chrome, ChromeDriver, zip) with caching (see `commands.build_install_cli-win`)
 
 ### Test Structure
@@ -288,6 +297,10 @@ Uses defaults: `install_chromedriver: true`, `version: stable`.
 - `NPM_CONFIG_PREFIX`: npm global package install directory (Linux only: `/home/circleci/.npm-global`) - see `executors.linux.environment`
 - `PUPPETEER_EXECUTABLE_PATH`: Chrome binary location (OS-specific) - see `executors.linux.environment`, `executors.macos.environment`, `executors.win.environment`
 - `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD`: Prevents duplicate Chrome downloads on Windows (uses Chocolatey-installed Chrome) - see `executors.win.environment`
+- `E2E_VARIANT`: Controls which e2e tests to run (Windows parallelization) - see `run_tests_win_parallel` command
+  - `root`: Run only root publication test
+  - `pathname`: Run only pathname publication test
+  - `all` or unset: Run both tests (default for Linux/macOS)
 
 ### How Environment Variables Are Used
 
