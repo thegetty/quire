@@ -77,9 +77,6 @@ Examples:
 
     // Check for build output (will throw if missing)
     // TODO: Add interactive prompt when build output missing and --build not used
-    const projectRoot = paths.getProjectRoot()
-    const input = path.join(projectRoot, paths.getEpubDir())
-
     if (!hasEpubOutput()) {
       throw new MissingBuildOutputError('EPUB', paths.getEpubDir())
     }
