@@ -3,25 +3,14 @@ import { arrayToArgument, arrayToOption } from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
+import { docsUrl, DOCS_BASE } from '#helpers/docs-url.js'
 import packageConfig from '#src/packageConfig.js'
 import { enableDebug } from '#lib/logger/debug.js'
 
 const { version } = packageConfig
 
-/**
- * Base URL for documentation links appended to command help text
- */
-const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1/'
-
-/**
- * Join base URL with path, handling trailing/leading slashes correctly
- * @param {string} path - Path to append to base URL
- * @returns {string} Full URL
- */
-const docsUrl = (path) => new URL(path, DOCS_BASE_URL).href
-
 const mainHelpText = `
-Docs: ${DOCS_BASE_URL}
+Docs: ${DOCS_BASE}
 
 Common Workflows:
   New project     quire new my-book && cd my-book && quire preview

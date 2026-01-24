@@ -1,4 +1,5 @@
 import QuireError from '../quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * Error thrown when a requested package version is not found
@@ -11,7 +12,7 @@ export default class VersionNotFoundError extends QuireError {
         code: 'VERSION_NOT_FOUND',
         exitCode: 6,
         suggestion: `Run 'npm view ${packageName} versions' to see available versions`,
-        docsUrl: `${QuireError.DOCS_BASE}/install-uninstall/`
+        docsUrl: docsUrl('install-uninstall')
       }
     )
   }
