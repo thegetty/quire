@@ -89,6 +89,7 @@ src/errors/
     ├── dependency-install-error.js
     ├── directory-not-empty-error.js
     ├── invalid-path-error.js
+    ├── invalid-starter-error.js
     └── version-not-found-error.js
 ```
 
