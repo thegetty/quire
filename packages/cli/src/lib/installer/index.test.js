@@ -51,9 +51,12 @@ test('getVersionFromPath() throws InvalidPathError when path does not exist', as
 test('getVersionFromPath() throws VersionNotFoundError when package.json is missing', async (t) => {
   const { sandbox } = t.context
 
+  const resolvedQuirePath = path.resolve('/local/quire')
+  const packageJsonPath = path.join(resolvedQuirePath, 'package.json')
+
   const existsSyncStub = sandbox.stub()
-  existsSyncStub.withArgs('/local/quire').returns(true)
-  existsSyncStub.returns(false) // package.json check
+  existsSyncStub.withArgs(resolvedQuirePath).returns(true)
+  existsSyncStub.withArgs(packageJsonPath).returns(false)
 
   const mockFs = {
     existsSync: existsSyncStub,
