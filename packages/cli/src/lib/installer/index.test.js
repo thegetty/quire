@@ -17,7 +17,7 @@ test.afterEach.always((t) => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// getVersionFromPath() tests (Issue #1113)
+// getVersionFromPath() tests
 // ─────────────────────────────────────────────────────────────────────────────
 
 test('getVersionFromPath() throws InvalidPathError when path does not exist', async (t) => {
@@ -410,7 +410,7 @@ test('installer object exports all required functions', async (t) => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// installInProject() quirePath validation tests (Issue #1113)
+// installInProject() quirePath validation tests
 // ─────────────────────────────────────────────────────────────────────────────
 
 test('installInProject() throws InvalidPathError when quirePath does not exist', async (t) => {
