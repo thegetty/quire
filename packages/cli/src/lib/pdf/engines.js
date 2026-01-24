@@ -9,7 +9,7 @@
  * 2. Check binary availability before loading heavy modules
  * 3. Provide helpful error messages with install URLs
  */
-import QuireError from '#src/errors/quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * @typedef {Object} EngineMetadata
@@ -37,7 +37,7 @@ const ENGINES = {
     toolInfo: {
       displayName: 'PrinceXML',
       installUrl: 'https://www.princexml.com/download/',
-      docsUrl: `${QuireError.DOCS_BASE}/pdf-output/`,
+      docsUrl: docsUrl('pdf-output'),
       fallback: 'Or use the default PDF engine: quire pdf --engine pagedjs',
     },
   },
