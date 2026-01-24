@@ -19,7 +19,7 @@ import {
   setVersion,
   writeVersionFile,
 } from '#lib/project/index.js'
-import { DirectoryNotEmptyError, VersionNotFoundError } from '#src/errors/index.js'
+import { DirectoryNotEmptyError, InvalidPathError, VersionNotFoundError } from '#src/errors/index.js'
 import { logger } from '#lib/logger/index.js'
 import createDebug from '#debug'
 
@@ -29,6 +29,44 @@ const __dirname = path.dirname(__filename)
 const debug = createDebug('lib:installer')
 
 const PACKAGE_NAME = '@thegetty/quire-11ty'
+
+/**
+ * Read the version from a local quire-11ty package
+ *
+ * @param {string} quirePath - Path to local quire-11ty package (will be resolved)
+ * @returns {{ version: string, resolvedPath: string }} Version and resolved path
+ * @throws {InvalidPathError} When the path does not exist
+ * @throws {VersionNotFoundError} When the package.json is missing or has no version
+ */
+export function getVersionFromPath(quirePath) {
+  const resolvedPath = path.resolve(quirePath)
+  debug('reading version from local path: %s (resolved: %s)', quirePath, resolvedPath)
+
+  if (!fs.existsSync(resolvedPath)) {
+    throw new InvalidPathError(quirePath, resolvedPath)
+  }
+
+  const localPackageJsonPath = path.join(resolvedPath, 'package.json')
+  if (!fs.existsSync(localPackageJsonPath)) {
+    throw new VersionNotFoundError(resolvedPath, 'package.json not found')
+  }
+
+  try {
+    const localPackage = fs.readJsonSync(localPackageJsonPath)
+    if (!localPackage.version) {
+      throw new VersionNotFoundError(resolvedPath, 'package.json has no version field')
+    }
+    return { version: localPackage.version, resolvedPath }
+  } catch (error) {
+    if (error.code === 'VERSION_NOT_FOUND') {
+      throw error
+    }
+    throw new VersionNotFoundError(
+      resolvedPath,
+      `Failed to read package.json: ${error.message}`
+    )
+  }
+}
 
 /**
  * Retrieve latest published version of the quire-11ty package
@@ -70,6 +108,15 @@ export async function versions() {
 export async function initStarter(starter, projectPath, options = {}) {
   projectPath = projectPath || process.cwd()
 
+  /**
+   * Validate arguments before any side effects (directory creation, cloning)
+   */
+  let quirePathInfo
+  if (options.quirePath) {
+    // Validate --quire-path exists before creating project directory
+    quirePathInfo = getVersionFromPath(options.quirePath)
+  }
+
   // Ensure that the target path exists
   fs.ensureDirSync(projectPath)
 
@@ -88,13 +135,24 @@ export async function initStarter(starter, projectPath, options = {}) {
   await repo.clone(starter, '.')
 
   /**
-   * Determine the quire-11ty version to use in the new project,
-   * from the quireVersion option or as required by the starter project.
+   * Determine the quire-11ty version to use in the new project:
+   * 1. If --quire-path is provided, use the version from the local package (already validated)
+   * 2. Otherwise, use --quire-version option or the version required by the starter
    *
    * Uses 'latest' to get the latest semantic version compatible with version ranges
    */
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
-  const quireVersion = await latest(options.quireVersion || quire11tyVersion)
+
+  let quireVersion
+  if (quirePathInfo) {
+    // Use the pre-validated local path info
+    const { version, resolvedPath } = quirePathInfo
+    quireVersion = version
+    logger.info(`Using local quire-11ty: ${version} from ${resolvedPath}`)
+  } else {
+    quireVersion = await latest(options.quireVersion || quire11tyVersion)
+  }
+
   setVersion(quireVersion, projectPath)
 
   /**
@@ -159,9 +217,19 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
   const tempDir = path.join(projectPath, temp11tyDirectory)
   fs.mkdirSync(tempDir)
 
-  // Copy if passed a path and it exists, otherwise attempt to download the tarball
-  if (fs.existsSync(quirePath)) {
-    fs.cpSync(quirePath, tempDir, { recursive: true })
+  // Copy if passed a path, otherwise attempt to download the tarball
+  if (quirePath) {
+    // Normalize the path to handle relative paths and `..` segments
+    // Nota bene: Path validation is done in initStarter via getVersionFromPath,
+    // but we validate again here to support direct calls to installInProject
+    const resolvedPath = path.resolve(quirePath)
+    debug('using local quire-11ty path: %s (resolved: %s)', quirePath, resolvedPath)
+
+    if (!fs.existsSync(resolvedPath)) {
+      throw new InvalidPathError(quirePath, resolvedPath)
+    }
+
+    fs.cpSync(resolvedPath, tempDir, { recursive: true })
   } else {
     await npm.pack(quire11tyPackage, tempDir, { debug: options.debug, quiet: !options.debug })
 
@@ -217,6 +285,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
  * Export installer functions
  */
 export const installer = {
+  getVersionFromPath,
   initStarter,
   installInProject,
   latest,

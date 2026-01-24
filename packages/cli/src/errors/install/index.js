@@ -7,4 +7,5 @@
  */
 export { default as DependencyInstallError } from './dependency-install-error.js'
 export { default as DirectoryNotEmptyError } from './directory-not-empty-error.js'
+export { default as InvalidPathError } from './invalid-path-error.js'
 export { default as VersionNotFoundError } from './version-not-found-error.js'
