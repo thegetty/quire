@@ -137,5 +137,25 @@ test.serial('Create the default publication with a pathname and build the site, 
 
 // Package built site products for artifact storage and stage pathed publication
 test.after(async (t) => {
-  await execa('zip', ['-r', publicationZip, path.join(publicationPath, '_site'), path.join(publicationPath, '_epub'), path.join(publicationPath, 'epubjs.epub')])
+  const isWindows = process.platform === 'win32'
+  const filesToZip = []
+
+  if (fs.existsSync(publicationPath)) {
+    filesToZip.push(
+      path.join(publicationPath, '_site'),
+      path.join(publicationPath, '_epub'),
+      path.join(publicationPath, 'epubjs.epub')
+    )
+  }
+
+  // Only run zip if we have files to zip
+  if (filesToZip.length > 0) {
+    if (isWindows) {
+      // Use 7-Zip on Windows (pre-installed on CI runners)
+      await execa('7z', ['a', '-tzip', publicationZip, ...filesToZip])
+    } else {
+      // Use Info-ZIP on Unix systems
+      await execa('zip', ['-r', publicationZip, ...filesToZip])
+    }
+  }
 })
