@@ -15,6 +15,7 @@ export {
   debugOption,
   outputModeOptions,
   outputModeHelpText,
+  withOutputModes,
 } from './options.js'
 
 /**

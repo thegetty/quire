@@ -4,27 +4,37 @@
  * Provides consistent option definitions that can be imported by commands.
  * This ensures uniform help text, flags, and behavior across the CLI.
  *
- * ## Usage
+ * ## Recommended Usage
  *
- * Commands can spread shared options into their options array:
+ * Use `withOutputModes()` to wrap your command definition:
  *
  * ```javascript
- * import { outputModeOptions, debugOption } from '#lib/commander/options.js'
+ * import { withOutputModes } from '#lib/commander/index.js'
  *
  * export default class MyCommand extends Command {
- *   static definition = {
+ *   static definition = withOutputModes({
+ *     name: 'my-command',
+ *     description: 'Do something useful',
+ *     helpText: `
+ * Examples:
+ *   quire my-command --verbose
+ * `,
  *     options: [
- *       ...outputModeOptions,  // Adds --quiet, --verbose, --debug
  *       ['--custom', 'my custom option'],
  *     ],
- *   }
+ *   })
  * }
  * ```
  *
- * Or selectively include specific options:
+ * This automatically adds --quiet, --verbose, --debug options and prepends
+ * the standard output mode help text.
+ *
+ * ## Selective Options
+ *
+ * For commands that need only specific output options:
  *
  * ```javascript
- * import { quietOption, verboseOption } from '#lib/commander/options.js'
+ * import { quietOption, verboseOption } from '#lib/commander/index.js'
  *
  * options: [
  *   quietOption,
@@ -121,20 +131,46 @@ export const outputModeOptions = [
 /**
  * Standard help text for output modes
  *
- * Include this in command helpText for consistent documentation:
- *
- * ```javascript
- * helpText: `
- * ${outputModeHelpText}
- *
- * Examples:
- *   quire mycommand --verbose
- * `
- * ```
- *
  * @type {string}
  */
 export const outputModeHelpText = `Output Modes:
   -q, --quiet      Suppress progress output (for CI/scripts)
   -v, --verbose    Show detailed progress (paths, timing)
   --debug          Enable debug output for troubleshooting`
+
+/**
+ * Add output mode options to a command definition
+ *
+ * Injects --quiet, --verbose, --debug options and prepends the
+ * standard output mode help text to the command's helpText.
+ *
+ * @param {Object} definition - Command definition object
+ * @param {string} [definition.helpText] - Existing help text (output modes prepended)
+ * @param {Array} [definition.options] - Existing options (output modes appended)
+ * @returns {Object} Modified definition with output mode options
+ *
+ * @example
+ * static definition = withOutputModes({
+ *   name: 'build',
+ *   description: 'Generate publication outputs',
+ *   helpText: `
+ * Examples:
+ *   quire build --verbose
+ * `,
+ *   options: [
+ *     ['--custom', 'my option'],
+ *   ],
+ * })
+ */
+export function withOutputModes(definition) {
+  return {
+    ...definition,
+    helpText: definition.helpText
+      ? `\n${outputModeHelpText}\n${definition.helpText}`
+      : `\n${outputModeHelpText}`,
+    options: [
+      ...(definition.options || []),
+      ...outputModeOptions,
+    ],
+  }
+}
