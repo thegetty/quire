@@ -1,5 +1,11 @@
 import { Command, Argument, Option } from 'commander'
-import { arrayToArgument, arrayToOption } from '#lib/commander/index.js'
+import {
+  arrayToArgument,
+  arrayToOption,
+  quietOption,
+  verboseOption,
+  debugOption
+} from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
@@ -52,9 +58,9 @@ program
   .name('quire')
   .description('Quire command-line interface')
   .version(version, '-V, --version', 'output quire version number')
-  .option('-q, --quiet', 'suppress progress output (for CI/scripts)')
-  .option('-v, --verbose', 'show detailed progress output')
-  .option('--debug', 'enable debug output for troubleshooting')
+  .addOption(arrayToOption(quietOption))
+  .addOption(arrayToOption(verboseOption))
+  .addOption(arrayToOption(debugOption))
   .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,

@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
 import { clean } from '#helpers/clean.js'
 import paths from '#lib/project/index.js'
 import testcwd from '#helpers/test-cwd.js'
@@ -21,10 +22,7 @@ export default class CleanCommand extends Command {
     summary: 'delete generated files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing)
-  --debug          Enable debug output for troubleshooting
+${outputModeHelpText}
 
 Examples:
   quire clean                  Remove build outputs
@@ -35,9 +33,7 @@ Examples:
     options: [
       [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
       [ '-p, --progress', 'display progress of removing files' ],
-      [ '-q, --quiet', 'suppress progress output' ],
-      [ '-v, --verbose', 'show detailed progress output' ],
-      [ '--debug', 'enable debug output for troubleshooting' ],
+      ...outputModeOptions,
     ],
   }
 

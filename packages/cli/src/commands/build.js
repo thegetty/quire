@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
+import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
@@ -21,10 +22,7 @@ export default class BuildCommand extends Command {
     summary: 'generate HTML site files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing)
-  --debug          Enable debug output for troubleshooting
+${outputModeHelpText}
 
 Examples:
   quire build                Build the site
@@ -36,9 +34,7 @@ Note: Run before "quire pdf" or "quire epub" commands.
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
-      [ '-q, --quiet', 'suppress progress output' ],
-      [ '-v, --verbose', 'show detailed progress output' ],
-      [ '--debug', 'enable debug output for troubleshooting' ],
+      ...outputModeOptions,
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),

@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
 import { YAMLException } from 'js-yaml'
 import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
@@ -10,7 +11,7 @@ import { ValidationError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `validate` Command
- *  
+ *
  * @class     ValidateCommand
  * @extends   {Command}
  */
@@ -21,10 +22,7 @@ export default class ValidateCommand extends Command {
     summary: 'check YAML files for errors',
     docsLink: 'quire-commands/#get-help',
     helpText: `
-Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing)
-  --debug          Enable debug output for troubleshooting
+${outputModeHelpText}
 
 Examples:
   quire validate               Check YAML syntax in content/_data/
@@ -34,9 +32,7 @@ Validates YAML files in content/_data/ directory.
 `,
     version: '1.0.0',
     options: [
-      [ '-q, --quiet', 'suppress progress output' ],
-      [ '-v, --verbose', 'show detailed progress output' ],
-      [ '--debug', 'enable debug output for troubleshooting' ],
+      ...outputModeOptions,
     ],
   }
 

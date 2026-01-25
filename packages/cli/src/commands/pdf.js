@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
 import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import generatePdf, { ENGINES } from '#lib/pdf/index.js'
@@ -23,10 +24,7 @@ export default class PDFCommand extends Command {
     summary: 'generate print-ready PDF',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing)
-  --debug          Enable debug output for troubleshooting
+${outputModeHelpText}
 
 Examples:
   quire pdf                      Generate PDF using default engine
@@ -46,9 +44,7 @@ Examples:
         '--lib <name>', 'deprecated alias for --engine option',
         { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
-      [ '-q, --quiet', 'suppress progress output' ],
-      [ '-v, --verbose', 'show detailed progress output' ],
-      [ '--debug', 'enable debug output for troubleshooting' ],
+      ...outputModeOptions,
     ],
   }
 

@@ -1,5 +1,6 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
+import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
 import fs from 'fs-extra'
 import { installer } from '#lib/installer/index.js'
 import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js'
@@ -22,10 +23,7 @@ export default class CreateCommand extends Command {
     summary: 'create a new project',
     docsLink: 'quire-commands/#start-and-preview-projects',
     helpText: `
-Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing)
-  --debug          Enable debug output for troubleshooting
+${outputModeHelpText}
 
 Examples:
   quire new my-project                        Use default starter
@@ -40,9 +38,7 @@ Examples:
     options: [
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
       [ '--quire-version <version>', 'quire-11ty version to install' ],
-      [ '-q, --quiet', 'suppress progress output' ],
-      [ '-v, --verbose', 'show detailed progress output' ],
-      [ '--debug', 'enable debug output for troubleshooting' ],
+      ...outputModeOptions,
       // Use Option object syntax to configure this as a hidden option
       new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
     ],
