@@ -46,6 +46,34 @@ Debug mode can be combined with any of the user-facing output modes:
 - `quire build --verbose --debug` - Verbose output + debug logs
 - `quire build --quiet --debug` - No spinner, but debug logs still appear
 
+## Config Defaults
+
+You can set persistent default values for verbose and debug modes using `quire settings`:
+
+```bash
+# Always run in verbose mode
+quire settings set verbose true
+
+# Always run in debug mode
+quire settings set debug true
+
+# View current settings
+quire settings list
+```
+
+CLI flags always override config settings using the `--no-` prefix:
+
+```bash
+# Disable verbose even if enabled in config
+quire build --no-verbose
+
+# Disable debug even if enabled in config
+quire build --no-debug
+```
+
+> **Note:** The `--no-` prefix is a [Commander.js built-in feature](https://github.com/tj/commander.js#other-option-types-negatable-boolean-and-booleanvalue).
+> For any boolean option like `--verbose`, Commander automatically supports `--no-verbose` to explicitly set it to `false`.
+
 ## Global vs Command Options
 
 These flags are available both globally and per-command:
@@ -193,6 +221,7 @@ quire doctor --quiet --json report.json
 1. **CI/CD pipelines**: Always use `--quiet` to avoid spinner output that can clutter logs
 2. **Troubleshooting**: Start with `--verbose`, escalate to `--debug` if needed
 3. **Scripts**: Use `--quiet` and rely on exit codes for success/failure
+4. **Persistent defaults**: Use `quire settings set verbose true` if you always want verbose output
 
 ### For Developers
 
