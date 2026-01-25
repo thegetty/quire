@@ -25,6 +25,10 @@ export function formatError(error, options = {}) {
   if (error.filePath) lines.push(`  File: ${error.filePath}`)
   if (error.suggestion) lines.push(`  Suggestion: ${error.suggestion}`)
   if (error.docsUrl) lines.push(`  Learn more: ${error.docsUrl}`)
+  // Show debug hint when not in debug mode and error opts in
+  if (!debug && error.showDebugHint !== false) {
+    lines.push('  Tip: Run with --debug for more details')
+  }
   return lines.join('\n')
 }
 
