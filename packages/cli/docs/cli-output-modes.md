@@ -41,10 +41,20 @@ Debug mode is separate from the user-facing output modes:
 
 - **Debug mode** (`--debug`): Enables the `DEBUG=quire:*` namespace for internal logging. This outputs technical debugging information intended for developers and maintainers troubleshooting issues.
 
-Debug mode can be combined with any of the user-facing output modes:
+Debug mode can be combined with verbose mode:
 - `quire build --debug` - Default output + debug logs
 - `quire build --verbose --debug` - Verbose output + debug logs
-- `quire build --quiet --debug` - No spinner, but debug logs still appear
+
+### Option Conflicts
+
+Quiet mode conflicts with verbose and debug modes since they have opposing purposes:
+
+```bash
+quire build --quiet --verbose  # Error: cannot use together
+quire build --quiet --debug    # Error: cannot use together
+```
+
+This is enforced at the CLI level - Commander.js will show an error if conflicting options are used together.
 
 ## Config Defaults
 
