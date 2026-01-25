@@ -205,7 +205,7 @@ commands:
   restore_npm_cache-macos:
     steps:
       - restore_cache:
-        key: *npm_cache_key_macos
+          key: *npm_cache_key_macos
 
   restore_npm_cache-win:
     steps:
