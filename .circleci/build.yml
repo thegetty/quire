@@ -333,6 +333,9 @@ jobs:
           at: .
       - restore_cache:
           key: *choco-cache_key
+      - run:
+          name: Install Chocolatey packages
+          command: choco install .circleci/packages.config --ignore-checksums
       - node/install:
           node-version: << pipeline.parameters.node_version >>
       - run:
@@ -350,6 +353,9 @@ jobs:
           at: .
       - restore_cache:
           key: *choco-cache_key
+      - run:
+          name: Install Chocolatey packages
+          command: choco install .circleci/packages.config --ignore-checksums
       - node/install:
           node-version: << pipeline.parameters.node_version >>
       - run:
