@@ -169,11 +169,12 @@ test.serial('Create the default publication with a pathname and build the site, 
 
 // Package built site products for artifact storage
 test.after(async (t) => {
-  const zipArgs = ['-r', publicationZip]
+  const isWindows = process.platform === 'win32'
+  const filesToZip = []
 
   // Only include directories that were built based on variant
   if (runRoot && fs.existsSync(publicationPath)) {
-    zipArgs.push(
+    filesToZip.push(
       path.join(publicationPath, '_site'),
       path.join(publicationPath, '_epub'),
       path.join(publicationPath, 'epubjs.epub')
@@ -182,7 +183,7 @@ test.after(async (t) => {
 
   const pathedPubPath = path.join(repoRoot, pathedPub)
   if (runPathname && fs.existsSync(pathedPubPath)) {
-    zipArgs.push(
+    filesToZip.push(
       path.join(pathedPubPath, '_site'),
       path.join(pathedPubPath, '_epub'),
       path.join(pathedPubPath, 'epubjs.epub')
@@ -190,7 +191,13 @@ test.after(async (t) => {
   }
 
   // Only run zip if we have files to zip
-  if (zipArgs.length > 2) {
-    await execa('zip', zipArgs)
+  if (filesToZip.length > 0) {
+    if (isWindows) {
+      // Use 7-Zip on Windows (pre-installed on CI runners)
+      await execa('7z', ['a', '-tzip', publicationZip, ...filesToZip])
+    } else {
+      // Use Info-ZIP on Unix systems
+      await execa('zip', ['-r', publicationZip, ...filesToZip])
+    }
   }
 })
