@@ -18,6 +18,14 @@
  * Note: `--debug` is handled separately and enables DEBUG namespace logging,
  * not reporter output. Use verbose mode for detailed user-facing output.
  *
+ * ## Config Defaults
+ *
+ * Users can set default values via `quire settings`:
+ * - `quire settings set verbose true` - Always run in verbose mode
+ *
+ * CLI flags override config settings. Use `--no-verbose` to disable verbose
+ * mode even when enabled in config.
+ *
  * @example Production usage
  * import reporter from '#lib/reporter/index.js'
  * reporter.start('Building site...')
@@ -69,6 +77,7 @@
  */
 import ora from 'ora'
 import createDebug from '#debug'
+import config from '#lib/conf/config.js'
 
 const debug = createDebug('lib:reporter')
 
@@ -106,11 +115,12 @@ class Reporter {
    * Configure reporter for current command context
    *
    * Call this at the start of command action() to respect command options.
+   * CLI flags take precedence over config settings.
    *
    * @param {Object} options - Command options
-   * @param {boolean} [options.quiet=false] - Suppress all output
-   * @param {boolean} [options.json=false] - JSON output mode (suppress spinner)
-   * @param {boolean} [options.verbose=false] - Verbose output mode
+   * @param {boolean} [options.quiet] - Suppress all output (no config default)
+   * @param {boolean} [options.json] - JSON output mode (suppress spinner)
+   * @param {boolean} [options.verbose] - Verbose output mode (falls back to config.verbose)
    * @returns {Reporter} this instance for chaining
    *
    * @example
@@ -122,7 +132,8 @@ class Reporter {
   configure(options = {}) {
     this.#quiet = options.quiet || false
     this.#json = options.json || false
-    this.#verbose = options.verbose || false
+    // CLI flag takes precedence, then config setting, then default false
+    this.#verbose = options.verbose ?? config.get('verbose') ?? false
     debug('configured: quiet=%s, json=%s, verbose=%s', this.#quiet, this.#json, this.#verbose)
     return this
   }

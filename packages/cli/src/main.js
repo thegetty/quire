@@ -25,6 +25,8 @@ Output Modes:
   -v, --verbose    Show detailed progress (paths, timing, steps)
   --debug          Enable debug output for developers/troubleshooting
 
+  Set defaults: quire settings set verbose true
+
 Environment Variables:
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
@@ -78,8 +80,9 @@ program
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts()
 
-  // --debug enables the quire:* DEBUG namespace for internal logging
-  if (opts.debug) {
+  // --debug or config.debug enables the quire:* DEBUG namespace for internal logging
+  // CLI flag takes precedence, then config setting
+  if (opts.debug ?? config.get('debug')) {
     enableDebug('quire:*')
   }
 })
