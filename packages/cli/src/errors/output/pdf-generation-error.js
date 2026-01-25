@@ -1,4 +1,5 @@
 import QuireError from '../quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * Error thrown when PDF generation fails
@@ -11,7 +12,7 @@ export default class PdfGenerationError extends QuireError {
         code: 'PDF_FAILED',
         exitCode: 5,
         suggestion: `Ensure ${tool} is installed and accessible`,
-        docsUrl: `${QuireError.DOCS_BASE}/pdf-output/`
+        docsUrl: docsUrl('pdf-output')
       }
     )
   }

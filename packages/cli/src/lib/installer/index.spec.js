@@ -1,5 +1,5 @@
 import test from 'ava'
-import { installer, initStarter, installInProject, latest, versions } from './index.js'
+import { installer, getVersionFromPath, initStarter, installInProject, latest, versions } from './index.js'
 
 /**
  * Installer Module Unit Tests
@@ -35,6 +35,11 @@ test('installer module exports versions function', (t) => {
   t.is(typeof versions, 'function', 'versions should be a function')
 })
 
+test('installer module exports getVersionFromPath function', (t) => {
+  t.truthy(getVersionFromPath, 'getVersionFromPath should be exported')
+  t.is(typeof getVersionFromPath, 'function', 'getVersionFromPath should be a function')
+})
+
 // installer object methods tests
 test('installer object has initStarter method', (t) => {
   t.is(typeof installer.initStarter, 'function', 'initStarter should be a function')
@@ -52,6 +57,10 @@ test('installer object has versions method', (t) => {
   t.is(typeof installer.versions, 'function', 'versions should be a function')
 })
 
+test('installer object has getVersionFromPath method', (t) => {
+  t.is(typeof installer.getVersionFromPath, 'function', 'getVersionFromPath should be a function')
+})
+
 // Verify exported functions match installer object methods
 test('exported initStarter matches installer.initStarter', (t) => {
   t.is(initStarter, installer.initStarter, 'initStarter export should match installer.initStarter')
@@ -67,4 +76,8 @@ test('exported latest matches installer.latest', (t) => {
 
 test('exported versions matches installer.versions', (t) => {
   t.is(versions, installer.versions, 'versions export should match installer.versions')
+})
+
+test('exported getVersionFromPath matches installer.getVersionFromPath', (t) => {
+  t.is(getVersionFromPath, installer.getVersionFromPath, 'getVersionFromPath export should match installer.getVersionFromPath')
 })

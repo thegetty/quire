@@ -1,4 +1,5 @@
 import QuireError from '../quire-error.js'
+import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * Error thrown when required build output is missing
@@ -12,7 +13,7 @@ export default class MissingBuildOutputError extends QuireError {
         exitCode: 5,
         filePath: expectedPath,
         suggestion: "Run 'quire build' first, then try again",
-        docsUrl: `${QuireError.DOCS_BASE}/quire-commands/`
+        docsUrl: docsUrl('quire-commands')
       }
     )
   }
