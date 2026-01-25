@@ -18,6 +18,20 @@ const createMockPaths = (projectRoot = '/test/project') => ({
   getSitePath: () => `${projectRoot}/_site`
 })
 
+/**
+ * Helper to create mock reporter
+ */
+const createMockReporter = (sandbox) => ({
+  configure: sandbox.stub().returnsThis(),
+  start: sandbox.stub().returnsThis(),
+  update: sandbox.stub().returnsThis(),
+  succeed: sandbox.stub().returnsThis(),
+  fail: sandbox.stub().returnsThis(),
+  info: sandbox.stub().returnsThis(),
+  detail: sandbox.stub().returnsThis(),
+  stop: sandbox.stub().returnsThis()
+})
+
 test('serve command should throw error when build output is missing', async (t) => {
   const { sandbox } = t.context
 
@@ -25,6 +39,9 @@ test('serve command should throw error when build output is missing', async (t) 
     '#lib/project/index.js': {
       default: createMockPaths(),
       hasSiteOutput: () => false
+    },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
     },
     open: {
       default: sandbox.stub()
@@ -44,6 +61,7 @@ test('serve command should run build first when --build flag is set and output m
   const { sandbox } = t.context
 
   const mockBuild = sandbox.stub().resolves()
+  const mockReporter = createMockReporter(sandbox)
   let buildCalled = false
 
   // Mock serve façade that rejects to end test
@@ -75,6 +93,9 @@ test('serve command should run build first when --build flag is set and output m
         onShutdownComplete: sandbox.stub()
       }
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     open: {
       default: sandbox.stub()
     }
@@ -87,6 +108,8 @@ test('serve command should run build first when --build flag is set and output m
   await t.throwsAsync(() => command.action({ port: 8080, build: true, quiet: true }, command))
 
   t.true(mockBuild.called, 'build should be called when --build flag is set')
+  t.true(mockReporter.start.called, 'reporter.start should be called for build')
+  t.true(mockReporter.succeed.called, 'reporter.succeed should be called after build')
 })
 
 test('serve command should not run build when --build flag not set', async (t) => {
@@ -103,6 +126,9 @@ test('serve command should not run build when --build flag not set', async (t) =
       default: {
         build: mockBuild
       }
+    },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
     },
     open: {
       default: sandbox.stub()
@@ -126,6 +152,9 @@ test('serve command should throw error for invalid port', async (t) => {
       default: createMockPaths(),
       hasSiteOutput: () => true
     },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
+    },
     open: {
       default: sandbox.stub()
     }
@@ -145,6 +174,9 @@ test('serve command should throw error for out of range port', async (t) => {
     '#lib/project/index.js': {
       default: createMockPaths(),
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
     },
     open: {
       default: sandbox.stub()
@@ -185,6 +217,9 @@ test('serve command should register cleanup handler with processManager', async 
         onShutdownComplete: mockOnShutdownComplete
       }
     },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
+    },
     open: {
       default: sandbox.stub()
     }
@@ -224,6 +259,9 @@ test('serve command should handle port in use error', async (t) => {
         onShutdownComplete: sandbox.stub()
       }
     },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
+    },
     open: {
       default: sandbox.stub()
     }
@@ -260,6 +298,9 @@ test('serve command should call open when --open flag is provided', async (t) =>
         onShutdown: sandbox.stub(),
         onShutdownComplete: sandbox.stub()
       }
+    },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
     },
     open: {
       default: mockOpen
@@ -304,6 +345,9 @@ test('serve command should not call open when --open flag is not provided', asyn
         onShutdownComplete: sandbox.stub()
       }
     },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
+    },
     open: {
       default: mockOpen
     }
@@ -343,6 +387,9 @@ test('serve command should call serve façade with correct arguments', async (t)
         onShutdownComplete: sandbox.stub()
       }
     },
+    '#lib/reporter/index.js': {
+      default: createMockReporter(sandbox)
+    },
     open: {
       default: sandbox.stub()
     }
@@ -352,12 +399,44 @@ test('serve command should call serve façade with correct arguments', async (t)
   command.name = sandbox.stub().returns('serve')
 
   // Start the action but don't await it
-  command.action({ port: 3000, quiet: true }, command)
+  command.action({ port: 3000, quiet: true, verbose: false }, command)
 
   // Wait a tick
   await new Promise(resolve => setImmediate(resolve))
 
   t.true(mockServe.called, 'serve façade should be called')
   t.is(mockServe.firstCall.args[0], '/my/project/_site', 'should pass getSitePath() result')
-  t.deepEqual(mockServe.firstCall.args[1], { port: 3000, quiet: true }, 'should pass options')
+  t.deepEqual(mockServe.firstCall.args[1], { port: 3000, quiet: true, verbose: false }, 'should pass options including verbose')
+})
+
+test('serve command should configure reporter with quiet and verbose options', async (t) => {
+  const { sandbox } = t.context
+
+  const mockReporter = createMockReporter(sandbox)
+
+  const ServeCommand = await esmock('./serve.js', {
+    '#lib/project/index.js': {
+      default: createMockPaths(),
+      hasSiteOutput: () => false
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new ServeCommand()
+  command.name = sandbox.stub().returns('serve')
+
+  // Will throw because no build output, but reporter should still be configured
+  await t.throwsAsync(() => command.action({ port: 8080, quiet: true, verbose: true }, command))
+
+  t.true(mockReporter.configure.called, 'reporter.configure should be called')
+  t.deepEqual(
+    mockReporter.configure.firstCall.args[0],
+    { quiet: true, verbose: true },
+    'should pass quiet and verbose options to reporter'
+  )
 })

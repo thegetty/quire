@@ -3,6 +3,7 @@ import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import { serve } from '#lib/server/index.js'
 import processManager from '#lib/process/manager.js'
+import reporter from '#lib/reporter/index.js'
 import open from 'open'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
@@ -23,6 +24,11 @@ export default class ServeCommand extends Command {
     summary: 'serve built site locally',
     docsLink: 'quire-commands/#serve',
     helpText: `
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing)
+  --debug          Enable debug output for troubleshooting
+
 Examples:
   quire serve                   Serve _site/ on port 8080
   quire serve --port 3000       Use custom port
@@ -33,8 +39,9 @@ Examples:
       ['-p, --port <port>', 'server port', 8080],
       ['--build', 'run build first if output is missing'],
       ['--open', 'open in default browser'],
-      ['-q, --quiet', 'suppress output'],
-      ['--debug', 'enable debug output'],
+      ['-q, --quiet', 'suppress progress output'],
+      ['-v, --verbose', 'show detailed progress output'],
+      ['--debug', 'enable debug output for troubleshooting'],
     ],
   }
 
@@ -45,6 +52,9 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
+
     const port = parseInt(options.port, 10)
     if (isNaN(port) || port < 1 || port > 65535) {
       throw new Error(`Invalid port: ${options.port}`)
@@ -53,10 +63,14 @@ Examples:
     // Run build first if --build flag is set and output is missing
     if (options.build && !hasSiteOutput()) {
       this.debug('running build before serving')
-      if (!options.quiet) {
-        this.logger.info('Building site...')
+      reporter.start('Building site...', { showElapsed: true })
+      try {
+        await eleventy.build({ debug: options.debug })
+        reporter.succeed('Build complete')
+      } catch (error) {
+        reporter.fail('Build failed')
+        throw error
       }
-      await eleventy.build({ debug: options.debug })
     }
 
     // Check for build output
@@ -65,8 +79,10 @@ Examples:
     }
 
     // Start static file server (façade returns { url, stop })
+    // Nota bene: Server status messages use logger (not reporter) because
+    // the server runs indefinitely - a spinner would never complete.
     const { url, stop } =
-      await serve(paths.getSitePath(), { port, quiet: options.quiet })
+      await serve(paths.getSitePath(), { port, quiet: options.quiet, verbose: options.verbose })
 
     // Register cleanup handler for graceful shutdown
     processManager.onShutdown('serve', stop)

@@ -20,7 +20,7 @@
 import http from 'node:http'
 import fs from 'node:fs'
 import path from 'node:path'
-import { logger } from '#lib/logger/index.js'
+import reporter from '#lib/reporter/index.js'
 import createDebug from '#debug'
 import { getMimeType, MIME_TYPES, DEFAULT_MIME_TYPE } from './mime-types.js'
 
@@ -100,16 +100,21 @@ function handlerequestuest(rootDir, request, response) {
  * allowing the underlying server to be swapped (e.g., to serve-handler)
  * without changing the command interface.
  *
+ * Nota bene: Uses reporter.info() instead of spinner because the server
+ * runs indefinitely - a spinner would never complete. The info style
+ * provides a consistent look with other CLI output.
+ *
  * @param {string} rootDir - Directory to serve files from
  * @param {Object} options - Server options
  * @param {number} [options.port=8080] - Port to listen on
- * @param {boolean} [options.quiet=false] - Suppresponses output
+ * @param {boolean} [options.quiet=false] - Suppress output
+ * @param {boolean} [options.verbose=false] - Show detailed output
  * @returns {Promise<{ url: string, stop: () => Promise<void> }>}
  */
 export async function serve(rootDir, options = {}) {
   const port = options.port || 8080
 
-  return new Promise((responseolve, reject) => {
+  return new Promise((resolve, reject) => {
     const server = http.createServer((request, response) => {
       handlerequestuest(rootDir, request, response)
     })
@@ -126,22 +131,27 @@ export async function serve(rootDir, options = {}) {
       const url = `http://localhost:${port}`
 
       if (!options.quiet) {
-        logger.info(`Serving site at ${url}`)
-        logger.info('Press Ctrl+C to stop')
+        reporter.info(`Serving site at ${url}`)
+        reporter.info('Press Ctrl+C to stop')
+      }
+
+      // Show additional details in verbose mode
+      if (options.verbose) {
+        reporter.detail(`Root: ${rootDir}`)
       }
 
       debug('server started on port %d', port)
 
       // Return façade interface
-      responseolve({
+      resolve({
         url,
-        stop: () => new Promise((responseolveStop) => {
+        stop: () => new Promise((resolveStop) => {
           server.close(() => {
             if (!options.quiet) {
-              logger.info('Server stopped')
+              reporter.info('Server stopped')
             }
             debug('server stopped')
-            responseolveStop()
+            resolveStop()
           })
         })
       })
