@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import generatePdf, { ENGINES } from '#lib/pdf/index.js'
@@ -18,14 +18,12 @@ import { MissingBuildOutputError } from '#src/errors/index.js'
  * @extends    {Command}
  */
 export default class PDFCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'pdf',
     description: 'Generate publication PDF',
     summary: 'generate print-ready PDF',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire pdf                      Generate PDF using default engine
   quire pdf --engine prince      Generate PDF using PrinceXML
@@ -44,9 +42,8 @@ Examples:
         '--lib <name>', 'deprecated alias for --engine option',
         { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
-      ...outputModeOptions,
     ],
-  }
+  })
 
   constructor() {
     super(PDFCommand.definition)

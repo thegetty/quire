@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -13,14 +13,12 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class PreviewCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'preview',
     description: 'Run the development server and watch on file changes',
     summary: 'start local preview server',
     docsLink: 'quire-commands/#start-and-preview-projects',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire preview                  Start preview server on default port
   quire preview --port 3000      Run on custom port
@@ -29,12 +27,11 @@ Examples:
     version: '1.1.0',
     options: [
       [ '-p, --port <port>', 'configure development server port', 8080 ],
-      ...outputModeOptions,
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),
     ],
-  }
+  })
 
   constructor() {
     super(PreviewCommand.definition)

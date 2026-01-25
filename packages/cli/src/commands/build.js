@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
@@ -16,14 +16,12 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class BuildCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'build',
     description: 'Generate publication outputs',
     summary: 'generate HTML site files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire build                Build the site
   quire build --verbose      Build with detailed progress
@@ -34,12 +32,11 @@ Note: Run before "quire pdf" or "quire epub" commands.
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
-      ...outputModeOptions,
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),
     ],
-  }
+  })
 
   constructor() {
     super(BuildCommand.definition)

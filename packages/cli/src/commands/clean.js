@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { clean } from '#helpers/clean.js'
 import paths from '#lib/project/index.js'
 import testcwd from '#helpers/test-cwd.js'
@@ -16,14 +16,12 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class CleanCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'clean',
     description: 'Remove build outputs',
     summary: 'delete generated files',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire clean                  Remove build outputs
   quire clean --dry-run        Preview files to be deleted
@@ -33,9 +31,8 @@ Examples:
     options: [
       [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
       [ '-p, --progress', 'display progress of removing files' ],
-      ...outputModeOptions,
     ],
-  }
+  })
 
   constructor() {
     super(CleanCommand.definition)

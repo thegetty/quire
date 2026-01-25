@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { YAMLException } from 'js-yaml'
 import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
@@ -16,14 +16,12 @@ import { ValidationError } from '#src/errors/index.js'
  * @extends   {Command}
  */
 export default class ValidateCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'validate',
     description: 'Validate configuration files',
     summary: 'check YAML files for errors',
     docsLink: 'quire-commands/#get-help',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire validate               Check YAML syntax in content/_data/
   quire validate --verbose     Validate with detailed file listing
@@ -31,10 +29,8 @@ Examples:
 Validates YAML files in content/_data/ directory.
 `,
     version: '1.0.0',
-    options: [
-      ...outputModeOptions,
-    ],
-  }
+    options: [],
+  })
 
   constructor() {
     super(ValidateCommand.definition)

@@ -1,5 +1,5 @@
 import Command from '#src/Command.js'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import paths, { hasEpubOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
@@ -19,14 +19,12 @@ import { MissingBuildOutputError } from '#src/errors/index.js'
  * @extends    {Command}
  */
 export default class EpubCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'epub',
     description: 'Generate publication EPUB',
     summary: 'generate EPUB e-book',
     docsLink: 'quire-commands/#output-files',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire epub                      Generate EPUB using default engine
   quire epub --engine pandoc      Generate EPUB using Pandoc
@@ -45,9 +43,8 @@ Examples:
         '--lib <name>', 'deprecated alias for --engine option',
         { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
-      ...outputModeOptions,
     ],
-  }
+  })
 
   constructor() {
     super(EpubCommand.definition)

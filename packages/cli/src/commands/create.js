@@ -1,6 +1,6 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
-import { outputModeOptions, outputModeHelpText } from '#lib/commander/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import fs from 'fs-extra'
 import { installer } from '#lib/installer/index.js'
 import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js'
@@ -17,14 +17,12 @@ import reporter from '#lib/reporter/index.js'
  * @extends    {Command}
  */
 export default class CreateCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'new',
     description: 'Start a new Quire project from a template.',
     summary: 'create a new project',
     docsLink: 'quire-commands/#start-and-preview-projects',
     helpText: `
-${outputModeHelpText}
-
 Examples:
   quire new my-project                        Use default starter
   quire new my-project --quire-version 1.0.0  Pin quire-11ty version
@@ -38,11 +36,10 @@ Examples:
     options: [
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
       [ '--quire-version <version>', 'quire-11ty version to install' ],
-      ...outputModeOptions,
       // Use Option object syntax to configure this as a hidden option
       new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
     ],
-  }
+  })
 
   constructor() {
     super(CreateCommand.definition)
