@@ -165,13 +165,10 @@ export function formatHuman(sections, options = {}) {
     summary = { text: 'All checks passed!', level: 'info' }
   }
 
-  // Build key (only in verbose mode)
-  let key = null
-  if (verbose) {
-    key = {
-      text: `Key: ${STATUS_ICONS.passed} passed  ${STATUS_ICONS.failed} failed  ${STATUS_ICONS.warning} warning  ${STATUS_ICONS.timeout} timed out  ${STATUS_ICONS.na} not applicable / not yet generated`,
-      level: 'info',
-    }
+  // Build key
+  const key = {
+    text: `Key: ${STATUS_ICONS.passed} passed  ${STATUS_ICONS.failed} failed  ${STATUS_ICONS.warning} warning  ${STATUS_ICONS.timeout} timed out  ${STATUS_ICONS.na} not applicable / not yet generated`,
+    level: 'info',
   }
 
   return {

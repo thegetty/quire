@@ -713,11 +713,11 @@ test('doctor command should display symbol key in verbose mode', async (t) => {
 
   t.true(
     mockLogger.info.calledWith(sinon.match(/Key:.*✓.*passed.*✗.*failed.*⚠.*warning.*○.*not applicable.*not yet generated/)),
-    'should display symbol key in verbose mode'
+    'should display symbol key'
   )
 })
 
-test('doctor command should not display symbol key without verbose flag', async (t) => {
+test('doctor command should display symbol key in default mode', async (t) => {
   const { sandbox, mockLogger } = t.context
 
   const mockSections = [
@@ -742,7 +742,7 @@ test('doctor command should not display symbol key without verbose flag', async 
 
   const allCalls = mockLogger.info.getCalls().map((call) => call.args[0])
   const hasKey = allCalls.some((arg) => arg && arg.includes('Key:'))
-  t.false(hasKey, 'should not display symbol key without verbose flag')
+  t.true(hasKey, 'should display symbol key in default mode')
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -113,17 +113,18 @@ test('formatHuman returns isEmpty true when filter excludes all', (t) => {
   t.true(lines[0].text.includes('No failed checks'))
 })
 
-test('formatHuman returns key in verbose mode', (t) => {
-  const { key } = formatHuman(mockSections, { verbose: true })
+test('formatHuman always returns key', (t) => {
+  const { key } = formatHuman(mockSections, {})
   t.truthy(key)
   t.true(key.text.includes('Key:'))
   t.true(key.text.includes('passed'))
   t.true(key.text.includes('failed'))
 })
 
-test('formatHuman returns null key without verbose', (t) => {
+test('formatHuman returns key without verbose', (t) => {
   const { key } = formatHuman(mockSections, { verbose: false })
-  t.is(key, null)
+  t.truthy(key)
+  t.true(key.text.includes('Key:'))
 })
 
 test('formatHuman includes details in verbose mode', (t) => {

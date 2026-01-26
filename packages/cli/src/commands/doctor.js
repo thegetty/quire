@@ -198,7 +198,7 @@ CI/Scripting:
       this.logger[summary.level](summary.text)
     }
 
-    // Output key (verbose mode only)
+    // Output symbol key
     if (key) {
       this.logger.info('')
       this.logger[key.level](key.text)
