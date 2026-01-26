@@ -9,6 +9,7 @@ import {
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
+import reporter from '#lib/reporter/index.js'
 import { docsUrl, DOCS_BASE } from '#helpers/docs-url.js'
 import packageConfig from '#src/packageConfig.js'
 import { enableDebug } from '#lib/logger/debug.js'
@@ -91,6 +92,14 @@ program.hook('preAction', (thisCommand) => {
   if (opts.debug ?? config.get('debug')) {
     enableDebug('quire:*')
   }
+})
+
+/**
+ * Stop the reporter after every command to clear any active setInterval timers
+ * (e.g. elapsed time display) that would otherwise keep the event loop alive.
+ */
+program.hook('postAction', () => {
+  reporter.stop()
 })
 
 /**
@@ -196,6 +205,7 @@ commands.forEach((command) => {
     try {
       await action.apply(command, args)
     } catch (error) {
+      reporter.stop()
       const { debug } = program.opts()
       handleError(error, { debug })
     }
