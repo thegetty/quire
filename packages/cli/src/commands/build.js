@@ -32,6 +32,7 @@ Note: Run before "quire pdf" or "quire epub" commands.
     version: '1.1.0',
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
+      [ '--dryrun', 'alias for --dry-run', { hidden: true, implies: { dryRun: true } } ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),

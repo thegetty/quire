@@ -91,6 +91,23 @@ export const verboseOption = [
 ]
 
 /**
+ * Progress option - hidden alias for --verbose
+ *
+ * Provides a familiar `--progress` flag as an alternative to `--verbose`.
+ * Many users expect `--progress` to show detailed output during long-running
+ * operations like builds and file deletions.
+ *
+ * Hidden from help output since --verbose is the canonical flag.
+ * Uses `implies` to set verbose=true when --progress is used.
+ *
+ * @type {Array}
+ */
+const progressOption = [
+  '--progress', 'show detailed progress (alias for --verbose)',
+  { hidden: true, implies: { verbose: true } }
+]
+
+/**
  * Debug mode option - enable debug output
  *
  * Enables the DEBUG=quire:* namespace for internal logging.
@@ -108,7 +125,7 @@ export const debugOption = [
 ]
 
 /**
- * Standard output mode options (quiet, verbose, debug)
+ * Standard output mode options (quiet, verbose, debug, progress)
  *
  * Most commands should include all three options for consistent UX.
  * Spread this array into your command's options:
@@ -125,6 +142,7 @@ export const debugOption = [
 export const outputModeOptions = [
   quietOption,
   verboseOption,
+  progressOption,
   debugOption,
 ]
 
@@ -136,6 +154,7 @@ export const outputModeOptions = [
 export const outputModeHelpText = `Output Modes:
   -q, --quiet      Suppress progress output (for CI/scripts)
   -v, --verbose    Show detailed progress (paths, timing)
+  --progress       Alias for --verbose
   --debug          Enable debug output for troubleshooting`
 
 /**

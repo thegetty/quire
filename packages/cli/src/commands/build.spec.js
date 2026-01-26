@@ -41,22 +41,28 @@ test('registered command has correct options', (t) => {
 
   // Get all options
   const dryRunOption = command.options.find((opt) => opt.long === '--dry-run')
+  const dryrunAlias = command.options.find((opt) => opt.long === '--dryrun')
   const quietOption = command.options.find((opt) => opt.long === '--quiet')
   const verboseOption = command.options.find((opt) => opt.long === '--verbose')
+  const progressOption = command.options.find((opt) => opt.long === '--progress')
   const eleventyOption = command.options.find((opt) => opt.long === '--11ty')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
   t.truthy(dryRunOption, '--dry-run option should exist')
+  t.truthy(dryrunAlias, '--dryrun alias should exist')
   t.truthy(quietOption, '--quiet option should exist')
   t.truthy(verboseOption, '--verbose option should exist')
+  t.truthy(progressOption, '--progress option should exist')
   t.truthy(eleventyOption, '--11ty option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
   t.true(dryRunOption instanceof Option, '--dry-run should be Option instance')
+  t.true(dryrunAlias instanceof Option, '--dryrun should be Option instance')
   t.true(quietOption instanceof Option, '--quiet should be Option instance')
   t.true(verboseOption instanceof Option, '--verbose should be Option instance')
+  t.true(progressOption instanceof Option, '--progress should be Option instance')
   t.true(eleventyOption instanceof Option, '--11ty should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
@@ -65,6 +71,10 @@ test('registered command has correct options', (t) => {
   t.is(dryRunOption.short, '-d')
   t.truthy(dryRunOption.description)
 
+  // --dryrun is a hidden alias for --dry-run
+  t.is(dryrunAlias.long, '--dryrun')
+  t.true(dryrunAlias.hidden, '--dryrun should be hidden from help')
+
   t.is(quietOption.long, '--quiet')
   t.is(quietOption.short, '-q')
   t.truthy(quietOption.description)
@@ -72,6 +82,11 @@ test('registered command has correct options', (t) => {
   t.is(verboseOption.long, '--verbose')
   t.is(verboseOption.short, '-v')
   t.truthy(verboseOption.description)
+
+  // --progress is a hidden alias for --verbose
+  t.is(progressOption.long, '--progress')
+  t.truthy(progressOption.description)
+  t.true(progressOption.hidden, '--progress should be hidden from help')
 
   t.is(eleventyOption.long, '--11ty')
   t.truthy(eleventyOption.description)
@@ -89,8 +104,10 @@ test('command options are accessible via public API', (t) => {
   const optionNames = command.options.map((opt) => opt.long)
 
   t.true(optionNames.includes('--dry-run'))
+  t.true(optionNames.includes('--dryrun'))
   t.true(optionNames.includes('--quiet'))
   t.true(optionNames.includes('--verbose'))
+  t.true(optionNames.includes('--progress'))
   t.true(optionNames.includes('--11ty'))
   t.true(optionNames.includes('--debug'))
 })

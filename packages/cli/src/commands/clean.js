@@ -30,6 +30,7 @@ Examples:
     version: '1.0.0',
     options: [
       [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
+      [ '--dryrun', 'alias for --dry-run', { hidden: true, implies: { dryRun: true } } ],
     ],
   })
 
