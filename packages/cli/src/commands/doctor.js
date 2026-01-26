@@ -133,7 +133,7 @@ CI/Scripting:
   outputQuiet(sections) {
     const { exitCode } = formatJson(sections, {})
     if (exitCode !== 0) {
-      process.exit(exitCode)
+      process.exitCode = exitCode
     }
   }
 
@@ -161,9 +161,9 @@ CI/Scripting:
       console.log(json)
     }
 
-    // Exit with error code if any checks failed
+    // Set exit code if any checks failed
     if (exitCode !== 0) {
-      process.exit(exitCode)
+      process.exitCode = exitCode
     }
   }
 
@@ -205,9 +205,9 @@ CI/Scripting:
       this.logger[key.level](key.text)
     }
 
-    // Exit with error code if any checks failed
+    // Set exit code if any checks failed
     if (exitCode !== 0) {
-      process.exit(exitCode)
+      process.exitCode = exitCode
     }
   }
 }

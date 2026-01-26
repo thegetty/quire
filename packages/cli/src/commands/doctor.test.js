@@ -20,9 +20,6 @@ test.afterEach.always((t) => {
 
 /**
  * Helper to create a DoctorCommand with mocked dependencies
- *
- * Note: For tests that trigger errors, the exitStub will capture process.exit calls
- * but we need to stub process.exit globally before calling action().
  */
 async function createMockedDoctorCommand(sandbox, mockSections) {
   return esmock('./doctor.js', {
@@ -83,95 +80,81 @@ test('doctor command should run all diagnostic checks with sections', async (t) 
   )
 })
 
-test.serial('doctor command should report failed checks', async (t) => {
+test('doctor command should report failed checks', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  // Stub process.exit before running to prevent test from exiting
-  const exitStub = sinon.stub(process, 'exit')
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'Node.js version', ok: true, message: 'v22.0.0' },
+        {
+          name: 'npm available',
+          ok: false,
+          message: 'npm not found in PATH',
+          remediation: 'Install Node.js to get npm',
+          docsUrl: 'https://quire.getty.edu/docs-v1/install-uninstall/',
+        },
+      ],
+    },
+  ]
 
-  try {
-    const mockSections = [
-      {
-        section: 'Environment',
-        results: [
-          { name: 'Node.js version', ok: true, message: 'v22.0.0' },
-          {
-            name: 'npm available',
-            ok: false,
-            message: 'npm not found in PATH',
-            remediation: 'Install Node.js to get npm',
-            docsUrl: 'https://quire.getty.edu/docs-v1/install-uninstall/',
-          },
-        ],
-      },
-    ]
+  const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
 
-    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+  const command = new DoctorCommand()
+  command.logger = mockLogger
 
-    const command = new DoctorCommand()
-    command.logger = mockLogger
+  await command.action({}, command)
 
-    await command.action({}, command)
-
-    t.true(mockLogger.error.called, 'should log error for failed check')
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/1 check failed/)),
-      'should report failure count'
-    )
-  } finally {
-    exitStub.restore()
-  }
+  t.true(mockLogger.error.called, 'should log error for failed check')
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/1 check failed/)),
+    'should report failure count'
+  )
 })
 
-test.serial('doctor command should display remediation guidance for failed checks', async (t) => {
+test('doctor command should display remediation guidance for failed checks', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  // Stub process.exit before running to prevent test from exiting
-  const exitStub = sinon.stub(process, 'exit')
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        {
+          name: 'npm available',
+          ok: false,
+          message: 'npm not found in PATH',
+          remediation: 'Install Node.js to get npm',
+          docsUrl: 'https://quire.getty.edu/docs-v1/install-uninstall/',
+        },
+      ],
+    },
+  ]
 
-  try {
-    const mockSections = [
-      {
-        section: 'Environment',
-        results: [
-          {
-            name: 'npm available',
-            ok: false,
-            message: 'npm not found in PATH',
-            remediation: 'Install Node.js to get npm',
-            docsUrl: 'https://quire.getty.edu/docs-v1/install-uninstall/',
-          },
-        ],
-      },
-    ]
+  const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
 
-    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+  const command = new DoctorCommand()
+  command.logger = mockLogger
 
-    const command = new DoctorCommand()
-    command.logger = mockLogger
+  await command.action({}, command)
 
-    await command.action({}, command)
-
-    // Failed checks output goes through logger.error as a single joined string
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/How to fix/)),
-      'should display "How to fix" header'
-    )
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/Install Node.js/)),
-      'should display remediation text'
-    )
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/Documentation:/)),
-      'should display documentation label'
-    )
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/quire\.getty\.edu/)),
-      'should display documentation URL'
-    )
-  } finally {
-    exitStub.restore()
-  }
+  // Failed checks output goes through logger.error as a single joined string
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/How to fix/)),
+    'should display "How to fix" header'
+  )
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/Install Node.js/)),
+    'should display remediation text'
+  )
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/Documentation:/)),
+    'should display documentation label'
+  )
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/quire\.getty\.edu/)),
+    'should display documentation URL'
+  )
 })
 
 test('doctor command should display warnings with warning indicator', async (t) => {
@@ -277,14 +260,13 @@ test('doctor command should display check messages', async (t) => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Exit code tests (run serially to avoid process.exit stub conflicts)
+// Exit code tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('doctor command should exit with code 1 when checks fail', async (t) => {
+test.serial('doctor command should set exitCode 1 when checks fail', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  // Stub process.exit before running
-  const exitStub = sinon.stub(process, 'exit')
+  const savedExitCode = process.exitCode
 
   try {
     const mockSections = [
@@ -308,18 +290,17 @@ test.serial('doctor command should exit with code 1 when checks fail', async (t)
 
     await command.action({}, command)
 
-    t.true(exitStub.calledOnce, 'should call process.exit')
-    t.true(exitStub.calledWith(1), 'should exit with code 1')
+    t.is(process.exitCode, 1, 'should set process.exitCode to 1')
   } finally {
-    exitStub.restore()
+    process.exitCode = savedExitCode
   }
 })
 
-test.serial('doctor command should not exit when all checks pass', async (t) => {
+test.serial('doctor command should not set exitCode when all checks pass', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  // Stub process.exit to verify it's NOT called
-  const exitStub = sinon.stub(process, 'exit')
+  const savedExitCode = process.exitCode
+  process.exitCode = undefined
 
   try {
     const mockSections = [
@@ -339,17 +320,17 @@ test.serial('doctor command should not exit when all checks pass', async (t) => 
 
     await command.action({}, command)
 
-    t.false(exitStub.called, 'should not call process.exit on success')
+    t.is(process.exitCode, undefined, 'should not set process.exitCode on success')
   } finally {
-    exitStub.restore()
+    process.exitCode = savedExitCode
   }
 })
 
-test.serial('doctor command should not exit when only warnings exist', async (t) => {
+test.serial('doctor command should not set exitCode when only warnings exist', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  // Stub process.exit to verify it's NOT called for warnings
-  const exitStub = sinon.stub(process, 'exit')
+  const savedExitCode = process.exitCode
+  process.exitCode = undefined
 
   try {
     const mockSections = [
@@ -374,13 +355,13 @@ test.serial('doctor command should not exit when only warnings exist', async (t)
 
     await command.action({}, command)
 
-    t.false(exitStub.called, 'should not call process.exit for warnings')
+    t.is(process.exitCode, undefined, 'should not set process.exitCode for warnings')
     t.true(
       mockLogger.warn.calledWith(sinon.match(/All checks passed with 1 warning/)),
       'should report passed with warning count'
     )
   } finally {
-    exitStub.restore()
+    process.exitCode = savedExitCode
   }
 })
 
@@ -388,69 +369,57 @@ test.serial('doctor command should not exit when only warnings exist', async (t)
 // Summary count tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('doctor command should display plural error count', async (t) => {
+test('doctor command should display plural error count', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  const exitStub = sinon.stub(process, 'exit')
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'npm', ok: false, message: 'not found' },
+        { name: 'Git', ok: false, message: 'not found' },
+      ],
+    },
+  ]
 
-  try {
-    const mockSections = [
-      {
-        section: 'Environment',
-        results: [
-          { name: 'npm', ok: false, message: 'not found' },
-          { name: 'Git', ok: false, message: 'not found' },
-        ],
-      },
-    ]
+  const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
 
-    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+  const command = new DoctorCommand()
+  command.logger = mockLogger
 
-    const command = new DoctorCommand()
-    command.logger = mockLogger
+  await command.action({}, command)
 
-    await command.action({}, command)
-
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/2 checks failed/)),
-      'should use plural for multiple errors'
-    )
-  } finally {
-    exitStub.restore()
-  }
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/2 checks failed/)),
+    'should use plural for multiple errors'
+  )
 })
 
-test.serial('doctor command should display errors and warnings together', async (t) => {
+test('doctor command should display errors and warnings together', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  const exitStub = sinon.stub(process, 'exit')
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'npm', ok: false, message: 'not found' },
+        { name: 'Git', ok: false, level: 'warn', message: 'outdated' },
+        { name: 'Prince', ok: false, level: 'warn', message: 'not found' },
+      ],
+    },
+  ]
 
-  try {
-    const mockSections = [
-      {
-        section: 'Environment',
-        results: [
-          { name: 'npm', ok: false, message: 'not found' },
-          { name: 'Git', ok: false, level: 'warn', message: 'outdated' },
-          { name: 'Prince', ok: false, level: 'warn', message: 'not found' },
-        ],
-      },
-    ]
+  const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
 
-    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+  const command = new DoctorCommand()
+  command.logger = mockLogger
 
-    const command = new DoctorCommand()
-    command.logger = mockLogger
+  await command.action({}, command)
 
-    await command.action({}, command)
-
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/1 check failed, 2 warnings/)),
-      'should display both error and warning counts'
-    )
-  } finally {
-    exitStub.restore()
-  }
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/1 check failed, 2 warnings/)),
+    'should display both error and warning counts'
+  )
 })
 
 test('doctor command should display plural warning count', async (t) => {
@@ -560,43 +529,37 @@ test('doctor command should not count N/A checks in summary', async (t) => {
   )
 })
 
-test.serial('doctor command should not count N/A checks when mixed with errors', async (t) => {
+test('doctor command should not count N/A checks when mixed with errors', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  const exitStub = sinon.stub(process, 'exit')
+  const mockSections = [
+    {
+      section: 'Environment',
+      results: [
+        { name: 'npm', ok: false, message: 'not found' },
+      ],
+    },
+    {
+      section: 'Outputs',
+      results: [
+        { name: 'Build status', ok: true, level: 'na', message: 'No build output' },
+        { name: 'PDF output', ok: true, level: 'na', message: 'No PDF output' },
+      ],
+    },
+  ]
 
-  try {
-    const mockSections = [
-      {
-        section: 'Environment',
-        results: [
-          { name: 'npm', ok: false, message: 'not found' },
-        ],
-      },
-      {
-        section: 'Outputs',
-        results: [
-          { name: 'Build status', ok: true, level: 'na', message: 'No build output' },
-          { name: 'PDF output', ok: true, level: 'na', message: 'No PDF output' },
-        ],
-      },
-    ]
+  const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
 
-    const DoctorCommand = await createMockedDoctorCommand(sandbox, mockSections)
+  const command = new DoctorCommand()
+  command.logger = mockLogger
 
-    const command = new DoctorCommand()
-    command.logger = mockLogger
+  await command.action({}, command)
 
-    await command.action({}, command)
-
-    // Should only report 1 error (N/A checks not counted)
-    t.true(
-      mockLogger.error.calledWith(sinon.match(/1 check failed/)),
-      'should only count actual errors, not N/A checks'
-    )
-  } finally {
-    exitStub.restore()
-  }
+  // Should only report 1 error (N/A checks not counted)
+  t.true(
+    mockLogger.error.calledWith(sinon.match(/1 check failed/)),
+    'should only count actual errors, not N/A checks'
+  )
 })
 
 test('doctor command should use info logger for N/A checks', async (t) => {
@@ -828,37 +791,41 @@ test.serial('doctor command should output valid JSON when --json flag is used', 
   t.is(parsed.checks[0].status, 'passed', 'check should have status')
 })
 
-test.serial('doctor command JSON output should exit with code 1 when checks fail', async (t) => {
+test.serial('doctor command JSON output should set exitCode 1 when checks fail', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  const exitStub = sandbox.stub(process, 'exit')
   const consoleLogStub = sandbox.stub(console, 'log')
+  const savedExitCode = process.exitCode
 
-  const mockSections = [
-    {
-      section: 'Environment',
-      results: [
-        { id: 'node', name: 'Node.js version', ok: false, message: 'v18.0.0 found' },
-      ],
-    },
-  ]
+  try {
+    const mockSections = [
+      {
+        section: 'Environment',
+        results: [
+          { id: 'node', name: 'Node.js version', ok: false, message: 'v18.0.0 found' },
+        ],
+      },
+    ]
 
-  const DoctorCommand = await esmock('./doctor.js', {
-    '#lib/doctor/index.js': {
-      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
-    },
-  })
+    const DoctorCommand = await esmock('./doctor.js', {
+      '#lib/doctor/index.js': {
+        runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+      },
+    })
 
-  const command = new DoctorCommand()
-  command.logger = mockLogger
+    const command = new DoctorCommand()
+    command.logger = mockLogger
 
-  await command.action({ json: true }, command)
+    await command.action({ json: true }, command)
 
-  t.true(exitStub.calledWith(1), 'should exit with code 1')
+    t.is(process.exitCode, 1, 'should set process.exitCode to 1')
 
-  const output = consoleLogStub.firstCall.args[0]
-  const parsed = JSON.parse(output)
-  t.is(parsed.summary.failed, 1, 'should count failed check')
+    const output = consoleLogStub.firstCall.args[0]
+    const parsed = JSON.parse(output)
+    t.is(parsed.summary.failed, 1, 'should count failed check')
+  } finally {
+    process.exitCode = savedExitCode
+  }
 })
 
 test.serial('doctor command JSON output should include remediation for failed checks', async (t) => {
@@ -882,9 +849,6 @@ test.serial('doctor command JSON output should include remediation for failed ch
     },
   ]
 
-  // Stub process.exit to prevent test from exiting
-  sandbox.stub(process, 'exit')
-
   const DoctorCommand = await esmock('./doctor.js', {
     '#lib/doctor/index.js': {
       runAllChecksWithSections: sandbox.stub().resolves(mockSections),
@@ -907,7 +871,7 @@ test.serial('doctor command JSON output should include remediation for failed ch
 // --errors and --warnings filter tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('doctor command --errors flag should show only failed checks', async (t) => {
+test('doctor command --errors flag should show only failed checks', async (t) => {
   const { sandbox, mockLogger } = t.context
 
   const mockSections = [
@@ -920,8 +884,6 @@ test.serial('doctor command --errors flag should show only failed checks', async
       ],
     },
   ]
-
-  sandbox.stub(process, 'exit')
 
   const DoctorCommand = await esmock('./doctor.js', {
     '#lib/doctor/index.js': {
@@ -945,7 +907,7 @@ test.serial('doctor command --errors flag should show only failed checks', async
   t.false(hasNode, 'should not show passed Node.js check')
 })
 
-test.serial('doctor command --warnings flag should show only warning checks', async (t) => {
+test('doctor command --warnings flag should show only warning checks', async (t) => {
   const { sandbox, mockLogger } = t.context
 
   const mockSections = [
@@ -958,8 +920,6 @@ test.serial('doctor command --warnings flag should show only warning checks', as
       ],
     },
   ]
-
-  sandbox.stub(process, 'exit')
 
   const DoctorCommand = await esmock('./doctor.js', {
     '#lib/doctor/index.js': {
@@ -1189,36 +1149,40 @@ test.serial('doctor command --quiet alone should produce no output on success', 
   t.false(mockLogger.info.called, 'should not log any info messages')
 })
 
-test.serial('doctor command --quiet alone should exit with code 1 on failures', async (t) => {
+test.serial('doctor command --quiet alone should set exitCode 1 on failures', async (t) => {
   const { sandbox, mockLogger } = t.context
 
-  const exitStub = sandbox.stub(process, 'exit')
   const consoleLogStub = sandbox.stub(console, 'log')
+  const savedExitCode = process.exitCode
 
-  const mockSections = [
-    {
-      section: 'Environment',
-      results: [
-        { id: 'npm', name: 'npm', ok: false, message: 'not found' },
-      ],
-    },
-  ]
+  try {
+    const mockSections = [
+      {
+        section: 'Environment',
+        results: [
+          { id: 'npm', name: 'npm', ok: false, message: 'not found' },
+        ],
+      },
+    ]
 
-  const DoctorCommand = await esmock('./doctor.js', {
-    '#lib/doctor/index.js': {
-      runAllChecksWithSections: sandbox.stub().resolves(mockSections),
-    },
-  })
+    const DoctorCommand = await esmock('./doctor.js', {
+      '#lib/doctor/index.js': {
+        runAllChecksWithSections: sandbox.stub().resolves(mockSections),
+      },
+    })
 
-  const command = new DoctorCommand()
-  command.logger = mockLogger
+    const command = new DoctorCommand()
+    command.logger = mockLogger
 
-  // --quiet alone should still exit with code 1 on failure
-  await command.action({ quiet: true }, command)
+    // --quiet alone should still set exitCode 1 on failure
+    await command.action({ quiet: true }, command)
 
-  t.true(exitStub.calledWith(1), 'should exit with code 1')
-  t.false(consoleLogStub.called, 'should not output anything')
-  t.false(mockLogger.info.called, 'should not log any info messages')
+    t.is(process.exitCode, 1, 'should set process.exitCode to 1')
+    t.false(consoleLogStub.called, 'should not output anything')
+    t.false(mockLogger.info.called, 'should not log any info messages')
+  } finally {
+    process.exitCode = savedExitCode
+  }
 })
 
 test.serial('doctor command --quiet --json should suppress stdout JSON output', async (t) => {
