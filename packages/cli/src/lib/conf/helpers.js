@@ -1,11 +1,13 @@
 /**
  * Pure helper functions for Quire configuration
  *
- * Provides schema-aware validation, coercion, and formatting
+ * Provides schema-aware validation and coercion
  * without side effects or dependencies on the Conf instance.
  *
  * Nota bene: these functions import only schema and defaults (pure data),
  * avoiding circular dependencies with the logger module.
+ *
+ * @see ./format.js for display formatting functions
  */
 import schema from './schema.js'
 import defaults from './defaults.js'
@@ -87,46 +89,3 @@ export function getDefault(key) {
   return defaults[key]
 }
 
-/**
- * Get the description for a configuration key from the schema
- *
- * @param {string} key - Configuration key
- * @returns {string|undefined} Description string, or undefined if not found
- */
-export function getKeyDescription(key) {
-  return schema[key]?.description
-}
-
-/**
- * Format all settings as a human-readable string
- *
- * @param {Object} store - Configuration store (key-value pairs)
- * @param {Object} [options]
- * @param {boolean} [options.showInternal=false] - Include __internal__ keys
- * @param {string} [options.configPath] - Path to the config file (shown in header)
- * @returns {string} Formatted multiline settings display
- */
-export function formatSettings(store, { showInternal = false, configPath } = {}) {
-  const lines = []
-
-  if (configPath) {
-    lines.push(`quire-cli configuration ${configPath}`)
-  } else {
-    lines.push('quire-cli configuration')
-  }
-  lines.push('')
-
-  for (const [key, value] of Object.entries(store)) {
-    if (key.startsWith('__internal__') && !showInternal) continue
-    const description = getKeyDescription(key)
-    lines.push(`  ${key}: ${JSON.stringify(value)}`)
-    if (description) {
-      lines.push(`    ${description}`)
-    }
-  }
-
-  lines.push('')
-  lines.push('Use "quire settings set <key> <value>" to change a setting')
-
-  return lines.join('\n')
-}

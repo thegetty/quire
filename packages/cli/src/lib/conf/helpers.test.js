@@ -5,8 +5,6 @@ import {
   coerceValue,
   formatValidationError,
   getDefault,
-  getKeyDescription,
-  formatSettings,
 } from './helpers.js'
 
 // =============================================================================
@@ -136,63 +134,3 @@ test('getDefault returns undefined for unknown key', (t) => {
   t.is(getDefault('unknownKey'), undefined)
 })
 
-// =============================================================================
-// getKeyDescription
-// =============================================================================
-
-test('getKeyDescription returns description for known key', (t) => {
-  const desc = getKeyDescription('logLevel')
-  t.is(typeof desc, 'string')
-  t.true(desc.length > 0)
-})
-
-test('getKeyDescription returns undefined for unknown key', (t) => {
-  t.is(getKeyDescription('unknownKey'), undefined)
-})
-
-// =============================================================================
-// formatSettings
-// =============================================================================
-
-test('formatSettings includes header with config path', (t) => {
-  const output = formatSettings({}, { configPath: '/mock/path' })
-  t.true(output.includes('quire-cli configuration /mock/path'))
-})
-
-test('formatSettings includes header without config path', (t) => {
-  const output = formatSettings({})
-  t.true(output.includes('quire-cli configuration'))
-})
-
-test('formatSettings includes key-value pairs', (t) => {
-  const store = { logLevel: 'info', logShowLevel: false }
-  const output = formatSettings(store)
-  t.true(output.includes('logLevel: "info"'))
-  t.true(output.includes('logShowLevel: false'))
-})
-
-test('formatSettings includes schema descriptions', (t) => {
-  const store = { logLevel: 'info' }
-  const output = formatSettings(store)
-  // logLevel has a description in the schema
-  const desc = getKeyDescription('logLevel')
-  t.true(output.includes(desc))
-})
-
-test('formatSettings hides __internal__ keys by default', (t) => {
-  const store = { logLevel: 'info', __internal__secret: 'hidden' }
-  const output = formatSettings(store)
-  t.false(output.includes('__internal__secret'))
-})
-
-test('formatSettings shows __internal__ keys with showInternal', (t) => {
-  const store = { logLevel: 'info', __internal__secret: 'hidden' }
-  const output = formatSettings(store, { showInternal: true })
-  t.true(output.includes('__internal__secret'))
-  t.true(output.includes('"hidden"'))
-})
-
-test('formatSettings includes help hint', (t) => {
-  const output = formatSettings({})
-  t.true(output.includes('Use "quire settings set <key> <value>" to change a setting'))
-})
