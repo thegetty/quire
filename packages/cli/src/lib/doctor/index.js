@@ -78,8 +78,10 @@ export const DEFAULT_CHECK_TIMEOUT = 10_000 // 10 seconds
  * @returns {Promise<CheckResult>}
  */
 async function runCheckWithTimeout(checkFn, checkId, timeout = DEFAULT_CHECK_TIMEOUT) {
+  let timeoutId
+
   const timeoutPromise = new Promise((_, reject) => {
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       reject(new Error(`Check '${checkId}' timed out after ${timeout}ms`))
     }, timeout)
   })
@@ -94,6 +96,8 @@ async function runCheckWithTimeout(checkFn, checkId, timeout = DEFAULT_CHECK_TIM
       message: `skipped (timed out after ${timeout}ms)`,
       remediation: `The '${checkId}' check is taking too long to complete. This may indicate a network issue or a problem with the tool being checked.`,
     }
+  } finally {
+    clearTimeout(timeoutId)
   }
 }
 
