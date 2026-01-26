@@ -515,6 +515,128 @@ test('conf should show error for unknown operation', async (t) => {
 })
 
 // =============================================================================
+// JSON output
+// =============================================================================
+
+test.serial('conf --json should output raw JSON of all config', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action(undefined, undefined, undefined, { json: true })
+
+  t.true(consoleLogStub.calledOnce)
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+  t.is(output.logLevel, 'info')
+  t.is(output.quireVersion, '1.0.0')
+  t.false(mockLogger.info.called, 'logger.info should not be called in JSON mode')
+})
+
+test.serial('conf --json should not include descriptions or headers', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action(undefined, undefined, undefined, { json: true })
+
+  const raw = consoleLogStub.firstCall.args[0]
+  t.false(raw.includes('quire-cli configuration'), 'JSON output should not contain header text')
+  t.false(raw.includes('Use "quire settings'), 'JSON output should not contain help hint')
+})
+
+test.serial('conf get --json should output single value as JSON', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action('get', 'logLevel', undefined, { json: true })
+
+  t.true(consoleLogStub.calledOnce)
+  t.is(consoleLogStub.firstCall.args[0], '"info"')
+  t.false(mockLogger.info.called, 'logger.info should not be called in JSON mode')
+})
+
+test.serial('conf get --json should output boolean value as JSON', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action('get', 'logShowLevel', undefined, { json: true })
+
+  t.true(consoleLogStub.calledOnce)
+  t.is(consoleLogStub.firstCall.args[0], 'false')
+})
+
+test.serial('conf get --json should output undefined as JSON for unset key', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  // Add a key that returns undefined
+  mockConfig.store.missingKey = undefined
+  mockConfig.get = (key) => mockConfig.store[key]
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action('get', 'logLevel', undefined, { json: true })
+
+  t.true(consoleLogStub.calledOnce)
+})
+
+// =============================================================================
 // Debug output
 // =============================================================================
 
