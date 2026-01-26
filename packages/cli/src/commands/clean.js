@@ -30,7 +30,6 @@ Examples:
     version: '1.0.0',
     options: [
       [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
-      [ '-p, --progress', 'display progress of removing files' ],
     ],
   })
 
@@ -43,11 +42,14 @@ Examples:
 
     const deletedPaths = await clean(paths.getProjectRoot(), paths.toObject(), options)
 
-    const message = deletedPaths && deletedPaths.length
-      ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
-      : 'no files to delete'
+    if (!deletedPaths || !deletedPaths.length) {
+      this.logger.info('No files to delete')
+      return
+    }
 
-    this.debug('%s\n%s', message, deletedPaths.join('\n'))
+    const verb = options.dryRun ? 'Will delete' : 'Deleted'
+    const listing = deletedPaths.map((p) => `  ${p}`).join('\n')
+    this.logger.info(`${verb} ${deletedPaths.length} file(s):\n${listing}`)
   }
 
   preAction(thisCommand, actionCommand) {
