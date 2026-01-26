@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { YAMLException } from 'js-yaml'
 import YamlValidationError from '../errors/validation/yaml-validation-error.js'
 import fs from 'fs-extra'
@@ -10,27 +11,26 @@ import { ValidationError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `validate` Command
- *  
+ *
  * @class     ValidateCommand
  * @extends   {Command}
  */
 export default class ValidateCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'validate',
     description: 'Validate configuration files',
     summary: 'check YAML files for errors',
     docsLink: 'quire-commands/#get-help',
     helpText: `
-Example:
-  quire validate    Check YAML syntax in content/_data/
+Examples:
+  quire validate               Check YAML syntax in content/_data/
+  quire validate --verbose     Validate with detailed file listing
 
 Validates YAML files in content/_data/ directory.
 `,
     version: '1.0.0',
-    options: [
-      [ '--debug', 'run validate with debug output to console' ],
-    ],
-  }
+    options: [],
+  })
 
   constructor() {
     super(ValidateCommand.definition)

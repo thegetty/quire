@@ -71,6 +71,8 @@ test('clean command should call clean helper with correct parameters', async (t)
 
   const command = new CleanCommand()
   command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action
   const options = {}
@@ -78,6 +80,12 @@ test('clean command should call clean helper with correct parameters', async (t)
 
   t.true(mockClean.called, 'clean should be called')
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should be called with correct parameters')
+
+  // Verify user-visible output
+  t.true(mockLogger.info.called, 'logger.info should be called with result')
+  const output = mockLogger.info.firstCall.args[0]
+  t.true(output.includes('Deleted'), 'should report deleted files')
+  t.true(output.includes('/project/_site'), 'should list deleted paths')
 })
 
 test('clean command should handle dry-run option', async (t) => {
@@ -111,6 +119,8 @@ test('clean command should handle dry-run option', async (t) => {
 
   const command = new CleanCommand()
   command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action with dry-run
   const options = { dryRun: true }
@@ -118,6 +128,10 @@ test('clean command should handle dry-run option', async (t) => {
 
   t.true(mockClean.called, 'clean should be called')
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should receive dry-run option')
+
+  // Verify dry-run output uses "Will delete" instead of "Deleted"
+  const output = mockLogger.info.firstCall.args[0]
+  t.true(output.includes('Will delete'), 'should use future tense for dry-run')
 })
 
 test('clean command should call testcwd in preAction', async (t) => {
@@ -190,14 +204,18 @@ test('clean command should handle empty deletedPaths', async (t) => {
 
   const command = new CleanCommand()
   command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action
   const options = {}
   await command.action(options, command)
 
   t.true(mockClean.called, 'clean should be called')
-  // Should complete without error even when no files are deleted
-  t.pass()
+
+  // Verify "no files" message
+  const output = mockLogger.info.firstCall.args[0]
+  t.true(output.includes('No files to delete'), 'should report no files to delete')
 })
 
 test('clean command should pass all options to clean helper', async (t) => {
@@ -231,9 +249,11 @@ test('clean command should pass all options to clean helper', async (t) => {
 
   const command = new CleanCommand()
   command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
   // Run action with multiple options
-  const options = { verbose: true, progress: true, dryRun: false }
+  const options = { verbose: true, dryRun: false }
   await command.action(options, command)
 
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should receive all options')

@@ -17,7 +17,8 @@ export default class DirectoryNotEmptyError extends QuireError {
         exitCode: 2,
         filePath: path,
         suggestion: 'Choose an empty directory or create a new one',
-        docsUrl: docsUrl('install-uninstall')
+        docsUrl: docsUrl('install-uninstall'),
+        showDebugHint: false
       }
     )
   }

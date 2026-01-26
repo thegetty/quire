@@ -49,7 +49,8 @@ class MyError extends QuireError {
       exitCode: 1,                   // Process exit code
       suggestion: 'How to fix it',   // Actionable advice
       docsUrl: 'https://...',        // Documentation link
-      filePath: '/path/to/file'      // Related file (optional)
+      filePath: '/path/to/file',     // Related file (optional)
+      showDebugHint: true            // Show --debug tip (default: true)
     })
     // Optionally preserve the original error for debugging
     this.cause = originalError
@@ -190,13 +191,30 @@ test('handleError calls exit with correct code', (t) => {
 
 ## Error Output Format
 
+Error codes (e.g., `BUILD_OUTPUT_MISSING`) are only displayed when the `--debug` flag is used. This keeps normal error output focused on the actionable message while providing technical details for troubleshooting.
+
 ### Standard Error
+
+```
+[quire] ERROR  Cannot generate PDF: build output not found
+  File: /project/_site/pdf.html
+  Suggestion: Run 'quire build' first, then try again
+  Learn more: https://quire.getty.edu/docs-v1/quire-commands/
+  Tip: Run with --debug for more details
+```
+
+The `--debug` tip is shown by default for errors where additional debug information would be helpful. Some errors suppress this hint when the fix is obvious (see [Debug Hint Control](#debug-hint-control)).
+
+### Standard Error (with --debug)
 
 ```
 [quire] ERROR  BUILD_OUTPUT_MISSING Cannot generate PDF: build output not found
   File: /project/_site/pdf.html
   Suggestion: Run 'quire build' first, then try again
   Learn more: https://quire.getty.edu/docs-v1/quire-commands/
+[quire] DEBUG  Stack trace:
+[quire] DEBUG  MissingBuildOutputError: Cannot generate PDF: build output not found
+                   at generatePdf (/packages/cli/src/lib/pdf/index.js:42:15)
 ```
 
 ### Multiple Errors (Validation)
@@ -204,20 +222,76 @@ test('handleError calls exit with correct code', (t) => {
 ```
 [quire] ERROR  Invalid YAML: missing required field
 [quire] ERROR  Duplicate ID 'fig-1' found
-[quire] ERROR  VALIDATION_FAILED Validation failed with 2 error(s)
+[quire] ERROR  Validation failed with 2 error(s)
   Suggestion: Fix the errors listed above and run validation again
   Learn more: https://quire.getty.edu/docs-v1/troubleshooting/
 ```
 
-### Unexpected Error (with --debug)
+### Unexpected Error
 
 ```
 [quire] ERROR  Unexpected error: Cannot read property 'map' of undefined
 [quire] INFO   Please report this issue: https://github.com/thegetty/quire/issues
-[quire] DEBUG  Stack trace:
-[quire] DEBUG  TypeError: Cannot read property 'map' of undefined
-                   at processData (/packages/cli/src/lib/pdf/index.js:42:15)
 ```
+
+## Debug Hint Control
+
+By default, errors display a tip suggesting the user run with `--debug` for more details. This helps users discover that additional diagnostic information is available.
+
+### Disabling the Hint
+
+Set `showDebugHint: false` for errors where the fix is obvious and debug output wouldn't help:
+
+```javascript
+class NotInProjectError extends QuireError {
+  constructor(commandName) {
+    super(`Must run inside a Quire project`, {
+      code: 'NOT_IN_PROJECT',
+      exitCode: 2,
+      suggestion: "Navigate to your project folder with 'cd your-project-name'",
+      showDebugHint: false  // Fix is obvious, debug won't help
+    })
+  }
+}
+```
+
+### When to Disable
+
+Disable the hint for "simple user errors" where:
+
+- The fix is immediately obvious from the message
+- Debug output wouldn't provide additional useful information
+- The user just needs to take a simple corrective action
+
+**Errors with hint disabled:**
+
+| Error | Reason |
+|-------|--------|
+| `NotInProjectError` | Just cd to project folder |
+| `DirectoryNotEmptyError` | Choose empty directory |
+| `InvalidPathError` | Verify path exists |
+| `MissingBuildOutputError` | Run `quire build` first |
+| `InvalidPdfLibraryError` | Use valid library name |
+| `InvalidEpubLibraryError` | Use valid library name |
+
+### When to Keep the Hint
+
+Keep the hint enabled (default) for errors where:
+
+- The issue may be complex or environmental
+- Stack traces or debug logging would help diagnosis
+- The user may need to report a bug
+
+**Errors with hint enabled (default):**
+
+| Error | Reason |
+|-------|--------|
+| `BuildFailedError` | Complex build issues need investigation |
+| `PdfGenerationError` | Tool/process issues |
+| `EpubGenerationError` | Tool/process issues |
+| `ToolNotFoundError` | PATH/environment issues |
+| `DependencyInstallError` | npm issues need detailed output |
+| Config/YAML validation errors | Parsing details help |
 
 ## Adding New Errors
 
@@ -234,7 +308,9 @@ export default class MyNewError extends QuireError {
       code: 'MY_NEW_ERROR',
       exitCode: 5,  // Use domain's exit code
       suggestion: 'How to fix this',
-      docsUrl: docsUrl('relevant-page')
+      docsUrl: docsUrl('relevant-page'),
+      // Optional: disable --debug hint for simple user errors
+      // showDebugHint: false
     })
   }
 }

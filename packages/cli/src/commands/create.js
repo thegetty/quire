@@ -1,8 +1,10 @@
 import Command from '#src/Command.js'
 import { Option } from 'commander'
+import { withOutputModes } from '#lib/commander/index.js'
 import fs from 'fs-extra'
 import { installer } from '#lib/installer/index.js'
 import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js'
+import reporter from '#lib/reporter/index.js'
 
 /**
  * Quire CLI `new` Command
@@ -15,7 +17,7 @@ import { DirectoryNotEmptyError, ProjectCreateError } from '#src/errors/index.js
  * @extends    {Command}
  */
 export default class CreateCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'new',
     description: 'Start a new Quire project from a template.',
     summary: 'create a new project',
@@ -24,6 +26,7 @@ export default class CreateCommand extends Command {
 Examples:
   quire new my-project                        Use default starter
   quire new my-project --quire-version 1.0.0  Pin quire-11ty version
+  quire new my-project --verbose              Create with detailed progress
 `,
     version: '1.0.0',
     args: [
@@ -33,11 +36,10 @@ Examples:
     options: [
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
       [ '--quire-version <version>', 'quire-11ty version to install' ],
-      [ '--debug', 'debug the `quire new` command', false ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
     ],
-  }
+  })
 
   constructor() {
     super(CreateCommand.definition)
@@ -51,6 +53,9 @@ Examples:
    */
   async action(projectPath, starter, options = {}) {
     this.debug('called with options %O', options)
+
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     starter = starter || this.config.get('projectTemplate')
 
@@ -74,6 +79,7 @@ Examples:
       try {
         quireVersion = await installer.initStarter(starter, projectPath, options)
       } catch (error) {
+        reporter.fail('Failed to initialize project')
         this.logger.error(error.message)
         /**
          * Nota bene: Auto-deletion of projectPath is disabled to prevent accidental data loss.
@@ -94,6 +100,7 @@ Examples:
       }
 
       await installer.installInProject(projectPath, quireVersion, options)
+      reporter.succeed('Project created successfully')
     }
   }
 }

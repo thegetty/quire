@@ -115,9 +115,7 @@ test('pack() calls npm pack with package spec and destination', async (t) => {
   await npm.pack('@thegetty/quire-11ty@1.0.0', '/tmp/dest', { quiet: true })
 
   t.true(mockExeca.calledOnce)
-  t.true(mockExeca.calledWith(
-    'npm', ['pack', '--quiet', '--pack-destination', '/tmp/dest', '@thegetty/quire-11ty@1.0.0']
-  ))
+  t.true(mockExeca.calledWith('npm', ['pack', '--quiet', '--pack-destination', '/tmp/dest', '@thegetty/quire-11ty@1.0.0']))
 })
 
 test('pack() uses --debug flag when debug option is true', async (t) => {
@@ -133,9 +131,7 @@ test('pack() uses --debug flag when debug option is true', async (t) => {
 
   await npm.pack('@thegetty/quire-11ty@1.0.0', '/tmp/dest', { debug: true, quiet: false })
 
-  t.true(mockExeca.calledWith(
-    'npm', ['pack', '--debug', '--pack-destination', '/tmp/dest', '@thegetty/quire-11ty@1.0.0']
-  ))
+  t.true(mockExeca.calledWith('npm', ['pack', '--debug', '--pack-destination', '/tmp/dest', '@thegetty/quire-11ty@1.0.0']))
 })
 
 test('cacheClean() calls npm cache clean --force', async (t) => {
@@ -162,7 +158,7 @@ test('view() calls npm view with package name and field', async (t) => {
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execa: mockExeca, execaCommand: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -179,7 +175,7 @@ test('show() calls npm show with package name and field', async (t) => {
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execa: mockExeca, execaCommand: sandbox.stub() },
+    execa: { execa: mockExeca },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -203,7 +199,7 @@ test('fetchFromRegistry() fetches package metadata from npm registry', async (t)
 
   const npm = await esmock('./index.js', {
     'node-fetch': { default: mockFetch },
-    execa: { execa: sandbox.stub(), execaCommand: sandbox.stub() },
+    execa: { execa: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -225,7 +221,7 @@ test('fetchFromRegistry() throws error when response is not ok', async (t) => {
 
   const npm = await esmock('./index.js', {
     'node-fetch': { default: mockFetch },
-    execa: { execa: sandbox.stub(), execaCommand: sandbox.stub() },
+    execa: { execa: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -254,7 +250,7 @@ test('getCompatibleVersion() returns latest version matching semver range', asyn
 
   const npm = await esmock('./index.js', {
     'node-fetch': { default: mockFetch },
-    execa: { execa: sandbox.stub(), execaCommand: sandbox.stub() },
+    execa: { execa: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -280,7 +276,7 @@ test('getCompatibleVersion() returns null when no compatible version found', asy
 
   const npm = await esmock('./index.js', {
     'node-fetch': { default: mockFetch },
-    execa: { execa: sandbox.stub(), execaCommand: sandbox.stub() },
+    execa: { execa: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -295,7 +291,7 @@ test('isAvailable() returns true when npm is found in PATH', async (t) => {
   const mockWhich = sandbox.stub().returns('/usr/bin/npm')
 
   const npm = await esmock('./index.js', {
-    execa: { execa: sandbox.stub(), execaCommand: sandbox.stub() },
+    execa: { execa: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich }
   })
 
@@ -311,11 +307,49 @@ test('isAvailable() returns false when npm is not found in PATH', async (t) => {
   const mockWhich = sandbox.stub().returns(null)
 
   const npm = await esmock('./index.js', {
-    execa: { execa: sandbox.stub(), execaCommand: sandbox.stub() },
+    execa: { execa: sandbox.stub() },
     '#helpers/which.js': { default: mockWhich }
   })
 
   const result = npm.isAvailable()
 
   t.false(result)
+})
+
+test('install() logs stderr via debug when present', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({ stderr: 'npm WARN deprecated' })
+  const mockWhich = sandbox.stub().returns('/usr/bin/npm')
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const npm = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+    '#debug': { default: mockCreateDebug }
+  })
+
+  await npm.install('/path/to/project')
+
+  t.true(mockDebug.calledWith('npm install stderr: %s', 'npm WARN deprecated'))
+})
+
+test('cacheClean() logs stderr via debug when present', async (t) => {
+  const { sandbox } = t.context
+
+  const mockExeca = sandbox.stub().resolves({ stderr: 'cache warning' })
+  const mockWhich = sandbox.stub().returns('/usr/bin/npm')
+  const mockDebug = sandbox.stub()
+  const mockCreateDebug = sandbox.stub().returns(mockDebug)
+
+  const npm = await esmock('./index.js', {
+    execa: { execa: mockExeca },
+    '#helpers/which.js': { default: mockWhich },
+    '#debug': { default: mockCreateDebug }
+  })
+
+  await npm.cacheClean('/path/to/project')
+
+  t.true(mockDebug.calledWith('npm cache clean stderr: %s', 'cache warning'))
 })

@@ -14,6 +14,33 @@ The Quire CLI is a command-line interface for creating and managing Quire digita
 | `src/main.js` | Application setup and command registration |
 | `src/Command.js` | Base class for all commands |
 
+## Commander.js Conventions
+
+The CLI uses [Commander.js](https://github.com/tj/commander.js) for command parsing. Key conventions:
+
+### Boolean Option Negation
+
+Commander automatically supports negating boolean options with the `--no-` prefix:
+
+```javascript
+// Definition
+.option('-v, --verbose', 'show detailed progress output')
+
+// Usage
+quire build --verbose    // options.verbose = true
+quire build --no-verbose // options.verbose = false
+quire build              // options.verbose = undefined
+```
+
+This enables the config fallback pattern used throughout the CLI:
+
+```javascript
+// CLI flag takes precedence, then config setting, then default
+const verbose = options.verbose ?? config.get('verbose') ?? false
+```
+
+See [Commander.js: Other option types](https://github.com/tj/commander.js#other-option-types-negatable-boolean-and-booleanvalue) for details.
+
 ## Architecture Layers
 
 ```

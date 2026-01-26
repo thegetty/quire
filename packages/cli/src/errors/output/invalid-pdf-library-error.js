@@ -12,7 +12,8 @@ export default class InvalidPdfLibraryError extends QuireError {
         code: 'INVALID_PDF_LIBRARY',
         exitCode: 5,
         suggestion: `Use one of: ${validLibraries.join(', ')}`,
-        docsUrl: docsUrl('pdf-output')
+        docsUrl: docsUrl('pdf-output'),
+        showDebugHint: false
       }
     )
   }
