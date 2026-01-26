@@ -5,7 +5,7 @@ import esmock from 'esmock'
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
 
-  // Create mock logger
+  // Create mock logger (still used by outputJson for file-write messages)
   t.context.mockLogger = {
     info: t.context.sandbox.stub(),
     error: t.context.sandbox.stub(),
@@ -16,6 +16,9 @@ test.beforeEach((t) => {
 
 test.afterEach.always((t) => {
   t.context.sandbox.restore()
+  // Reset process.exitCode to prevent tests that exercise failed checks
+  // from causing AVA to exit with a non-zero code
+  process.exitCode = undefined
 })
 
 /**
@@ -32,8 +35,44 @@ async function createMockedDoctorCommand(sandbox, mockSections) {
   })
 }
 
-test('doctor command should run all diagnostic checks with sections', async (t) => {
+/**
+ * Helper to stub console methods and return the stubs
+ *
+ * Nota bene: doctor outputHuman writes directly to console (not the logger)
+ * to avoid the [quire] prefix on diagnostic output.
+ */
+function stubConsole(sandbox) {
+  return {
+    log: sandbox.stub(console, 'log'),
+    warn: sandbox.stub(console, 'warn'),
+    error: sandbox.stub(console, 'error'),
+  }
+}
+
+/**
+ * Helper to collect all calls from a stub as strings
+ */
+function getCalls(stub) {
+  return stub.getCalls().map((call) => call.args[0])
+}
+
+/**
+ * Helper to check if any stub call matches a pattern
+ */
+function calledWithMatch(stub, pattern) {
+  return getCalls(stub).some((arg) => arg != null && pattern.test(String(arg)))
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Human-readable output tests
+//
+// Nota bene: these tests are serial because they stub global console methods.
+// Doctor outputHuman bypasses the logger to avoid the [quire] prefix.
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command should run all diagnostic checks with sections', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -65,23 +104,24 @@ test('doctor command should run all diagnostic checks with sections', async (t) 
 
   await command.action({}, command)
 
-  t.true(mockLogger.info.called, 'should log info messages')
+  t.true(consoleStubs.log.called, 'should write to console')
   t.true(
-    mockLogger.info.calledWith(sinon.match(/Running diagnostic checks/)),
-    'should log diagnostic header'
+    calledWithMatch(consoleStubs.log, /Running diagnostic checks/),
+    'should display diagnostic header'
   )
   t.true(
-    mockLogger.info.calledWith('Environment'),
+    calledWithMatch(consoleStubs.log, /^Environment$/),
     'should display Environment section header'
   )
   t.true(
-    mockLogger.info.calledWith('Project'),
+    calledWithMatch(consoleStubs.log, /^Project$/),
     'should display Project section header'
   )
 })
 
-test('doctor command should report failed checks', async (t) => {
+test.serial('doctor command should report failed checks', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -106,15 +146,16 @@ test('doctor command should report failed checks', async (t) => {
 
   await command.action({}, command)
 
-  t.true(mockLogger.error.called, 'should log error for failed check')
+  t.true(consoleStubs.error.called, 'should write errors to stderr')
   t.true(
-    mockLogger.error.calledWith(sinon.match(/1 check failed/)),
+    calledWithMatch(consoleStubs.error, /1 check failed/),
     'should report failure count'
   )
 })
 
-test('doctor command should display remediation guidance for failed checks', async (t) => {
+test.serial('doctor command should display remediation guidance for failed checks', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -138,27 +179,28 @@ test('doctor command should display remediation guidance for failed checks', asy
 
   await command.action({}, command)
 
-  // Failed checks output goes through logger.error as a single joined string
+  // Failed checks output goes through console.error as a single joined string
   t.true(
-    mockLogger.error.calledWith(sinon.match(/How to fix/)),
+    calledWithMatch(consoleStubs.error, /How to fix/),
     'should display "How to fix" header'
   )
   t.true(
-    mockLogger.error.calledWith(sinon.match(/Install Node.js/)),
+    calledWithMatch(consoleStubs.error, /Install Node.js/),
     'should display remediation text'
   )
   t.true(
-    mockLogger.error.calledWith(sinon.match(/Documentation:/)),
+    calledWithMatch(consoleStubs.error, /Documentation:/),
     'should display documentation label'
   )
   t.true(
-    mockLogger.error.calledWith(sinon.match(/quire\.getty\.edu/)),
+    calledWithMatch(consoleStubs.error, /quire\.getty\.edu/),
     'should display documentation URL'
   )
 })
 
-test('doctor command should display warnings with warning indicator', async (t) => {
+test.serial('doctor command should display warnings with warning indicator', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -186,20 +228,21 @@ test('doctor command should display warnings with warning indicator', async (t) 
 
   await command.action({}, command)
 
-  // Warnings go through logger.warn
-  t.true(mockLogger.warn.called, 'should log warning for warn-level check')
+  // Warnings go through console.warn
+  t.true(consoleStubs.warn.called, 'should write warnings to stderr')
   t.true(
-    mockLogger.warn.calledWith(sinon.match(/⚠/)),
+    calledWithMatch(consoleStubs.warn, /⚠/),
     'should display warning indicator'
   )
   t.true(
-    mockLogger.warn.calledWith(sinon.match(/All checks passed with 1 warning/)),
+    calledWithMatch(consoleStubs.warn, /All checks passed with 1 warning/),
     'should report passed with warning count'
   )
 })
 
-test('doctor command should report all checks passed when healthy', async (t) => {
+test.serial('doctor command should report all checks passed when healthy', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -224,13 +267,14 @@ test('doctor command should report all checks passed when healthy', async (t) =>
   await command.action({}, command)
 
   t.true(
-    mockLogger.info.calledWith(sinon.match(/All checks passed/)),
+    calledWithMatch(consoleStubs.log, /All checks passed/),
     'should report all checks passed'
   )
 })
 
-test('doctor command should display check messages', async (t) => {
+test.serial('doctor command should display check messages', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -252,9 +296,8 @@ test('doctor command should display check messages', async (t) => {
 
   await command.action({}, command)
 
-  // Should display the message
   t.true(
-    mockLogger.info.calledWith(sinon.match(/v22\.0\.0/)),
+    calledWithMatch(consoleStubs.log, /v22\.0\.0/),
     'should display check message'
   )
 })
@@ -265,6 +308,7 @@ test('doctor command should display check messages', async (t) => {
 
 test.serial('doctor command should set exitCode 1 when checks fail', async (t) => {
   const { sandbox, mockLogger } = t.context
+  stubConsole(sandbox)
 
   const savedExitCode = process.exitCode
 
@@ -298,6 +342,7 @@ test.serial('doctor command should set exitCode 1 when checks fail', async (t) =
 
 test.serial('doctor command should not set exitCode when all checks pass', async (t) => {
   const { sandbox, mockLogger } = t.context
+  stubConsole(sandbox)
 
   const savedExitCode = process.exitCode
   process.exitCode = undefined
@@ -328,6 +373,7 @@ test.serial('doctor command should not set exitCode when all checks pass', async
 
 test.serial('doctor command should not set exitCode when only warnings exist', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const savedExitCode = process.exitCode
   process.exitCode = undefined
@@ -357,7 +403,7 @@ test.serial('doctor command should not set exitCode when only warnings exist', a
 
     t.is(process.exitCode, undefined, 'should not set process.exitCode for warnings')
     t.true(
-      mockLogger.warn.calledWith(sinon.match(/All checks passed with 1 warning/)),
+      calledWithMatch(consoleStubs.warn, /All checks passed with 1 warning/),
       'should report passed with warning count'
     )
   } finally {
@@ -369,8 +415,9 @@ test.serial('doctor command should not set exitCode when only warnings exist', a
 // Summary count tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test('doctor command should display plural error count', async (t) => {
+test.serial('doctor command should display plural error count', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -390,13 +437,14 @@ test('doctor command should display plural error count', async (t) => {
   await command.action({}, command)
 
   t.true(
-    mockLogger.error.calledWith(sinon.match(/2 checks failed/)),
+    calledWithMatch(consoleStubs.error, /2 checks failed/),
     'should use plural for multiple errors'
   )
 })
 
-test('doctor command should display errors and warnings together', async (t) => {
+test.serial('doctor command should display errors and warnings together', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -417,13 +465,14 @@ test('doctor command should display errors and warnings together', async (t) => 
   await command.action({}, command)
 
   t.true(
-    mockLogger.error.calledWith(sinon.match(/1 check failed, 2 warnings/)),
+    calledWithMatch(consoleStubs.error, /1 check failed, 2 warnings/),
     'should display both error and warning counts'
   )
 })
 
-test('doctor command should display plural warning count', async (t) => {
+test.serial('doctor command should display plural warning count', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -447,7 +496,7 @@ test('doctor command should display plural warning count', async (t) => {
   await command.action({}, command)
 
   t.true(
-    mockLogger.warn.calledWith(sinon.match(/All checks passed with 2 warnings/)),
+    calledWithMatch(consoleStubs.warn, /All checks passed with 2 warnings/),
     'should use plural for multiple warnings'
   )
 })
@@ -456,8 +505,9 @@ test('doctor command should display plural warning count', async (t) => {
 // N/A (not applicable) state tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test('doctor command should display N/A checks with open circle indicator', async (t) => {
+test.serial('doctor command should display N/A checks with open circle indicator', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -492,13 +542,14 @@ test('doctor command should display N/A checks with open circle indicator', asyn
 
   // N/A checks should use ○ indicator
   t.true(
-    mockLogger.info.calledWith(sinon.match(/○/)),
+    calledWithMatch(consoleStubs.log, /○/),
     'should display open circle indicator for N/A checks'
   )
 })
 
-test('doctor command should not count N/A checks in summary', async (t) => {
+test.serial('doctor command should not count N/A checks in summary', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -524,13 +575,14 @@ test('doctor command should not count N/A checks in summary', async (t) => {
 
   // Should report all checks passed (N/A checks don't count as failures)
   t.true(
-    mockLogger.info.calledWith(sinon.match(/All checks passed/)),
+    calledWithMatch(consoleStubs.log, /All checks passed/),
     'should report all checks passed when only N/A checks exist'
   )
 })
 
-test('doctor command should not count N/A checks when mixed with errors', async (t) => {
+test.serial('doctor command should not count N/A checks when mixed with errors', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -557,13 +609,14 @@ test('doctor command should not count N/A checks when mixed with errors', async 
 
   // Should only report 1 error (N/A checks not counted)
   t.true(
-    mockLogger.error.calledWith(sinon.match(/1 check failed/)),
+    calledWithMatch(consoleStubs.error, /1 check failed/),
     'should only count actual errors, not N/A checks'
   )
 })
 
-test('doctor command should use info logger for N/A checks', async (t) => {
+test.serial('doctor command should route N/A checks to stdout', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -585,18 +638,19 @@ test('doctor command should use info logger for N/A checks', async (t) => {
 
   await command.action({}, command)
 
-  // N/A should go through info, not warn or error
-  const infoCalls = mockLogger.info.getCalls().map((call) => call.args[0])
-  const hasNaInInfo = infoCalls.some((arg) => arg && arg.includes('○') && arg.includes('PDF output'))
-  t.true(hasNaInInfo, 'N/A checks should be logged via info')
+  // N/A should go through console.log (stdout), not console.warn or console.error
+  const logCalls = getCalls(consoleStubs.log)
+  const hasNaInLog = logCalls.some((arg) => arg && arg.includes('○') && arg.includes('PDF output'))
+  t.true(hasNaInLog, 'N/A checks should be routed to stdout via console.log')
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Verbose flag tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test('doctor command should display details when --verbose is passed', async (t) => {
+test.serial('doctor command should display details when --verbose is passed', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -621,17 +675,18 @@ test('doctor command should display details when --verbose is passed', async (t)
 
   // Should display details for each check
   t.true(
-    mockLogger.info.calledWith(sinon.match(/\/usr\/local\/bin\/npm/)),
+    calledWithMatch(consoleStubs.log, /\/usr\/local\/bin\/npm/),
     'should display npm path in verbose mode'
   )
   t.true(
-    mockLogger.info.calledWith(sinon.match(/\/usr\/bin\/git/)),
+    calledWithMatch(consoleStubs.log, /\/usr\/bin\/git/),
     'should display git path in verbose mode'
   )
 })
 
-test('doctor command should not display details when --verbose is not passed', async (t) => {
+test.serial('doctor command should not display details when --verbose is not passed', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -654,13 +709,14 @@ test('doctor command should not display details when --verbose is not passed', a
   await command.action({}, command)
 
   // Should not display details path
-  const allCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const allCalls = getCalls(consoleStubs.log)
   const hasPathInOutput = allCalls.some((arg) => arg && arg.includes('/usr/local/bin/npm'))
   t.false(hasPathInOutput, 'should not display npm path without verbose flag')
 })
 
-test('doctor command should handle checks without details in verbose mode', async (t) => {
+test.serial('doctor command should handle checks without details in verbose mode', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -685,11 +741,12 @@ test('doctor command should handle checks without details in verbose mode', asyn
     await command.action({ verbose: true }, command)
   })
 
-  t.true(mockLogger.info.calledWith(sinon.match(/v22\.0\.0/)), 'should still display message')
+  t.true(calledWithMatch(consoleStubs.log, /v22\.0\.0/), 'should still display message')
 })
 
-test('doctor command should display symbol key in verbose mode', async (t) => {
+test.serial('doctor command should display symbol key in verbose mode', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -712,13 +769,14 @@ test('doctor command should display symbol key in verbose mode', async (t) => {
   await command.action({ verbose: true }, command)
 
   t.true(
-    mockLogger.info.calledWith(sinon.match(/Key:.*✓.*passed.*✗.*failed.*⚠.*warning.*○.*not applicable.*not yet generated/)),
+    calledWithMatch(consoleStubs.log, /Key:.*✓.*passed.*✗.*failed.*⚠.*warning.*○.*not applicable.*not yet generated/),
     'should display symbol key'
   )
 })
 
-test('doctor command should display symbol key in default mode', async (t) => {
+test.serial('doctor command should display symbol key in default mode', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -740,7 +798,7 @@ test('doctor command should display symbol key in default mode', async (t) => {
 
   await command.action({}, command)
 
-  const allCalls = mockLogger.info.getCalls().map((call) => call.args[0])
+  const allCalls = getCalls(consoleStubs.log)
   const hasKey = allCalls.some((arg) => arg && arg.includes('Key:'))
   t.true(hasKey, 'should display symbol key in default mode')
 })
@@ -871,8 +929,9 @@ test.serial('doctor command JSON output should include remediation for failed ch
 // --errors and --warnings filter tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test('doctor command --errors flag should show only failed checks', async (t) => {
+test.serial('doctor command --errors flag should show only failed checks', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -897,18 +956,19 @@ test('doctor command --errors flag should show only failed checks', async (t) =>
   await command.action({ errors: true }, command)
 
   // Should only show failed checks (not passed or warnings)
-  const errorCalls = mockLogger.error.getCalls().map((call) => call.args[0])
+  const errorCalls = getCalls(consoleStubs.error)
   const hasNpm = errorCalls.some((arg) => arg && arg.includes('npm'))
   t.true(hasNpm, 'should show failed npm check')
 
-  // Should not show passed or warning checks in output
-  const infoCalls = mockLogger.info.getCalls().map((call) => call.args[0])
-  const hasNode = infoCalls.some((arg) => arg && arg.includes('Node.js') && arg.includes('✓'))
+  // Should not show passed checks in output
+  const logCalls = getCalls(consoleStubs.log)
+  const hasNode = logCalls.some((arg) => arg && arg.includes('Node.js') && arg.includes('✓'))
   t.false(hasNode, 'should not show passed Node.js check')
 })
 
-test('doctor command --warnings flag should show only warning checks', async (t) => {
+test.serial('doctor command --warnings flag should show only warning checks', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -933,18 +993,19 @@ test('doctor command --warnings flag should show only warning checks', async (t)
   await command.action({ warnings: true }, command)
 
   // Should show warning checks
-  const warnCalls = mockLogger.warn.getCalls().map((call) => call.args[0])
+  const warnCalls = getCalls(consoleStubs.warn)
   const hasCli = warnCalls.some((arg) => arg && arg.includes('CLI version'))
   t.true(hasCli, 'should show CLI version warning')
 
   // Should not show passed checks
-  const infoCalls = mockLogger.info.getCalls().map((call) => call.args[0])
-  const hasNode = infoCalls.some((arg) => arg && arg.includes('Node.js') && arg.includes('✓'))
+  const logCalls = getCalls(consoleStubs.log)
+  const hasNode = logCalls.some((arg) => arg && arg.includes('Node.js') && arg.includes('✓'))
   t.false(hasNode, 'should not show passed Node.js check')
 })
 
-test('doctor command should show "No failed checks found" when --errors finds none', async (t) => {
+test.serial('doctor command should show "No failed checks found" when --errors finds none', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -968,13 +1029,14 @@ test('doctor command should show "No failed checks found" when --errors finds no
   await command.action({ errors: true }, command)
 
   t.true(
-    mockLogger.info.calledWith(sinon.match(/No failed checks found/)),
+    calledWithMatch(consoleStubs.log, /No failed checks found/),
     'should show no failed checks message'
   )
 })
 
-test('doctor command should show "No warnings found" when --warnings finds none', async (t) => {
+test.serial('doctor command should show "No warnings found" when --warnings finds none', async (t) => {
   const { sandbox, mockLogger } = t.context
+  const consoleStubs = stubConsole(sandbox)
 
   const mockSections = [
     {
@@ -997,7 +1059,7 @@ test('doctor command should show "No warnings found" when --warnings finds none'
   await command.action({ warnings: true }, command)
 
   t.true(
-    mockLogger.info.calledWith(sinon.match(/No warnings found/)),
+    calledWithMatch(consoleStubs.log, /No warnings found/),
     'should show no warnings message'
   )
 })

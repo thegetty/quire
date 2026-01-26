@@ -167,6 +167,21 @@ CI/Scripting:
   }
 
   /**
+   * Map log level to console method for direct output
+   *
+   * Nota bene: doctor output bypasses the logger to avoid the `[quire]`
+   * prefix on every line. The formatter already handles its own formatting
+   * (icons, indentation, section headers). Using console methods directly
+   * routes output to the correct output stream (stdout for info, stderr for
+   * warn/error) without logger prefix and level labels.
+   */
+  static #consoleMethods = {
+    info: console.log,
+    warn: console.warn,
+    error: console.error,
+  }
+
+  /**
    * Output results in human-readable format
    * @param {Array} sections - Check results organized by section
    * @param {Object} options - Command options
@@ -183,30 +198,41 @@ CI/Scripting:
     // Handle case where filters excluded all results
     if (isEmpty) {
       for (const { text, level } of lines) {
-        this.logger[level](text)
+        this.#log(level, text)
       }
       return
     }
 
-    // Output all formatted lines with appropriate log level
+    // Output all formatted lines routed by log level
     for (const { text, level } of lines) {
-      this.logger[level](text)
+      this.#log(level, text)
     }
 
     // Output summary
     if (summary) {
-      this.logger[summary.level](summary.text)
+      this.#log(summary.level, summary.text)
     }
 
     // Output symbol key
     if (key) {
-      this.logger.info('')
-      this.logger[key.level](key.text)
+      this.#log('info', '')
+      this.#log(key.level, key.text)
     }
 
     // Set exit code if any checks failed
     if (exitCode !== 0) {
       process.exitCode = exitCode
     }
+  }
+
+  /**
+   * Write a line to the console, routed by log level
+   *
+   * @param {string} level - Log level (info, warn, error)
+   * @param {string} text - Text to output
+   */
+  #log(level, text) {
+    const method = DoctorCommand.#consoleMethods[level] || console.log
+    method(text)
   }
 }
