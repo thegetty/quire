@@ -29,7 +29,14 @@ test.beforeEach((t) => {
     log: t.context.sandbox.stub(),
     warn: t.context.sandbox.stub()
   }
-  // mockLogger already created above
+
+  // Create mock reporter for tests that need it
+  t.context.mockReporter = {
+    configure: t.context.sandbox.stub().returnsThis(),
+    start: t.context.sandbox.stub().returnsThis(),
+    succeed: t.context.sandbox.stub().returnsThis(),
+    fail: t.context.sandbox.stub().returnsThis()
+  }
 })
 
 test.afterEach.always((t) => {
@@ -455,7 +462,7 @@ test('epub command should use default engine when --engine not specified and con
 })
 
 test('epub command --engine flag should override config epubEngine', async (t) => {
-  const { sandbox, fs } = t.context
+  const { sandbox, fs, mockReporter } = t.context
 
   const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
     fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
@@ -474,6 +481,9 @@ test('epub command --engine flag should override config epubEngine', async (t) =
       },
       hasEpubOutput: () => true
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs,
     open: {
       default: sandbox.stub()
@@ -490,4 +500,44 @@ test('epub command --engine flag should override config epubEngine', async (t) =
 
   t.true(mockLibEpub.called, 'libEpub should be called')
   t.true(mockLibEpub.calledWith('epubjs'), 'CLI --engine should override config')
+})
+
+test('epub command should configure reporter with quiet option', async (t) => {
+  const { sandbox, fs, mockReporter } = t.context
+
+  const mockEpubGenerator = sandbox.stub().callsFake(async (input, output) => {
+    fs.writeFileSync(output, Buffer.from('EPUB_DATA'))
+  })
+
+  const mockLibEpub = sandbox.stub().resolves(mockEpubGenerator)
+
+  const EPUBCommand = await esmock('./epub.js', {
+    '#lib/epub/index.js': {
+      default: mockLibEpub
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getEpubDir: () => '_site/epub'
+      },
+      hasEpubOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
+    'fs-extra': fs,
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new EPUBCommand()
+  command.name = sandbox.stub().returns('epub')
+
+  await command.action({ engine: 'epubjs', quiet: true }, command)
+
+  t.true(
+    mockReporter.configure.calledWith(sinon.match({ quiet: true })),
+    'reporter.configure should be called with quiet option'
+  )
 })

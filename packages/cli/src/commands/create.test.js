@@ -28,6 +28,16 @@ test.beforeEach((t) => {
     log: t.context.sandbox.stub(),
     warn: t.context.sandbox.stub()
   }
+
+  // Create mock reporter
+  t.context.mockReporter = {
+    configure: t.context.sandbox.stub().returnsThis(),
+    start: t.context.sandbox.stub().returnsThis(),
+    update: t.context.sandbox.stub().returnsThis(),
+    succeed: t.context.sandbox.stub().returnsThis(),
+    fail: t.context.sandbox.stub().returnsThis(),
+    stop: t.context.sandbox.stub().returnsThis(),
+  }
 })
 
 test.afterEach.always((t) => {
@@ -39,7 +49,7 @@ test.afterEach.always((t) => {
 })
 
 test('create command should initialize starter and install quire', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   // Mock quire library
   const mockQuire = {
@@ -62,6 +72,9 @@ test('create command should initialize starter and install quire', async (t) => 
     '#lib/installer/index.js': {
       installer: mockQuire
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs
   }, {
     '#lib/logger/index.js': {
@@ -81,10 +94,12 @@ test('create command should initialize starter and install quire', async (t) => 
   t.true(mockQuire.initStarter.calledWith('starter-template', '/new-project'), 'initStarter should be called with correct arguments')
   t.true(mockQuire.installInProject.called, 'installInProject should be called')
   t.true(mockQuire.installInProject.calledWith('/new-project', '1.0.0'), 'installInProject should be called with project path and version')
+  t.true(mockReporter.configure.called, 'reporter.configure should be called')
+  t.true(mockReporter.succeed.called, 'reporter.succeed should be called on success')
 })
 
 test('create command should use default starter from config when not provided', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   // Mock quire library
   const mockQuire = {
@@ -106,6 +121,9 @@ test('create command should use default starter from config when not provided', 
     '#lib/installer/index.js': {
       installer: mockQuire
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs
   }, {
     '#lib/logger/index.js': {
@@ -126,7 +144,7 @@ test('create command should use default starter from config when not provided', 
 })
 
 test('create command should pass quire-version option to installInProject', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   // Mock quire library
   const mockQuire = {
@@ -147,6 +165,9 @@ test('create command should pass quire-version option to installInProject', asyn
   const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     'fs-extra': fs
   }, {
@@ -171,7 +192,7 @@ test('create command should pass quire-version option to installInProject', asyn
 })
 
 test('create command should handle initStarter errors gracefully', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   const error = new Error('Failed to initialize starter template')
 
@@ -200,6 +221,9 @@ test('create command should handle initStarter errors gracefully', async (t) => 
     '#lib/installer/index.js': {
       installer: mockQuire
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     'fs-extra': fs
   }, {
     '#lib/logger/index.js': {
@@ -225,10 +249,12 @@ test('create command should handle initStarter errors gracefully', async (t) => 
   t.true(mockQuire.initStarter.called, 'initStarter should be called')
   t.false(mockQuire.installInProject.called, 'installInProject should not be called when initStarter fails')
   t.true(fs.removeSync.called || !fs.existsSync('/new-project'), 'project directory should be removed on error')
+  t.true(mockLogger.error.calledWith(error.message), 'error message should be logged')
+  t.true(mockReporter.fail.called, 'reporter.fail should be called on error')
 })
 
 test('create command should pass through debug option', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   const mockDebug = sandbox.stub()
 
@@ -250,6 +276,7 @@ test('create command should pass through debug option', async (t) => {
   // Use esmock to replace imports
   const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': { installer: mockQuire },
+    '#lib/reporter/index.js': { default: mockReporter },
     'fs-extra': fs
   }, {
     '#lib/logger/index.js': {
@@ -270,7 +297,7 @@ test('create command should pass through debug option', async (t) => {
 })
 
 test('create command should pass quire-path option to methods', async (t) => {
-  const { sandbox, fs, mockLogger } = t.context
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   // Mock quire library
   const mockQuire = {
@@ -291,6 +318,9 @@ test('create command should pass quire-path option to methods', async (t) => {
   const { default: CreateCommand } = await esmock('./create.js', {
     '#lib/installer/index.js': {
       installer: mockQuire
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     'fs-extra': fs
   }, {
@@ -317,7 +347,7 @@ test('create command should pass quire-path option to methods', async (t) => {
 })
 
 test('create command initial commit does not include temporary install artifacts', async (t) => {
-  const { sandbox, fs, projectRoot, vol } = t.context
+  const { sandbox, fs, projectRoot, vol, mockReporter } = t.context
 
   // Setup project directory
   fs.mkdirSync(projectRoot)
@@ -365,6 +395,9 @@ test('create command initial commit does not include temporary install artifacts
     },
     '#lib/git/index.js': {
       Git: MockGit,
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter,
     },
     'execa': {
       // Mock tar extraction command (uses array-based execa, not execaCommand)

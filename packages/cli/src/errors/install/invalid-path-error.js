@@ -23,7 +23,8 @@ export default class InvalidPathError extends QuireError {
         exitCode: 6,
         filePath: resolvedPath,
         suggestion: 'Verify the path exists and is accessible',
-        docsUrl: docsUrl('install-uninstall')
+        docsUrl: docsUrl('install-uninstall'),
+        showDebugHint: false
       }
     )
   }

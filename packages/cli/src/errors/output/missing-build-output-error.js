@@ -13,7 +13,8 @@ export default class MissingBuildOutputError extends QuireError {
         exitCode: 5,
         filePath: expectedPath,
         suggestion: "Run 'quire build' first, then try again",
-        docsUrl: docsUrl('quire-commands')
+        docsUrl: docsUrl('quire-commands'),
+        showDebugHint: false
       }
     )
   }

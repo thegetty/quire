@@ -9,6 +9,10 @@ import { schema as epubEngineSchema } from '#lib/epub/schema.js'
 import { schema as pdfEngineSchema } from '#lib/pdf/schema.js'
 
 export default {
+  debug: {
+    type: 'boolean',
+    description: 'Enable debug output by default (equivalent to --debug flag)'
+  },
   epubEngine: epubEngineSchema,
   pdfEngine: pdfEngineSchema,
   logLevel: {
@@ -33,6 +37,10 @@ export default {
     type: 'boolean',
     description: 'Use colored output for log messages'
   },
+  logColorMessages: {
+    type: 'boolean',
+    description: 'Color message text by log level (e.g., red for errors). Requires logUseColor'
+  },
   projectTemplate: {
     type: 'string',
     format: 'uri',
@@ -55,6 +63,10 @@ export default {
     type: 'string',
     enum: ['DAILY', 'WEEKLY', 'MONTHLY', 'NEVER'],
     description: 'How often to check for updates (DAILY, WEEKLY, MONTHLY, NEVER)'
+  },
+  verbose: {
+    type: 'boolean',
+    description: 'Enable verbose output by default (equivalent to --verbose flag)'
   },
   versionFile: {
     type: 'string',

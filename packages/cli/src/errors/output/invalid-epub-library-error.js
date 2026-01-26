@@ -12,7 +12,8 @@ export default class InvalidEpubLibraryError extends QuireError {
         code: 'INVALID_EPUB_LIBRARY',
         exitCode: 5,
         suggestion: `Use one of: ${validLibraries.join(', ')}`,
-        docsUrl: docsUrl('epub-output')
+        docsUrl: docsUrl('epub-output'),
+        showDebugHint: false
       }
     )
   }

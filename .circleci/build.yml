@@ -10,6 +10,9 @@ parameters:
   node_version:
     type: string
     default: "22.10.0"
+  playwright_version:
+    type: string
+    default: "1.52.0"
   run-build-test-workflow:
     type: boolean
     default: false
@@ -41,7 +44,7 @@ executors:
 
   playwright:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.52.0-noble
+      - image: mcr.microsoft.com/playwright:v<< pipeline.parameters.playwright_version >>-noble
 
   win:
     machine:
@@ -59,10 +62,14 @@ anchors:
       ignore:
         - /^docs\/.*/
 
+  # Nota bene: Each platform must use a separate cache key to avoid cross-platform conflicts.
+  # Using a shared key each platform will overwrite the cache with incompatible paths.
   # TODO: Integrate the release version as a variable for use in npm pack
-  - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  - &npm_cache_key_linux linux-package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  - &npm_cache_key_macos macos-package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
+  - &npm_cache_key_win win-package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
   # Chocolatey cache key for Windows installs
-  - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/packages.config" }}-{{ .Environment.CACHE_VERSION }}
+  - &choco-cache_key choco-cache-{{ .Branch }}-{{ checksum ".circleci/chocolatey.config" }}-{{ .Environment.CACHE_VERSION }}
 
   # nix-specific npm cache paths
   - &npm_cache_paths_unix
@@ -123,7 +130,7 @@ commands:
           key: *choco-cache_key
       - run:
           name: Install Chocolatey packages
-          command: choco install .circleci/packages.config --ignore-checksums
+          command: choco install .circleci/chocolatey.config --ignore-checksums
       - save_cache:
           key: *choco-cache_key
           paths:
@@ -171,16 +178,14 @@ commands:
 
   run_tests:
     steps:
-      - run:
-          name: Set git user identity
-          command: |
-            git config --global user.email quire@getty.edu
-            git config --global user.name "Quire CI"
+      - set_git_identity
       - run:
           name: Run CLI tests
+          no_output_timeout: 10m
           command: npm run test --workspace packages/cli
       - run:
           name: Run 11ty tests
+          no_output_timeout: 10m
           command: npm run test --workspace packages/11ty
       - run:
           name: Run end-to-end tests
@@ -205,6 +210,30 @@ commands:
       - store_artifacts:
           path: publication.zip
 
+  restore_npm_cache-linux:
+    steps:
+    - restore_cache:
+        key: *npm_cache_key_linux
+
+  restore_npm_cache-macos:
+    steps:
+      - restore_cache:
+          key: *npm_cache_key_macos
+
+  restore_npm_cache-win:
+    steps:
+      - restore_cache:
+          key: *npm_cache_key_win
+
+  set_git_identity:
+    description: "Configure git user identity for commits during tests"
+    steps:
+      - run:
+          name: Set git user identity
+          command: |
+            git config --global user.email quire@getty.edu
+            git config --global user.name "Quire CI"
+
   test-linux:
     steps:
       - run_tests
@@ -220,19 +249,19 @@ commands:
   save_npm_cache-linux:
     steps:
       - save_cache:
-          key: *npm_cache_key
+          key: *npm_cache_key_linux
           paths: *npm_cache_paths_unix
 
   save_npm_cache-macos:
     steps:
       - save_cache:
-          key: *npm_cache_key
+          key: *npm_cache_key_macos
           paths: *npm_cache_paths_unix
 
   save_npm_cache-win:
     steps:
       - save_cache:
-          key: *npm_cache_key
+          key: *npm_cache_key_win
           paths: *npm_cache_paths_win
 
 jobs:
@@ -242,8 +271,7 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      - restore_cache:
-          key: *npm_cache_key
+      - restore_npm_cache-<< parameters.os >>
       - build_install_cli-<< parameters.os >>
       - install_optional-<< parameters.os >>
       - verify_environment

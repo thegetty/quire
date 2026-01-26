@@ -16,17 +16,17 @@ This directory contains domain-specific modules that encapsulate the core functi
 
      ┌─────────────────────────────────────────────────────────────────────────┐
      │                           Domain Modules                                │
-     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────┐  ┌─────────────┐  │
-     │  │ project/ │  │  11ty/   │  │   pdf/   │  │ epub/  │  │   doctor/   │  │
-     │  │          │  │          │  │          │  │        │  │             │  │
-     │  │ - paths  │  │ - api    │  │ - prince │  │-pandoc │  │ - checks    │  │
-     │  │ - config │  │ - cli    │  │ - paged  │  │        │  │ - format    │  │
-     │  │ - detect │  │          │  │          │  │        │  │             │  │
-     │  │ - version│  │          │  │          │  │        │  │             │  │
-     │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └───┬────┘  └──────┬──────┘  │
-     └───────┼─────────────┼─────────────┼────────────┼───────────────┼────────┘
-             │             │             │                 │
-             │      ┌──────┴─────────────┴─────────────────┘
+     │  ┌────────────┐  ┌──────────┐  ┌────────────┐  ┌──────────┐  ┌────────┐  │
+     │  │ project/   │  │  11ty/   │  │   pdf/     │  │  epub/   │  │doctor/ │  │
+     │  │            │  │          │  │            │  │          │  │        │  │
+     │  │ - paths    │  │ - api    │  │ - pagedjs  │  │ - epubjs │  │-checks │  │
+     │  │ - config   │  │ - cli    │  │ - prince   │  │ - pandoc │  │-format │  │
+     │  │ - detect   │  │          │  │            │  │          │  │        │  │
+     │  │ - version  │  │          │  │            │  │          │  │        │  │
+     │  └────┬───────┘  └────┬─────┘  └────┬───────┘  └────┬─────┘  └───┬────┘  │
+     └───────┼───────────────┼─────────────┼───────────────┼─────────────┼──────┘
+             │               │             │               │             │
+             │      ┌────────┴─────────────┴───────────────┴─────────────┘
              │      │
      ┌───────┴──────┴──────────────────────────────────────────────────┐
      │                     Installation Module                         │
@@ -37,14 +37,18 @@ This directory contains domain-specific modules that encapsulate the core functi
      │  │  - latest (resolve version from npm)                     │   │
      │  │  - versions (list published versions)                    │   │
      │  └──────────────────────────────────────────────────────────┘   │
-     └─────────────────────────────────────────────────────────────────┘
-                                       │
-     ┌─────────────────────────────────┴───────────────────────────────┐
+     └───────────────────────────────┬─────────────────────────────────┘
+                                     │
+     ┌───────────────────────────────┴─────────────────────────────────┐
      │                    Infrastructure Modules                       │
-     │  ┌────────┐  ┌────────┐  ┌────────┐  ┌──────────┐  ┌─────────┐  │
-     │  │  npm/  │  │  git/  │  │ conf/  │  │  logger  │  │ reporter│  │
-     │  │        │  │        │  │        │  │          │  │         │  │
-     │  └────────┘  └────────┘  └────────┘  └──────────┘  └─────────┘  │
+     │  ┌────────┐  ┌────────┐  ┌────────┐  ┌─────────┐  ┌──────────┐  │
+     │  │  npm/  │  │  git/  │  │ conf/  │  │ error/  │  │ logger/  │  │
+     │  │        │  │        │  │        │  │         │  │          │  │
+     │  └────────┘  └────────┘  └────────┘  └─────────┘  └──────────┘  │
+     │  ┌───────────┐  ┌───────────┐                                   │
+     │  │ reporter/ │  │  ui/      │                                   │
+     │  │           │  │ (prompt)  │                                   │
+     │  └───────────┘  └───────────┘                                   │
      └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -231,13 +235,27 @@ These modules provide cross-cutting concerns and external tool integrations.
 |--------|-------------|
 | `default` | Reporter façade |
 
-#### `i18n/`
-**Purpose:** Internationalization support.
+#### `error/`
+**Purpose:** Centralized error handling and formatting.
 
-| Files | Description |
-|-------|-------------|
-| `config.js` | i18n configuration |
-| `localeService.js` | Locale resolution |
+| Export | Description |
+|--------|-------------|
+| `formatError(error, options)` | Format error for display |
+| `handleError(error, options)` | Handle single error (format, log, exit) |
+| `handleErrors(errors, options)` | Handle multiple errors (batch validation) |
+
+**Features:**
+- Consistent error formatting with suggestion, docs URL, file path
+- Debug mode shows error codes and stack traces
+- Conditional `--debug` hint (controlled by `showDebugHint` property)
+- Exit code management per error category
+
+**Dependencies:** `logger/`
+
+#### `ui/`
+**Purpose:** Display and interactive prompt
+
+_Future feature: Not yet impemented._
 
 ## Design Patterns
 

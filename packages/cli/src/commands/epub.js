@@ -1,10 +1,12 @@
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import paths, { hasEpubOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
 import libEpub, { ENGINES } from '#lib/epub/index.js'
 import open from 'open'
 import path from 'node:path'
+import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
 
@@ -17,16 +19,17 @@ import { MissingBuildOutputError } from '#src/errors/index.js'
  * @extends    {Command}
  */
 export default class EpubCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'epub',
     description: 'Generate publication EPUB',
     summary: 'generate EPUB e-book',
     docsLink: 'quire-commands/#output-files',
     helpText: `
 Examples:
-  quire epub --engine pandoc    Generate EPUB using Pandoc
-  quire epub --open             Generate and open EPUB
-  quire epub --build            Build site first, then generate EPUB
+  quire epub                      Generate EPUB using default engine
+  quire epub --engine pandoc      Generate EPUB using Pandoc
+  quire epub --open               Generate and open EPUB
+  quire epub --build              Build site first, then generate EPUB
 `,
     version: '1.0.0',
     options: [
@@ -40,9 +43,8 @@ Examples:
         '--lib <name>', 'deprecated alias for --engine option',
         { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
-      [ '--debug', 'run epub with debug output' ],
     ],
-  }
+  })
 
   constructor() {
     super(EpubCommand.definition)
@@ -50,6 +52,9 @@ Examples:
 
   async action(options, command) {
     this.debug('called with options %O', options)
+
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     // Resolve engine: CLI --engine > deprecated --lib > config epubEngine > default
     if (!options.engine) {
@@ -65,6 +70,7 @@ Examples:
     // Run build first if --build flag is set and output is missing
     if (options.build && !hasEpubOutput()) {
       this.debug('running build before epub generation')
+      reporter.start('Building site...', { showElapsed: true })
       await eleventy.build({ debug: options.debug })
     }
 
@@ -77,12 +83,21 @@ Examples:
       throw new MissingBuildOutputError('epub', input)
     }
 
-    const output = path.join(projectRoot, `${options.engine}.epub`)
+    reporter.start(`Generating EPUB using ${options.engine}...`, { showElapsed: true })
 
-    const epubLib = await libEpub(options.engine, { debug: options.debug })
-    await epubLib(input, output)
+    try {
+      const output = path.join(projectRoot, `${options.engine}.epub`)
 
-    if (fs.existsSync(output) && options.open) open(output)
+      const epubLib = await libEpub(options.engine, { debug: options.debug })
+      await epubLib(input, output)
+
+      reporter.succeed('EPUB generated')
+
+      if (fs.existsSync(output) && options.open) open(output)
+    } catch (error) {
+      reporter.fail('EPUB generation failed')
+      throw error
+    }
   }
 
   preAction(thisCommand, actionCommand) {
