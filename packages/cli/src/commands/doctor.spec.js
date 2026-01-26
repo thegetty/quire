@@ -48,8 +48,10 @@ test('registered command has no arguments', (t) => {
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Doctor command has --check, --verbose, --errors, --warnings, --json, --quiet options
-  t.is(command.options.length, 6, 'doctor command should have 6 options')
+  // Doctor command has 4 local + 4 shared output mode options = 8
+  // Local: --check, --errors, --warnings, --json
+  // Shared (via withOutputModes): --quiet, --verbose, --progress, --debug
+  t.is(command.options.length, 8, 'doctor command should have 8 options')
 
   // Verify --check option
   const checkOption = command.options.find((opt) => opt.long === '--check')
@@ -60,13 +62,6 @@ test('registered command has correct options', (t) => {
   t.true(checkOption.description.includes('all'), 'description should mention "all"')
   t.true(checkOption.description.includes('environment'), 'description should mention section names')
   t.true(checkOption.description.includes('node'), 'description should mention check IDs')
-
-  // Verify --verbose option
-  const verboseOption = command.options.find((opt) => opt.long === '--verbose')
-  t.truthy(verboseOption, '--verbose option should exist')
-  t.true(verboseOption instanceof Option, '--verbose should be Option instance')
-  t.is(verboseOption.short, '-v', '--verbose should have -v short flag')
-  t.truthy(verboseOption.description)
 
   // Verify --errors option
   const errorsOption = command.options.find((opt) => opt.long === '--errors')
@@ -90,13 +85,20 @@ test('registered command has correct options', (t) => {
   t.true(jsonOption.description.includes('JSON'), 'description should mention JSON')
   t.true(jsonOption.description.includes('file'), 'description should mention file output')
 
-  // Verify --quiet option
+  // Verify shared output mode options (via withOutputModes)
   const quietOption = command.options.find((opt) => opt.long === '--quiet')
   t.truthy(quietOption, '--quiet option should exist')
-  t.true(quietOption instanceof Option, '--quiet should be Option instance')
   t.is(quietOption.short, '-q', '--quiet should have -q short flag')
-  t.truthy(quietOption.description)
-  t.true(quietOption.description.toLowerCase().includes('ci') || quietOption.description.toLowerCase().includes('exit'), 'description should mention CI or exit code')
+
+  const verboseOption = command.options.find((opt) => opt.long === '--verbose')
+  t.truthy(verboseOption, '--verbose option should exist')
+  t.is(verboseOption.short, '-v', '--verbose should have -v short flag')
+
+  const progressOption = command.options.find((opt) => opt.long === '--progress')
+  t.truthy(progressOption, '--progress option should exist (hidden alias for --verbose)')
+
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
+  t.truthy(debugOption, '--debug option should exist')
 })
 
 test('command is accessible via checkup alias', (t) => {

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { runAllChecksWithSections, checkSections, SECTION_NAMES, CHECK_IDS } from '#lib/doctor/index.js'
 import { formatHuman } from '#lib/doctor/formatters/human.js'
 import { formatJson } from '#lib/doctor/formatters/json.js'
@@ -21,7 +22,7 @@ const SECTION_CHECK_MAP = Object.fromEntries(
  * @extends    {Command}
  */
 export default class DoctorCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'doctor',
     aliases: ['checkup', 'diagnostic', 'health'],
     description: 'Diagnose common issues with your Quire setup',
@@ -57,13 +58,11 @@ CI/Scripting:
         '-c, --check <ids>',
         `run specific check(s): all, ${SECTION_NAMES.join(', ')}, or ${CHECK_IDS.join(', ')}`,
       ],
-      ['-q, --quiet', 'suppress output (exit code only, for CI scripts)'],
-      ['-v, --verbose', 'show additional details (paths, versions)'],
       ['-e, --errors', 'show only failed checks'],
       ['-w, --warnings', 'show only warnings'],
       ['--json [file]', 'output results as JSON (to standard out or a file)'],
     ],
-  }
+  })
 
   constructor() {
     super(DoctorCommand.definition)
