@@ -4,6 +4,16 @@ import esmock from 'esmock'
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
+
+  // Create mock reporter
+  t.context.mockReporter = {
+    configure: t.context.sandbox.stub().returnsThis(),
+    start: t.context.sandbox.stub().returnsThis(),
+    update: t.context.sandbox.stub().returnsThis(),
+    succeed: t.context.sandbox.stub().returnsThis(),
+    fail: t.context.sandbox.stub().returnsThis(),
+    stop: t.context.sandbox.stub().returnsThis(),
+  }
 })
 
 test.afterEach.always((t) => {
@@ -11,7 +21,7 @@ test.afterEach.always((t) => {
 })
 
 test('pdf command should call generatePdf with pagedjs engine', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -21,6 +31,9 @@ test('pdf command should call generatePdf with pagedjs engine', async (t) => {
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -34,10 +47,12 @@ test('pdf command should call generatePdf with pagedjs engine', async (t) => {
 
   t.true(mockGeneratePdf.called, 'generatePdf should be called')
   t.is(mockGeneratePdf.firstCall.args[0].lib, 'pagedjs', 'should pass lib to generatePdf')
+  t.true(mockReporter.start.called, 'reporter.start should be called')
+  t.true(mockReporter.succeed.called, 'reporter.succeed should be called')
 })
 
 test('pdf command should call generatePdf with prince engine', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -47,6 +62,9 @@ test('pdf command should call generatePdf with prince engine', async (t) => {
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -63,7 +81,7 @@ test('pdf command should call generatePdf with prince engine', async (t) => {
 })
 
 test('pdf command should open PDF when --open flag is provided', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const outputPath = '/project/_site/_pdf/test-book.pdf'
   const mockGeneratePdf = sandbox.stub().resolves(outputPath)
@@ -75,6 +93,9 @@ test('pdf command should open PDF when --open flag is provided', async (t) => {
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: mockOpen
@@ -92,7 +113,7 @@ test('pdf command should open PDF when --open flag is provided', async (t) => {
 })
 
 test('pdf command should not open PDF when --open flag is not provided', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
   const mockOpen = sandbox.stub()
@@ -103,6 +124,9 @@ test('pdf command should not open PDF when --open flag is not provided', async (
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: mockOpen
@@ -119,7 +143,7 @@ test('pdf command should not open PDF when --open flag is not provided', async (
 })
 
 test('pdf command should pass debug option to generatePdf', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -129,6 +153,9 @@ test('pdf command should pass debug option to generatePdf', async (t) => {
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -146,7 +173,7 @@ test('pdf command should pass debug option to generatePdf', async (t) => {
 })
 
 test('pdf command should throw error when build output is missing', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -156,6 +183,9 @@ test('pdf command should throw error when build output is missing', async (t) =>
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => false
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -173,7 +203,7 @@ test('pdf command should throw error when build output is missing', async (t) =>
 })
 
 test('pdf command should run build first when --build flag is set and output missing', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
   const mockBuild = sandbox.stub().resolves()
@@ -198,6 +228,9 @@ test('pdf command should run build first when --build flag is set and output mis
         }
       }
     },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
     open: {
       default: sandbox.stub()
     }
@@ -213,7 +246,7 @@ test('pdf command should run build first when --build flag is set and output mis
 })
 
 test('pdf command should support deprecated --lib option', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -223,6 +256,9 @@ test('pdf command should support deprecated --lib option', async (t) => {
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -239,8 +275,39 @@ test('pdf command should support deprecated --lib option', async (t) => {
   t.is(mockGeneratePdf.firstCall.args[0].lib, 'prince', 'should pass lib to generatePdf from deprecated option')
 })
 
-test('pdf command should use pdfEngine from config when --engine not specified', async (t) => {
-  const { sandbox } = t.context
+test('pdf command should call reporter.fail when generation fails', async (t) => {
+  const { sandbox, mockReporter } = t.context
+
+  const pdfError = new Error('PDF generation failed')
+  const mockGeneratePdf = sandbox.stub().rejects(pdfError)
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+
+  await t.throwsAsync(() => command.action({ engine: 'pagedjs' }, command), { message: 'PDF generation failed' })
+
+  t.true(mockReporter.start.called, 'reporter.start should be called')
+  t.true(mockReporter.fail.called, 'reporter.fail should be called on error')
+  t.false(mockReporter.succeed.called, 'reporter.succeed should not be called on error')
+})
+
+test('pdf command should configure reporter with quiet option', async (t) => {
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -250,6 +317,40 @@ test('pdf command should use pdfEngine from config when --engine not specified',
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
+    },
+    open: {
+      default: sandbox.stub()
+    }
+  })
+
+  const command = new PDFCommand()
+  command.name = sandbox.stub().returns('pdf')
+
+  await command.action({ engine: 'pagedjs', quiet: true }, command)
+
+  t.true(
+    mockReporter.configure.calledWith(sinon.match({ quiet: true })),
+    'reporter.configure should be called with quiet option'
+  )
+})
+
+test('pdf command should use pdfEngine from config when --engine not specified', async (t) => {
+  const { sandbox, mockReporter } = t.context
+
+  const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
+
+  const PDFCommand = await esmock('./pdf.js', {
+    '#lib/pdf/index.js': {
+      default: mockGeneratePdf
+    },
+    '#lib/project/index.js': {
+      hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -269,7 +370,7 @@ test('pdf command should use pdfEngine from config when --engine not specified',
 })
 
 test('pdf command should use default engine when --engine not specified and config not set', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -279,6 +380,9 @@ test('pdf command should use default engine when --engine not specified and conf
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()
@@ -298,7 +402,7 @@ test('pdf command should use default engine when --engine not specified and conf
 })
 
 test('pdf command --engine flag should override config pdfEngine', async (t) => {
-  const { sandbox } = t.context
+  const { sandbox, mockReporter } = t.context
 
   const mockGeneratePdf = sandbox.stub().resolves('/project/_site/_pdf/test-book.pdf')
 
@@ -308,6 +412,9 @@ test('pdf command --engine flag should override config pdfEngine', async (t) => 
     },
     '#lib/project/index.js': {
       hasSiteOutput: () => true
+    },
+    '#lib/reporter/index.js': {
+      default: mockReporter
     },
     open: {
       default: sandbox.stub()

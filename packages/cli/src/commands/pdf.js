@@ -1,9 +1,11 @@
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import generatePdf, { ENGINES } from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
+import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
 
@@ -16,15 +18,17 @@ import { MissingBuildOutputError } from '#src/errors/index.js'
  * @extends    {Command}
  */
 export default class PDFCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'pdf',
     description: 'Generate publication PDF',
     summary: 'generate print-ready PDF',
     docsLink: 'quire-commands/#output-files',
     helpText: `
 Examples:
-  quire pdf --engine prince    Generate PDF using PrinceXML
-  quire pdf --build            Build site first, then generate PDF
+  quire pdf                      Generate PDF using default engine
+  quire pdf --engine prince      Generate PDF using PrinceXML
+  quire pdf --build              Build site first, then generate PDF
+  quire pdf --verbose            Generate with detailed progress
 `,
     version: '1.0.0',
     options: [
@@ -38,9 +42,8 @@ Examples:
         '--lib <name>', 'deprecated alias for --engine option',
         { hidden: true, choices: ENGINES, conflicts: 'engine' }
       ],
-      [ '--debug', 'run build with debug output to console' ],
     ],
-  }
+  })
 
   constructor() {
     super(PDFCommand.definition)
@@ -48,6 +51,9 @@ Examples:
 
   async action(options, command) {
     this.debug('called with options %O', options)
+
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     // Resolve engine: CLI --engine > deprecated --lib > config pdfEngine > default
     if (!options.engine) {
@@ -63,6 +69,7 @@ Examples:
     // Run build first if --build flag is set and output is missing
     if (options.build && !hasSiteOutput()) {
       this.debug('running build before pdf generation')
+      reporter.start('Building site...', { showElapsed: true })
       await eleventy.build({ debug: options.debug })
     }
 
@@ -74,12 +81,21 @@ Examples:
       throw new MissingBuildOutputError('PDF', sitePath)
     }
 
-    // Pass engine (not lib) to generatePdf
-    const pdfOptions = { ...options, lib: options.engine }
-    const output = await generatePdf(pdfOptions)
+    reporter.start(`Generating PDF using ${options.engine}...`, { showElapsed: true })
 
-    if (options.open) {
-      open(output)
+    try {
+      // Pass engine (not lib) to generatePdf
+      const pdfOptions = { ...options, lib: options.engine }
+      const output = await generatePdf(pdfOptions)
+
+      reporter.succeed('PDF generated')
+
+      if (options.open) {
+        open(output)
+      }
+    } catch (error) {
+      reporter.fail('PDF generation failed')
+      throw error
     }
   }
 

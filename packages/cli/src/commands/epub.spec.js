@@ -44,6 +44,8 @@ test('registered command has correct options', (t) => {
   const libOption = command.options.find((opt) => opt.long === '--lib')
   const buildOption = command.options.find((opt) => opt.long === '--build')
   const openOption = command.options.find((opt) => opt.long === '--open')
+  const quietOption = command.options.find((opt) => opt.long === '--quiet')
+  const verboseOption = command.options.find((opt) => opt.long === '--verbose')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
@@ -51,6 +53,8 @@ test('registered command has correct options', (t) => {
   t.truthy(libOption, '--lib option should exist (deprecated alias)')
   t.truthy(buildOption, '--build option should exist')
   t.truthy(openOption, '--open option should exist')
+  t.truthy(quietOption, '--quiet option should exist')
+  t.truthy(verboseOption, '--verbose option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
@@ -58,6 +62,8 @@ test('registered command has correct options', (t) => {
   t.true(libOption instanceof Option, '--lib should be Option instance')
   t.true(buildOption instanceof Option, '--build should be Option instance')
   t.true(openOption instanceof Option, '--open should be Option instance')
+  t.true(quietOption instanceof Option, '--quiet should be Option instance')
+  t.true(verboseOption instanceof Option, '--verbose should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
   // Verify --engine option properties
@@ -77,6 +83,16 @@ test('registered command has correct options', (t) => {
   t.truthy(openOption.description)
   t.false(openOption.required, '--open should not require a value')
 
+  t.is(quietOption.long, '--quiet')
+  t.is(quietOption.short, '-q', '--quiet should have -q short flag')
+  t.truthy(quietOption.description)
+  t.false(quietOption.required, '--quiet should not require a value')
+
+  t.is(verboseOption.long, '--verbose')
+  t.is(verboseOption.short, '-v', '--verbose should have -v short flag')
+  t.truthy(verboseOption.description)
+  t.false(verboseOption.required, '--verbose should not require a value')
+
   t.is(debugOption.long, '--debug')
   t.truthy(debugOption.description)
   t.false(debugOption.required, '--debug should not require a value')
@@ -92,5 +108,7 @@ test('command options are accessible via public API', (t) => {
   t.true(optionNames.includes('--lib'))  // deprecated alias still exists
   t.true(optionNames.includes('--build'))
   t.true(optionNames.includes('--open'))
+  t.true(optionNames.includes('--quiet'))
+  t.true(optionNames.includes('--verbose'))
   t.true(optionNames.includes('--debug'))
 })

@@ -60,7 +60,7 @@ Examples:
       ['[value]', 'value to set (for set operation)'],
     ],
     options: [
-      ['--debug', 'run command in debug mode'],
+      ['--debug', 'enable debug output for troubleshooting'],
     ],
   }
 
