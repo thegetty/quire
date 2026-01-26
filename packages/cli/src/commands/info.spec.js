@@ -1,4 +1,4 @@
-import { Command } from 'commander'
+import { Command, Option } from 'commander'
 import program from '#src/main.js'
 import test from 'ava'
 
@@ -36,9 +36,13 @@ test('registered command has no arguments', (t) => {
   t.is(registeredArguments.length, 0, 'info command should have no arguments')
 })
 
-test('registered command has no options', (t) => {
+test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // info command has no options (system info moved to doctor command)
-  t.is(command.options.length, 0, 'info command should have no options')
+  const debugOption = command.options.find((opt) => opt.long === '--debug')
+
+  t.truthy(debugOption, '--debug option should exist')
+  t.true(debugOption instanceof Option, '--debug should be Option instance')
+  t.truthy(debugOption.description)
+  t.false(debugOption.required, '--debug should not require a value')
 })

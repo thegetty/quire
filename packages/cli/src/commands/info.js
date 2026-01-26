@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { binPath } from '#src/packageConfig.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
@@ -9,6 +10,9 @@ import testcwd from '#helpers/test-cwd.js'
  * Display version information for the current Quire project.
  * Shows the versions of quire-cli and quire-11ty that the project was
  * created with, plus the starter template version.
+ *
+ * With --debug, also shows the full filesystem path to the quire-cli
+ * executable.
  *
  * For system environment information (OS, Node.js, npm, Git),
  * use the `quire doctor` command instead.
@@ -33,10 +37,13 @@ use 'quire doctor' instead.
 
 Example:
   quire info           Show project versions
+  quire info --debug   Include installation paths
   quire doctor         Check environment and project health
 `,
     version: '1.0.0',
-    options: [],
+    options: [
+      [ '--debug', 'include installation paths in output' ],
+    ],
   }
 
   constructor() {
@@ -82,7 +89,26 @@ Example:
       lines.push(`  starter      ${versionInfo.starter}`)
     }
 
+    if (options.debug) {
+      lines.push('')
+      lines.push(this.resolveCliPath())
+    }
+
+    lines.push('')
+    lines.push('Tip: Run \'quire doctor\' for system environment checks')
+
     this.logger.info(lines.join('\n'))
+  }
+
+  /**
+   * Resolve the full filesystem path to the quire CLI executable
+   * @returns {string} Formatted path line
+   */
+  resolveCliPath() {
+    const resolved = binPath()
+    return resolved
+      ? `  quire-cli    ${resolved}`
+      : '  quire-cli    not found in PATH'
   }
 
   preAction(thisCommand, actionCommand) {

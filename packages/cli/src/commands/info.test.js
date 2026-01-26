@@ -23,6 +23,9 @@ test.beforeEach((t) => {
   // Mock testcwd helper
   t.context.mockTestcwd = t.context.sandbox.stub()
 
+  // Mock packageConfig binPath
+  t.context.mockBinPath = t.context.sandbox.stub().returns('/usr/local/bin/quire')
+
   // Mock fs module
   t.context.mockFs = {
     readFileSync: t.context.sandbox.stub(),
@@ -61,11 +64,14 @@ test.afterEach.always((t) => {
 })
 
 test('info command should validate Quire project in preAction', async (t) => {
-  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockFs } = t.context
+  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -93,11 +99,14 @@ test('info command should validate Quire project in preAction', async (t) => {
 })
 
 test('info command should display project version information', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -134,14 +143,23 @@ test('info command should display project version information', async (t) => {
     call.args[0] && call.args[0].includes('quire-11ty')
   )
   t.true(has11tyVersion, 'should display quire-11ty version')
+
+  // Check for doctor tip
+  const hasDoctorTip = calls.some((call) =>
+    call.args[0] && call.args[0].includes('quire doctor')
+  )
+  t.true(hasDoctorTip, 'should display doctor tip')
 })
 
 test('info command should display starter version when available', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -168,12 +186,15 @@ test('info command should display starter version when available', async (t) => 
   t.true(hasStarterVersion, 'should display starter version when available')
 })
 
-test('info command no longer has --debug flag (system info moved to doctor)', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+test('info command --debug shows installation paths', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -183,13 +204,54 @@ test('info command no longer has --debug flag (system info moved to doctor)', as
   })
 
   const command = new InfoCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
 
-  // Verify no options are defined
-  t.is(InfoCommand.definition.options.length, 0, 'info command should have no options')
+  await command.action({ debug: true }, {})
+
+  const calls = mockLogger.info.getCalls()
+  const output = calls.map((call) => call.args[0]).join('\n')
+
+  // Check for quire-cli path
+  t.true(output.includes('/usr/local/bin/quire'), 'should display quire-cli path')
+})
+
+test('info command --debug handles missing quire-cli in PATH', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+
+  // binPath returns null when executable is not found
+  const mockBinPathNotFound = sandbox.stub().returns(null)
+
+  const { default: InfoCommand } = await esmock('./info.js', {
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPathNotFound
+    },
+    'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new InfoCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ debug: true }, {})
+
+  const calls = mockLogger.info.getCalls()
+  const output = calls.map((call) => call.args[0]).join('\n')
+
+  t.true(output.includes('not found in PATH'), 'should show not found message for quire-cli')
 })
 
 test('info command should handle missing version file', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   // Setup mockFs to throw error for missing version file (simulating file not found)
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -205,6 +267,9 @@ test('info command should handle missing version file', async (t) => {
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -232,7 +297,7 @@ test('info command should handle missing version file', async (t) => {
 })
 
 test('info command should handle malformed version file', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   // Setup mockFs to return malformed JSON (simulating corrupted file)
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -248,6 +313,9 @@ test('info command should handle malformed version file', async (t) => {
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -278,7 +346,7 @@ test('info command should handle malformed version file', async (t) => {
 })
 
 test('info command should read quire-11ty version from package.json', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   // Override package.json to have specific version
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -297,6 +365,9 @@ test('info command should read quire-11ty version from package.json', async (t) 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
@@ -324,13 +395,16 @@ test('info command should read quire-11ty version from package.json', async (t) 
 })
 
 test('info command should log debug information', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const mockDebug = sandbox.stub()
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
     'node:fs': mockFs
   }, {
