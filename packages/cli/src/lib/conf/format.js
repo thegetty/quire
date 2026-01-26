@@ -25,12 +25,12 @@ export function getKeyDescription(key) {
  *
  * @param {Object} store - Configuration store (key-value pairs)
  * @param {Object} [options]
- * @param {boolean} [options.showInternal=false] - Include __internal__ keys
  * @param {string} [options.configPath] - Path to the config file (shown in header)
+ * @param {boolean} [options.showInternal=false] - Include __internal__ keys
  * @param {boolean} [options.useColor=false] - Apply chalk styling to output
  * @returns {string} Formatted multiline settings display
  */
-export function formatSettings(store, { showInternal = false, configPath, useColor = false } = {}) {
+export function formatSettings(store, { configPath, showInternal = false, useColor = false } = {}) {
   const style = useColor
     ? { bold: chalk.bold, cyan: chalk.cyan, dim: chalk.dim }
     : { bold: (s) => s, cyan: (s) => s, dim: (s) => s }

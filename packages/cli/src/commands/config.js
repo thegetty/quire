@@ -191,7 +191,12 @@ Examples:
    */
   #showAll(options) {
     if (options.json) {
-      console.log(JSON.stringify(this.config.store, null, 2))
+      const store = options.debug
+        ? this.config.store
+        : Object.fromEntries(
+          Object.entries(this.config.store).filter(([k]) => !k.startsWith('__internal__'))
+        )
+      console.log(JSON.stringify(store, null, 2))
       return
     }
 

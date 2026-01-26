@@ -566,6 +566,52 @@ test.serial('conf --json should not include descriptions or headers', async (t) 
   t.false(raw.includes('Use "quire settings'), 'JSON output should not contain help hint')
 })
 
+test.serial('conf --json should exclude __internal__ keys by default', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action(undefined, undefined, undefined, { json: true })
+
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+  t.false('__internal__secretKey' in output, 'JSON output should not include __internal__ keys')
+  t.is(output.logLevel, 'info', 'non-internal keys should still be present')
+})
+
+test.serial('conf --json --debug should include __internal__ keys', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action(undefined, undefined, undefined, { json: true, debug: true })
+
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+  t.is(output.__internal__secretKey, 'hidden-value', '__internal__ keys should be included with --debug')
+  t.is(output.logLevel, 'info')
+})
+
 test.serial('conf get --json should output single value as JSON', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
