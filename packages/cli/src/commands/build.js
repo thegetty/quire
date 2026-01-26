@@ -2,8 +2,11 @@ import Command from '#src/Command.js'
 import { Option } from 'commander'
 import { withOutputModes } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
+import { serve } from '#lib/server/index.js'
+import processManager from '#lib/process/manager.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
+import open from 'open'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -24,6 +27,8 @@ export default class BuildCommand extends Command {
     helpText: `
 Examples:
   quire build                Build the site
+  quire build --serve        Build and start static server
+  quire build --open         Build, serve, and open browser
   quire build --verbose      Build with detailed progress
   quire build --debug        Build with debug output
 
@@ -33,6 +38,9 @@ Note: Run before "quire pdf" or "quire epub" commands.
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
       [ '--dryrun', 'alias for --dry-run', { hidden: true, implies: { dryRun: true } } ],
+      [ '--serve', 'start static server after build', { conflicts: 'dryRun' } ],
+      [ '-p, --port <port>', 'server port', { default: 8080, implies: { serve: true } } ],
+      [ '--open', 'open in default browser after build', { implies: { serve: true } } ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),
@@ -63,6 +71,23 @@ Note: Run before "quire pdf" or "quire epub" commands.
     } catch (error) {
       reporter.fail('Build failed')
       throw error
+    }
+
+    // Start static server after build if --serve flag is set
+    if (options.serve) {
+      const port = parseInt(options.port, 10)
+
+      const { url, stop } =
+        await serve(paths.getSitePath(), { port, quiet: options.quiet, verbose: options.verbose })
+
+      processManager.onShutdown('serve', stop)
+
+      try {
+        if (options.open) open(url)
+        await new Promise(() => {})
+      } finally {
+        processManager.onShutdownComplete('serve')
+      }
     }
   }
 
