@@ -40,6 +40,11 @@ export default {
    */
   logUseColor: true,
   /**
+   * Whether to color message text by log level (e.g., red for errors).
+   * Requires logUseColor to be enabled.
+   */
+  logColorMessages: true,
+  /**
    * Default PDF engine for quire pdf command.
    */
   pdfEngine: 'pagedjs',

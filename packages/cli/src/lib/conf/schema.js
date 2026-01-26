@@ -37,6 +37,10 @@ export default {
     type: 'boolean',
     description: 'Use colored output for log messages'
   },
+  logColorMessages: {
+    type: 'boolean',
+    description: 'Color message text by log level (e.g., red for errors). Requires logUseColor'
+  },
   projectTemplate: {
     type: 'string',
     format: 'uri',
