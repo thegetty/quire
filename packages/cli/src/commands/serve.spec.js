@@ -45,6 +45,7 @@ test('registered command has correct options', (t) => {
   const openOption = command.options.find((opt) => opt.long === '--open')
   const quietOption = command.options.find((opt) => opt.long === '--quiet')
   const verboseOption = command.options.find((opt) => opt.long === '--verbose')
+  const progressOption = command.options.find((opt) => opt.long === '--progress')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
@@ -53,6 +54,7 @@ test('registered command has correct options', (t) => {
   t.truthy(openOption, '--open option should exist')
   t.truthy(quietOption, '--quiet option should exist')
   t.truthy(verboseOption, '--verbose option should exist')
+  t.truthy(progressOption, '--progress option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
@@ -61,6 +63,7 @@ test('registered command has correct options', (t) => {
   t.true(openOption instanceof Option, '--open should be Option instance')
   t.true(quietOption instanceof Option, '--quiet should be Option instance')
   t.true(verboseOption instanceof Option, '--verbose should be Option instance')
+  t.true(progressOption instanceof Option, '--progress should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
   // Verify --port option properties
@@ -91,6 +94,11 @@ test('registered command has correct options', (t) => {
   t.truthy(verboseOption.description)
   t.false(verboseOption.required, '--verbose should not require a value')
 
+  // --progress is a hidden alias for --verbose
+  t.is(progressOption.long, '--progress')
+  t.truthy(progressOption.description)
+  t.true(progressOption.hidden, '--progress should be hidden from help')
+
   // Verify --debug option
   t.is(debugOption.long, '--debug')
   t.truthy(debugOption.description)
@@ -108,6 +116,7 @@ test('command options are accessible via public API', (t) => {
   t.true(optionNames.includes('--open'))
   t.true(optionNames.includes('--quiet'))
   t.true(optionNames.includes('--verbose'))
+  t.true(optionNames.includes('--progress'))
   t.true(optionNames.includes('--debug'))
 })
 

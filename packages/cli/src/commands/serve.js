@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import paths, { hasSiteOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import { serve } from '#lib/server/index.js'
@@ -18,17 +19,12 @@ import { MissingBuildOutputError } from '#src/errors/index.js'
  * @extends    {Command}
  */
 export default class ServeCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'serve',
     description: 'Start a static file server for the built site output',
     summary: 'serve built site locally',
     docsLink: 'quire-commands/#serve',
     helpText: `
-Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing)
-  --debug          Enable debug output for troubleshooting
-
 Examples:
   quire serve                   Serve _site/ on port 8080
   quire serve --port 3000       Use custom port
@@ -39,11 +35,8 @@ Examples:
       ['-p, --port <port>', 'server port', 8080],
       ['--build', 'run build first if output is missing'],
       ['--open', 'open in default browser'],
-      ['-q, --quiet', 'suppress progress output'],
-      ['-v, --verbose', 'show detailed progress output'],
-      ['--debug', 'enable debug output for troubleshooting'],
     ],
-  }
+  })
 
   constructor() {
     super(ServeCommand.definition)
