@@ -64,7 +64,6 @@ export function checkStaleBuild() {
       debug('Last build failed (stored status)')
       return {
         ok: false,
-        level: 'warn',
         message: 'Last build failed',
         remediation: `The last "quire build" run failed. Check the output for errors and try again.
     • Run "quire build --debug" for detailed error output`,

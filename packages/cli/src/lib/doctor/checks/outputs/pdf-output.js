@@ -66,7 +66,6 @@ export async function checkPdfOutput() {
       debug('Last pdf generation failed (stored status)')
       return {
         ok: false,
-        level: 'warn',
         message: 'Last PDF generation failed',
         remediation: `The last "quire pdf" run failed. Check the output for errors and try again.
     • Run "quire pdf --debug" for detailed error output`,

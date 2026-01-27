@@ -68,7 +68,7 @@ test('checkPdfOutput includes remediation when no output found', async (t) => {
   t.truthy(result.docsUrl)
 })
 
-test('checkPdfOutput returns warning when last PDF generation failed and no output exists', async (t) => {
+test('checkPdfOutput returns failure when last PDF generation failed and no output exists', async (t) => {
   const { sandbox } = t.context
 
   const { checkPdfOutput } = await esmock('./pdf-output.js', {
@@ -90,7 +90,7 @@ test('checkPdfOutput returns warning when last PDF generation failed and no outp
   const result = await checkPdfOutput()
 
   t.false(result.ok)
-  t.is(result.level, 'warn')
+  t.is(result.level, undefined)
   t.regex(result.message, /Last PDF generation failed/)
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire pdf --debug/)

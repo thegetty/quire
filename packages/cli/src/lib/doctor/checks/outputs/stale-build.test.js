@@ -41,7 +41,7 @@ test('checkStaleBuild returns N/A when no _site directory exists', async (t) => 
   t.truthy(result.docsUrl)
 })
 
-test('checkStaleBuild returns warning when last build failed and no _site exists', async (t) => {
+test('checkStaleBuild returns failure when last build failed and no _site exists', async (t) => {
   const { sandbox } = t.context
 
   const { checkStaleBuild } = await esmock('./stale-build.js', {
@@ -57,7 +57,7 @@ test('checkStaleBuild returns warning when last build failed and no _site exists
   const result = checkStaleBuild()
 
   t.false(result.ok)
-  t.is(result.level, 'warn')
+  t.is(result.level, undefined)
   t.regex(result.message, /Last build failed/)
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire build --debug/)

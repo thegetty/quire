@@ -61,7 +61,7 @@ test('checkEpubOutput includes remediation when no output found', async (t) => {
   t.truthy(result.docsUrl)
 })
 
-test('checkEpubOutput returns warning when last EPUB generation failed and no output exists', async (t) => {
+test('checkEpubOutput returns failure when last EPUB generation failed and no output exists', async (t) => {
   const { sandbox } = t.context
 
   const { checkEpubOutput } = await esmock('./epub-output.js', {
@@ -80,7 +80,7 @@ test('checkEpubOutput returns warning when last EPUB generation failed and no ou
   const result = checkEpubOutput()
 
   t.false(result.ok)
-  t.is(result.level, 'warn')
+  t.is(result.level, undefined)
   t.regex(result.message, /Last EPUB generation failed/)
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire epub --debug/)

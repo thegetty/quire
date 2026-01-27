@@ -41,7 +41,6 @@ export function checkEpubOutput() {
       debug('Last epub generation failed (stored status)')
       return {
         ok: false,
-        level: 'warn',
         message: 'Last EPUB generation failed',
         remediation: `The last "quire epub" run failed. Check the output for errors and try again.
     • Run "quire epub --debug" for detailed error output`,
