@@ -358,3 +358,101 @@ test('formatHuman summary includes singular N/A count', (t) => {
   const { summary } = formatHuman(sections)
   t.true(summary.text.includes('(1 not applicable)'))
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Terminal width-aware wrapping
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('formatHuman wraps long remediation text to fit terminal width', (t) => {
+  const longRemediation = 'Install Node.js version 22 or later using your preferred package manager such as nvm, Homebrew, or download directly from the official Node.js website at nodejs.org'
+  const sections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js', ok: false, level: 'error', message: 'v18', remediation: longRemediation },
+      ],
+    },
+  ]
+  // Force narrow terminal (40 columns)
+  const { lines } = formatHuman(sections, { columns: 40 })
+  const checkLine = lines.find((l) => l.text.includes('How to fix'))
+  t.truthy(checkLine)
+
+  // The remediation text should be wrapped — each line should not exceed 40 chars
+  // (remediation is indented 4 spaces, so content width is 36)
+  const remediationLines = checkLine.text.split('\n').filter((l) => l.trim() && !l.includes('How to fix') && !l.includes('Node.js'))
+  for (const line of remediationLines) {
+    t.true(line.length <= 42, `line exceeds terminal width: "${line}" (${line.length} chars)`)
+  }
+})
+
+test('formatHuman wraps verbose details to fit terminal width', (t) => {
+  const longDetails = '/very/long/path/to/some/deeply/nested/directory/structure/that/exceeds/the/terminal/width/when/displayed/in/verbose/mode'
+  const sections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js', ok: true, message: 'v22', details: longDetails },
+      ],
+    },
+  ]
+  // Force narrow terminal (50 columns)
+  const { lines } = formatHuman(sections, { verbose: true, columns: 50 })
+  const checkLine = lines.find((l) => l.text.includes(longDetails.substring(0, 20)))
+  t.truthy(checkLine)
+
+  // Details are indented 6 spaces, so content width is 44
+  const detailLines = checkLine.text.split('\n').filter((l) => l.includes('/'))
+  for (const line of detailLines) {
+    t.true(line.length <= 52, `detail line exceeds terminal width: "${line}" (${line.length} chars)`)
+  }
+})
+
+test('formatHuman preserves remediation newlines when wrapping', (t) => {
+  const multiLineRemediation = 'Install Node.js 22 or later:\n    • Run: nvm install 22\n    • Or: brew install node@22'
+  const sections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js', ok: false, level: 'error', message: 'v18', remediation: multiLineRemediation },
+      ],
+    },
+  ]
+  const { lines } = formatHuman(sections, { columns: 80 })
+  const checkLine = lines.find((l) => l.text.includes('How to fix'))
+  t.truthy(checkLine)
+  // All three original lines should appear in the output
+  t.true(checkLine.text.includes('Install Node.js'))
+  t.true(checkLine.text.includes('nvm install'))
+  t.true(checkLine.text.includes('brew install'))
+})
+
+test('formatHuman applies default width when columns not specified', (t) => {
+  const sections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js', ok: false, level: 'error', message: 'v18', remediation: 'Upgrade' },
+      ],
+    },
+  ]
+  // Should not throw — uses getTerminalWidth() fallback
+  const { lines } = formatHuman(sections)
+  t.truthy(lines)
+})
+
+test('formatHuman enforces minimum content width of 20 for very narrow terminals', (t) => {
+  const sections = [
+    {
+      section: 'Environment',
+      results: [
+        { id: 'node', name: 'Node.js', ok: false, level: 'error', message: 'v18', remediation: 'Install Node.js version 22 or later' },
+      ],
+    },
+  ]
+  // Extremely narrow terminal (10 columns) — should still produce output
+  const { lines } = formatHuman(sections, { columns: 10 })
+  const checkLine = lines.find((l) => l.text.includes('How to fix'))
+  t.truthy(checkLine)
+  t.true(checkLine.text.includes('Install'))
+})

@@ -78,7 +78,8 @@
     "read-package-up": "^11.0.0",
     "semver": "^7.3.8",
     "update-notifier": "^7.3.1",
-    "which": "^2.0.2"
+    "which": "^2.0.2",
+    "wrap-ansi": "^8.1.0"
   },
   "devDependencies": {
     "ava": "^6.2.0",

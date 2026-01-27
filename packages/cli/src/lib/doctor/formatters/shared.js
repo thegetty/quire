@@ -6,6 +6,24 @@
 import chalk from 'chalk'
 
 /**
+ * Default terminal width when stdout is not a TTY (piped/redirected)
+ * @type {number}
+ */
+const DEFAULT_COLUMNS = 80
+
+/**
+ * Get the current terminal width
+ *
+ * Falls back to DEFAULT_COLUMNS when stdout is not a TTY
+ * (e.g., piped to a file or another process).
+ *
+ * @returns {number} Terminal width in columns
+ */
+export function getTerminalWidth() {
+  return process.stdout.columns || DEFAULT_COLUMNS
+}
+
+/**
  * Status types for check results
  * @typedef {'passed'|'failed'|'warning'|'timeout'|'na'} CheckStatus
  */

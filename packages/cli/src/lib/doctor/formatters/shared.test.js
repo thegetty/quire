@@ -2,7 +2,7 @@
  * Tests for shared formatter utilities
  */
 import test from 'ava'
-import { getStatus, STATUS_ICONS, countResults, filterResults } from './shared.js'
+import { getStatus, STATUS_ICONS, countResults, filterResults, getTerminalWidth } from './shared.js'
 
 // =============================================================================
 // getStatus tests
@@ -159,4 +159,36 @@ test('filterResults excludes empty sections', (t) => {
   ]
   const filtered = filterResults(sections, { errors: true })
   t.is(filtered.length, 0)
+})
+
+// =============================================================================
+// getTerminalWidth tests
+// =============================================================================
+
+test('getTerminalWidth returns a positive number', (t) => {
+  const width = getTerminalWidth()
+  t.is(typeof width, 'number')
+  t.true(width > 0)
+})
+
+test('getTerminalWidth returns at least 80 when not a TTY', (t) => {
+  // In test environments stdout is typically not a TTY,
+  // so columns is undefined and the fallback (80) is used
+  const original = process.stdout.columns
+  process.stdout.columns = undefined
+  try {
+    t.is(getTerminalWidth(), 80)
+  } finally {
+    process.stdout.columns = original
+  }
+})
+
+test('getTerminalWidth returns stdout.columns when available', (t) => {
+  const original = process.stdout.columns
+  process.stdout.columns = 120
+  try {
+    t.is(getTerminalWidth(), 120)
+  } finally {
+    process.stdout.columns = original
+  }
 })

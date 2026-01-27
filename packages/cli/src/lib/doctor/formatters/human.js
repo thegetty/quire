@@ -5,7 +5,14 @@
  *
  * @module lib/doctor/formatters/human
  */
-import { getStatus, STATUS_ICONS, countResults, filterResults } from './shared.js'
+import wrapAnsi from 'wrap-ansi'
+import {
+  STATUS_ICONS,
+  countResults,
+  filterResults,
+  getStatus,
+  getTerminalWidth
+} from './shared.js'
 
 /**
  * Log level for output routing
@@ -20,31 +27,61 @@ import { getStatus, STATUS_ICONS, countResults, filterResults } from './shared.j
  */
 
 /**
+ * Wrap text to fit within the terminal, preserving indentation
+ *
+ * Each line in the input is indented by `indent` spaces. The text is
+ * wrapped so that the total line width (indent + content) does not
+ * exceed the terminal width. Continuation lines receive the same indent.
+ *
+ * @param {string} text - Text to wrap (may contain newlines)
+ * @param {number} indent - Number of leading spaces for each line
+ * @param {number} columns - Terminal width in columns
+ * @returns {string} Wrapped and indented text
+ */
+function wrapIndented(text, indent, columns) {
+  const prefix = ' '.repeat(indent)
+  const contentWidth = Math.max(columns - indent, 20)
+
+  return text
+    .split('\n')
+    .map((line) => {
+      const wrapped = wrapAnsi(line, contentWidth, { hard: true, trim: false })
+      return wrapped
+        .split('\n')
+        .map((wl) => `${prefix}${wl}`)
+        .join('\n')
+    })
+    .join('\n')
+}
+
+/**
  * Format a single check result for human display
  *
  * @param {Object} result - Check result
  * @param {Object} [options] - Formatting options
  * @param {boolean} [options.verbose] - Include additional details
+ * @param {number} [options.columns] - Terminal width in columns
  * @returns {FormattedLine}
  */
 function formatCheck(result, options = {}) {
   const { name, ok, level, message, details, remediation, docsUrl } = result
   const status = getStatus(result)
   const statusIcon = STATUS_ICONS[status]
+  const columns = options.columns || getTerminalWidth()
 
   const statusLine = message ? `  ${statusIcon} ${name}: ${message}` : `  ${statusIcon} ${name}`
   const lines = [statusLine]
 
   // Show details when verbose is enabled
   if (options.verbose && details) {
-    lines.push(`      ${details}`)
+    lines.push(wrapIndented(details, 6, columns))
   }
 
   // Show remediation guidance for failed/timeout checks
   if (!ok && remediation) {
     lines.push('')
     lines.push(`    How to fix:`)
-    lines.push(`    ${remediation}`)
+    lines.push(wrapIndented(remediation, 4, columns))
   }
 
   if (!ok && docsUrl) {
@@ -112,6 +149,7 @@ function buildSummary(sections) {
  * @param {boolean} [options.errors] - Only include failed checks
  * @param {boolean} [options.warnings] - Only include warning checks
  * @param {boolean} [options.verbose] - Include additional details
+ * @param {number} [options.columns] - Terminal width override (default: auto-detected)
  * @param {string} [options.label='diagnostic checks'] - Description of checks being run
  * @returns {{lines: FormattedLine[], summary: FormattedLine|null, key: FormattedLine|null, exitCode: number, isEmpty: boolean}}
  *
@@ -123,7 +161,8 @@ function buildSummary(sections) {
  * if (summary) logger[summary.level](summary.text)
  */
 export function formatHuman(sections, options = {}) {
-  const { label = 'diagnostic checks', verbose = false } = options
+  const { label = 'diagnostic checks', verbose = false, columns } = options
+  const terminalColumns = columns || getTerminalWidth()
   const filteredSections = filterResults(sections, options)
 
   const lines = []
@@ -172,7 +211,7 @@ export function formatHuman(sections, options = {}) {
         }
       }
 
-      lines.push(formatCheck(result, { verbose }))
+      lines.push(formatCheck(result, { verbose, columns: terminalColumns }))
     }
 
     // Blank line between sections
