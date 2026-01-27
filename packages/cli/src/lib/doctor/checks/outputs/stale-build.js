@@ -59,7 +59,10 @@ export function checkStaleBuild() {
     return {
       ok: true,
       level: 'na',
-      message: 'No build output yet (run quire build)',
+      message: 'No build output found',
+      remediation: `Run "quire build" to generate the site.
+    • If you already ran "quire build" and it failed, check the output for errors`,
+      docsUrl: `${DOCS_BASE_URL}/quire-commands/#preview-and-build`,
     }
   }
 

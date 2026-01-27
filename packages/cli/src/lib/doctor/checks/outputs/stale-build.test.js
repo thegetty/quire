@@ -24,7 +24,11 @@ test('checkStaleBuild returns N/A when no _site directory exists', async (t) => 
 
   t.true(result.ok)
   t.is(result.level, 'na', 'should return N/A level when no build output')
-  t.regex(result.message, /No build output yet/)
+  t.regex(result.message, /No build output found/)
+  t.truthy(result.remediation)
+  t.regex(result.remediation, /quire build/)
+  t.regex(result.remediation, /failed/)
+  t.truthy(result.docsUrl)
 })
 
 test('checkStaleBuild returns ok when build is up to date', async (t) => {
