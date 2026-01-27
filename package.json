@@ -20,7 +20,7 @@
     "environmentVariables": {},
     "failFast": true,
     "files": [
-      "./_tests/*-test.mjs"
+      "./tests/*-test.mjs"
     ],
     "workerThreads": false
   },
