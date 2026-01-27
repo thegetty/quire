@@ -5,8 +5,9 @@
  * so that `quire doctor` can distinguish "never ran" from "ran and failed"
  * when no output files exist on disk.
  *
- * Status is stored in the global CLI config keyed by a SHA-256 hash of
- * the project's absolute path to avoid dot-notation traversal issues.
+ * Status is stored in the global CLI config under the `projects` key,
+ * keyed by a SHA-256 hash of the project's absolute path to avoid
+ * dot-notation traversal issues.
  *
  * @module lib/conf/build-status
  */
@@ -46,18 +47,20 @@ export function recordStatus(projectPath, command, status) {
   }
 
   const key = projectKey(projectPath)
-  const buildStatus = config.get('buildStatus') || {}
+  const projects = config.get('projects') || {}
 
-  buildStatus[key] = {
-    ...buildStatus[key],
-    projectPath,
+  const entry = projects[key] || { projectPath }
+  entry.projectPath = projectPath
+  entry.buildStatus = {
+    ...entry.buildStatus,
     [command]: {
       status,
       timestamp: Date.now(),
     },
   }
+  projects[key] = entry
 
-  config.set('buildStatus', buildStatus)
+  config.set('projects', projects)
   debug('recorded %s=%s for %s (key=%s)', command, status, projectPath, key)
 }
 
@@ -70,15 +73,15 @@ export function recordStatus(projectPath, command, status) {
  */
 export function getStatus(projectPath, command) {
   const key = projectKey(projectPath)
-  const buildStatus = config.get('buildStatus') || {}
-  const entry = buildStatus[key]
+  const projects = config.get('projects') || {}
+  const entry = projects[key]
 
-  if (!entry) {
+  if (!entry || !entry.buildStatus) {
     debug('no status entry for key=%s', key)
     return undefined
   }
 
-  return entry[command]
+  return entry.buildStatus[command]
 }
 
 /**
@@ -88,11 +91,13 @@ export function getStatus(projectPath, command) {
  */
 export function clearStatus(projectPath) {
   const key = projectKey(projectPath)
-  const buildStatus = config.get('buildStatus') || {}
+  const projects = config.get('projects') || {}
+  const entry = projects[key]
 
-  if (key in buildStatus) {
-    delete buildStatus[key]
-    config.set('buildStatus', buildStatus)
-    debug('cleared status for %s (key=%s)', projectPath, key)
+  if (entry && entry.buildStatus) {
+    delete entry.buildStatus
+    projects[key] = entry
+    config.set('projects', projects)
+    debug('cleared build status for %s (key=%s)', projectPath, key)
   }
 }

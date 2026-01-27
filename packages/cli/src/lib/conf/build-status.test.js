@@ -12,7 +12,7 @@ import test from 'ava'
 test.beforeEach(async (t) => {
   const sandbox = sinon.createSandbox()
 
-  // In-memory store that mimics config.get/set for 'buildStatus'
+  // In-memory store that mimics config.get/set for 'projects'
   const store = {}
   const configMock = {
     default: {
@@ -69,13 +69,13 @@ test('recordStatus writes status with timestamp to config', (t) => {
 
   t.true(configMock.default.set.calledOnce)
   const [setKey, setValue] = configMock.default.set.firstCall.args
-  t.is(setKey, 'buildStatus')
+  t.is(setKey, 'projects')
 
   const key = projectKey(projectPath)
   const entry = setValue[key]
   t.is(entry.projectPath, projectPath)
-  t.is(entry.build.status, 'ok')
-  t.is(typeof entry.build.timestamp, 'number')
+  t.is(entry.buildStatus.build.status, 'ok')
+  t.is(typeof entry.buildStatus.build.timestamp, 'number')
 })
 
 test('recordStatus records failed status', (t) => {
@@ -86,7 +86,7 @@ test('recordStatus records failed status', (t) => {
 
   const [, setValue] = configMock.default.set.firstCall.args
   const key = projectKey(projectPath)
-  t.is(setValue[key].pdf.status, 'failed')
+  t.is(setValue[key].buildStatus.pdf.status, 'failed')
 })
 
 test('recordStatus silently ignores untracked commands', (t) => {
@@ -103,19 +103,21 @@ test('recordStatus preserves existing command entries', (t) => {
   const key = projectKey(projectPath)
 
   // Pre-populate with a build entry
-  store.buildStatus = {
+  store.projects = {
     [key]: {
       projectPath,
-      build: { status: 'ok', timestamp: 1000 },
+      buildStatus: {
+        build: { status: 'ok', timestamp: 1000 },
+      },
     },
   }
 
   recordStatus(projectPath, 'pdf', 'failed')
 
-  const entry = store.buildStatus[key]
-  t.is(entry.build.status, 'ok')
-  t.is(entry.build.timestamp, 1000)
-  t.is(entry.pdf.status, 'failed')
+  const entry = store.projects[key]
+  t.is(entry.buildStatus.build.status, 'ok')
+  t.is(entry.buildStatus.build.timestamp, 1000)
+  t.is(entry.buildStatus.pdf.status, 'failed')
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -127,10 +129,12 @@ test('getStatus returns stored status entry', (t) => {
   const projectPath = '/Users/test/my-project'
   const key = projectKey(projectPath)
 
-  store.buildStatus = {
+  store.projects = {
     [key]: {
       projectPath,
-      build: { status: 'ok', timestamp: 1000 },
+      buildStatus: {
+        build: { status: 'ok', timestamp: 1000 },
+      },
     },
   }
 
@@ -150,10 +154,12 @@ test('getStatus returns undefined for unrecorded command', (t) => {
   const projectPath = '/Users/test/my-project'
   const key = projectKey(projectPath)
 
-  store.buildStatus = {
+  store.projects = {
     [key]: {
       projectPath,
-      build: { status: 'ok', timestamp: 1000 },
+      buildStatus: {
+        build: { status: 'ok', timestamp: 1000 },
+      },
     },
   }
 
@@ -170,23 +176,42 @@ test('clearStatus removes project entry', (t) => {
   const projectPath = '/Users/test/my-project'
   const key = projectKey(projectPath)
 
-  store.buildStatus = {
+  store.projects = {
     [key]: {
       projectPath,
-      build: { status: 'ok', timestamp: 1000 },
+      buildStatus: {
+        build: { status: 'ok', timestamp: 1000 },
+      },
     },
   }
 
   clearStatus(projectPath)
 
   const [, setValue] = configMock.default.set.firstCall.args
-  t.false(key in setValue)
+  t.truthy(setValue[key], 'project entry should still exist')
+  t.is(setValue[key].projectPath, projectPath, 'projectPath should be preserved')
+  t.is(setValue[key].buildStatus, undefined, 'buildStatus should be removed')
 })
 
 test('clearStatus is a no-op for unknown project', (t) => {
-  const { clearStatus, configMock } = t.context
+  const { clearStatus, configMock, store } = t.context
 
+  store.projects = {}
   clearStatus('/Users/test/unknown-project')
+
+  t.false(configMock.default.set.called)
+})
+
+test('clearStatus is a no-op when project has no buildStatus', (t) => {
+  const { clearStatus, projectKey, configMock, store } = t.context
+  const projectPath = '/Users/test/my-project'
+  const key = projectKey(projectPath)
+
+  store.projects = {
+    [key]: { projectPath },
+  }
+
+  clearStatus(projectPath)
 
   t.false(configMock.default.set.called)
 })
