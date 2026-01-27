@@ -2,12 +2,15 @@
  * Build detection module
  *
  * Detects if build output exists and provides build status information.
+ * Uses shared output path resolution to ensure consistency with the
+ * doctor command and generation commands.
  *
  * @module lib/project/build
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import paths from './paths.js'
+import { getPdfOutputPaths, getEpubOutputPaths, getEpubBuildDir } from './output-paths.js'
 
 /**
  * Get build output information
@@ -17,45 +20,60 @@ import paths from './paths.js'
  */
 export function getBuildInfo(projectRoot = paths.getProjectRoot()) {
   const sitePath = path.join(projectRoot, '_site')
-  const epubPath = path.join(projectRoot, '_epub')
-  const pdfFiles = ['pagedjs.pdf', 'prince.pdf']
+  const epubBuildPath = getEpubBuildDir({ projectRoot })
 
   const info = {
     site: {
       exists: fs.existsSync(sitePath),
       path: sitePath,
-      mtime: null,
+      lastModified: null,
     },
     epub: {
-      exists: fs.existsSync(epubPath),
-      path: epubPath,
-      mtime: null,
+      exists: false,
+      paths: [],
+      buildDir: epubBuildPath,
+      buildDirExists: fs.existsSync(epubBuildPath),
+      lastModified: null,
     },
     pdf: {
       exists: false,
       paths: [],
-      mtime: null,
+      lastModified: null,
     },
   }
 
-  // Get modification times if directories exist
+  // Get last modified times if directories exist
   if (info.site.exists) {
-    info.site.mtime = fs.statSync(sitePath).mtime
+    const { mtime: lastModified } = fs.statSync(sitePath)
+    info.site.lastModified = lastModified
   }
-  if (info.epub.exists) {
-    info.epub.mtime = fs.statSync(epubPath).mtime
+  if (info.epub.buildDirExists) {
+    const { mtime: lastModified } = fs.statSync(epubBuildPath)
+    info.epub.lastModified = lastModified
   }
 
-  // Check for PDF files
-  for (const file of pdfFiles) {
-    const pdfPath = path.join(projectRoot, file)
+  // Check for EPUB files using shared path resolution
+  const epubPaths = getEpubOutputPaths({ projectRoot })
+  for (const epubPath of epubPaths) {
+    if (fs.existsSync(epubPath)) {
+      info.epub.exists = true
+      info.epub.paths.push(epubPath)
+      const { mtime: lastModified } = fs.statSync(epubPath)
+      if (!info.epub.lastModified || lastModified > info.epub.lastModified) {
+        info.epub.lastModified = lastModified
+      }
+    }
+  }
+
+  // Check for PDF files using shared path resolution
+  const pdfPaths = getPdfOutputPaths({ projectRoot })
+  for (const pdfPath of pdfPaths) {
     if (fs.existsSync(pdfPath)) {
       info.pdf.exists = true
       info.pdf.paths.push(pdfPath)
-      // Use most recent mtime if multiple PDFs exist
-      const mtime = fs.statSync(pdfPath).mtime
-      if (!info.pdf.mtime || mtime > info.pdf.mtime) {
-        info.pdf.mtime = mtime
+      const { mtime: lastModified } = fs.statSync(pdfPath)
+      if (!info.pdf.lastModified || lastModified > info.pdf.lastModified) {
+        info.pdf.lastModified = lastModified
       }
     }
   }
@@ -77,20 +95,21 @@ export function hasSiteOutput(projectRoot = paths.getProjectRoot()) {
 /**
  * Check if epub build output exists
  *
+ * Checks for the intermediate _epub build directory.
+ *
  * @param {string} [projectRoot] - Project root directory (defaults to cwd)
  * @returns {boolean} True if _epub directory exists
  */
 export function hasEpubOutput(projectRoot = paths.getProjectRoot()) {
-  const epubPath = path.join(projectRoot, '_epub')
+  const epubPath = getEpubBuildDir({ projectRoot })
   return fs.existsSync(epubPath)
 }
 
 /**
  * Check if PDF output exists
  *
- * Checks for PDF output at common locations:
- * - Default library outputs: pagedjs.pdf, prince.pdf
- * - Specific library output when lib option provided
+ * Uses shared path resolution to check all possible PDF output locations,
+ * including config-aware custom paths and default engine-named paths.
  *
  * @param {Object} [options]
  * @param {string} [options.lib] - Specific library to check ('pagedjs' or 'prince')
@@ -105,9 +124,9 @@ export function hasPdfOutput(options = {}) {
     return fs.existsSync(pdfPath)
   }
 
-  // Check for any common PDF output
-  const pdfFiles = ['pagedjs.pdf', 'prince.pdf']
-  return pdfFiles.some((file) => fs.existsSync(path.join(projectRoot, file)))
+  // Check all possible PDF output locations
+  const pdfPaths = getPdfOutputPaths({ projectRoot })
+  return pdfPaths.some((pdfPath) => fs.existsSync(pdfPath))
 }
 
 /**

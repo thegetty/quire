@@ -15,6 +15,13 @@ import {
   requireBuildOutput,
 } from './build.js'
 import {
+  getPdfOutputPaths,
+  getEpubOutputPaths,
+  getEpubBuildDir,
+  PDF_ENGINES,
+  EPUB_ENGINES,
+} from './output-paths.js'
+import {
   getVersion,
   setVersion,
   getVersionsFromStarter,
@@ -24,11 +31,16 @@ import {
 
 export {
   DATA_DIR,
+  EPUB_ENGINES,
+  PDF_ENGINES,
   PROJECT_MARKERS,
   REQUIRED_DATA_FILES,
   SOURCE_DIRECTORIES,
   detect,
   getBuildInfo,
+  getEpubBuildDir,
+  getEpubOutputPaths,
+  getPdfOutputPaths,
   hasEpubOutput,
   hasPdfOutput,
   hasSiteOutput,

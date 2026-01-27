@@ -29,9 +29,9 @@ function getLatestModified(dir) {
     for (const entry of entries) {
       const fullPath = path.join(currentDir, entry.name)
       try {
-        const stat = fs.statSync(fullPath)
-        if (stat.mtimeMs > newest) {
-          newest = stat.mtimeMs
+        const { mtimeMs: lastModified } = fs.statSync(fullPath)
+        if (lastModified > newest) {
+          newest = lastModified
         }
         if (entry.isDirectory()) {
           scan(fullPath)
@@ -64,8 +64,7 @@ export function checkStaleBuild() {
   }
 
   // Get _site last modified time
-  const siteStat = fs.statSync(siteDir)
-  const siteLastModified = siteStat.mtimeMs
+  const { mtimeMs: siteLastModified } = fs.statSync(siteDir)
   debug('_site lastModified: %d', siteLastModified)
 
   // Find newest source file across all source directories

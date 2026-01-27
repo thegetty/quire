@@ -1,4 +1,5 @@
 import test from 'ava'
+import path from 'node:path'
 import sinon from 'sinon'
 import esmock from 'esmock'
 
@@ -17,13 +18,36 @@ test('checkPdfOutput returns N/A when no PDF files exist', async (t) => {
     'node:fs': {
       existsSync: sandbox.stub().returns(false),
     },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
   })
 
   const result = checkPdfOutput()
 
   t.true(result.ok)
   t.is(result.level, 'na', 'should return N/A level when no PDF output')
-  t.regex(result.message, /No PDF output/)
+  t.regex(result.message, /No PDF output found/)
+})
+
+test('checkPdfOutput includes remediation when no output found', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkPdfOutput } = await esmock('./pdf-output.js', {
+    'node:fs': {
+      existsSync: sandbox.stub().returns(false),
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
+  })
+
+  const result = checkPdfOutput()
+
+  t.truthy(result.remediation)
+  t.regex(result.remediation, /quire pdf/)
+  t.regex(result.remediation, /failed/)
+  t.truthy(result.docsUrl)
 })
 
 test('checkPdfOutput returns ok when PDF exists but no _site', async (t) => {
@@ -37,6 +61,9 @@ test('checkPdfOutput returns ok when PDF exists but no _site', async (t) => {
   const { checkPdfOutput } = await esmock('./pdf-output.js', {
     'node:fs': {
       existsSync,
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
   })
 
@@ -68,6 +95,9 @@ test('checkPdfOutput returns ok when PDF is up to date', async (t) => {
       existsSync,
       statSync,
     },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
   })
 
   const result = checkPdfOutput()
@@ -95,6 +125,9 @@ test('checkPdfOutput returns warning when PDF is stale', async (t) => {
     'node:fs': {
       existsSync,
       statSync,
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
   })
 
@@ -130,6 +163,9 @@ test('checkPdfOutput checks multiple PDF files', async (t) => {
       existsSync,
       statSync,
     },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
   })
 
   const result = checkPdfOutput()
@@ -159,10 +195,51 @@ test('checkPdfOutput includes remediation with pdf command', async (t) => {
       existsSync,
       statSync,
     },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
   })
 
   const result = checkPdfOutput()
 
   t.false(result.ok)
   t.regex(result.remediation, /quire pdf/)
+})
+
+test('checkPdfOutput uses config-aware paths when pdfConfig provided', async (t) => {
+  const { sandbox } = t.context
+
+  const pdfConfig = { outputDir: 'pdf', filename: 'my-publication' }
+  const configPath = path.join('_site', 'pdf', 'my-publication.pdf')
+
+  const existsSync = sandbox.stub().returns(false)
+  existsSync.withArgs(configPath).returns(true)
+  existsSync.withArgs('_site').returns(true)
+
+  const now = Date.now()
+  const statSync = sandbox.stub()
+  statSync.withArgs('_site').returns({ mtimeMs: now - 60000 })
+  statSync.withArgs(configPath).returns({ mtimeMs: now })
+
+  const { checkPdfOutput } = await esmock('./pdf-output.js', {
+    'node:fs': {
+      existsSync,
+      statSync,
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: (opts) => {
+        const paths = []
+        if (opts.pdfConfig) {
+          paths.push(configPath)
+        }
+        paths.push('pagedjs.pdf', 'prince.pdf')
+        return paths
+      },
+    },
+  })
+
+  const result = checkPdfOutput({ pdfConfig })
+
+  t.true(result.ok)
+  t.regex(result.message, /my-publication\.pdf up to date/)
 })

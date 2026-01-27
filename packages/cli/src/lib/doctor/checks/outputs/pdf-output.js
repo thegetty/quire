@@ -1,55 +1,71 @@
 /**
  * PDF output check
  *
+ * Checks for PDF output files using the same path resolution logic as the
+ * PDF generation command. Supports both default engine-named paths and
+ * config-aware custom output paths.
+ *
  * @module lib/doctor/checks/outputs/pdf-output
  */
 import fs from 'node:fs'
+import path from 'node:path'
 import createDebug from '#debug'
+import { getPdfOutputPaths } from '#lib/project/output-paths.js'
 import { DOCS_BASE_URL } from '../../constants.js'
 import { formatDuration } from '../../formatDuration.js'
 
 const debug = createDebug('lib:doctor:pdf-output')
 
 /**
- * PDF output file names by library
- */
-const PDF_FILES = ['pagedjs.pdf', 'prince.pdf']
-
-/**
  * Check if PDF output exists and is up to date with _site
  *
- * PDF is generated from _site, so if _site is newer than PDF,
+ * PDF is generated from _site, so if _site is newer than the PDF,
  * the PDF is considered stale.
  *
+ * Uses the same path resolution as `lib/pdf/index.js` to find PDF files
+ * at both default locations ({engine}.pdf) and config-aware locations.
+ *
+ * @param {Object} [options]
+ * @param {Object} [options.pdfConfig] - PDF config from config.yaml (config.pdf)
  * @returns {import('../../index.js').CheckResult}
  */
-export function checkPdfOutput() {
-  // Find existing PDF files
-  const existingPdfs = PDF_FILES.filter((file) => fs.existsSync(file))
+export function checkPdfOutput(options = {}) {
+  const { pdfConfig } = options
+
+  // Get all possible PDF paths (config-aware + engine defaults)
+  const candidatePaths = getPdfOutputPaths({ pdfConfig })
+  debug('candidate PDF paths: %o', candidatePaths)
+
+  // Find which PDF files actually exist
+  const existingPdfs = candidatePaths.filter((p) => fs.existsSync(p))
 
   if (existingPdfs.length === 0) {
     debug('No PDF files found')
     return {
       ok: true,
       level: 'na',
-      message: 'No PDF output (run quire pdf to generate)',
+      message: 'No PDF output found',
+      remediation: `Run "quire pdf" to generate a PDF.
+    • If you already ran "quire pdf" and it failed, check the output for errors`,
+      docsUrl: `${DOCS_BASE_URL}/quire-commands/#pdf`,
     }
   }
 
-  debug('Found PDF files: %o', existingPdfs)
+  // Use basenames for display
+  const existingNames = existingPdfs.map((p) => path.basename(p))
+  debug('found PDF files: %o', existingNames)
 
   // Check if _site exists
   if (!fs.existsSync('_site')) {
     debug('_site directory not found')
     return {
       ok: true,
-      message: `${existingPdfs.join(', ')} exists (no _site to compare)`,
+      message: `${existingNames.join(', ')} exists (no _site to compare)`,
     }
   }
 
   // Get _site last modified time
-  const siteStat = fs.statSync('_site')
-  const siteLastModified = siteStat.mtimeMs
+  const { mtimeMs: siteLastModified } = fs.statSync('_site')
   debug('_site lastModified: %d', siteLastModified)
 
   // Check each PDF for staleness
@@ -57,9 +73,8 @@ export function checkPdfOutput() {
   let oldestPdfLastModified = Infinity
 
   for (const pdfFile of existingPdfs) {
-    const pdfStat = fs.statSync(pdfFile)
-    const pdfLastModified = pdfStat.mtimeMs
-    debug('%s lastModified: %d', pdfFile, pdfLastModified)
+    const { mtimeMs: pdfLastModified } = fs.statSync(pdfFile)
+    debug('%s lastModified: %d', path.basename(pdfFile), pdfLastModified)
 
     if (siteLastModified > pdfLastModified) {
       staleFiles.push(pdfFile)
@@ -71,7 +86,8 @@ export function checkPdfOutput() {
 
   if (staleFiles.length > 0) {
     const staleDuration = formatDuration(siteLastModified - oldestPdfLastModified)
-    const fileList = staleFiles.join(', ')
+    const staleNames = staleFiles.map((p) => path.basename(p))
+    const fileList = staleNames.join(', ')
     return {
       ok: false,
       level: 'warn',
@@ -84,7 +100,7 @@ export function checkPdfOutput() {
   }
 
   // All PDFs are up to date
-  const fileList = existingPdfs.join(', ')
+  const fileList = existingNames.join(', ')
   return {
     ok: true,
     message: `${fileList} up to date`,
