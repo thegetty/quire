@@ -7,6 +7,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { SOURCE_DIRECTORIES } from '#lib/project/index.js'
 import config from '#lib/conf/config.js'
+import { getStatus } from '#lib/conf/build-status.js'
 import createDebug from '#debug'
 import { DOCS_BASE_URL, resolveStaleThreshold } from '#lib/doctor/constants.js'
 import { formatDuration } from '#lib/doctor/formatDuration.js'
@@ -56,7 +57,21 @@ export function checkStaleBuild() {
 
   // Skip if not in a project or no build output exists
   if (!fs.existsSync(siteDir)) {
-    debug('No _site directory found, skipping stale build check')
+    debug('No _site directory found, checking stored build status')
+
+    const status = getStatus(process.cwd(), 'build')
+    if (status?.status === 'failed') {
+      debug('Last build failed (stored status)')
+      return {
+        ok: false,
+        level: 'warn',
+        message: 'Last build failed',
+        remediation: `The last "quire build" run failed. Check the output for errors and try again.
+    • Run "quire build --debug" for detailed error output`,
+        docsUrl: `${DOCS_BASE_URL}/quire-commands/#preview-and-build`,
+      }
+    }
+
     return {
       ok: true,
       level: 'na',

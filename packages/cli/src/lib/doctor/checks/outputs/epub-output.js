@@ -11,6 +11,7 @@ import path from 'node:path'
 import createDebug from '#debug'
 import { getEpubOutputPaths } from '#lib/project/output-paths.js'
 import config from '#lib/conf/config.js'
+import { getStatus } from '#lib/conf/build-status.js'
 import { DOCS_BASE_URL, resolveStaleThreshold } from '#lib/doctor/constants.js'
 import { formatDuration } from '#lib/doctor/formatDuration.js'
 
@@ -33,7 +34,21 @@ export function checkEpubOutput() {
 
   // No EPUB output
   if (existingEpubs.length === 0) {
-    debug('No EPUB files found')
+    debug('No EPUB files found, checking stored epub status')
+
+    const status = getStatus(process.cwd(), 'epub')
+    if (status?.status === 'failed') {
+      debug('Last epub generation failed (stored status)')
+      return {
+        ok: false,
+        level: 'warn',
+        message: 'Last EPUB generation failed',
+        remediation: `The last "quire epub" run failed. Check the output for errors and try again.
+    • Run "quire epub --debug" for detailed error output`,
+        docsUrl: `${DOCS_BASE_URL}/quire-commands/#epub`,
+      }
+    }
+
     return {
       ok: true,
       level: 'na',
