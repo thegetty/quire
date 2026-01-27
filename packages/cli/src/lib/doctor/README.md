@@ -47,7 +47,7 @@ quire doctor --quiet --json reports/doctor.json
 doctor/
 ├── index.js                  # Barrel export, runners, checkSections
 ├── index.test.js             # Integration tests for runners
-├── constants.js              # Re-exports constants from #lib/constants.js
+├── constants.js              # Re-exports from #lib/constants.js + stale thresholds
 ├── formatDuration.js         # Human-readable time formatting
 ├── formatDuration.test.js    # Duration formatting tests
 ├── README.md                 # This file
@@ -88,7 +88,7 @@ doctor/
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              doctor/index.js                                 │
+│                              doctor/index.js                                │
 │  Imports checks from domain submodules, defines checkSections, runners      │
 └────────────────────────────────────┬────────────────────────────────────────┘
                                      │
@@ -107,12 +107,15 @@ doctor/
            │                        │                        │
            ▼                        ▼                        ▼
     ┌──────────────┐     ┌───────────────────┐    ┌──────────────────┐
+    ┌──────────────┐     ┌───────────────────┐    ┌──────────────────┐
     │ constants.js │     │ validators/       │    │ #lib/project/    │
     │              │     │ validate-data-    │    │ SOURCE_DIRS      │
     │ DOCS_BASE_URL│     │ files.js          │    │                  │
     │ NODE_VERSION │     └───────────────────┘    └──────────────────┘
     │ QUIRE_11TY_  │
     │ PACKAGE      │
+    │ STALE_       │
+    │ THRESHOLDS   │
     └──────────────┘
 ```
 
@@ -124,12 +127,12 @@ doctor/
 | `#lib/project/` | Project constants (`DATA_DIR`, `PROJECT_MARKERS`, `SOURCE_DIRECTORIES`) |
 | `#lib/git/` | Git availability check |
 | `#lib/npm/` | npm availability and registry queries |
-| `#lib/conf/config.js` | Configuration (updateChannel for version check) |
+| `#lib/conf/config.js` | Configuration (updateChannel for version check, staleThreshold for output checks) |
 | `#src/packageConfig.js` | CLI package.json for version info |
 | `#src/validators/validate-data-files.js` | YAML validation logic |
 | `update-notifier` | Cached CLI update check info |
 | `semver` | Semantic version comparison |
-| `./constants.js` | Re-exports from `#lib/constants.js` (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) |
+| `./constants.js` | Re-exports from `#lib/constants.js` (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) + STALE_THRESHOLDS, resolveStaleThreshold |
 | `./formatDuration.js` | Human-readable time formatting |
 
 ## Check Result Type
@@ -298,29 +301,56 @@ Remediation and docs URL vary by platform:
 
 ### checkStaleBuild
 
+Staleness is determined by comparing source file timestamps against the `_site` build directory. A warning is only triggered when the time difference exceeds the configured `staleThreshold` setting (default: `HOURLY` = 60 minutes).
+
 | Scenario | Result |
 |----------|--------|
 | No _site directory | `ok: true` - "No build output yet (run quire build)" |
 | Build up to date | `ok: true` - "Build output is up to date" |
-| Build is stale | `ok: false, level: warn` - "Build output is 2 weeks older than source files" |
+| Build stale within threshold | `ok: true` - "Build output is up to date" |
+| Build stale beyond threshold | `ok: false, level: warn` - "Build output is 2 weeks older than source files" |
 
 ### checkPdfOutput
+
+Uses the same `staleThreshold` setting to compare PDF timestamps against `_site`. Loads project config to resolve config-aware PDF output paths.
 
 | Scenario | Result |
 |----------|--------|
 | No PDF files exist | `ok: true` - "No PDF output (run quire pdf to generate)" |
 | PDF exists, no _site | `ok: true` - "pagedjs.pdf exists (no _site to compare)" |
 | PDF up to date | `ok: true` - "pagedjs.pdf up to date" |
-| PDF is stale | `ok: false, level: warn` - "pagedjs.pdf is 1 hour older than _site" |
+| PDF stale within threshold | `ok: true` - "pagedjs.pdf up to date" |
+| PDF stale beyond threshold | `ok: false, level: warn` - "pagedjs.pdf is 2 hours older than _site" |
 
 ### checkEpubOutput
 
+Uses the same `staleThreshold` setting to compare EPUB timestamps against `_site`.
+
 | Scenario | Result |
 |----------|--------|
-| No _epub directory | `ok: true` - "No EPUB output (run quire epub to generate)" |
-| _epub exists, no _site | `ok: true` - "_epub exists (no _site to compare)" |
-| _epub up to date | `ok: true` - "_epub up to date" |
-| _epub is stale | `ok: false, level: warn` - "_epub is 1 hour older than _site" |
+| No EPUB files exist | `ok: true` - "No EPUB output (run quire epub to generate)" |
+| EPUB exists, no _site | `ok: true` - "epubjs.epub exists (no _site to compare)" |
+| EPUB up to date | `ok: true` - "epubjs.epub up to date" |
+| EPUB stale within threshold | `ok: true` - "epubjs.epub up to date" |
+| EPUB stale beyond threshold | `ok: false, level: warn` - "epubjs.epub is 2 hours older than _site" |
+
+### Stale Threshold Configuration
+
+All output checks share the `staleThreshold` setting from `#lib/conf/config.js`. The threshold determines how much time difference is tolerated before flagging an output as stale.
+
+| Setting | Duration | Use Case |
+|---------|----------|----------|
+| `ZERO` | 0 minutes | Any time difference triggers a warning |
+| `SHORT` | 5 minutes | Quick iteration workflows |
+| `HOURLY` | 60 minutes | Default — within-session tolerance |
+| `DAILY` | 12 hours | Multi-session or batch workflows |
+| `NEVER` | Disabled | Never warn about stale outputs |
+
+```sh
+❯ quire config set staleThreshold DAILY
+```
+
+The threshold is resolved by `resolveStaleThreshold()` in `constants.js`, which maps the setting name to milliseconds and falls back to `HOURLY` for unrecognized values.
 
 ## Exports
 
@@ -341,6 +371,7 @@ export { checkEpubOutput }
 
 // Constants
 export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE }
+export { STALE_THRESHOLDS, resolveStaleThreshold }
 
 // Check collections
 export { checks }         // Flat array of all checks (12 checks)
@@ -594,7 +625,7 @@ const { checkStaleBuild } = await esmock('./stale-build.js', {
 |------|-------------|
 | `index.js` | Barrel export, runners, checkSections |
 | `index.test.js` | Integration tests for runners and sections |
-| `constants.js` | Re-exports from `#lib/constants.js` |
+| `constants.js` | Re-exports from `#lib/constants.js` + STALE_THRESHOLDS, resolveStaleThreshold |
 | `formatDuration.js` | Time duration formatting utility |
 | `formatDuration.test.js` | Duration formatting tests |
 | `checks/environment/` | Environment prerequisite checks (5 checks: os-info, cli-version, node-version, npm-available, git-available) |

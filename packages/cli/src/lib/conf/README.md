@@ -30,6 +30,12 @@ This `quire-cli/lib/config` module manages reading and writing (persisting) opti
 ❯ quire config quire-path '.'
 ```
 
+`staleThreshold` How stale an output must be before `quire doctor` warns; default `'HOURLY'`. Options: `'ZERO'` (0 min), `'SHORT'` (5 min), `'HOURLY'` (60 min), `'DAILY'` (12 hours), `'NEVER'` (disabled).
+
+```sh
+❯ quire config set staleThreshold DAILY
+```
+
 `quireVersion` The default version of `quire-11ty` to install when creating new Quire projects; default `'latest'`.
 
 ```sh
