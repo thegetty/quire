@@ -3,9 +3,8 @@ import { withOutputModes } from '#lib/commander/index.js'
 import paths, { hasEpubOutput } from '#lib/project/index.js'
 import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
-import libEpub, { ENGINES } from '#lib/epub/index.js'
+import generateEpub, { ENGINES } from '#lib/epub/index.js'
 import open from 'open'
-import path from 'node:path'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
@@ -26,15 +25,17 @@ export default class EpubCommand extends Command {
     docsLink: 'quire-commands/#output-files',
     helpText: `
 Examples:
-  quire epub                      Generate EPUB using default engine
-  quire epub --engine pandoc      Generate EPUB using Pandoc
-  quire epub --open               Generate and open EPUB
-  quire epub --build              Build site first, then generate EPUB
+  quire epub                        Generate EPUB using default engine
+  quire epub --engine pandoc        Generate EPUB using Pandoc
+  quire epub --open                 Generate and open EPUB
+  quire epub --build                Build site first, then generate EPUB
+  quire epub --output my-book.epub  Generate EPUB with custom output path
 `,
     version: '1.0.0',
     options: [
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open EPUB in default application' ],
+      [ '-o, --output <path>', 'output file path (default: {engine}.epub)' ],
       [
         '--engine <name>', 'EPUB engine to use (default: from config or epubjs)',
         { choices: ENGINES }
@@ -76,28 +77,16 @@ Examples:
 
     // Check for build output (will throw if missing)
     // TODO: Add interactive prompt when build output missing and --build not used
-    const projectRoot = paths.getProjectRoot()
-    const input = path.join(projectRoot, paths.getEpubDir())
-
     if (!hasEpubOutput()) {
-      throw new MissingBuildOutputError('epub', input)
+      throw new MissingBuildOutputError('EPUB', paths.getEpubDir())
     }
 
-    reporter.start(`Generating EPUB using ${options.engine}...`, { showElapsed: true })
+    // Pass engine as lib (matching lib/pdf interface)
+    // Reporter lifecycle is owned by the façade (lib/epub/index.js)
+    const epubOptions = { ...options, lib: options.engine }
+    const output = await generateEpub(epubOptions)
 
-    try {
-      const output = path.join(projectRoot, `${options.engine}.epub`)
-
-      const epubLib = await libEpub(options.engine, { debug: options.debug })
-      await epubLib(input, output)
-
-      reporter.succeed('EPUB generated')
-
-      if (fs.existsSync(output) && options.open) open(output)
-    } catch (error) {
-      reporter.fail('EPUB generation failed')
-      throw error
-    }
+    if (fs.existsSync(output) && options.open) open(output)
   }
 
   preAction(thisCommand, actionCommand) {
