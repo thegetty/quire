@@ -1320,3 +1320,90 @@ test.serial('doctor command --quiet --json <file> should write to file silently'
     'should not log success message in quiet mode'
   )
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// --reset flag tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command --reset should clear build status', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const clearStatusStub = sandbox.stub()
+  const runAllChecksStub = sandbox.stub().resolves([])
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/conf/build-status.js': {
+      clearStatus: clearStatusStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: runAllChecksStub,
+      checkSections: [],
+      SECTION_NAMES: ['environment', 'project', 'outputs'],
+      CHECK_IDS: ['os', 'cli', 'node', 'npm', 'git', 'project', 'deps', '11ty', 'data', 'build', 'pdf', 'epub'],
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action([], { reset: true }, command)
+
+  t.true(clearStatusStub.calledOnce, 'should call clearStatus')
+  t.is(clearStatusStub.firstCall.args[0], process.cwd(), 'should clear status for current directory')
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/Build status cleared/)),
+    'should log confirmation message'
+  )
+})
+
+test.serial('doctor command --reset should not run checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const clearStatusStub = sandbox.stub()
+  const runAllChecksStub = sandbox.stub().resolves([])
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/conf/build-status.js': {
+      clearStatus: clearStatusStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: runAllChecksStub,
+      checkSections: [],
+      SECTION_NAMES: ['environment', 'project', 'outputs'],
+      CHECK_IDS: ['os', 'cli', 'node', 'npm', 'git', 'project', 'deps', '11ty', 'data', 'build', 'pdf', 'epub'],
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action([], { reset: true }, command)
+
+  t.false(runAllChecksStub.called, 'should not run diagnostic checks')
+})
+
+test.serial('doctor command --reset --quiet should suppress output', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const clearStatusStub = sandbox.stub()
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/conf/build-status.js': {
+      clearStatus: clearStatusStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves([]),
+      checkSections: [],
+      SECTION_NAMES: ['environment', 'project', 'outputs'],
+      CHECK_IDS: ['os', 'cli', 'node', 'npm', 'git', 'project', 'deps', '11ty', 'data', 'build', 'pdf', 'epub'],
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action([], { reset: true, quiet: true }, command)
+
+  t.true(clearStatusStub.calledOnce, 'should still clear status')
+  t.false(mockLogger.info.called, 'should not log any messages in quiet mode')
+})

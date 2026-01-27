@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import Command from '#src/Command.js'
 import { withOutputModes } from '#lib/commander/index.js'
+import { clearStatus } from '#lib/conf/build-status.js'
 import { runAllChecksWithSections, checkSections, SECTION_NAMES, CHECK_IDS } from '#lib/doctor/index.js'
 import { formatHuman } from '#lib/doctor/formatters/human.js'
 import { formatJson } from '#lib/doctor/formatters/json.js'
@@ -45,6 +46,7 @@ Examples:
   quire doctor --verbose                Show additional details (paths, versions)
   quire doctor --json                   Output results as JSON (to stdout)
   quire doctor --json report.json       Save JSON results to file
+  quire doctor --reset                  Clear stored build status
   quire checkup                         Alias for doctor command
 
 CI/Scripting:
@@ -62,6 +64,7 @@ CI/Scripting:
       ['-e, --errors', 'show only failed checks'],
       ['-w, --warnings', 'show only warnings'],
       ['--json [file]', 'output results as JSON (to standard out or a file)'],
+      ['--reset', 'clear stored build status for the current project'],
     ],
   })
 
@@ -71,6 +74,15 @@ CI/Scripting:
 
   async action(checks, options, command) {
     this.debug('called with checks=%O options=%O', checks, options)
+
+    // --reset: clear stored build status and exit without running checks
+    if (options.reset) {
+      clearStatus(process.cwd())
+      if (!options.quiet) {
+        this.logger.info('Build status cleared for this project')
+      }
+      return
+    }
 
     // Parse variadic checks argument into sections and individual checks
     const filterOptions = { sections: null, checks: null }

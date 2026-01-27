@@ -57,10 +57,10 @@ test('registered command has variadic checks argument', (t) => {
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Doctor command has 3 local + 4 shared output mode options = 7
-  // Local: --errors, --warnings, --json
+  // Doctor command has 4 local + 4 shared output mode options = 8
+  // Local: --errors, --warnings, --json, --reset
   // Shared (via withOutputModes): --quiet, --verbose, --progress, --debug
-  t.is(command.options.length, 7, 'doctor command should have 7 options')
+  t.is(command.options.length, 8, 'doctor command should have 8 options')
 
   // Verify --errors option
   const errorsOption = command.options.find((opt) => opt.long === '--errors')
@@ -83,6 +83,12 @@ test('registered command has correct options', (t) => {
   t.truthy(jsonOption.description)
   t.true(jsonOption.description.includes('JSON'), 'description should mention JSON')
   t.true(jsonOption.description.includes('file'), 'description should mention file output')
+
+  // Verify --reset option
+  const resetOption = command.options.find((opt) => opt.long === '--reset')
+  t.truthy(resetOption, '--reset option should exist')
+  t.true(resetOption instanceof Option, '--reset should be Option instance')
+  t.truthy(resetOption.description)
 
   // Verify shared output mode options (via withOutputModes)
   const quietOption = command.options.find((opt) => opt.long === '--quiet')
