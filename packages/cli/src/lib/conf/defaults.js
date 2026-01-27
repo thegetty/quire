@@ -88,8 +88,8 @@ export default {
    */
   versionFile: '.quire',
   /**
-   * Per-project build status tracking (internal).
+   * Per-project data (internal).
    * Keyed by SHA-256 hash of the project's absolute path.
    */
-  buildStatus: {},
+  projects: {},
 }

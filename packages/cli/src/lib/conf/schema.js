@@ -77,36 +77,41 @@ export default {
     type: 'string',
     description: 'Filename used to identify Quire projects'
   },
-  buildStatus: {
+  projects: {
     type: 'object',
-    description: 'Per-project build status tracking (internal)',
+    description: 'Per-project data keyed by hashed project path (internal)',
     additionalProperties: {
       type: 'object',
       properties: {
         projectPath: { type: 'string' },
-        build: {
+        buildStatus: {
           type: 'object',
           properties: {
-            status: { type: 'string', enum: ['ok', 'failed'] },
-            timestamp: { type: 'number' },
+            build: {
+              type: 'object',
+              properties: {
+                status: { type: 'string', enum: ['ok', 'failed'] },
+                timestamp: { type: 'number' },
+              },
+              required: ['status', 'timestamp'],
+            },
+            pdf: {
+              type: 'object',
+              properties: {
+                status: { type: 'string', enum: ['ok', 'failed'] },
+                timestamp: { type: 'number' },
+              },
+              required: ['status', 'timestamp'],
+            },
+            epub: {
+              type: 'object',
+              properties: {
+                status: { type: 'string', enum: ['ok', 'failed'] },
+                timestamp: { type: 'number' },
+              },
+              required: ['status', 'timestamp'],
+            },
           },
-          required: ['status', 'timestamp'],
-        },
-        pdf: {
-          type: 'object',
-          properties: {
-            status: { type: 'string', enum: ['ok', 'failed'] },
-            timestamp: { type: 'number' },
-          },
-          required: ['status', 'timestamp'],
-        },
-        epub: {
-          type: 'object',
-          properties: {
-            status: { type: 'string', enum: ['ok', 'failed'] },
-            timestamp: { type: 'number' },
-          },
-          required: ['status', 'timestamp'],
         },
       },
       required: ['projectPath'],
