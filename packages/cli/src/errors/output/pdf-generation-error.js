@@ -3,17 +3,22 @@ import { docsUrl } from '#helpers/docs-url.js'
 
 /**
  * Error thrown when PDF generation fails
+ *
+ * @param {string} tool - The PDF tool that failed (e.g., 'Paged.js', 'Prince')
+ * @param {string} operation - The operation that failed (e.g., 'PDF rendering', 'page map extraction')
+ * @param {string} [details] - Additional error details from the underlying error
  */
 export default class PdfGenerationError extends QuireError {
-  constructor(details, tool = 'Prince') {
-    super(
-      `PDF generation failed: ${details}`,
-      {
-        code: 'PDF_FAILED',
-        exitCode: 5,
-        suggestion: `Ensure ${tool} is installed and accessible`,
-        docsUrl: docsUrl('pdf-output')
-      }
-    )
+  constructor(tool, operation, details) {
+    const message = details
+      ? `${tool} ${operation} failed: ${details}`
+      : `${tool} ${operation} failed`
+
+    super(message, {
+      code: 'PDF_FAILED',
+      exitCode: 5,
+      suggestion: `Check that ${tool} is properly configured and the input files are valid`,
+      docsUrl: docsUrl('pdf-output')
+    })
   }
 }

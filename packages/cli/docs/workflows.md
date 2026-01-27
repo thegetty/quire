@@ -98,6 +98,21 @@ quire pdf --build
 
 The `--engine` flag always overrides the config setting when specified.
 
+### Custom Output Path
+
+Override the default output location:
+
+```bash
+# Absolute path
+quire pdf --output /path/to/my-publication.pdf
+
+# Relative path (from project root)
+quire pdf --output downloads/book.pdf
+
+# Combined with other options
+quire pdf --build --engine prince --output final-print.pdf
+```
+
 ---
 
 ## Generating EPUB

@@ -5,9 +5,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import processManager from '#lib/process/manager.js'
+import reporter from '#lib/reporter/index.js'
 import { splitPdf } from './split.js'
 import { PdfGenerationError } from '#src/errors/index.js'
-import { logger } from '#lib/logger/index.js'
+import ENGINES from './engines.js'
 import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -15,11 +16,20 @@ const __dirname = path.dirname(__filename)
 
 const debug = createDebug('lib:pdf:paged')
 
+/** Re-export engine metadata from central registry */
+export const metadata = ENGINES.pagedjs
+
 /**
  * A façade module for interacting with Paged.js and pagedjs-cli
  * @see https://gitlab.coko.foundation/pagedjs/
+ *
+ * @param {string} publicationInput - Path to the publication HTML file
+ * @param {string} coversInput - Path to the covers HTML file
+ * @param {string} pdfPath - Path where the PDF should be written
+ * @param {Object} [options={}] - Generation options
+ * @returns {Promise<string>} Path to the generated PDF file
  */
-export default async (publicationInput, coversInput, output, options = {}) => {
+export default async (publicationInput, coversInput, pdfPath, options = {}) => {
   /**
    * Configure the Paged.js Printer options
    * @see https://gitlab.coko.foundation/pagedjs/pagedjs-cli/-/blob/main/src/cli.js
@@ -63,6 +73,13 @@ export default async (publicationInput, coversInput, output, options = {}) => {
     debug('post-processing')
   })
 
+  // Capture browser console messages for debugging
+  printer.on('console', (type, ...args) => {
+    if (type === 'warning' || type === 'error') {
+      debug('browser %s: %s', type, args.join(' '))
+    }
+  })
+
   /**
    * Configure the Paged.js PDF options
    * @see
@@ -76,6 +93,7 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   debug('pdf options: %O', pdfOptions)
 
   debug('printing %s', publicationInput)
+  reporter.update('Rendering PDF...')
 
   let file
   try {
@@ -89,40 +107,52 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   // Now it's printed, create the pageMap by running JS in the printer's context
   let coversFile
 
-  debug('generating page map')
-  const pages = await printer.browser.pages()
+  debug('extracting page map')
+  reporter.update('Extracting page map...')
+  try {
+    const pages = await printer.browser.pages()
 
-  if (pages.length > 0) {
-    pageMap = await pages[pages.length - 1].evaluate(() => {
-      // Retrieves the pageMap from our plugin
-      return window.pageMap ?? {} // eslint-disable-line no-undef
-    })
+    if (pages.length > 0) {
+      pageMap = await pages[pages.length - 1].evaluate(() => {
+        // Retrieves the pageMap from our plugin
+        return window.pageMap ?? {} // eslint-disable-line no-undef
+      })
+    }
+  } catch (error) {
+    throw new PdfGenerationError('Paged.js', 'page map extraction', error.message)
   }
 
   if ( pdfConfig?.pagePDF?.coverPage===true && fs.existsSync(coversInput) ) {
     debug('printing covers %s', coversInput)
+    reporter.update('Rendering cover pages...')
 
     const coverPrinter = new Printer(printerOptions)
 
     try {
       coversFile = await coverPrinter.pdf(coversInput, pdfOptions)
     } catch (error) {
+      coverPrinter.close()
       throw new PdfGenerationError('Paged.js', 'cover PDF rendering', error.message)
     }
 
-    const coverPages = await coverPrinter.browser.pages()
+    try {
+      const coverPages = await coverPrinter.browser.pages()
 
-    if (coverPages.length > 0) {
-      const coversMap = await coverPages[coverPages.length - 1].evaluate(() => {
-        // Retrieves the pageMap from our plugin
-        return window.pageMap ?? {} // eslint-disable-line no-undef
-      })
+      if (coverPages.length > 0) {
+        const coversMap = await coverPages[coverPages.length - 1].evaluate(() => {
+          // Retrieves the pageMap from our plugin
+          return window.pageMap ?? {} // eslint-disable-line no-undef
+        })
 
-      Object.values(coversMap).forEach( cov => {
-        if (cov.id in pageMap) {
-          pageMap[cov.id].coverPage = cov.startPage
-        }
-      })
+        Object.values(coversMap).forEach( cov => {
+          if (cov.id in pageMap) {
+            pageMap[cov.id].coverPage = cov.startPage
+          }
+        })
+      }
+    } catch (error) {
+      coverPrinter.close()
+      throw new PdfGenerationError('Paged.js', 'cover page map extraction', error.message)
     }
 
     coverPrinter.close()
@@ -136,22 +166,33 @@ export default async (publicationInput, coversInput, output, options = {}) => {
   // Unregister cleanup handler
   processManager.onShutdownComplete('pagedjs')
 
-  if (file && output) {
+  if (file && pdfPath) {
     debug('writing files')
+    reporter.update('Writing PDF files...')
 
-    const { dir } = path.parse(output)
-    if (!fs.existsSync(dir)) {
-      fs.mkdirsSync(dir)
+    try {
+      const { dir } = path.parse(pdfPath)
+      if (!fs.existsSync(dir)) {
+        fs.mkdirsSync(dir)
+      }
+
+      await fs.promises.writeFile(pdfPath, file)
+    } catch (error) {
+      throw new PdfGenerationError('Paged.js', 'PDF file write', error.message)
     }
 
-    await fs.promises.writeFile(output, file)
+    try {
+      const files = await splitPdf(file, coversFile, pageMap, options.pdfConfig)
 
-    const files = await splitPdf(file,coversFile,pageMap,options.pdfConfig)
-
-    await Promise.all(
-      Object.entries(files).map(([filePath, pagePdf]) =>
-        fs.promises.writeFile(filePath, pagePdf)
+      await Promise.all(
+        Object.entries(files).map(([filePath, pagePdf]) =>
+          fs.promises.writeFile(filePath, pagePdf)
+        )
       )
-    )
+    } catch (error) {
+      throw new PdfGenerationError('Paged.js', 'PDF splitting', error.message)
+    }
   }
+
+  return pdfPath
 }
