@@ -57,6 +57,15 @@ export default {
    */
   quire11tyPath: '.',
   /**
+   * How stale an output must be before `quire doctor` warns.
+   * - 'ZERO': any time difference (0 minutes)
+   * - 'SHORT': 5 minutes
+   * - 'HOURLY': 60 minutes (default)
+   * - 'DAILY': 12 hours
+   * - 'NEVER': disable stale output warnings
+   */
+  staleThreshold: 'HOURLY',
+  /**
    * Version of quire-11ty to install when creating new projects.
    */
   quireVersion: 'latest',

@@ -50,6 +50,11 @@ export default {
     type: 'string',
     description: 'Path to the quire-11ty package (use "." for local development)'
   },
+  staleThreshold: {
+    type: 'string',
+    enum: ['ZERO', 'SHORT', 'HOURLY', 'DAILY', 'NEVER'],
+    description: 'How stale an output must be before doctor warns (ZERO=0m, SHORT=5m, HOURLY=60m, DAILY=12h, NEVER=disabled)'
+  },
   quireVersion: {
     type: 'string',
     description: 'Version of quire-11ty to use ("latest" or specific version)'
