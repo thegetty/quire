@@ -18,7 +18,7 @@ export const STATUS_ICONS = {
   failed: chalk.red('✗'),
   warning: chalk.yellow('⚠'),
   timeout: chalk.magenta('⏱'),
-  na: chalk.dim('○'),
+  na: chalk.gray('○'),
 }
 
 /**
