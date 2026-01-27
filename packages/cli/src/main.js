@@ -199,10 +199,22 @@ commands.forEach((command) => {
     })
   }
 
-  // Wrap action in centralized error handler
-  // Using apply() preserves `this` context for `this.debug` and `this.logger`
+  /**
+   * Wrap action in centralized error handler.
+   * Using apply() preserves `this` context for `this.debug` and `this.logger`.
+   *
+   * Nota bene: Commander passes subcommand-local opts as the options argument,
+   * but global options (--verbose, --quiet, --debug) defined on the parent
+   * program are only available via optsWithGlobals(). We replace the options
+   * argument with the merged set so action handlers see all options uniformly.
+   */
   subCommand.action(async (...args) => {
     try {
+      // Commander Command instance is the last element in args array
+      // @see https://github.com/tj/commander.js#action-handler
+      const cmd = args[args.length - 1]
+      const mergedOpts = cmd.optsWithGlobals()
+      args[args.length - 2] = mergedOpts
       await action.apply(command, args)
     } catch (error) {
       reporter.stop()
