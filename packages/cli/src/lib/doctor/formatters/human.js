@@ -95,6 +95,7 @@ export function formatHuman(sections, options = {}) {
   let errorCount = 0
   let warningCount = 0
   let timeoutCount = 0
+  let naCount = 0
   let displayedCount = 0
 
   // Header
@@ -115,8 +116,10 @@ export function formatHuman(sections, options = {}) {
       }
       lastSubsection = result.subsection || null
 
-      // Count errors, warnings, and timeouts (N/A checks are not counted)
-      if (!result.ok && result.level !== 'na') {
+      // Count by status category
+      if (result.level === 'na') {
+        naCount++
+      } else if (!result.ok) {
         if (result.level === 'warn') {
           warningCount++
         } else if (result.level === 'timeout') {
@@ -154,6 +157,9 @@ export function formatHuman(sections, options = {}) {
   // Build summary
   let summary = null
   let exitCode = 0
+  const naSuffix = naCount > 0
+    ? ` (${naCount} not applicable)`
+    : ''
 
   if (errorCount > 0) {
     const errorText = errorCount === 1 ? '1 check failed' : `${errorCount} checks failed`
@@ -161,22 +167,24 @@ export function formatHuman(sections, options = {}) {
     if (warningCount > 0) extras.push(warningCount === 1 ? '1 warning' : `${warningCount} warnings`)
     if (timeoutCount > 0) extras.push(timeoutCount === 1 ? '1 timed out' : `${timeoutCount} timed out`)
     const extrasText = extras.length > 0 ? `, ${extras.join(', ')}` : ''
-    summary = { text: `${errorText}${extrasText}. See above for details.`, level: 'error' }
+    summary = { text: `${errorText}${extrasText}. See above for details.${naSuffix}`, level: 'error' }
     exitCode = 1
   } else if (warningCount > 0 || timeoutCount > 0) {
     const parts = []
     if (warningCount > 0) parts.push(warningCount === 1 ? '1 warning' : `${warningCount} warnings`)
     if (timeoutCount > 0) parts.push(timeoutCount === 1 ? '1 timed out' : `${timeoutCount} timed out`)
-    summary = { text: `All checks passed with ${parts.join(', ')}.`, level: 'warn' }
+    summary = { text: `All checks passed with ${parts.join(', ')}.${naSuffix}`, level: 'warn' }
   } else if (!options.errors && !options.warnings) {
-    summary = { text: 'All checks passed!', level: 'info' }
+    summary = { text: `All checks passed!${naSuffix}`, level: 'info' }
   }
 
-  // Build key
-  const key = {
-    text: `Key: ${STATUS_ICONS.passed} passed  ${STATUS_ICONS.failed} failed  ${STATUS_ICONS.warning} warning  ${STATUS_ICONS.timeout} timed out  ${STATUS_ICONS.na} not applicable / not yet generated`,
-    level: 'info',
-  }
+  // Build key (hidden when filtering to --errors or --warnings only)
+  const key = (options.errors || options.warnings)
+    ? null
+    : {
+        text: `Key: ${STATUS_ICONS.passed} passed  ${STATUS_ICONS.failed} failed  ${STATUS_ICONS.warning} warning  ${STATUS_ICONS.timeout} timed out  ${STATUS_ICONS.na} not applicable / not yet generated`,
+        level: 'info',
+      }
 
   return {
     lines,

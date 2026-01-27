@@ -547,7 +547,7 @@ test.serial('doctor command should display N/A checks with open circle indicator
   )
 })
 
-test.serial('doctor command should not count N/A checks in summary', async (t) => {
+test.serial('doctor command should not count N/A checks as failures in summary', async (t) => {
   const { sandbox, mockLogger } = t.context
   const consoleStubs = stubConsole(sandbox)
 
@@ -578,9 +578,14 @@ test.serial('doctor command should not count N/A checks in summary', async (t) =
     calledWithMatch(consoleStubs.log, /All checks passed/),
     'should report all checks passed when only N/A checks exist'
   )
+  // Should include N/A count in summary
+  t.true(
+    calledWithMatch(consoleStubs.log, /3 not applicable/),
+    'should display N/A count in summary'
+  )
 })
 
-test.serial('doctor command should not count N/A checks when mixed with errors', async (t) => {
+test.serial('doctor command should not count N/A checks as failures when mixed with errors', async (t) => {
   const { sandbox, mockLogger } = t.context
   const consoleStubs = stubConsole(sandbox)
 
@@ -607,10 +612,15 @@ test.serial('doctor command should not count N/A checks when mixed with errors',
 
   await command.action([], {}, command)
 
-  // Should only report 1 error (N/A checks not counted)
+  // Should only report 1 error (N/A checks not counted as failures)
   t.true(
     calledWithMatch(consoleStubs.error, /1 check failed/),
     'should only count actual errors, not N/A checks'
+  )
+  // Should include N/A count in summary
+  t.true(
+    calledWithMatch(consoleStubs.error, /2 not applicable/),
+    'should display N/A count alongside error count'
   )
 })
 
