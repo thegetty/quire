@@ -41,6 +41,33 @@ test('formatHuman includes header with label', (t) => {
   t.true(header.text.includes('Running environment checks'))
 })
 
+test('formatHuman header includes errors filter description', (t) => {
+  const { lines } = formatHuman(mockSections, { errors: true })
+  const header = lines.find((l) => l.text.includes('Running'))
+  t.truthy(header)
+  t.true(header.text.includes('(errors only)'))
+})
+
+test('formatHuman header includes warnings filter description', (t) => {
+  const { lines } = formatHuman(mockSections, { warnings: true })
+  const header = lines.find((l) => l.text.includes('Running'))
+  t.truthy(header)
+  t.true(header.text.includes('(warnings only)'))
+})
+
+test('formatHuman header includes combined filter description', (t) => {
+  const { lines } = formatHuman(mockSections, { errors: true, warnings: true })
+  const header = lines.find((l) => l.text.includes('Running'))
+  t.truthy(header)
+  t.true(header.text.includes('(warnings and errors only)'))
+})
+
+test('formatHuman header has no filter suffix without filters', (t) => {
+  const { lines } = formatHuman(mockSections)
+  const header = lines[0]
+  t.false(header.text.includes('only'))
+})
+
 test('formatHuman includes section names', (t) => {
   const { lines } = formatHuman(mockSections)
   const sectionLines = lines.filter((l) => l.text === 'Environment' || l.text === 'Project')

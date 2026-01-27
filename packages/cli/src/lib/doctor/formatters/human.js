@@ -133,8 +133,16 @@ export function formatHuman(sections, options = {}) {
   let naCount = 0
   let displayedCount = 0
 
-  // Header
-  lines.push({ text: `Running ${label}...\n`, level: 'info' })
+  // Header (append filter description when active)
+  let filterSuffix = ''
+  if (options.errors && options.warnings) {
+    filterSuffix = ' (warnings and errors only)'
+  } else if (options.errors) {
+    filterSuffix = ' (errors only)'
+  } else if (options.warnings) {
+    filterSuffix = ' (warnings only)'
+  }
+  lines.push({ text: `Running ${label}${filterSuffix}...\n`, level: 'info' })
 
   // Process each section
   for (const { section, results } of filteredSections) {
