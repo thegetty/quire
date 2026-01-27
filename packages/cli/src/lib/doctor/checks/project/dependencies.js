@@ -6,7 +6,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import createDebug from '#debug'
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:dependencies')
 

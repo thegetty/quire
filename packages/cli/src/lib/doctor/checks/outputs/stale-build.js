@@ -8,8 +8,8 @@ import path from 'node:path'
 import { SOURCE_DIRECTORIES } from '#lib/project/index.js'
 import config from '#lib/conf/config.js'
 import createDebug from '#debug'
-import { DOCS_BASE_URL, resolveStaleThreshold } from '../../constants.js'
-import { formatDuration } from '../../formatDuration.js'
+import { DOCS_BASE_URL, resolveStaleThreshold } from '#lib/doctor/constants.js'
+import { formatDuration } from '#lib/doctor/formatDuration.js'
 
 const debug = createDebug('lib:doctor:stale-build')
 

@@ -13,8 +13,8 @@ import createDebug from '#debug'
 import { getPdfOutputPaths } from '#lib/project/output-paths.js'
 import { loadProjectConfig } from '#lib/project/config.js'
 import config from '#lib/conf/config.js'
-import { DOCS_BASE_URL, resolveStaleThreshold } from '../../constants.js'
-import { formatDuration } from '../../formatDuration.js'
+import { DOCS_BASE_URL, resolveStaleThreshold } from '#lib/doctor/constants.js'
+import { formatDuration } from '#lib/doctor/formatDuration.js'
 
 const debug = createDebug('lib:doctor:pdf-output')
 

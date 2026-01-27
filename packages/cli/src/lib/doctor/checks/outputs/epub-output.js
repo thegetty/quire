@@ -11,8 +11,8 @@ import path from 'node:path'
 import createDebug from '#debug'
 import { getEpubOutputPaths } from '#lib/project/output-paths.js'
 import config from '#lib/conf/config.js'
-import { DOCS_BASE_URL, resolveStaleThreshold } from '../../constants.js'
-import { formatDuration } from '../../formatDuration.js'
+import { DOCS_BASE_URL, resolveStaleThreshold } from '#lib/doctor/constants.js'
+import { formatDuration } from '#lib/doctor/formatDuration.js'
 
 const debug = createDebug('lib:doctor:epub-output')
 

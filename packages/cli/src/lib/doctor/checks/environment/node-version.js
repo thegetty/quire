@@ -5,7 +5,7 @@
  */
 import createDebug from '#debug'
 import { getPlatform, Platform } from '#lib/platform.js'
-import { DOCS_BASE_URL, REQUIRED_NODE_VERSION } from '../../constants.js'
+import { DOCS_BASE_URL, REQUIRED_NODE_VERSION } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:node-version')
 

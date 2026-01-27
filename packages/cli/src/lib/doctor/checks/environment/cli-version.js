@@ -7,7 +7,7 @@ import updateNotifier from 'update-notifier'
 import packageConfig from '#src/packageConfig.js'
 import config from '#lib/conf/config.js'
 import createDebug from '#debug'
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:cli-version')
 

@@ -6,7 +6,7 @@
 import { DATA_DIR } from '#lib/project/index.js'
 import { validateDataFiles } from '#src/validators/validate-data-files.js'
 import createDebug from '#debug'
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:data-files')
 

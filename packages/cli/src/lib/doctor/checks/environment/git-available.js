@@ -7,7 +7,7 @@ import git from '#lib/git/index.js'
 import which from 'which'
 import createDebug from '#debug'
 import { getPlatform, Platform } from '#lib/platform.js'
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:git-available')
 

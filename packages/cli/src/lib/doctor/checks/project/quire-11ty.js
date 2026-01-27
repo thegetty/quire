@@ -9,7 +9,7 @@ import semver from 'semver'
 import npm from '#lib/npm/index.js'
 import config from '#lib/conf/config.js'
 import createDebug from '#debug'
-import { DOCS_BASE_URL, QUIRE_11TY_PACKAGE } from '../../constants.js'
+import { DOCS_BASE_URL, QUIRE_11TY_PACKAGE } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:quire-11ty')
 

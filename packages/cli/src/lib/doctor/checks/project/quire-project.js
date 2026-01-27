@@ -6,7 +6,7 @@
 import fs from 'node:fs'
 import { PROJECT_MARKERS } from '#lib/project/index.js'
 import createDebug from '#debug'
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL } from '#lib/doctor/constants.js'
 
 const debug = createDebug('lib:doctor:quire-project')
 
