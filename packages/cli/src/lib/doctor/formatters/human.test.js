@@ -105,6 +105,38 @@ test('formatHuman with warnings filter shows only warnings', (t) => {
   t.truthy(depsLine)
 })
 
+test('formatHuman with both errors and warnings shows failed and warnings', (t) => {
+  const { lines, isEmpty } = formatHuman(mockSections, { errors: true, warnings: true })
+  t.false(isEmpty)
+  // Should include failed check
+  const nodeLine = lines.find((l) => l.text.includes('Node.js'))
+  t.truthy(nodeLine)
+  // Should include warning check
+  const depsLine = lines.find((l) => l.text.includes('Dependencies'))
+  t.truthy(depsLine)
+  // Should not include passed checks
+  const osLine = lines.find((l) => l.text.includes('Operating system'))
+  t.falsy(osLine)
+})
+
+test('formatHuman summary reflects unfiltered counts when --errors filter is active', (t) => {
+  // mockSections has 1 error and 1 warning — --errors shows only the error
+  const { summary, exitCode } = formatHuman(mockSections, { errors: true })
+  t.truthy(summary)
+  t.true(summary.text.includes('1 check failed'))
+  t.is(exitCode, 1)
+})
+
+test('formatHuman summary reflects unfiltered counts when --warnings filter is active', (t) => {
+  // mockSections has 1 error and 1 warning — --warnings shows only the warning,
+  // but summary should still report the error
+  const { summary, exitCode } = formatHuman(mockSections, { warnings: true })
+  t.truthy(summary)
+  t.true(summary.text.includes('1 check failed'))
+  t.is(summary.level, 'error')
+  t.is(exitCode, 1)
+})
+
 test('formatHuman returns isEmpty true when filter excludes all', (t) => {
   const healthySections = [
     { section: 'Env', results: [{ id: 'os', name: 'OS', ok: true }] },
@@ -112,6 +144,33 @@ test('formatHuman returns isEmpty true when filter excludes all', (t) => {
   const { isEmpty, lines } = formatHuman(healthySections, { errors: true })
   t.true(isEmpty)
   t.true(lines[0].text.includes('No failed checks'))
+})
+
+test('formatHuman returns isEmpty with combined message when both filters exclude all', (t) => {
+  const healthySections = [
+    { section: 'Env', results: [{ id: 'os', name: 'OS', ok: true }] },
+  ]
+  const { isEmpty, lines } = formatHuman(healthySections, { errors: true, warnings: true })
+  t.true(isEmpty)
+  t.true(lines[0].text.includes('No failed checks or warnings'))
+})
+
+test('formatHuman isEmpty summary still reflects unfiltered status', (t) => {
+  // --warnings filter on sections with only an error → isEmpty, but summary shows the error
+  const errorSections = [
+    {
+      section: 'Outputs',
+      results: [
+        { id: 'pdf', name: 'PDF', ok: false, message: 'Last PDF build failed' },
+      ],
+    },
+  ]
+  const { isEmpty, summary, exitCode } = formatHuman(errorSections, { warnings: true })
+  t.true(isEmpty)
+  t.truthy(summary)
+  t.true(summary.text.includes('1 check failed'))
+  t.is(summary.level, 'error')
+  t.is(exitCode, 1)
 })
 
 test('formatHuman returns key in default mode', (t) => {

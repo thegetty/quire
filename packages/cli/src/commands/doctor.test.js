@@ -853,10 +853,10 @@ test.serial('doctor command should output valid JSON when --json flag is used', 
   t.truthy(parsed.summary, 'should have summary object')
   t.is(parsed.summary.passed, 2, 'should count passed checks')
   t.is(parsed.summary.failed, 0, 'should count failed checks')
-  t.truthy(parsed.checks, 'should have checks array')
-  t.is(parsed.checks.length, 2, 'should include all checks')
-  t.is(parsed.checks[0].id, 'node', 'check should have id')
-  t.is(parsed.checks[0].status, 'passed', 'check should have status')
+  t.truthy(parsed.results, 'should have results array')
+  t.is(parsed.results.length, 2, 'should include all results')
+  t.is(parsed.results[0].id, 'node', 'check should have id')
+  t.is(parsed.results[0].status, 'passed', 'check should have status')
 })
 
 test.serial('doctor command JSON output should set exitCode 1 when checks fail', async (t) => {
@@ -931,8 +931,8 @@ test.serial('doctor command JSON output should include remediation for failed ch
   const output = consoleLogStub.firstCall.args[0]
   const parsed = JSON.parse(output)
 
-  t.is(parsed.checks[0].remediation, 'Install Node.js 22+', 'should include remediation')
-  t.is(parsed.checks[0].docsUrl, 'https://example.com/docs', 'should include docsUrl')
+  t.is(parsed.results[0].remediation, 'Install Node.js 22+', 'should include remediation')
+  t.is(parsed.results[0].docsUrl, 'https://example.com/docs', 'should include docsUrl')
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

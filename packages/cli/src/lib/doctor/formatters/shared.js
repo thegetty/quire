@@ -54,8 +54,12 @@ export function countResults(sections, options = {}) {
       const status = getStatus(result)
 
       // Apply filters
-      if (options.errors && status !== 'failed') continue
-      if (options.warnings && status !== 'warning') continue
+      if (options.errors && options.warnings) {
+        if (status !== 'failed' && status !== 'warning') continue
+      } else {
+        if (options.errors && status !== 'failed') continue
+        if (options.warnings && status !== 'warning') continue
+      }
 
       // Count by status
       if (status === 'passed') passed++
@@ -90,6 +94,9 @@ export function filterResults(sections, options = {}) {
   for (const { section, results } of sections) {
     const filteredResults = results.filter((result) => {
       const status = getStatus(result)
+      if (options.errors && options.warnings) {
+        return status === 'failed' || status === 'warning'
+      }
       if (options.errors && status !== 'failed') return false
       if (options.warnings && status !== 'warning') return false
       return true

@@ -24,7 +24,7 @@ import { getStatus, countResults, filterResults } from './shared.js'
  */
 export function formatJson(sections, options = {}) {
   const filteredSections = filterResults(sections, options)
-  const counts = countResults(filteredSections)
+  const counts = countResults(sections)
   const allChecks = []
 
   for (const { section, results } of filteredSections) {
@@ -58,9 +58,15 @@ export function formatJson(sections, options = {}) {
     }
   }
 
+  // Indicate active filters so consumers know results is a subset
+  const activeFilters = []
+  if (options.errors) activeFilters.push('errors')
+  if (options.warnings) activeFilters.push('warnings')
+
   const output = {
     summary: counts,
-    checks: allChecks,
+    ...(activeFilters.length > 0 && { filter: activeFilters }),
+    results: allChecks,
   }
 
   return {

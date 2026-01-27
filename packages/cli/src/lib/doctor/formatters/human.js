@@ -5,7 +5,7 @@
  *
  * @module lib/doctor/formatters/human
  */
-import { getStatus, STATUS_ICONS, filterResults } from './shared.js'
+import { getStatus, STATUS_ICONS, countResults, filterResults } from './shared.js'
 
 /**
  * Log level for output routing
@@ -67,6 +67,41 @@ function formatCheck(result, options = {}) {
     text: lines.join('\n'),
     level: logLevel,
   }
+}
+
+/**
+ * Build summary text and exit code from unfiltered section counts
+ *
+ * @param {Array} sections - Unfiltered check results organized by section
+ * @returns {{summary: FormattedLine, exitCode: number}}
+ */
+function buildSummary(sections) {
+  const counts = countResults(sections)
+  const naSuffix = counts.na > 0
+    ? ` (${counts.na} not applicable)`
+    : ''
+
+  let summary
+  let exitCode = 0
+
+  if (counts.failed > 0) {
+    const errorText = counts.failed === 1 ? '1 check failed' : `${counts.failed} checks failed`
+    const extras = []
+    if (counts.warnings > 0) extras.push(counts.warnings === 1 ? '1 warning' : `${counts.warnings} warnings`)
+    if (counts.timeouts > 0) extras.push(counts.timeouts === 1 ? '1 timed out' : `${counts.timeouts} timed out`)
+    const extrasText = extras.length > 0 ? `, ${extras.join(', ')}` : ''
+    summary = { text: `${errorText}${extrasText}. See above for details.${naSuffix}`, level: 'error' }
+    exitCode = 1
+  } else if (counts.warnings > 0 || counts.timeouts > 0) {
+    const parts = []
+    if (counts.warnings > 0) parts.push(counts.warnings === 1 ? '1 warning' : `${counts.warnings} warnings`)
+    if (counts.timeouts > 0) parts.push(counts.timeouts === 1 ? '1 timed out' : `${counts.timeouts} timed out`)
+    summary = { text: `All checks passed with ${parts.join(', ')}.${naSuffix}`, level: 'warn' }
+  } else {
+    summary = { text: `All checks passed!${naSuffix}`, level: 'info' }
+  }
+
+  return { summary, exitCode }
 }
 
 /**
@@ -139,44 +174,27 @@ export function formatHuman(sections, options = {}) {
   // Handle case where filters excluded all results
   if (displayedCount === 0) {
     let emptyMessage = null
-    if (options.errors) {
+    if (options.errors && options.warnings) {
+      emptyMessage = 'No failed checks or warnings found.'
+    } else if (options.errors) {
       emptyMessage = 'No failed checks found.'
     } else if (options.warnings) {
       emptyMessage = 'No warnings found.'
     }
 
+    // Even when the filter shows nothing, summary and exitCode reflect unfiltered status
+    const { summary, exitCode } = buildSummary(sections)
     return {
       lines: emptyMessage ? [{ text: emptyMessage, level: 'info' }] : [],
-      summary: null,
+      summary,
       key: null,
-      exitCode: 0,
+      exitCode,
       isEmpty: true,
     }
   }
 
-  // Build summary
-  let summary = null
-  let exitCode = 0
-  const naSuffix = naCount > 0
-    ? ` (${naCount} not applicable)`
-    : ''
-
-  if (errorCount > 0) {
-    const errorText = errorCount === 1 ? '1 check failed' : `${errorCount} checks failed`
-    const extras = []
-    if (warningCount > 0) extras.push(warningCount === 1 ? '1 warning' : `${warningCount} warnings`)
-    if (timeoutCount > 0) extras.push(timeoutCount === 1 ? '1 timed out' : `${timeoutCount} timed out`)
-    const extrasText = extras.length > 0 ? `, ${extras.join(', ')}` : ''
-    summary = { text: `${errorText}${extrasText}. See above for details.${naSuffix}`, level: 'error' }
-    exitCode = 1
-  } else if (warningCount > 0 || timeoutCount > 0) {
-    const parts = []
-    if (warningCount > 0) parts.push(warningCount === 1 ? '1 warning' : `${warningCount} warnings`)
-    if (timeoutCount > 0) parts.push(timeoutCount === 1 ? '1 timed out' : `${timeoutCount} timed out`)
-    summary = { text: `All checks passed with ${parts.join(', ')}.${naSuffix}`, level: 'warn' }
-  } else if (!options.errors && !options.warnings) {
-    summary = { text: `All checks passed!${naSuffix}`, level: 'info' }
-  }
+  // Build summary from unfiltered counts so filters don't hide the overall status
+  const { summary, exitCode } = buildSummary(sections)
 
   // Build key (hidden when filtering to --errors or --warnings only)
   const key = (options.errors || options.warnings)
