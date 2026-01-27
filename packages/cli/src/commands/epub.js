@@ -6,6 +6,7 @@ import fs from 'fs-extra'
 import libEpub, { ENGINES } from '#lib/epub/index.js'
 import open from 'open'
 import path from 'node:path'
+import { recordStatus } from '#lib/conf/build-status.js'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
@@ -92,10 +93,12 @@ Examples:
       await epubLib(input, output)
 
       reporter.succeed('EPUB generated')
+      recordStatus(paths.getProjectRoot(), 'epub', 'ok')
 
       if (fs.existsSync(output) && options.open) open(output)
     } catch (error) {
       reporter.fail('EPUB generation failed')
+      recordStatus(paths.getProjectRoot(), 'epub', 'failed')
       throw error
     }
   }
