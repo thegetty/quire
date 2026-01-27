@@ -11,10 +11,29 @@ import fs from 'node:fs'
 import path from 'node:path'
 import createDebug from '#debug'
 import { getPdfOutputPaths } from '#lib/project/output-paths.js'
+import { loadProjectConfig } from '#lib/project/config.js'
 import { DOCS_BASE_URL } from '../../constants.js'
 import { formatDuration } from '../../formatDuration.js'
 
 const debug = createDebug('lib:doctor:pdf-output')
+
+/**
+ * Load pdf config from the project's config.yaml
+ *
+ * Returns undefined if config cannot be loaded (not in a project, missing
+ * config file, no pdf section). The caller falls back to engine defaults.
+ *
+ * @returns {Promise<Object|undefined>}
+ */
+async function loadPdfConfig() {
+  try {
+    const config = await loadProjectConfig()
+    return config.pdf
+  } catch {
+    debug('Could not load project config, using engine defaults only')
+    return undefined
+  }
+}
 
 /**
  * Check if PDF output exists and is up to date with _site
@@ -22,15 +41,13 @@ const debug = createDebug('lib:doctor:pdf-output')
  * PDF is generated from _site, so if _site is newer than the PDF,
  * the PDF is considered stale.
  *
- * Uses the same path resolution as `lib/pdf/index.js` to find PDF files
- * at both default locations ({engine}.pdf) and config-aware locations.
+ * Loads the project config to resolve config-aware PDF output paths,
+ * matching the same resolution logic as `lib/pdf/index.js`.
  *
- * @param {Object} [options]
- * @param {Object} [options.pdfConfig] - PDF config from config.yaml (config.pdf)
- * @returns {import('../../index.js').CheckResult}
+ * @returns {Promise<import('../../index.js').CheckResult>}
  */
-export function checkPdfOutput(options = {}) {
-  const { pdfConfig } = options
+export async function checkPdfOutput() {
+  const pdfConfig = await loadPdfConfig()
 
   // Get all possible PDF paths (config-aware + engine defaults)
   const candidatePaths = getPdfOutputPaths({ pdfConfig })

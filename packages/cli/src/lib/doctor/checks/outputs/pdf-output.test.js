@@ -21,9 +21,12 @@ test('checkPdfOutput returns N/A when no PDF files exist', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.true(result.ok)
   t.is(result.level, 'na', 'should return N/A level when no PDF output')
@@ -40,9 +43,12 @@ test('checkPdfOutput includes remediation when no output found', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire pdf/)
@@ -65,9 +71,12 @@ test('checkPdfOutput returns ok when PDF exists but no _site', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.true(result.ok)
   t.regex(result.message, /pagedjs\.pdf exists/)
@@ -98,9 +107,12 @@ test('checkPdfOutput returns ok when PDF is up to date', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.true(result.ok)
   t.regex(result.message, /pagedjs\.pdf up to date/)
@@ -129,9 +141,12 @@ test('checkPdfOutput returns warning when PDF is stale', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.false(result.ok)
   t.is(result.level, 'warn')
@@ -166,9 +181,12 @@ test('checkPdfOutput checks multiple PDF files', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.true(result.ok)
   t.regex(result.message, /pagedjs\.pdf/)
@@ -198,15 +216,18 @@ test('checkPdfOutput includes remediation with pdf command', async (t) => {
     '#lib/project/output-paths.js': {
       getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
   })
 
-  const result = checkPdfOutput()
+  const result = await checkPdfOutput()
 
   t.false(result.ok)
   t.regex(result.remediation, /quire pdf/)
 })
 
-test('checkPdfOutput uses config-aware paths when pdfConfig provided', async (t) => {
+test('checkPdfOutput loads project config to resolve config-aware paths', async (t) => {
   const { sandbox } = t.context
 
   const pdfConfig = { outputDir: 'pdf', filename: 'my-publication' }
@@ -236,10 +257,37 @@ test('checkPdfOutput uses config-aware paths when pdfConfig provided', async (t)
         return paths
       },
     },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({ pdf: pdfConfig }),
+    },
   })
 
-  const result = checkPdfOutput({ pdfConfig })
+  const result = await checkPdfOutput()
 
   t.true(result.ok)
   t.regex(result.message, /my-publication\.pdf up to date/)
+})
+
+test('checkPdfOutput falls back to engine defaults when config loading fails', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkPdfOutput } = await esmock('./pdf-output.js', {
+    'node:fs': {
+      existsSync: sandbox.stub().returns(false),
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: (opts) => {
+        t.is(opts.pdfConfig, undefined, 'pdfConfig should be undefined when config fails')
+        return ['pagedjs.pdf', 'prince.pdf']
+      },
+    },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => { throw new Error('No config.yaml') },
+    },
+  })
+
+  const result = await checkPdfOutput()
+
+  t.true(result.ok)
+  t.is(result.level, 'na')
 })
