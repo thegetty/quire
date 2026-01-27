@@ -76,5 +76,40 @@ export default {
   versionFile: {
     type: 'string',
     description: 'Filename used to identify Quire projects'
-  }
+  },
+  buildStatus: {
+    type: 'object',
+    description: 'Per-project build status tracking (internal)',
+    additionalProperties: {
+      type: 'object',
+      properties: {
+        projectPath: { type: 'string' },
+        build: {
+          type: 'object',
+          properties: {
+            status: { type: 'string', enum: ['ok', 'failed'] },
+            timestamp: { type: 'number' },
+          },
+          required: ['status', 'timestamp'],
+        },
+        pdf: {
+          type: 'object',
+          properties: {
+            status: { type: 'string', enum: ['ok', 'failed'] },
+            timestamp: { type: 'number' },
+          },
+          required: ['status', 'timestamp'],
+        },
+        epub: {
+          type: 'object',
+          properties: {
+            status: { type: 'string', enum: ['ok', 'failed'] },
+            timestamp: { type: 'number' },
+          },
+          required: ['status', 'timestamp'],
+        },
+      },
+      required: ['projectPath'],
+    },
+  },
 }
