@@ -24,7 +24,7 @@ const SECTION_CHECK_MAP = Object.fromEntries(
 export default class DoctorCommand extends Command {
   static definition = withOutputModes({
     name: 'doctor',
-    aliases: ['checkup', 'diagnostic', 'health'],
+    aliases: ['checkup', 'check', 'diagnostic', 'health'],
     description: 'Diagnose common issues with your Quire setup',
     summary: 'check environment and project health',
     docsLink: 'quire-commands/#troubleshooting',
@@ -36,11 +36,10 @@ Runs diagnostic checks organized into three sections:
 
 Examples:
   quire doctor                          Run all diagnostic checks
-  quire doctor --check all              Run all checks (same as no flag)
-  quire doctor --check environment      Check environment section only
-  quire doctor --check node             Check Node.js version only
-  quire doctor --check "node git"       Check multiple items (space-separated)
-  quire doctor --check node,git         Check multiple items (comma-separated)
+  quire doctor all                      Run all checks (same as no argument)
+  quire doctor environment              Check environment section only
+  quire doctor node                     Check Node.js version only
+  quire doctor node git                 Check multiple items
   quire doctor --errors                 Show only failed checks
   quire doctor --warnings               Show only warnings
   quire doctor --verbose                Show additional details (paths, versions)
@@ -53,11 +52,13 @@ CI/Scripting:
   quire doctor --quiet --json out.json  Save JSON report silently
 `,
     version: '1.0.0',
-    options: [
+    args: [
       [
-        '-c, --check <ids>',
+        '[checks...]',
         `run specific check(s): all, ${SECTION_NAMES.join(', ')}, or ${CHECK_IDS.join(', ')}`,
       ],
+    ],
+    options: [
       ['-e, --errors', 'show only failed checks'],
       ['-w, --warnings', 'show only warnings'],
       ['--json [file]', 'output results as JSON (to standard out or a file)'],
@@ -68,16 +69,15 @@ CI/Scripting:
     super(DoctorCommand.definition)
   }
 
-  async action(options, command) {
-    this.debug('called with options %O', options)
+  async action(checks, options, command) {
+    this.debug('called with checks=%O options=%O', checks, options)
 
-    // Parse --check option into sections and individual checks
+    // Parse variadic checks argument into sections and individual checks
     const filterOptions = { sections: null, checks: null }
     let label = 'diagnostic checks'
 
-    if (options.check) {
-      // Accept comma or space-separated values
-      const values = options.check.split(/[\s,]+/).map((v) => v.trim().toLowerCase()).filter(Boolean)
+    if (checks.length > 0) {
+      const values = checks.map((v) => v.toLowerCase())
 
       // "all" means no filtering
       if (!values.includes('all')) {
