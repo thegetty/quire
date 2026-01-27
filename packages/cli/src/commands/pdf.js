@@ -26,15 +26,17 @@ export default class PDFCommand extends Command {
     docsLink: 'quire-commands/#output-files',
     helpText: `
 Examples:
-  quire pdf                      Generate PDF using default engine
-  quire pdf --engine prince      Generate PDF using PrinceXML
-  quire pdf --build              Build site first, then generate PDF
-  quire pdf --verbose            Generate with detailed progress
+  quire pdf                       Generate PDF using default engine
+  quire pdf --engine prince       Generate PDF using PrinceXML
+  quire pdf --build               Build site first, then generate PDF
+  quire pdf --output my-book.pdf  Generate PDF with custom output path
+  quire pdf --verbose             Generate with detailed progress
 `,
     version: '1.0.0',
     options: [
       [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open PDF in default application' ],
+      [ '-o, --output <path>', 'output file path (default: from project config)' ],
       [
         '--engine <name>', 'PDF engine to use (default: from config or pagedjs)',
         { choices: ENGINES }
@@ -52,8 +54,11 @@ Examples:
 
   async action(options, command) {
     this.debug('called with options %O', options)
-
-    // Configure reporter for this command
+    /**
+     * Configure reporter for this command
+     * reporter lifecycle (start/succeed/fail) is handled by the façade,
+     * not by the command.
+     */
     reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
     // Resolve engine: CLI --engine > deprecated --lib > config pdfEngine > default
@@ -72,31 +77,19 @@ Examples:
       this.debug('running build before pdf generation')
       reporter.start('Building site...', { showElapsed: true })
       await eleventy.build({ debug: options.debug })
+      reporter.succeed('Build complete')
     }
 
-    // Check for build output (will throw if missing)
-    // TODO: Add interactive prompt when build output missing and --build not used
-    if (!hasSiteOutput()) {
-      const projectRoot = paths.getProjectRoot()
-      const sitePath = path.join(projectRoot, '_site')
-      throw new MissingBuildOutputError('PDF', sitePath)
-    }
-
-    reporter.start(`Generating PDF using ${options.engine}...`, { showElapsed: true })
+    // Generate PDF - façade handles validation, progress, and errors
+    const pdfOptions = { ...options, lib: options.engine }
 
     try {
-      // Pass engine (not lib) to generatePdf
-      const pdfOptions = { ...options, lib: options.engine }
       const output = await generatePdf(pdfOptions)
-
-      reporter.succeed('PDF generated')
       recordStatus(paths.getProjectRoot(), 'pdf', 'ok')
-
       if (options.open) {
         open(output)
       }
     } catch (error) {
-      reporter.fail('PDF generation failed')
       recordStatus(paths.getProjectRoot(), 'pdf', 'failed')
       throw error
     }

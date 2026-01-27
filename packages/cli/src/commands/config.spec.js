@@ -68,15 +68,19 @@ test('registered command has correct options', (t) => {
   const { command } = t.context
 
   // Get all options
+  const jsonOption = command.options.find((opt) => opt.long === '--json')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
-  // Verify debug option exists
+  // Verify --json option exists
+  t.truthy(jsonOption, '--json option should exist')
+  t.true(jsonOption instanceof Option, '--json should be Option instance')
+  t.is(jsonOption.long, '--json')
+  t.truthy(jsonOption.description)
+  t.false(jsonOption.required, '--json should not require a value')
+
+  // Verify --debug option exists
   t.truthy(debugOption, '--debug option should exist')
-
-  // Verify it is an Option instance
   t.true(debugOption instanceof Option, '--debug should be Option instance')
-
-  // Verify option properties
   t.is(debugOption.long, '--debug')
   t.truthy(debugOption.description)
   t.false(debugOption.required, '--debug should not require a value')
@@ -97,6 +101,7 @@ test('command options are accessible via public API', (t) => {
   // Test that options can be accessed the way Commander.js does
   const optionNames = command.options.map((opt) => opt.long)
 
+  t.true(optionNames.includes('--json'))
   t.true(optionNames.includes('--debug'))
-  t.is(optionNames.length, 1, 'should only have --debug option')
+  t.is(optionNames.length, 2, 'should have --json and --debug options')
 })

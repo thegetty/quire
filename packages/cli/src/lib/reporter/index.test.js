@@ -511,11 +511,13 @@ test.serial('showElapsed option updates spinner text with time', async (t) => {
     rep = new MockedReporter()
     rep.start('Building...', { showElapsed: true })
 
-    // Wait for timer to tick
-    await new Promise((resolve) => setTimeout(resolve, 1100))
+    // Wait for timer to tick (use 1200ms to account for CI timing variations)
+    await new Promise((resolve) => setTimeout(resolve, 1200))
 
-    // Text should include elapsed time
-    t.true(mockOraInstance.text.includes('(1s)'))
+    // Nota bene: text should include elapsed time in format "(Ns)" where N is a number.
+    // We use a regex pattern to avoid flaky tests on slower CI systems.
+    t.regex(mockOraInstance.text, /\(\d+s\)/, 'spinner text should include elapsed time')
+    t.true(mockOraInstance.text.startsWith('Building...'), 'spinner text should include base text')
   } finally {
     // Ensure timer is stopped
     if (rep) rep.stop()

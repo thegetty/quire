@@ -208,14 +208,20 @@ These modules provide cross-cutting concerns and external tool integrations.
 **Dependencies:** `simple-git`
 
 #### `conf/`
-**Purpose:** CLI configuration persistence.
+**Purpose:** CLI configuration persistence and schema-aware helpers.
 
-| Files | Description |
-|-------|-------------|
-| `config.js` | Configuration store (Conf) |
-| `defaults.js` | Default configuration values |
-| `migrations.js` | Version migrations |
-| `schema.js` | Configuration schema |
+| Export | Source | Description |
+|--------|--------|-------------|
+| `default` | `config.js` | `Conf` singleton instance |
+| `isValidKey(key)` | `helpers.js` | Check if key exists in schema |
+| `getValidKeys()` | `helpers.js` | Sorted array of all schema keys |
+| `coerceValue(key, value)` | `helpers.js` | Coerce CLI string to schema type |
+| `formatValidationError(key, value)` | `helpers.js` | Format error with enum/description hints |
+| `getDefault(key)` | `helpers.js` | Get default value for a key |
+| `getKeyDescription(key)` | `helpers.js` | Get schema description for a key |
+| `formatSettings(store, options)` | `helpers.js` | Format all settings for display |
+
+Uses a barrel export (`index.js`) rather than a wrapper class to keep pure helper functions separate from the stateful `Conf` singleton. This avoids circular dependencies with the logger module and keeps helpers directly testable without mocking.
 
 **Dependencies:** `conf`
 

@@ -57,10 +57,10 @@
     "ajv": "^8.16.0",
     "boxen": "^7.0.1",
     "chalk": "^5.2.0",
-    "debug": "^4.4.0",
     "commander": "^14.0.2",
     "conf": "^15.0.2",
     "cross-env": "^7.0.3",
+    "debug": "^4.4.0",
     "del": "^7.0.0",
     "epubjs-cli": "^0.1.6",
     "execa": "^6.1.0",
@@ -74,9 +74,11 @@
     "open": "^8.4.0",
     "ora": "^6.1.2",
     "pagedjs-cli": "^0.4.3",
+    "pdf-lib": "^1.17.1",
     "read-package-up": "^11.0.0",
     "semver": "^7.3.8",
-    "update-notifier": "^7.3.1"
+    "update-notifier": "^7.3.1",
+    "which": "^2.0.2"
   },
   "devDependencies": {
     "ava": "^6.2.0",
