@@ -10,7 +10,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import createDebug from '#debug'
 import { getEpubOutputPaths } from '#lib/project/output-paths.js'
-import { DOCS_BASE_URL } from '../../constants.js'
+import config from '#lib/conf/config.js'
+import { DOCS_BASE_URL, resolveStaleThreshold } from '../../constants.js'
 import { formatDuration } from '../../formatDuration.js'
 
 const debug = createDebug('lib:doctor:epub-output')
@@ -60,7 +61,8 @@ export function checkEpubOutput() {
   const { mtimeMs: siteLastModified } = fs.statSync('_site')
   debug('_site lastModified: %d', siteLastModified)
 
-  // Check each .epub file for staleness
+  // Check each .epub file for staleness beyond the configured threshold
+  const thresholdMs = resolveStaleThreshold(config.get('staleThreshold'))
   const staleFiles = []
   let oldestEpubLastModified = Infinity
 
@@ -68,7 +70,8 @@ export function checkEpubOutput() {
     const { mtimeMs: epubLastModified } = fs.statSync(epubFile)
     debug('%s lastModified: %d', path.basename(epubFile), epubLastModified)
 
-    if (siteLastModified > epubLastModified) {
+    const staleDelta = siteLastModified - epubLastModified
+    if (staleDelta > thresholdMs) {
       staleFiles.push(epubFile)
       if (epubLastModified < oldestEpubLastModified) {
         oldestEpubLastModified = epubLastModified

@@ -12,7 +12,8 @@ import path from 'node:path'
 import createDebug from '#debug'
 import { getPdfOutputPaths } from '#lib/project/output-paths.js'
 import { loadProjectConfig } from '#lib/project/config.js'
-import { DOCS_BASE_URL } from '../../constants.js'
+import config from '#lib/conf/config.js'
+import { DOCS_BASE_URL, resolveStaleThreshold } from '../../constants.js'
 import { formatDuration } from '../../formatDuration.js'
 
 const debug = createDebug('lib:doctor:pdf-output')
@@ -27,8 +28,8 @@ const debug = createDebug('lib:doctor:pdf-output')
  */
 async function loadPdfConfig() {
   try {
-    const config = await loadProjectConfig()
-    return config.pdf
+    const projectConfig = await loadProjectConfig()
+    return projectConfig.pdf
   } catch {
     debug('Could not load project config, using engine defaults only')
     return undefined
@@ -85,7 +86,8 @@ export async function checkPdfOutput() {
   const { mtimeMs: siteLastModified } = fs.statSync('_site')
   debug('_site lastModified: %d', siteLastModified)
 
-  // Check each PDF for staleness
+  // Check each PDF for staleness beyond the configured threshold
+  const thresholdMs = resolveStaleThreshold(config.get('staleThreshold'))
   const staleFiles = []
   let oldestPdfLastModified = Infinity
 
@@ -93,7 +95,8 @@ export async function checkPdfOutput() {
     const { mtimeMs: pdfLastModified } = fs.statSync(pdfFile)
     debug('%s lastModified: %d', path.basename(pdfFile), pdfLastModified)
 
-    if (siteLastModified > pdfLastModified) {
+    const staleDelta = siteLastModified - pdfLastModified
+    if (staleDelta > thresholdMs) {
       staleFiles.push(pdfFile)
       if (pdfLastModified < oldestPdfLastModified) {
         oldestPdfLastModified = pdfLastModified

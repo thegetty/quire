@@ -6,8 +6,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { SOURCE_DIRECTORIES } from '#lib/project/index.js'
+import config from '#lib/conf/config.js'
 import createDebug from '#debug'
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL, resolveStaleThreshold } from '../../constants.js'
 import { formatDuration } from '../../formatDuration.js'
 
 const debug = createDebug('lib:doctor:stale-build')
@@ -80,9 +81,13 @@ export function checkStaleBuild() {
   }
   debug('Newest source lastModified: %d', newestSourceLastModified)
 
-  // If source is newer than build, warn about stale build
-  if (newestSourceLastModified > siteLastModified) {
-    const staleDuration = formatDuration(newestSourceLastModified - siteLastModified)
+  // If source is newer than build by more than the stale threshold, warn
+  const thresholdMs = resolveStaleThreshold(config.get('staleThreshold'))
+  const staleDelta = newestSourceLastModified - siteLastModified
+  debug('stale delta: %dms, threshold: %dms (%s)', staleDelta, thresholdMs, config.get('staleThreshold'))
+
+  if (staleDelta > thresholdMs) {
+    const staleDuration = formatDuration(staleDelta)
     return {
       ok: false,
       level: 'warn',

@@ -3,6 +3,13 @@ import sinon from 'sinon'
 import esmock from 'esmock'
 import path from 'node:path'
 
+const TWO_MINUTES = 120000
+const TEN_MINUTES = 600000
+const ONE_HOUR = 3600000
+const TWO_HOURS = 7200000
+
+const configMock = { default: { get: () => 'HOURLY' } }
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
 })
@@ -18,6 +25,7 @@ test('checkStaleBuild returns N/A when no _site directory exists', async (t) => 
     'node:fs': {
       existsSync: sandbox.stub().returns(false),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = checkStaleBuild()
@@ -48,6 +56,7 @@ test('checkStaleBuild returns ok when build is up to date', async (t) => {
     '#lib/project/index.js': {
       SOURCE_DIRECTORIES: ['content'],
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = checkStaleBuild()
@@ -56,11 +65,11 @@ test('checkStaleBuild returns ok when build is up to date', async (t) => {
   t.regex(result.message, /up to date/)
 })
 
-test('checkStaleBuild returns warning when source is newer than build', async (t) => {
+test('checkStaleBuild returns warning when source is newer than build beyond threshold', async (t) => {
   const { sandbox } = t.context
 
-  const buildTime = Date.now() - 60000 // 1 minute ago
-  const sourceTime = Date.now() // now
+  const buildTime = Date.now() - TWO_HOURS
+  const sourceTime = Date.now()
 
   const existsSync = sandbox.stub()
   existsSync.withArgs('_site').returns(true)
@@ -84,6 +93,7 @@ test('checkStaleBuild returns warning when source is newer than build', async (t
     '#lib/project/index.js': {
       SOURCE_DIRECTORIES: ['content'],
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = checkStaleBuild()
@@ -95,10 +105,123 @@ test('checkStaleBuild returns warning when source is newer than build', async (t
   t.truthy(result.docsUrl)
 })
 
+test('checkStaleBuild returns ok when source is newer but within threshold', async (t) => {
+  const { sandbox } = t.context
+
+  const buildTime = Date.now() - TEN_MINUTES
+  const sourceTime = Date.now()
+
+  const existsSync = sandbox.stub()
+  existsSync.withArgs('_site').returns(true)
+  existsSync.withArgs('content').returns(true)
+  existsSync.returns(false)
+
+  const filePath = path.join('content', 'file.md')
+  const statSync = sandbox.stub()
+  statSync.withArgs('_site').returns({ mtimeMs: buildTime })
+  statSync.withArgs(filePath).returns({ mtimeMs: sourceTime })
+
+  const { checkStaleBuild } = await esmock('./stale-build.js', {
+    'node:fs': {
+      existsSync,
+      statSync,
+      readdirSync: sandbox.stub().returns([
+        { name: 'file.md', isDirectory: () => false },
+      ]),
+    },
+    '#lib/project/index.js': {
+      SOURCE_DIRECTORIES: ['content'],
+    },
+    '#lib/conf/config.js': configMock,
+  })
+
+  const result = checkStaleBuild()
+
+  t.true(result.ok)
+  t.regex(result.message, /up to date/)
+})
+
+test('checkStaleBuild respects ZERO threshold setting', async (t) => {
+  const { sandbox } = t.context
+
+  const buildTime = Date.now() - TWO_MINUTES
+  const sourceTime = Date.now()
+
+  const existsSync = sandbox.stub()
+  existsSync.withArgs('_site').returns(true)
+  existsSync.withArgs('content').returns(true)
+  existsSync.returns(false)
+
+  const filePath = path.join('content', 'file.md')
+  const statSync = sandbox.stub()
+  statSync.withArgs('_site').returns({ mtimeMs: buildTime })
+  statSync.withArgs(filePath).returns({ mtimeMs: sourceTime })
+
+  // ZERO = 0ms threshold — any difference triggers warning
+  const { checkStaleBuild } = await esmock('./stale-build.js', {
+    'node:fs': {
+      existsSync,
+      statSync,
+      readdirSync: sandbox.stub().returns([
+        { name: 'file.md', isDirectory: () => false },
+      ]),
+    },
+    '#lib/project/index.js': {
+      SOURCE_DIRECTORIES: ['content'],
+    },
+    '#lib/conf/config.js': {
+      default: { get: () => 'ZERO' },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.false(result.ok)
+  t.is(result.level, 'warn')
+})
+
+test('checkStaleBuild NEVER threshold disables stale warnings', async (t) => {
+  const { sandbox } = t.context
+
+  const buildTime = Date.now() - ONE_HOUR
+  const sourceTime = Date.now()
+
+  const existsSync = sandbox.stub()
+  existsSync.withArgs('_site').returns(true)
+  existsSync.withArgs('content').returns(true)
+  existsSync.returns(false)
+
+  const filePath = path.join('content', 'file.md')
+  const statSync = sandbox.stub()
+  statSync.withArgs('_site').returns({ mtimeMs: buildTime })
+  statSync.withArgs(filePath).returns({ mtimeMs: sourceTime })
+
+  const { checkStaleBuild } = await esmock('./stale-build.js', {
+    'node:fs': {
+      existsSync,
+      statSync,
+      readdirSync: sandbox.stub().returns([
+        { name: 'file.md', isDirectory: () => false },
+      ]),
+    },
+    '#lib/project/index.js': {
+      SOURCE_DIRECTORIES: ['content'],
+    },
+    '#lib/conf/config.js': {
+      default: { get: () => 'NEVER' },
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.true(result.ok)
+  t.regex(result.message, /up to date/)
+})
+
 test('checkStaleBuild includes remediation with build commands', async (t) => {
   const { sandbox } = t.context
 
-  const buildTime = Date.now() - 3600000 // 1 hour ago
+  const buildTime = Date.now() - TWO_HOURS
   const sourceTime = Date.now()
 
   const existsSync = sandbox.stub()
@@ -123,6 +246,7 @@ test('checkStaleBuild includes remediation with build commands', async (t) => {
     '#lib/project/index.js': {
       SOURCE_DIRECTORIES: ['content'],
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = checkStaleBuild()

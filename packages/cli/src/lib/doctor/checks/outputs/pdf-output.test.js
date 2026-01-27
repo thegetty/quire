@@ -3,6 +3,13 @@ import path from 'node:path'
 import sinon from 'sinon'
 import esmock from 'esmock'
 
+const TWO_MINUTES = 120000
+const TEN_MINUTES = 600000
+const ONE_HOUR = 3600000
+const TWO_HOURS = 7200000
+
+const configMock = { default: { get: () => 'HOURLY' } }
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
 })
@@ -24,6 +31,7 @@ test('checkPdfOutput returns N/A when no PDF files exist', async (t) => {
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({}),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -46,6 +54,7 @@ test('checkPdfOutput includes remediation when no output found', async (t) => {
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({}),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -74,6 +83,7 @@ test('checkPdfOutput returns ok when PDF exists but no _site', async (t) => {
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({}),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -88,7 +98,7 @@ test('checkPdfOutput returns ok when PDF is up to date', async (t) => {
 
   const now = Date.now()
   const pdfTime = now // PDF is current
-  const siteTime = now - 60000 // _site is older
+  const siteTime = now - TEN_MINUTES // _site is older
 
   const existsSync = sandbox.stub()
   existsSync.withArgs('pagedjs.pdf').returns(true)
@@ -110,6 +120,7 @@ test('checkPdfOutput returns ok when PDF is up to date', async (t) => {
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({}),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -118,10 +129,10 @@ test('checkPdfOutput returns ok when PDF is up to date', async (t) => {
   t.regex(result.message, /pagedjs\.pdf up to date/)
 })
 
-test('checkPdfOutput returns warning when PDF is stale', async (t) => {
+test('checkPdfOutput returns warning when PDF is stale beyond threshold', async (t) => {
   const { sandbox } = t.context
 
-  const pdfTime = Date.now() - 3600000 // 1 hour ago
+  const pdfTime = Date.now() - TWO_HOURS // 2 hours ago
   const siteTime = Date.now() // now
 
   const existsSync = sandbox.stub()
@@ -144,6 +155,7 @@ test('checkPdfOutput returns warning when PDF is stale', async (t) => {
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({}),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -156,47 +168,10 @@ test('checkPdfOutput returns warning when PDF is stale', async (t) => {
   t.truthy(result.docsUrl)
 })
 
-test('checkPdfOutput checks multiple PDF files', async (t) => {
+test('checkPdfOutput returns ok when PDF is stale but within threshold', async (t) => {
   const { sandbox } = t.context
 
-  const now = Date.now()
-  const pdfTime = now
-  const siteTime = now - 60000
-
-  const existsSync = sandbox.stub()
-  existsSync.withArgs('pagedjs.pdf').returns(true)
-  existsSync.withArgs('prince.pdf').returns(true)
-  existsSync.withArgs('_site').returns(true)
-
-  const statSync = sandbox.stub()
-  statSync.withArgs('_site').returns({ mtimeMs: siteTime })
-  statSync.withArgs('pagedjs.pdf').returns({ mtimeMs: pdfTime })
-  statSync.withArgs('prince.pdf').returns({ mtimeMs: pdfTime })
-
-  const { checkPdfOutput } = await esmock('./pdf-output.js', {
-    'node:fs': {
-      existsSync,
-      statSync,
-    },
-    '#lib/project/output-paths.js': {
-      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
-    },
-    '#lib/project/config.js': {
-      loadProjectConfig: async () => ({}),
-    },
-  })
-
-  const result = await checkPdfOutput()
-
-  t.true(result.ok)
-  t.regex(result.message, /pagedjs\.pdf/)
-  t.regex(result.message, /prince\.pdf/)
-})
-
-test('checkPdfOutput includes remediation with pdf command', async (t) => {
-  const { sandbox } = t.context
-
-  const pdfTime = Date.now() - 60000
+  const pdfTime = Date.now() - TWO_MINUTES // 2 minutes ago
   const siteTime = Date.now()
 
   const existsSync = sandbox.stub()
@@ -219,6 +194,80 @@ test('checkPdfOutput includes remediation with pdf command', async (t) => {
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({}),
     },
+    '#lib/conf/config.js': configMock,
+  })
+
+  const result = await checkPdfOutput()
+
+  t.true(result.ok)
+  t.regex(result.message, /pagedjs\.pdf up to date/)
+})
+
+test('checkPdfOutput checks multiple PDF files', async (t) => {
+  const { sandbox } = t.context
+
+  const now = Date.now()
+  const pdfTime = now
+  const siteTime = now - TEN_MINUTES
+
+  const existsSync = sandbox.stub()
+  existsSync.withArgs('pagedjs.pdf').returns(true)
+  existsSync.withArgs('prince.pdf').returns(true)
+  existsSync.withArgs('_site').returns(true)
+
+  const statSync = sandbox.stub()
+  statSync.withArgs('_site').returns({ mtimeMs: siteTime })
+  statSync.withArgs('pagedjs.pdf').returns({ mtimeMs: pdfTime })
+  statSync.withArgs('prince.pdf').returns({ mtimeMs: pdfTime })
+
+  const { checkPdfOutput } = await esmock('./pdf-output.js', {
+    'node:fs': {
+      existsSync,
+      statSync,
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
+    '#lib/conf/config.js': configMock,
+  })
+
+  const result = await checkPdfOutput()
+
+  t.true(result.ok)
+  t.regex(result.message, /pagedjs\.pdf/)
+  t.regex(result.message, /prince\.pdf/)
+})
+
+test('checkPdfOutput includes remediation with pdf command', async (t) => {
+  const { sandbox } = t.context
+
+  const pdfTime = Date.now() - TWO_HOURS
+  const siteTime = Date.now()
+
+  const existsSync = sandbox.stub()
+  existsSync.withArgs('pagedjs.pdf').returns(true)
+  existsSync.withArgs('prince.pdf').returns(false)
+  existsSync.withArgs('_site').returns(true)
+
+  const statSync = sandbox.stub()
+  statSync.withArgs('_site').returns({ mtimeMs: siteTime })
+  statSync.withArgs('pagedjs.pdf').returns({ mtimeMs: pdfTime })
+
+  const { checkPdfOutput } = await esmock('./pdf-output.js', {
+    'node:fs': {
+      existsSync,
+      statSync,
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -239,7 +288,7 @@ test('checkPdfOutput loads project config to resolve config-aware paths', async 
 
   const now = Date.now()
   const statSync = sandbox.stub()
-  statSync.withArgs('_site').returns({ mtimeMs: now - 60000 })
+  statSync.withArgs('_site').returns({ mtimeMs: now - TEN_MINUTES })
   statSync.withArgs(configPath).returns({ mtimeMs: now })
 
   const { checkPdfOutput } = await esmock('./pdf-output.js', {
@@ -260,6 +309,7 @@ test('checkPdfOutput loads project config to resolve config-aware paths', async 
     '#lib/project/config.js': {
       loadProjectConfig: async () => ({ pdf: pdfConfig }),
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
@@ -284,6 +334,7 @@ test('checkPdfOutput falls back to engine defaults when config loading fails', a
     '#lib/project/config.js': {
       loadProjectConfig: async () => { throw new Error('No config.yaml') },
     },
+    '#lib/conf/config.js': configMock,
   })
 
   const result = await checkPdfOutput()
