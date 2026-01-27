@@ -122,11 +122,18 @@ Icon
 ._*
 
 # Playwright
+/playwright/.cache/
 /playwright-report/
 /blob-report/
-/playwright/.cache/
+
+# Temporary directories
+/tmp/
+/temp/
 
 # Test reports + build outputs
 /reports/
-/test-results/
 /test-publication/
+/test-results/
+
+# Local working notes (not committed to repository)
+/local/
