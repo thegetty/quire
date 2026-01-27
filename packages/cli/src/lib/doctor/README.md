@@ -63,7 +63,11 @@ doctor/
     │   ├── npm-available.js  # npm availability check (OS-specific remediation)
     │   ├── npm-available.test.js
     │   ├── git-available.js  # Git availability check (OS-specific remediation)
-    │   └── git-available.test.js
+    │   ├── git-available.test.js
+    │   ├── prince-available.js  # PrinceXML availability check (optional engine)
+    │   ├── prince-available.test.js
+    │   ├── pandoc-available.js  # Pandoc availability check (optional engine)
+    │   └── pandoc-available.test.js
     ├── project/              # Project configuration
     │   ├── index.js          # Barrel export
     │   ├── quire-project.js  # Project detection check
@@ -103,6 +107,8 @@ doctor/
 │ • checkNodeVersion  │  │ • checkOutdated...  │  │ • checkEpubOutput   │
 │ • checkNpmAvailable │  │ • checkDataFiles    │  │                     │
 │ • checkGitAvailable │  │                     │  │                     │
+│ • checkPrince...    │  │                     │  │                     │
+│ • checkPandoc...    │  │                     │  │                     │
 └──────────┬──────────┘  └──────────┬──────────┘  └──────────┬──────────┘
            │                        │                        │
            ▼                        ▼                        ▼
@@ -132,8 +138,8 @@ doctor/
 | `#src/validators/validate-data-files.js` | YAML validation logic |
 | `update-notifier` | Cached CLI update check info |
 | `semver` | Semantic version comparison |
-| `./constants.js` | Re-exports from `#lib/constants.js` (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) + STALE_THRESHOLDS, resolveStaleThreshold |
-| `./formatDuration.js` | Human-readable time formatting |
+| `#lib/doctor/constants.js` | Re-exports from `#lib/constants.js` (DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE) + STALE_THRESHOLDS, resolveStaleThreshold |
+| `#lib/doctor/formatDuration.js` | Human-readable time formatting |
 
 ## Check Result Type
 
@@ -192,6 +198,8 @@ All check functions return a `CheckResult` object:
 | Node.js version | `checkNodeVersion()` | `checks/environment/node-version.js` | Verifies Node.js >= 22 (OS-specific remediation) |
 | npm available | `checkNpmAvailable()` | `checks/environment/npm-available.js` | Verifies npm in PATH (OS-specific remediation) |
 | Git available | `checkGitAvailable()` | `checks/environment/git-available.js` | Verifies git in PATH (OS-specific remediation) |
+| PrinceXML | `checkPrinceAvailable()` | `checks/environment/prince-available.js` | Optional PDF engine (warn if missing) |
+| Pandoc | `checkPandocAvailable()` | `checks/environment/pandoc-available.js` | Optional EPUB engine (warn if missing) |
 
 ### Project Section
 
@@ -263,6 +271,30 @@ Remediation and docs URL vary by platform:
 - **macOS**: xcode-select --install or Homebrew
 - **Windows**: git-scm.com/download/win or winget
 - **Linux**: apt, dnf, or pacman
+
+### checkPrinceAvailable (Optional Engine)
+
+| Scenario | Result |
+|----------|--------|
+| prince in PATH | `ok: true` - "installed" with path details |
+| prince not found | `ok: false, level: warn` - "not found (optional)" with OS-specific installation |
+
+Remediation varies by platform:
+- **macOS**: `brew install --cask prince` or princexml.com
+- **Windows**: `winget install` or princexml.com
+- **Linux**: Download from princexml.com
+
+### checkPandocAvailable (Optional Engine)
+
+| Scenario | Result |
+|----------|--------|
+| pandoc in PATH | `ok: true` - "installed" with path details |
+| pandoc not found | `ok: false, level: warn` - "not found (optional)" with OS-specific installation |
+
+Remediation varies by platform:
+- **macOS**: `brew install pandoc` or pandoc.org
+- **Windows**: `winget install` or pandoc.org
+- **Linux**: `apt install pandoc`, `dnf install pandoc`, or pandoc.org
 
 ### checkQuireProject
 
@@ -361,6 +393,8 @@ export { checkCliVersion }
 export { checkNodeVersion }
 export { checkNpmAvailable }
 export { checkGitAvailable }
+export { checkPrinceAvailable }
+export { checkPandocAvailable }
 export { checkQuireProject }
 export { checkDependencies }
 export { checkOutdatedQuire11ty }
@@ -374,7 +408,7 @@ export { DOCS_BASE_URL, REQUIRED_NODE_VERSION, QUIRE_11TY_PACKAGE }
 export { STALE_THRESHOLDS, resolveStaleThreshold }
 
 // Check collections
-export { checks }         // Flat array of all checks (12 checks)
+export { checks }         // Flat array of all checks (14 checks)
 export { checkSections }  // Checks organized by section (3 sections)
 
 // Runners
@@ -394,7 +428,7 @@ export { runAllChecksWithSections }  // Run all, return by section
 
 ```javascript
 // checks/project/my-check.js
-import { DOCS_BASE_URL } from '../../constants.js'
+import { DOCS_BASE_URL } from '#lib/doctor/constants.js'
 import createDebug from '#debug'
 
 const debug = createDebug('lib:doctor:my-check')
@@ -628,6 +662,6 @@ const { checkStaleBuild } = await esmock('./stale-build.js', {
 | `constants.js` | Re-exports from `#lib/constants.js` + STALE_THRESHOLDS, resolveStaleThreshold |
 | `formatDuration.js` | Time duration formatting utility |
 | `formatDuration.test.js` | Duration formatting tests |
-| `checks/environment/` | Environment prerequisite checks (5 checks: os-info, cli-version, node-version, npm-available, git-available) |
+| `checks/environment/` | Environment prerequisite checks (7 checks: os-info, cli-version, node-version, npm-available, git-available, prince-available, pandoc-available) |
 | `checks/project/` | Project configuration checks (4 checks) |
 | `checks/outputs/` | Build artifact checks (3 checks: stale-build, pdf-output, epub-output) |

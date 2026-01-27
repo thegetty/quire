@@ -105,8 +105,15 @@ export function formatHuman(sections, options = {}) {
     // Section header
     lines.push({ text: section, level: 'info' })
 
+    let lastSubsection = null
     for (const result of results) {
       displayedCount++
+
+      // Insert subsection label when entering a new subsection
+      if (result.subsection && result.subsection !== lastSubsection) {
+        lines.push({ text: `  ── ${result.subsection} ──`, level: 'info' })
+      }
+      lastSubsection = result.subsection || null
 
       // Count errors, warnings, and timeouts (N/A checks are not counted)
       if (!result.ok && result.level !== 'na') {

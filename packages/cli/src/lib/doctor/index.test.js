@@ -28,7 +28,7 @@ test('checks array exports all check definitions', async (t) => {
   const { checks } = await import('./index.js')
 
   t.true(Array.isArray(checks))
-  t.is(checks.length, 13)
+  t.is(checks.length, 14)
 
   const checkNames = checks.map((c) => c.name)
   t.true(checkNames.includes('Operating system'))
@@ -37,6 +37,7 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('npm'))
   t.true(checkNames.includes('Git'))
   t.true(checkNames.includes('PrinceXML'))
+  t.true(checkNames.includes('Pandoc'))
   t.true(checkNames.includes('Quire project'))
   t.true(checkNames.includes('Dependencies'))
   t.true(checkNames.includes('quire-11ty version'))
@@ -62,9 +63,9 @@ test('checkSections exports checks organized by 3 sections', async (t) => {
   t.true(sectionNames.includes('Project'))
   t.true(sectionNames.includes('Outputs'))
 
-  // Environment section should have 6 checks
+  // Environment section should have 7 checks
   const envSection = checkSections.find((s) => s.name === 'Environment')
-  t.is(envSection.checks.length, 6)
+  t.is(envSection.checks.length, 7)
   const envCheckNames = envSection.checks.map((c) => c.name)
   t.true(envCheckNames.includes('Operating system'))
   t.true(envCheckNames.includes('Quire CLI version'))
@@ -72,6 +73,7 @@ test('checkSections exports checks organized by 3 sections', async (t) => {
   t.true(envCheckNames.includes('npm'))
   t.true(envCheckNames.includes('Git'))
   t.true(envCheckNames.includes('PrinceXML'))
+  t.true(envCheckNames.includes('Pandoc'))
 
   // Project section should have 4 checks
   const projectSection = checkSections.find((s) => s.name === 'Project')
@@ -109,6 +111,7 @@ test('default export includes all expected functions', async (t) => {
   t.is(typeof doctor.default.checkOutdatedQuire11ty, 'function')
   t.is(typeof doctor.default.checkDataFiles, 'function')
   t.is(typeof doctor.default.checkStaleBuild, 'function')
+  t.is(typeof doctor.default.checkPandocAvailable, 'function')
   t.is(typeof doctor.default.checkPdfOutput, 'function')
   t.is(typeof doctor.default.checkEpubOutput, 'function')
 
@@ -125,6 +128,8 @@ test('named exports match default export', async (t) => {
   t.is(doctor.checkNodeVersion, doctor.default.checkNodeVersion)
   t.is(doctor.checkNpmAvailable, doctor.default.checkNpmAvailable)
   t.is(doctor.checkGitAvailable, doctor.default.checkGitAvailable)
+  t.is(doctor.checkPrinceAvailable, doctor.default.checkPrinceAvailable)
+  t.is(doctor.checkPandocAvailable, doctor.default.checkPandocAvailable)
   t.is(doctor.checkQuireProject, doctor.default.checkQuireProject)
   t.is(doctor.checkDependencies, doctor.default.checkDependencies)
   t.is(doctor.checkOutdatedQuire11ty, doctor.default.checkOutdatedQuire11ty)
@@ -144,7 +149,7 @@ test('constants are exported', async (t) => {
   t.is(doctor.QUIRE_11TY_PACKAGE, '@thegetty/quire-11ty')
   t.deepEqual(doctor.SECTION_NAMES, ['environment', 'project', 'outputs'])
   t.deepEqual(doctor.CHECK_IDS, [
-    'os', 'cli', 'node', 'npm', 'git', 'prince',
+    'os', 'cli', 'node', 'npm', 'git', 'prince', 'pandoc',
     'project', 'deps', '11ty', 'data',
     'build', 'pdf', 'epub',
   ])
@@ -164,6 +169,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
+  const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -180,6 +186,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
       checkPrinceAvailable: mockCheckPrince,
+      checkPandocAvailable: mockCheckPandoc,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -197,7 +204,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const results = await runAllChecks()
 
   t.true(Array.isArray(results))
-  t.is(results.length, 13)
+  t.is(results.length, 14)
 
   // Verify each result has expected shape
   for (const result of results) {
@@ -212,6 +219,7 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   t.true(mockCheckNpm.calledOnce)
   t.true(mockCheckGit.calledOnce)
   t.true(mockCheckPrince.calledOnce)
+  t.true(mockCheckPandoc.calledOnce)
   t.true(mockCheckProject.calledOnce)
   t.true(mockCheckDeps.calledOnce)
   t.true(mockCheckQuire11ty.calledOnce)
@@ -231,6 +239,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
+  const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -247,6 +256,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
       checkPrinceAvailable: mockCheckPrince,
+      checkPandocAvailable: mockCheckPandoc,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -282,7 +292,7 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
 
   // Verify section sizes
   const envSection = sections.find((s) => s.section === 'Environment')
-  t.is(envSection.results.length, 6)
+  t.is(envSection.results.length, 7)
 
   const projectSection = sections.find((s) => s.section === 'Project')
   t.is(projectSection.results.length, 4)
@@ -301,6 +311,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
+  const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -317,6 +328,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
       checkPrinceAvailable: mockCheckPrince,
+      checkPandocAvailable: mockCheckPandoc,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -336,7 +348,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
 
   t.is(sections.length, 1)
   t.is(sections[0].section, 'Environment')
-  t.is(sections[0].results.length, 6)
+  t.is(sections[0].results.length, 7)
 
   // Verify only environment checks were called
   t.true(mockCheckOs.calledOnce)
@@ -345,6 +357,7 @@ test('runAllChecksWithSections filters by section name', async (t) => {
   t.true(mockCheckNpm.calledOnce)
   t.true(mockCheckGit.calledOnce)
   t.true(mockCheckPrince.calledOnce)
+  t.true(mockCheckPandoc.calledOnce)
 
   // Verify project and output checks were NOT called
   t.false(mockCheckProject.called)
@@ -366,6 +379,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
+  const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -382,6 +396,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
       checkPrinceAvailable: mockCheckPrince,
+      checkPandocAvailable: mockCheckPandoc,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -417,6 +432,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   t.false(mockCheckCli.called)
   t.false(mockCheckNpm.called)
   t.false(mockCheckPrince.called)
+  t.false(mockCheckPandoc.called)
   t.false(mockCheckProject.called)
   t.false(mockCheckDeps.called)
   t.false(mockCheckQuire11ty.called)
@@ -436,6 +452,7 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
+  const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -452,6 +469,7 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
       checkPrinceAvailable: mockCheckPrince,
+      checkPandocAvailable: mockCheckPandoc,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -507,6 +525,7 @@ test('runAllChecks handles async checks correctly', async (t) => {
       checkNpmAvailable: mockAsyncCheck,
       checkGitAvailable: mockAsyncCheck,
       checkPrinceAvailable: mockSyncCheck,
+      checkPandocAvailable: mockSyncCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: mockSyncCheck,
@@ -523,7 +542,7 @@ test('runAllChecks handles async checks correctly', async (t) => {
 
   const results = await runAllChecks()
 
-  t.is(results.length, 13)
+  t.is(results.length, 14)
 
   // Verify async results are properly awaited
   const asyncResults = results.filter((r) => r.message === 'async')
@@ -553,6 +572,7 @@ test('runAllChecks preserves all check result properties', async (t) => {
       checkNpmAvailable: sandbox.stub().resolves({ ok: true, message: '10.2.4' }),
       checkGitAvailable: sandbox.stub().resolves({ ok: true, message: '2.43.0' }),
       checkPrinceAvailable: sandbox.stub().returns({ ok: true, message: 'installed' }),
+      checkPandocAvailable: sandbox.stub().returns({ ok: true, message: 'installed' }),
     },
     './checks/project/index.js': {
       checkQuireProject: sandbox.stub().returns({ ok: true, message: null }),
@@ -605,6 +625,7 @@ test('runAllChecksWithSections handles slow checks with timeout', async (t) => {
       checkNpmAvailable: fastCheck,
       checkGitAvailable: fastCheck,
       checkPrinceAvailable: fastCheck,
+      checkPandocAvailable: fastCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: fastCheck,
@@ -646,6 +667,7 @@ test('runAllChecksWithSections completes checks within timeout', async (t) => {
       checkNpmAvailable: fastCheck,
       checkGitAvailable: fastCheck,
       checkPrinceAvailable: fastCheck,
+      checkPandocAvailable: fastCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: fastCheck,
@@ -684,6 +706,7 @@ test('runAllChecksWithSections includes check id in results', async (t) => {
       checkNpmAvailable: fastCheck,
       checkGitAvailable: fastCheck,
       checkPrinceAvailable: fastCheck,
+      checkPandocAvailable: fastCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: fastCheck,

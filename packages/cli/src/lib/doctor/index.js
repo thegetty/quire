@@ -13,6 +13,7 @@ import {
   checkNpmAvailable,
   checkGitAvailable,
   checkPrinceAvailable,
+  checkPandocAvailable,
 } from './checks/environment/index.js'
 
 import {
@@ -40,6 +41,7 @@ export {
   checkNpmAvailable,
   checkGitAvailable,
   checkPrinceAvailable,
+  checkPandocAvailable,
   // Project
   checkQuireProject,
   checkDependencies,
@@ -114,7 +116,8 @@ export const checkSections = [
       { id: 'node', name: 'Node.js version', check: checkNodeVersion },
       { id: 'npm', name: 'npm', check: checkNpmAvailable },
       { id: 'git', name: 'Git', check: checkGitAvailable },
-      { id: 'prince', name: 'PrinceXML', check: checkPrinceAvailable },
+      { id: 'prince', name: 'PrinceXML', check: checkPrinceAvailable, subsection: 'Optional Engines' },
+      { id: 'pandoc', name: 'Pandoc', check: checkPandocAvailable, subsection: 'Optional Engines' },
     ],
   },
   {
@@ -151,6 +154,7 @@ export const checks = [
   { name: 'npm', check: checkNpmAvailable },
   { name: 'Git', check: checkGitAvailable },
   { name: 'PrinceXML', check: checkPrinceAvailable },
+  { name: 'Pandoc', check: checkPandocAvailable },
   { name: 'Quire project', check: checkQuireProject },
   { name: 'Dependencies', check: checkDependencies },
   { name: 'quire-11ty version', check: checkOutdatedQuire11ty },
@@ -209,14 +213,14 @@ export async function runAllChecksWithSections(options = {}) {
     }
 
     const results = []
-    for (const { id, name, check } of sectionChecks) {
+    for (const { id, name, check, subsection } of sectionChecks) {
       // Skip checks not in filter (if check filter is provided)
       if (filterChecks && !filterChecks.includes(id)) {
         continue
       }
 
       const result = await runCheckWithTimeout(check, id, timeout)
-      results.push({ id, name, ...result })
+      results.push({ id, name, ...(subsection && { subsection }), ...result })
     }
 
     // Only include section if it has results
@@ -241,6 +245,7 @@ export default {
   checkOsInfo,
   checkOutdatedQuire11ty,
   checkPdfOutput,
+  checkPandocAvailable,
   checkPrinceAvailable,
   checkQuireProject,
   checkStaleBuild,
