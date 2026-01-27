@@ -102,7 +102,7 @@ test.serial('doctor command should run all diagnostic checks with sections', asy
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(consoleStubs.log.called, 'should write to console')
   t.true(
@@ -144,7 +144,7 @@ test.serial('doctor command should report failed checks', async (t) => {
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(consoleStubs.error.called, 'should write errors to stderr')
   t.true(
@@ -177,7 +177,7 @@ test.serial('doctor command should display remediation guidance for failed check
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   // Failed checks output goes through console.error as a single joined string
   t.true(
@@ -226,7 +226,7 @@ test.serial('doctor command should display warnings with warning indicator', asy
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   // Warnings go through console.warn
   t.true(consoleStubs.warn.called, 'should write warnings to stderr')
@@ -264,7 +264,7 @@ test.serial('doctor command should report all checks passed when healthy', async
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(
     calledWithMatch(consoleStubs.log, /All checks passed/),
@@ -294,7 +294,7 @@ test.serial('doctor command should display check messages', async (t) => {
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(
     calledWithMatch(consoleStubs.log, /v22\.0\.0/),
@@ -332,7 +332,7 @@ test.serial('doctor command should set exitCode 1 when checks fail', async (t) =
     const command = new DoctorCommand()
     command.logger = mockLogger
 
-    await command.action({}, command)
+    await command.action([], {}, command)
 
     t.is(process.exitCode, 1, 'should set process.exitCode to 1')
   } finally {
@@ -363,7 +363,7 @@ test.serial('doctor command should not set exitCode when all checks pass', async
     const command = new DoctorCommand()
     command.logger = mockLogger
 
-    await command.action({}, command)
+    await command.action([], {}, command)
 
     t.is(process.exitCode, undefined, 'should not set process.exitCode on success')
   } finally {
@@ -399,7 +399,7 @@ test.serial('doctor command should not set exitCode when only warnings exist', a
     const command = new DoctorCommand()
     command.logger = mockLogger
 
-    await command.action({}, command)
+    await command.action([], {}, command)
 
     t.is(process.exitCode, undefined, 'should not set process.exitCode for warnings')
     t.true(
@@ -434,7 +434,7 @@ test.serial('doctor command should display plural error count', async (t) => {
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(
     calledWithMatch(consoleStubs.error, /2 checks failed/),
@@ -462,7 +462,7 @@ test.serial('doctor command should display errors and warnings together', async 
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(
     calledWithMatch(consoleStubs.error, /1 check failed, 2 warnings/),
@@ -493,7 +493,7 @@ test.serial('doctor command should display plural warning count', async (t) => {
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   t.true(
     calledWithMatch(consoleStubs.warn, /All checks passed with 2 warnings/),
@@ -538,7 +538,7 @@ test.serial('doctor command should display N/A checks with open circle indicator
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   // N/A checks should use ○ indicator
   t.true(
@@ -547,7 +547,7 @@ test.serial('doctor command should display N/A checks with open circle indicator
   )
 })
 
-test.serial('doctor command should not count N/A checks in summary', async (t) => {
+test.serial('doctor command should not count N/A checks as failures in summary', async (t) => {
   const { sandbox, mockLogger } = t.context
   const consoleStubs = stubConsole(sandbox)
 
@@ -571,16 +571,21 @@ test.serial('doctor command should not count N/A checks in summary', async (t) =
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   // Should report all checks passed (N/A checks don't count as failures)
   t.true(
     calledWithMatch(consoleStubs.log, /All checks passed/),
     'should report all checks passed when only N/A checks exist'
   )
+  // Should include N/A count in summary
+  t.true(
+    calledWithMatch(consoleStubs.log, /3 not applicable/),
+    'should display N/A count in summary'
+  )
 })
 
-test.serial('doctor command should not count N/A checks when mixed with errors', async (t) => {
+test.serial('doctor command should not count N/A checks as failures when mixed with errors', async (t) => {
   const { sandbox, mockLogger } = t.context
   const consoleStubs = stubConsole(sandbox)
 
@@ -605,12 +610,17 @@ test.serial('doctor command should not count N/A checks when mixed with errors',
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
-  // Should only report 1 error (N/A checks not counted)
+  // Should only report 1 error (N/A checks not counted as failures)
   t.true(
     calledWithMatch(consoleStubs.error, /1 check failed/),
     'should only count actual errors, not N/A checks'
+  )
+  // Should include N/A count in summary
+  t.true(
+    calledWithMatch(consoleStubs.error, /2 not applicable/),
+    'should display N/A count alongside error count'
   )
 })
 
@@ -636,7 +646,7 @@ test.serial('doctor command should route N/A checks to stdout', async (t) => {
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   // N/A should go through console.log (stdout), not console.warn or console.error
   const logCalls = getCalls(consoleStubs.log)
@@ -671,7 +681,7 @@ test.serial('doctor command should display details when --verbose is passed', as
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ verbose: true }, command)
+  await command.action([], { verbose: true }, command)
 
   // Should display details for each check
   t.true(
@@ -706,7 +716,7 @@ test.serial('doctor command should not display details when --verbose is not pas
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   // Should not display details path
   const allCalls = getCalls(consoleStubs.log)
@@ -738,7 +748,7 @@ test.serial('doctor command should handle checks without details in verbose mode
 
   // Should not throw when details is undefined
   await t.notThrowsAsync(async () => {
-    await command.action({ verbose: true }, command)
+    await command.action([], { verbose: true }, command)
   })
 
   t.true(calledWithMatch(consoleStubs.log, /v22\.0\.0/), 'should still display message')
@@ -766,7 +776,7 @@ test.serial('doctor command should display symbol key in verbose mode', async (t
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ verbose: true }, command)
+  await command.action([], { verbose: true }, command)
 
   t.true(
     calledWithMatch(consoleStubs.log, /Key:.*✓.*passed.*✗.*failed.*⚠.*warning.*○.*not applicable.*not yet generated/),
@@ -796,7 +806,7 @@ test.serial('doctor command should display symbol key in default mode', async (t
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({}, command)
+  await command.action([], {}, command)
 
   const allCalls = getCalls(consoleStubs.log)
   const hasKey = allCalls.some((arg) => arg && arg.includes('Key:'))
@@ -832,7 +842,7 @@ test.serial('doctor command should output valid JSON when --json flag is used', 
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ json: true }, command)
+  await command.action([], { json: true }, command)
 
   // Should call console.log with JSON
   t.true(consoleLogStub.calledOnce, 'should call console.log once')
@@ -843,10 +853,10 @@ test.serial('doctor command should output valid JSON when --json flag is used', 
   t.truthy(parsed.summary, 'should have summary object')
   t.is(parsed.summary.passed, 2, 'should count passed checks')
   t.is(parsed.summary.failed, 0, 'should count failed checks')
-  t.truthy(parsed.checks, 'should have checks array')
-  t.is(parsed.checks.length, 2, 'should include all checks')
-  t.is(parsed.checks[0].id, 'node', 'check should have id')
-  t.is(parsed.checks[0].status, 'passed', 'check should have status')
+  t.truthy(parsed.results, 'should have results array')
+  t.is(parsed.results.length, 2, 'should include all results')
+  t.is(parsed.results[0].id, 'node', 'check should have id')
+  t.is(parsed.results[0].status, 'passed', 'check should have status')
 })
 
 test.serial('doctor command JSON output should set exitCode 1 when checks fail', async (t) => {
@@ -874,7 +884,7 @@ test.serial('doctor command JSON output should set exitCode 1 when checks fail',
     const command = new DoctorCommand()
     command.logger = mockLogger
 
-    await command.action({ json: true }, command)
+    await command.action([], { json: true }, command)
 
     t.is(process.exitCode, 1, 'should set process.exitCode to 1')
 
@@ -916,13 +926,13 @@ test.serial('doctor command JSON output should include remediation for failed ch
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ json: true }, command)
+  await command.action([], { json: true }, command)
 
   const output = consoleLogStub.firstCall.args[0]
   const parsed = JSON.parse(output)
 
-  t.is(parsed.checks[0].remediation, 'Install Node.js 22+', 'should include remediation')
-  t.is(parsed.checks[0].docsUrl, 'https://example.com/docs', 'should include docsUrl')
+  t.is(parsed.results[0].remediation, 'Install Node.js 22+', 'should include remediation')
+  t.is(parsed.results[0].docsUrl, 'https://example.com/docs', 'should include docsUrl')
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -953,7 +963,7 @@ test.serial('doctor command --errors flag should show only failed checks', async
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ errors: true }, command)
+  await command.action([], { errors: true }, command)
 
   // Should only show failed checks (not passed or warnings)
   const errorCalls = getCalls(consoleStubs.error)
@@ -990,7 +1000,7 @@ test.serial('doctor command --warnings flag should show only warning checks', as
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ warnings: true }, command)
+  await command.action([], { warnings: true }, command)
 
   // Should show warning checks
   const warnCalls = getCalls(consoleStubs.warn)
@@ -1026,7 +1036,7 @@ test.serial('doctor command should show "No failed checks found" when --errors f
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ errors: true }, command)
+  await command.action([], { errors: true }, command)
 
   t.true(
     calledWithMatch(consoleStubs.log, /No failed checks found/),
@@ -1056,7 +1066,7 @@ test.serial('doctor command should show "No warnings found" when --warnings find
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ warnings: true }, command)
+  await command.action([], { warnings: true }, command)
 
   t.true(
     calledWithMatch(consoleStubs.log, /No warnings found/),
@@ -1096,7 +1106,7 @@ test.serial('doctor command --json <file> should write JSON to file', async (t) 
   command.logger = mockLogger
 
   // When --json has a value, options.json is the filename string
-  await command.action({ json: 'report.json' }, command)
+  await command.action([], { json: 'report.json' }, command)
 
   t.true(writeFileSyncStub.calledOnce, 'should call writeFileSync once')
   t.true(
@@ -1138,7 +1148,7 @@ test.serial('doctor command --json (no file) should write to stdout', async (t) 
   command.logger = mockLogger
 
   // When --json is used without a value, options.json is true
-  await command.action({ json: true }, command)
+  await command.action([], { json: true }, command)
 
   t.true(consoleLogStub.calledOnce, 'should write to stdout')
   t.notThrows(() => JSON.parse(consoleLogStub.firstCall.args[0]), 'should output valid JSON')
@@ -1171,7 +1181,7 @@ test.serial('doctor command --json <file> should not write to stdout', async (t)
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ json: 'report.json' }, command)
+  await command.action([], { json: 'report.json' }, command)
 
   t.false(consoleLogStub.called, 'should not write to stdout when file is specified')
   t.true(writeFileSyncStub.calledOnce, 'should write to file instead')
@@ -1205,7 +1215,7 @@ test.serial('doctor command --quiet alone should produce no output on success', 
   command.logger = mockLogger
 
   // --quiet alone (no --json) should produce no output
-  await command.action({ quiet: true }, command)
+  await command.action([], { quiet: true }, command)
 
   t.false(consoleLogStub.called, 'should not write to stdout')
   t.false(mockLogger.info.called, 'should not log any info messages')
@@ -1237,7 +1247,7 @@ test.serial('doctor command --quiet alone should set exitCode 1 on failures', as
     command.logger = mockLogger
 
     // --quiet alone should still set exitCode 1 on failure
-    await command.action({ quiet: true }, command)
+    await command.action([], { quiet: true }, command)
 
     t.is(process.exitCode, 1, 'should set process.exitCode to 1')
     t.false(consoleLogStub.called, 'should not output anything')
@@ -1271,7 +1281,7 @@ test.serial('doctor command --quiet --json should suppress stdout JSON output', 
   command.logger = mockLogger
 
   // --quiet with --json should suppress JSON stdout output
-  await command.action({ quiet: true, json: true }, command)
+  await command.action([], { quiet: true, json: true }, command)
 
   t.false(consoleLogStub.called, 'should not write JSON to stdout in quiet mode')
 })
@@ -1302,11 +1312,98 @@ test.serial('doctor command --quiet --json <file> should write to file silently'
   const command = new DoctorCommand()
   command.logger = mockLogger
 
-  await command.action({ quiet: true, json: 'report.json' }, command)
+  await command.action([], { quiet: true, json: 'report.json' }, command)
 
   t.true(writeFileSyncStub.calledOnce, 'should write to file')
   t.false(
     mockLogger.info.calledWith(sinon.match(/Results written to/)),
     'should not log success message in quiet mode'
   )
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// --reset flag tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('doctor command --reset should clear build status', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const clearStatusStub = sandbox.stub()
+  const runAllChecksStub = sandbox.stub().resolves([])
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/conf/build-status.js': {
+      clearStatus: clearStatusStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: runAllChecksStub,
+      checkSections: [],
+      SECTION_NAMES: ['environment', 'project', 'outputs'],
+      CHECK_IDS: ['os', 'cli', 'node', 'npm', 'git', 'project', 'deps', '11ty', 'data', 'build', 'pdf', 'epub'],
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action([], { reset: true }, command)
+
+  t.true(clearStatusStub.calledOnce, 'should call clearStatus')
+  t.is(clearStatusStub.firstCall.args[0], process.cwd(), 'should clear status for current directory')
+  t.true(
+    mockLogger.info.calledWith(sinon.match(/Build status cleared/)),
+    'should log confirmation message'
+  )
+})
+
+test.serial('doctor command --reset should not run checks', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const clearStatusStub = sandbox.stub()
+  const runAllChecksStub = sandbox.stub().resolves([])
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/conf/build-status.js': {
+      clearStatus: clearStatusStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: runAllChecksStub,
+      checkSections: [],
+      SECTION_NAMES: ['environment', 'project', 'outputs'],
+      CHECK_IDS: ['os', 'cli', 'node', 'npm', 'git', 'project', 'deps', '11ty', 'data', 'build', 'pdf', 'epub'],
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action([], { reset: true }, command)
+
+  t.false(runAllChecksStub.called, 'should not run diagnostic checks')
+})
+
+test.serial('doctor command --reset --quiet should suppress output', async (t) => {
+  const { sandbox, mockLogger } = t.context
+
+  const clearStatusStub = sandbox.stub()
+
+  const DoctorCommand = await esmock('./doctor.js', {
+    '#lib/conf/build-status.js': {
+      clearStatus: clearStatusStub,
+    },
+    '#lib/doctor/index.js': {
+      runAllChecksWithSections: sandbox.stub().resolves([]),
+      checkSections: [],
+      SECTION_NAMES: ['environment', 'project', 'outputs'],
+      CHECK_IDS: ['os', 'cli', 'node', 'npm', 'git', 'project', 'deps', '11ty', 'data', 'build', 'pdf', 'epub'],
+    },
+  })
+
+  const command = new DoctorCommand()
+  command.logger = mockLogger
+
+  await command.action([], { reset: true, quiet: true }, command)
+
+  t.true(clearStatusStub.calledOnce, 'should still clear status')
+  t.false(mockLogger.info.called, 'should not log any messages in quiet mode')
 })

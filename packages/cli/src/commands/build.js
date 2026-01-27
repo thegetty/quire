@@ -4,6 +4,7 @@ import { withOutputModes } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
+import { recordStatus } from '#lib/conf/build-status.js'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -60,8 +61,10 @@ Note: Run before "quire pdf" or "quire epub" commands.
         await cli.build(options)
       }
       reporter.succeed('Build complete')
+      recordStatus(paths.getProjectRoot(), 'build', 'ok')
     } catch (error) {
       reporter.fail('Build failed')
+      recordStatus(paths.getProjectRoot(), 'build', 'failed')
       throw error
     }
   }

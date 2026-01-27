@@ -129,6 +129,29 @@ test('filterResults with warnings filter returns only warning checks', (t) => {
   t.is(filtered[0].results[0].id, 'project')
 })
 
+test('countResults with both errors and warnings filter counts failed and warnings', (t) => {
+  const counts = countResults(mockSections, { errors: true, warnings: true })
+  t.is(counts.failed, 1)
+  t.is(counts.warnings, 1)
+  t.is(counts.passed, 0)
+  t.is(counts.timeouts, 0)
+  t.is(counts.na, 0)
+  t.is(counts.total, 2)
+})
+
+test('filterResults with both errors and warnings returns failed and warning checks', (t) => {
+  const filtered = filterResults(mockSections, { errors: true, warnings: true })
+  t.is(filtered.length, 2) // Both sections have matching checks
+  // Environment has failed check
+  t.is(filtered[0].section, 'Environment')
+  t.is(filtered[0].results.length, 1)
+  t.is(filtered[0].results[0].id, 'node')
+  // Project has warning check
+  t.is(filtered[1].section, 'Project')
+  t.is(filtered[1].results.length, 1)
+  t.is(filtered[1].results[0].id, 'project')
+})
+
 test('filterResults excludes empty sections', (t) => {
   const sections = [
     { section: 'A', results: [{ ok: true }] },

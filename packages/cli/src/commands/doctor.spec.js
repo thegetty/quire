@@ -38,30 +38,29 @@ test('registered command has correct aliases', (t) => {
   t.true(aliases.includes('health'), 'should have "health" alias')
 })
 
-test('registered command has no arguments', (t) => {
+test('registered command has variadic checks argument', (t) => {
   const { command } = t.context
   const registeredArguments = command.registeredArguments
 
-  t.is(registeredArguments.length, 0, 'doctor command should have no arguments')
+  t.is(registeredArguments.length, 1, 'doctor command should have one argument')
+
+  const checksArg = registeredArguments[0]
+  t.is(checksArg.name(), 'checks', 'argument should be named "checks"')
+  t.false(checksArg.required, 'checks argument should be optional')
+  t.true(checksArg.variadic, 'checks argument should be variadic')
+  t.truthy(checksArg.description, 'checks argument should have a description')
+  t.true(checksArg.description.includes('all'), 'description should mention "all"')
+  t.true(checksArg.description.includes('environment'), 'description should mention section names')
+  t.true(checksArg.description.includes('node'), 'description should mention check IDs')
 })
 
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
   // Doctor command has 4 local + 4 shared output mode options = 8
-  // Local: --check, --errors, --warnings, --json
+  // Local: --errors, --warnings, --json, --reset
   // Shared (via withOutputModes): --quiet, --verbose, --progress, --debug
   t.is(command.options.length, 8, 'doctor command should have 8 options')
-
-  // Verify --check option
-  const checkOption = command.options.find((opt) => opt.long === '--check')
-  t.truthy(checkOption, '--check option should exist')
-  t.true(checkOption instanceof Option, '--check should be Option instance')
-  t.is(checkOption.short, '-c', '--check should have -c short flag')
-  t.truthy(checkOption.description)
-  t.true(checkOption.description.includes('all'), 'description should mention "all"')
-  t.true(checkOption.description.includes('environment'), 'description should mention section names')
-  t.true(checkOption.description.includes('node'), 'description should mention check IDs')
 
   // Verify --errors option
   const errorsOption = command.options.find((opt) => opt.long === '--errors')
@@ -84,6 +83,12 @@ test('registered command has correct options', (t) => {
   t.truthy(jsonOption.description)
   t.true(jsonOption.description.includes('JSON'), 'description should mention JSON')
   t.true(jsonOption.description.includes('file'), 'description should mention file output')
+
+  // Verify --reset option
+  const resetOption = command.options.find((opt) => opt.long === '--reset')
+  t.truthy(resetOption, '--reset option should exist')
+  t.true(resetOption instanceof Option, '--reset should be Option instance')
+  t.truthy(resetOption.description)
 
   // Verify shared output mode options (via withOutputModes)
   const quietOption = command.options.find((opt) => opt.long === '--quiet')

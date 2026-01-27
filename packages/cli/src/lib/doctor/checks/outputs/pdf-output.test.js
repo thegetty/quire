@@ -9,6 +9,7 @@ const ONE_HOUR = 3600000
 const TWO_HOURS = 7200000
 
 const configMock = { default: { get: () => 'HOURLY' } }
+const buildStatusMock = { getStatus: () => undefined }
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
@@ -32,6 +33,7 @@ test('checkPdfOutput returns N/A when no PDF files exist', async (t) => {
       loadProjectConfig: async () => ({}),
     },
     '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': buildStatusMock,
   })
 
   const result = await checkPdfOutput()
@@ -55,6 +57,7 @@ test('checkPdfOutput includes remediation when no output found', async (t) => {
       loadProjectConfig: async () => ({}),
     },
     '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': buildStatusMock,
   })
 
   const result = await checkPdfOutput()
@@ -62,6 +65,35 @@ test('checkPdfOutput includes remediation when no output found', async (t) => {
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire pdf/)
   t.regex(result.remediation, /failed/)
+  t.truthy(result.docsUrl)
+})
+
+test('checkPdfOutput returns failure when last PDF generation failed and no output exists', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkPdfOutput } = await esmock('./pdf-output.js', {
+    'node:fs': {
+      existsSync: sandbox.stub().returns(false),
+    },
+    '#lib/project/output-paths.js': {
+      getPdfOutputPaths: () => ['pagedjs.pdf', 'prince.pdf'],
+    },
+    '#lib/project/config.js': {
+      loadProjectConfig: async () => ({}),
+    },
+    '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': {
+      getStatus: () => ({ status: 'failed', timestamp: Date.now() }),
+    },
+  })
+
+  const result = await checkPdfOutput()
+
+  t.false(result.ok)
+  t.is(result.level, undefined)
+  t.regex(result.message, /Last PDF generation failed/)
+  t.truthy(result.remediation)
+  t.regex(result.remediation, /quire pdf --debug/)
   t.truthy(result.docsUrl)
 })
 
@@ -335,6 +367,7 @@ test('checkPdfOutput falls back to engine defaults when config loading fails', a
       loadProjectConfig: async () => { throw new Error('No config.yaml') },
     },
     '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': buildStatusMock,
   })
 
   const result = await checkPdfOutput()

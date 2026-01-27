@@ -13,6 +13,7 @@ import createDebug from '#debug'
 import { getPdfOutputPaths } from '#lib/project/output-paths.js'
 import { loadProjectConfig } from '#lib/project/config.js'
 import config from '#lib/conf/config.js'
+import { getStatus } from '#lib/conf/build-status.js'
 import { DOCS_BASE_URL, resolveStaleThreshold } from '#lib/doctor/constants.js'
 import { formatDuration } from '#lib/doctor/formatDuration.js'
 
@@ -58,7 +59,20 @@ export async function checkPdfOutput() {
   const existingPdfs = candidatePaths.filter((p) => fs.existsSync(p))
 
   if (existingPdfs.length === 0) {
-    debug('No PDF files found')
+    debug('No PDF files found, checking stored pdf status')
+
+    const status = getStatus(process.cwd(), 'pdf')
+    if (status?.status === 'failed') {
+      debug('Last pdf generation failed (stored status)')
+      return {
+        ok: false,
+        message: 'Last PDF generation failed',
+        remediation: `The last "quire pdf" run failed. Check the output for errors and try again.
+    • Run "quire pdf --debug" for detailed error output`,
+        docsUrl: `${DOCS_BASE_URL}/quire-commands/#pdf`,
+      }
+    }
+
     return {
       ok: true,
       level: 'na',

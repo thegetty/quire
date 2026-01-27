@@ -41,6 +41,33 @@ test('formatHuman includes header with label', (t) => {
   t.true(header.text.includes('Running environment checks'))
 })
 
+test('formatHuman header includes errors filter description', (t) => {
+  const { lines } = formatHuman(mockSections, { errors: true })
+  const header = lines.find((l) => l.text.includes('Running'))
+  t.truthy(header)
+  t.true(header.text.includes('(errors only)'))
+})
+
+test('formatHuman header includes warnings filter description', (t) => {
+  const { lines } = formatHuman(mockSections, { warnings: true })
+  const header = lines.find((l) => l.text.includes('Running'))
+  t.truthy(header)
+  t.true(header.text.includes('(warnings only)'))
+})
+
+test('formatHuman header includes combined filter description', (t) => {
+  const { lines } = formatHuman(mockSections, { errors: true, warnings: true })
+  const header = lines.find((l) => l.text.includes('Running'))
+  t.truthy(header)
+  t.true(header.text.includes('(warnings and errors only)'))
+})
+
+test('formatHuman header has no filter suffix without filters', (t) => {
+  const { lines } = formatHuman(mockSections)
+  const header = lines[0]
+  t.false(header.text.includes('only'))
+})
+
 test('formatHuman includes section names', (t) => {
   const { lines } = formatHuman(mockSections)
   const sectionLines = lines.filter((l) => l.text === 'Environment' || l.text === 'Project')
@@ -54,10 +81,11 @@ test('formatHuman includes check names and messages', (t) => {
   t.true(osLine.text.includes('macOS 14'))
 })
 
-test('formatHuman returns summary with error count', (t) => {
+test('formatHuman returns summary with error count and N/A count', (t) => {
   const { summary } = formatHuman(mockSections)
   t.truthy(summary)
   t.true(summary.text.includes('1 check failed'))
+  t.true(summary.text.includes('(1 not applicable)'))
   t.is(summary.level, 'error')
 })
 
@@ -104,6 +132,38 @@ test('formatHuman with warnings filter shows only warnings', (t) => {
   t.truthy(depsLine)
 })
 
+test('formatHuman with both errors and warnings shows failed and warnings', (t) => {
+  const { lines, isEmpty } = formatHuman(mockSections, { errors: true, warnings: true })
+  t.false(isEmpty)
+  // Should include failed check
+  const nodeLine = lines.find((l) => l.text.includes('Node.js'))
+  t.truthy(nodeLine)
+  // Should include warning check
+  const depsLine = lines.find((l) => l.text.includes('Dependencies'))
+  t.truthy(depsLine)
+  // Should not include passed checks
+  const osLine = lines.find((l) => l.text.includes('Operating system'))
+  t.falsy(osLine)
+})
+
+test('formatHuman summary reflects unfiltered counts when --errors filter is active', (t) => {
+  // mockSections has 1 error and 1 warning — --errors shows only the error
+  const { summary, exitCode } = formatHuman(mockSections, { errors: true })
+  t.truthy(summary)
+  t.true(summary.text.includes('1 check failed'))
+  t.is(exitCode, 1)
+})
+
+test('formatHuman summary reflects unfiltered counts when --warnings filter is active', (t) => {
+  // mockSections has 1 error and 1 warning — --warnings shows only the warning,
+  // but summary should still report the error
+  const { summary, exitCode } = formatHuman(mockSections, { warnings: true })
+  t.truthy(summary)
+  t.true(summary.text.includes('1 check failed'))
+  t.is(summary.level, 'error')
+  t.is(exitCode, 1)
+})
+
 test('formatHuman returns isEmpty true when filter excludes all', (t) => {
   const healthySections = [
     { section: 'Env', results: [{ id: 'os', name: 'OS', ok: true }] },
@@ -113,7 +173,34 @@ test('formatHuman returns isEmpty true when filter excludes all', (t) => {
   t.true(lines[0].text.includes('No failed checks'))
 })
 
-test('formatHuman always returns key', (t) => {
+test('formatHuman returns isEmpty with combined message when both filters exclude all', (t) => {
+  const healthySections = [
+    { section: 'Env', results: [{ id: 'os', name: 'OS', ok: true }] },
+  ]
+  const { isEmpty, lines } = formatHuman(healthySections, { errors: true, warnings: true })
+  t.true(isEmpty)
+  t.true(lines[0].text.includes('No failed checks or warnings'))
+})
+
+test('formatHuman isEmpty summary still reflects unfiltered status', (t) => {
+  // --warnings filter on sections with only an error → isEmpty, but summary shows the error
+  const errorSections = [
+    {
+      section: 'Outputs',
+      results: [
+        { id: 'pdf', name: 'PDF', ok: false, message: 'Last PDF build failed' },
+      ],
+    },
+  ]
+  const { isEmpty, summary, exitCode } = formatHuman(errorSections, { warnings: true })
+  t.true(isEmpty)
+  t.truthy(summary)
+  t.true(summary.text.includes('1 check failed'))
+  t.is(summary.level, 'error')
+  t.is(exitCode, 1)
+})
+
+test('formatHuman returns key in default mode', (t) => {
   const { key } = formatHuman(mockSections, {})
   t.truthy(key)
   t.true(key.text.includes('Key:'))
@@ -125,6 +212,16 @@ test('formatHuman returns key without verbose', (t) => {
   const { key } = formatHuman(mockSections, { verbose: false })
   t.truthy(key)
   t.true(key.text.includes('Key:'))
+})
+
+test('formatHuman hides key when --errors filter is active', (t) => {
+  const { key } = formatHuman(mockSections, { errors: true })
+  t.is(key, null)
+})
+
+test('formatHuman hides key when --warnings filter is active', (t) => {
+  const { key } = formatHuman(mockSections, { warnings: true })
+  t.is(key, null)
 })
 
 test('formatHuman includes details in verbose mode', (t) => {
@@ -197,4 +294,67 @@ test('formatHuman summary shows warnings without errors', (t) => {
   t.true(summary.text.includes('All checks passed with 1 warning'))
   t.is(summary.level, 'warn')
   t.is(exitCode, 0)
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// N/A count in summary
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('formatHuman summary includes N/A count when all checks pass', (t) => {
+  const sections = [
+    {
+      section: 'Outputs',
+      results: [
+        { id: 'build', name: 'Build', ok: true, message: 'Up to date' },
+        { id: 'pdf', name: 'PDF', ok: true, level: 'na', message: 'No PDF output' },
+        { id: 'epub', name: 'EPUB', ok: true, level: 'na', message: 'No EPUB output' },
+      ],
+    },
+  ]
+  const { summary } = formatHuman(sections)
+  t.true(summary.text.includes('All checks passed!'))
+  t.true(summary.text.includes('(2 not applicable)'))
+})
+
+test('formatHuman summary includes N/A count with warnings', (t) => {
+  const sections = [
+    {
+      section: 'Outputs',
+      results: [
+        { id: 'build', name: 'Build', ok: false, level: 'warn', message: 'Stale' },
+        { id: 'pdf', name: 'PDF', ok: true, level: 'na', message: 'No PDF output' },
+      ],
+    },
+  ]
+  const { summary } = formatHuman(sections)
+  t.true(summary.text.includes('All checks passed with 1 warning'))
+  t.true(summary.text.includes('(1 not applicable)'))
+})
+
+test('formatHuman summary omits N/A count when none exist', (t) => {
+  const sections = [
+    {
+      section: 'Env',
+      results: [
+        { id: 'os', name: 'OS', ok: true, message: 'macOS' },
+      ],
+    },
+  ]
+  const { summary } = formatHuman(sections)
+  t.true(summary.text.includes('All checks passed!'))
+  t.false(summary.text.includes('not applicable'))
+})
+
+test('formatHuman summary includes singular N/A count', (t) => {
+  const sections = [
+    {
+      section: 'Outputs',
+      results: [
+        { id: 'build', name: 'Build', ok: true, message: 'Up to date' },
+        { id: 'pdf', name: 'PDF', ok: true, level: 'na', message: 'No PDF output' },
+      ],
+    },
+  ]
+  const { summary } = formatHuman(sections)
+  t.true(summary.text.includes('(1 not applicable)'))
 })

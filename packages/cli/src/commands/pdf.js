@@ -5,6 +5,7 @@ import eleventy from '#lib/11ty/index.js'
 import generatePdf, { ENGINES } from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
+import { recordStatus } from '#lib/conf/build-status.js'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
@@ -89,12 +90,14 @@ Examples:
       const output = await generatePdf(pdfOptions)
 
       reporter.succeed('PDF generated')
+      recordStatus(paths.getProjectRoot(), 'pdf', 'ok')
 
       if (options.open) {
         open(output)
       }
     } catch (error) {
       reporter.fail('PDF generation failed')
+      recordStatus(paths.getProjectRoot(), 'pdf', 'failed')
       throw error
     }
   }

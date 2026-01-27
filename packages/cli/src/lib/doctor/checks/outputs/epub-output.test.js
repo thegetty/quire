@@ -8,6 +8,7 @@ const ONE_HOUR = 3600000
 const TWO_HOURS = 7200000
 
 const configMock = { default: { get: () => 'HOURLY' } }
+const buildStatusMock = { getStatus: () => undefined }
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
@@ -28,6 +29,7 @@ test('checkEpubOutput returns N/A when no EPUB files exist', async (t) => {
       getEpubOutputPaths: () => ['epubjs.epub', 'pandoc.epub'],
     },
     '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': buildStatusMock,
   })
 
   const result = checkEpubOutput()
@@ -48,6 +50,7 @@ test('checkEpubOutput includes remediation when no output found', async (t) => {
       getEpubOutputPaths: () => ['epubjs.epub', 'pandoc.epub'],
     },
     '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': buildStatusMock,
   })
 
   const result = checkEpubOutput()
@@ -55,6 +58,32 @@ test('checkEpubOutput includes remediation when no output found', async (t) => {
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire epub/)
   t.regex(result.remediation, /failed/)
+  t.truthy(result.docsUrl)
+})
+
+test('checkEpubOutput returns failure when last EPUB generation failed and no output exists', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkEpubOutput } = await esmock('./epub-output.js', {
+    'node:fs': {
+      existsSync: sandbox.stub().returns(false),
+    },
+    '#lib/project/output-paths.js': {
+      getEpubOutputPaths: () => ['epubjs.epub', 'pandoc.epub'],
+    },
+    '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': {
+      getStatus: () => ({ status: 'failed', timestamp: Date.now() }),
+    },
+  })
+
+  const result = checkEpubOutput()
+
+  t.false(result.ok)
+  t.is(result.level, undefined)
+  t.regex(result.message, /Last EPUB generation failed/)
+  t.truthy(result.remediation)
+  t.regex(result.remediation, /quire epub --debug/)
   t.truthy(result.docsUrl)
 })
 

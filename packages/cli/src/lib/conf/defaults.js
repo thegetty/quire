@@ -87,4 +87,9 @@ export default {
    * File name for the quire-11ty version file.
    */
   versionFile: '.quire',
+  /**
+   * Per-project data (internal).
+   * Keyed by SHA-256 hash of the project's absolute path.
+   */
+  projects: {},
 }

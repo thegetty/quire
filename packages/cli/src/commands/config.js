@@ -218,7 +218,7 @@ Examples:
     const lines = [`quire-cli configuration ${this.config.path}`, '']
 
     for (const [key, value] of Object.entries(this.config.store)) {
-      if (key.startsWith('__internal__') && !options.debug) continue
+      if ((key.startsWith('__internal__') || key === 'projects') && !options.debug) continue
       lines.push(`  ${key}: ${JSON.stringify(value)}`)
     }
 

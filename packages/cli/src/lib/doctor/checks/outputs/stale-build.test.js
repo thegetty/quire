@@ -9,6 +9,7 @@ const ONE_HOUR = 3600000
 const TWO_HOURS = 7200000
 
 const configMock = { default: { get: () => 'HOURLY' } }
+const buildStatusMock = { getStatus: () => undefined }
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox()
@@ -26,6 +27,7 @@ test('checkStaleBuild returns N/A when no _site directory exists', async (t) => 
       existsSync: sandbox.stub().returns(false),
     },
     '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': buildStatusMock,
   })
 
   const result = checkStaleBuild()
@@ -36,6 +38,29 @@ test('checkStaleBuild returns N/A when no _site directory exists', async (t) => 
   t.truthy(result.remediation)
   t.regex(result.remediation, /quire build/)
   t.regex(result.remediation, /failed/)
+  t.truthy(result.docsUrl)
+})
+
+test('checkStaleBuild returns failure when last build failed and no _site exists', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkStaleBuild } = await esmock('./stale-build.js', {
+    'node:fs': {
+      existsSync: sandbox.stub().returns(false),
+    },
+    '#lib/conf/config.js': configMock,
+    '#lib/conf/build-status.js': {
+      getStatus: () => ({ status: 'failed', timestamp: Date.now() }),
+    },
+  })
+
+  const result = checkStaleBuild()
+
+  t.false(result.ok)
+  t.is(result.level, undefined)
+  t.regex(result.message, /Last build failed/)
+  t.truthy(result.remediation)
+  t.regex(result.remediation, /quire build --debug/)
   t.truthy(result.docsUrl)
 })
 
