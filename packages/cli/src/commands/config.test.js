@@ -29,7 +29,7 @@ test.beforeEach((t) => {
       projectTemplate: 'https://github.com/thegetty/quire-starter-default',
       quireVersion: '1.0.0',
       __internal__secretKey: 'hidden-value',
-      buildStatus: { abc123: { projectPath: '/test', build: { status: 'ok', timestamp: 1000 } } }
+      projects: { abc123: { projectPath: '/test', buildStatus: { build: { status: 'ok', timestamp: 1000 } } } }
     },
     get: (key) => t.context.mockConfig.store[key],
     set: t.context.sandbox.stub(),
@@ -116,7 +116,7 @@ test('conf command should show internal config values with debug flag', async (t
   t.true(output.includes('__internal__secretKey: "hidden-value"'))
 })
 
-test('conf command should hide buildStatus by default', async (t) => {
+test('conf command should hide projects by default', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./config.js', {}, {
@@ -133,10 +133,10 @@ test('conf command should hide buildStatus by default', async (t) => {
   await command.action(undefined, undefined, undefined, {})
 
   const output = mockLogger.info.firstCall.args[0]
-  t.false(output.includes('buildStatus'))
+  t.false(output.includes('projects'))
 })
 
-test('conf command should show buildStatus with debug flag', async (t) => {
+test('conf command should show projects with debug flag', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./config.js', {}, {
@@ -153,7 +153,7 @@ test('conf command should show buildStatus with debug flag', async (t) => {
   await command.action(undefined, undefined, undefined, { debug: true })
 
   const output = mockLogger.info.firstCall.args[0]
-  t.true(output.includes('buildStatus'))
+  t.true(output.includes('projects'))
 })
 
 // =============================================================================
