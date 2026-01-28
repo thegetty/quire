@@ -23,11 +23,13 @@ export default class PreviewCommand extends Command {
 Examples:
   quire preview                  Start preview server on default port
   quire preview --port 3000      Run on custom port
+  quire preview --open           Start server and open in browser
   quire preview --verbose        Start with detailed progress
 `,
     version: '1.1.0',
     options: [
       [ '-p, --port <port>', 'configure development server port', 8080 ],
+      [ '--open', 'open in default browser when server starts' ],
       // Use Option object syntax to configure this as a hidden option
       new Option('--11ty <module>', 'use the specified 11ty module')
         .choices(['api', 'cli']).default('api').hideHelp(),

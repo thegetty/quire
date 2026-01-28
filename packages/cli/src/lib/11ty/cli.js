@@ -143,11 +143,21 @@ export default {
 
     command.push('--serve')
 
+    const port = options.port || 8080
     if (options.port) command.push(`--port=${options.port}`)
 
     env.ELEVENTY_ENV = 'development'
 
     reporter.start('Starting development server...')
+
+    // Resolve the spinner before the subprocess takes over stdout
+    const url = `http://localhost:${port}`
+    reporter.succeed(`Server running at ${url}`)
+
+    if (options.open) {
+      const { default: open } = await import('open')
+      open(url)
+    }
 
     try {
       await spawn(command, { cwd: projectRoot, env })

@@ -215,6 +215,19 @@ class Quire11ty {
     // Initialize Eleventy before serving (required for eleventyServe)
     await eleventy.init()
 
+    // Register a ready callback to resolve the spinner when the server is listening
+    // @see https://www.11ty.dev/docs/dev-server/#options
+    eleventy.eleventyServe.config.serverOptions = {
+      ...eleventy.eleventyServe.config.serverOptions,
+      ready: (server) => {
+        const url = server.getServerUrl('localhost')
+        reporter.succeed(`Server running at ${url}`)
+        if (options.open) {
+          import('open').then(({ default: open }) => open(url))
+        }
+      },
+    }
+
     await eleventy.serve(options.port)
   }
 }
