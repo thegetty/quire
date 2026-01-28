@@ -49,6 +49,13 @@ export default {
    */
   pdfEngine: 'pagedjs',
   /**
+   * Disable spinner animation and line overwriting.
+   * When enabled, progress output uses static text instead of animated spinners,
+   * and each stage prints on a new line rather than overwriting the current line.
+   * Can be overridden per-command with --reduced-motion.
+   */
+  reducedMotion: false,
+  /**
    * Project starter template to use when creating new projects.
    */
   projectTemplate: 'https://github.com/thegetty/quire-starter-default',
