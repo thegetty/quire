@@ -56,6 +56,27 @@ The CLI uses the following colors for status indicators:
 
 Every status uses a distinct symbol in addition to color, so information is never lost when color is disabled.
 
+## Paging
+
+Long help topic content is displayed through the system pager (`less` on Unix, `more` on Windows) when running in an interactive terminal. Paging can be disabled for screen reader compatibility and automation.
+
+### Disabling the Pager
+
+| Method | Scope | Example |
+|--------|-------|---------|
+| `--no-pager` flag | Single command | `quire --no-pager help workflows` |
+| `NO_PAGER` env var | Shell session | `NO_PAGER=1 quire help workflows` |
+| `PAGER=cat` | Traditional Unix | `PAGER=cat quire help workflows` |
+| Pipe to `cat` | Single command | `quire help workflows \| cat` |
+
+The `--no-pager` flag sets `process.env.NO_PAGER = '1'` in the `preAction` hook. The `NO_PAGER` environment variable is checked directly by the pager utility. Setting `PAGER=cat` works because `cat` passes content through without interactive paging.
+
+Paging is automatically skipped when output is not a TTY (e.g., piped to a file or another command) or when the content fits within the terminal height.
+
+### Selecting a Pager
+
+The `PAGER` environment variable selects the pager program. The default is `less -R` on Unix (`-R` preserves ANSI colors) and `more` on Windows.
+
 ## Non-TTY and CI Environments
 
 The CLI automatically adapts its output for non-interactive environments:
@@ -77,7 +98,14 @@ echo $?  # 0 = success, non-zero = failure
 
 ### JSON Output
 
-The `doctor` command supports `--json` for machine-readable output:
+Commands that support `--json` output machine-readable data to stdout:
+
+| Command | `--json` | Notes |
+|---------|----------|-------|
+| `doctor` | Yes | Diagnostic results with status fields |
+| `settings` | Yes | Current configuration key-value pairs |
+| `info` | Yes | Project and system version information |
+| `validate` | Yes | Per-file validation results with summary |
 
 ```bash
 # Print JSON to stdout
@@ -88,9 +116,15 @@ quire doctor --json report.json
 
 # Quiet mode with JSON file (no console output)
 quire doctor --quiet --json report.json
+
+# Validate YAML and capture results
+quire validate --json
+
+# Get version info for automation
+quire info --json
 ```
 
-The JSON schema includes explicit `status` fields (`"passed"`, `"failed"`, `"warning"`, `"timeout"`, `"na"`) so that automated tools do not need to parse human-readable text or interpret color codes.
+JSON output always includes all available fields regardless of flags like `--debug`, providing a stable schema for automation. The JSON schema uses explicit `status` fields (`"passed"`, `"failed"`, `"warning"`, `"timeout"`, `"na"`) so that automated tools do not need to parse human-readable text or interpret color codes.
 
 ### Exit Codes
 
@@ -154,11 +188,7 @@ See [cli-output-modes.md](cli-output-modes.md) for the full output mode architec
 
 1. **`quire --no-color --help`** may still render Commander.js help styling with color, because Commander processes `--help` before the `preAction` hook runs. Use `NO_COLOR=1 quire --help` instead.
 
-2. **No `--no-paging` flag** for help topics. Screen reader users may have difficulty with the `less` pager used by `quire help <topic>`. Piping to `cat` is a workaround: `quire help workflows | cat`.
-
-3. **No reduced-motion detection.** Spinners always animate in TTY environments. There is no `prefers-reduced-motion` equivalent or `--no-spinner` flag. Use `--quiet` to suppress spinners entirely.
-
-4. **JSON output is limited to `doctor` and `settings`.** Other commands (`info`, `validate`) do not yet support `--json`.
+2. **No reduced-motion detection.** Spinners always animate in TTY environments. There is no `prefers-reduced-motion` equivalent or `--no-spinner` flag. Use `--quiet` to suppress spinners entirely.
 
 ## Environment Variables
 
@@ -166,6 +196,8 @@ See [cli-output-modes.md](cli-output-modes.md) for the full output mode architec
 |----------|---------|
 | `NO_COLOR` | Disable color output ([no-color.org](https://no-color.org/)) |
 | `FORCE_COLOR` | Force color output (overrides `NO_COLOR`) |
+| `NO_PAGER` | Disable paging for long output |
+| `PAGER` | Set pager program (default: `less`). Use `PAGER=cat` to disable |
 | `DEBUG=quire:*` | Enable debug output for all modules |
 | `DEBUG=quire:lib:pdf` | Enable debug output for a specific module |
 
