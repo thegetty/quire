@@ -1,13 +1,12 @@
 import Command from '#src/Command.js'
 import {
   isValidKey,
-  getValidKeys,
   coerceValue,
   formatValidationError,
   getDefault,
   formatSettings,
 } from '#lib/conf/index.js'
-import { suggestSimilar, formatSuggestion } from '#helpers/suggest-similar.js'
+import { UnknownConfigKeyError, UnknownConfigOperationError } from '#src/errors/index.js'
 
 /**
  * Valid operations for the settings command
@@ -79,21 +78,6 @@ Examples:
   }
 
   /**
-   * Log an unknown key error with valid keys hint
-   *
-   * @param {string} key - The unknown configuration key
-   */
-  #logUnknownKey(key) {
-    this.logger.error(`Unknown configuration key: ${key}`)
-    const suggestion = formatSuggestion(suggestSimilar(key, getValidKeys()))
-    if (suggestion) {
-      this.logger.info(`  ${suggestion}`)
-    } else {
-      this.logger.info(`Valid keys: ${getValidKeys().join(', ')}`)
-    }
-  }
-
-  /**
    * Get a single configuration value
    *
    * @param {string} key - Configuration key
@@ -106,8 +90,7 @@ Examples:
     }
 
     if (!isValidKey(key) && !key.startsWith('__internal__')) {
-      this.#logUnknownKey(key)
-      return
+      throw new UnknownConfigKeyError(key)
     }
 
     const value = this.config.get(key)
@@ -137,8 +120,7 @@ Examples:
     }
 
     if (!isValidKey(key)) {
-      this.#logUnknownKey(key)
-      return
+      throw new UnknownConfigKeyError(key)
     }
 
     const coercedValue = coerceValue(key, value)
@@ -163,8 +145,7 @@ Examples:
     }
 
     if (!isValidKey(key)) {
-      this.#logUnknownKey(key)
-      return
+      throw new UnknownConfigKeyError(key)
     }
 
     this.config.delete(key)
@@ -180,8 +161,7 @@ Examples:
   #reset(key) {
     if (key) {
       if (!isValidKey(key)) {
-        this.#logUnknownKey(key)
-        return
+        throw new UnknownConfigKeyError(key)
       }
       this.config.reset(key)
       const defaultValue = getDefault(key)
@@ -235,14 +215,7 @@ Examples:
 
     // Validate operation if provided
     if (operation && !OPERATIONS.includes(operation)) {
-      this.logger.error(`Unknown operation: ${operation}`)
-      const suggestion = formatSuggestion(suggestSimilar(operation, [...OPERATIONS]))
-      if (suggestion) {
-        this.logger.info(`  ${suggestion}`)
-      } else {
-        this.logger.info(`Valid operations: ${OPERATIONS.join(', ')}`)
-      }
-      return
+      throw new UnknownConfigOperationError(operation, [...OPERATIONS])
     }
 
     // Dispatch to operation handler
