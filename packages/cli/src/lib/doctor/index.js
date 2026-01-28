@@ -10,12 +10,15 @@ import {
   checkOsInfo,
   checkCliVersion,
   checkNodeVersion,
+  checkRuntimeInfo,
   checkNpmAvailable,
   checkGitAvailable,
+} from './checks/environment/index.js'
+
+import {
   checkPrinceAvailable,
   checkPandocAvailable,
-  checkRuntimeInfo,
-} from './checks/environment/index.js'
+} from './checks/tools/index.js'
 
 import {
   checkQuireProject,
@@ -39,11 +42,12 @@ export {
   checkOsInfo,
   checkCliVersion,
   checkNodeVersion,
+  checkRuntimeInfo,
   checkNpmAvailable,
   checkGitAvailable,
+  // Tools
   checkPrinceAvailable,
   checkPandocAvailable,
-  checkRuntimeInfo,
   // Project
   checkQuireProject,
   checkDependencies,
@@ -116,11 +120,16 @@ export const checkSections = [
       { id: 'os', name: 'Operating system', check: checkOsInfo },
       { id: 'cli', name: 'Quire CLI version', check: checkCliVersion },
       { id: 'node', name: 'Node.js version', check: checkNodeVersion },
+      { id: 'runtime', name: 'Node.js runtime', check: checkRuntimeInfo },
       { id: 'npm', name: 'npm', check: checkNpmAvailable },
       { id: 'git', name: 'Git', check: checkGitAvailable },
-      { id: 'prince', name: 'PrinceXML', check: checkPrinceAvailable, subsection: 'Optional Engines' },
-      { id: 'pandoc', name: 'Pandoc', check: checkPandocAvailable, subsection: 'Optional Engines' },
-      { id: 'runtime', name: 'Node.js runtime', check: checkRuntimeInfo },
+    ],
+  },
+  {
+    name: 'Tools',
+    checks: [
+      { id: 'prince', name: 'PrinceXML', check: checkPrinceAvailable },
+      { id: 'pandoc', name: 'Pandoc', check: checkPandocAvailable },
     ],
   },
   {
@@ -154,11 +163,11 @@ export const checks = [
   { name: 'Operating system', check: checkOsInfo },
   { name: 'Quire CLI version', check: checkCliVersion },
   { name: 'Node.js version', check: checkNodeVersion },
+  { name: 'Node.js runtime', check: checkRuntimeInfo },
   { name: 'npm', check: checkNpmAvailable },
   { name: 'Git', check: checkGitAvailable },
   { name: 'PrinceXML', check: checkPrinceAvailable },
   { name: 'Pandoc', check: checkPandocAvailable },
-  { name: 'Node.js runtime', check: checkRuntimeInfo },
   { name: 'Quire project', check: checkQuireProject },
   { name: 'Dependencies', check: checkDependencies },
   { name: 'quire-11ty version', check: checkOutdatedQuire11ty },
@@ -187,7 +196,7 @@ export async function runAllChecks() {
 /**
  * Valid section names for filtering
  */
-export const SECTION_NAMES = ['environment', 'project', 'outputs']
+export const SECTION_NAMES = ['environment', 'tools', 'project', 'outputs']
 
 /**
  * Run all diagnostic checks organized by section
@@ -217,14 +226,14 @@ export async function runAllChecksWithSections(options = {}) {
     }
 
     const results = []
-    for (const { id, name, check, subsection } of sectionChecks) {
+    for (const { id, name, check } of sectionChecks) {
       // Skip checks not in filter (if check filter is provided)
       if (filterChecks && !filterChecks.includes(id)) {
         continue
       }
 
       const result = await runCheckWithTimeout(check, id, timeout)
-      results.push({ id, name, ...(subsection && { subsection }), ...result })
+      results.push({ id, name, ...result })
     }
 
     // Only include section if it has results

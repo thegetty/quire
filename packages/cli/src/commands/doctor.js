@@ -30,8 +30,9 @@ export default class DoctorCommand extends Command {
     summary: 'check environment and project health',
     docsLink: 'quire-commands/#troubleshooting',
     helpText: `
-Runs diagnostic checks organized into three sections:
-  • Environment: os, cli, node, npm, git, runtime
+Runs diagnostic checks organized into four sections:
+  • Environment: os, cli, node, runtime, npm, git
+  • Tools: prince, pandoc
   • Project: project, deps, 11ty, data
   • Outputs: build, pdf, epub
 

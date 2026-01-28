@@ -8,6 +8,7 @@ import esmock from 'esmock'
  * Tests the barrel export, checkSections structure, and runner functions.
  * Individual check function tests are in the domain test files:
  * - checks/environment/*.test.js
+ * - checks/tools/*.test.js
  * - checks/project/*.test.js
  * - checks/outputs/*.test.js
  */
@@ -34,11 +35,11 @@ test('checks array exports all check definitions', async (t) => {
   t.true(checkNames.includes('Operating system'))
   t.true(checkNames.includes('Quire CLI version'))
   t.true(checkNames.includes('Node.js version'))
+  t.true(checkNames.includes('Node.js runtime'))
   t.true(checkNames.includes('npm'))
   t.true(checkNames.includes('Git'))
   t.true(checkNames.includes('PrinceXML'))
   t.true(checkNames.includes('Pandoc'))
-  t.true(checkNames.includes('Node.js runtime'))
   t.true(checkNames.includes('Quire project'))
   t.true(checkNames.includes('Dependencies'))
   t.true(checkNames.includes('quire-11ty version'))
@@ -53,29 +54,35 @@ test('checks array exports all check definitions', async (t) => {
   }
 })
 
-test('checkSections exports checks organized by 3 sections', async (t) => {
+test('checkSections exports checks organized by 4 sections', async (t) => {
   const { checkSections } = await import('./index.js')
 
   t.true(Array.isArray(checkSections))
-  t.is(checkSections.length, 3)
+  t.is(checkSections.length, 4)
 
   const sectionNames = checkSections.map((s) => s.name)
   t.true(sectionNames.includes('Environment'))
+  t.true(sectionNames.includes('Tools'))
   t.true(sectionNames.includes('Project'))
   t.true(sectionNames.includes('Outputs'))
 
-  // Environment section should have 8 checks
+  // Environment section should have 6 checks
   const envSection = checkSections.find((s) => s.name === 'Environment')
-  t.is(envSection.checks.length, 8)
+  t.is(envSection.checks.length, 6)
   const envCheckNames = envSection.checks.map((c) => c.name)
   t.true(envCheckNames.includes('Operating system'))
   t.true(envCheckNames.includes('Quire CLI version'))
   t.true(envCheckNames.includes('Node.js version'))
+  t.true(envCheckNames.includes('Node.js runtime'))
   t.true(envCheckNames.includes('npm'))
   t.true(envCheckNames.includes('Git'))
-  t.true(envCheckNames.includes('PrinceXML'))
-  t.true(envCheckNames.includes('Pandoc'))
-  t.true(envCheckNames.includes('Node.js runtime'))
+
+  // Tools section should have 2 checks
+  const toolsSection = checkSections.find((s) => s.name === 'Tools')
+  t.is(toolsSection.checks.length, 2)
+  const toolCheckNames = toolsSection.checks.map((c) => c.name)
+  t.true(toolCheckNames.includes('PrinceXML'))
+  t.true(toolCheckNames.includes('Pandoc'))
 
   // Project section should have 4 checks
   const projectSection = checkSections.find((s) => s.name === 'Project')
@@ -106,16 +113,16 @@ test('default export includes all expected functions', async (t) => {
   t.is(typeof doctor.default.checkOsInfo, 'function')
   t.is(typeof doctor.default.checkCliVersion, 'function')
   t.is(typeof doctor.default.checkNodeVersion, 'function')
+  t.is(typeof doctor.default.checkRuntimeInfo, 'function')
   t.is(typeof doctor.default.checkNpmAvailable, 'function')
   t.is(typeof doctor.default.checkGitAvailable, 'function')
+  t.is(typeof doctor.default.checkPrinceAvailable, 'function')
+  t.is(typeof doctor.default.checkPandocAvailable, 'function')
   t.is(typeof doctor.default.checkQuireProject, 'function')
   t.is(typeof doctor.default.checkDependencies, 'function')
   t.is(typeof doctor.default.checkOutdatedQuire11ty, 'function')
   t.is(typeof doctor.default.checkDataFiles, 'function')
   t.is(typeof doctor.default.checkStaleBuild, 'function')
-  t.is(typeof doctor.default.checkPandocAvailable, 'function')
-  t.is(typeof doctor.default.checkPrinceAvailable, 'function')
-  t.is(typeof doctor.default.checkRuntimeInfo, 'function')
   t.is(typeof doctor.default.checkPdfOutput, 'function')
   t.is(typeof doctor.default.checkEpubOutput, 'function')
 
@@ -130,11 +137,11 @@ test('named exports match default export', async (t) => {
   t.is(doctor.checkOsInfo, doctor.default.checkOsInfo)
   t.is(doctor.checkCliVersion, doctor.default.checkCliVersion)
   t.is(doctor.checkNodeVersion, doctor.default.checkNodeVersion)
+  t.is(doctor.checkRuntimeInfo, doctor.default.checkRuntimeInfo)
   t.is(doctor.checkNpmAvailable, doctor.default.checkNpmAvailable)
   t.is(doctor.checkGitAvailable, doctor.default.checkGitAvailable)
   t.is(doctor.checkPrinceAvailable, doctor.default.checkPrinceAvailable)
   t.is(doctor.checkPandocAvailable, doctor.default.checkPandocAvailable)
-  t.is(doctor.checkRuntimeInfo, doctor.default.checkRuntimeInfo)
   t.is(doctor.checkQuireProject, doctor.default.checkQuireProject)
   t.is(doctor.checkDependencies, doctor.default.checkDependencies)
   t.is(doctor.checkOutdatedQuire11ty, doctor.default.checkOutdatedQuire11ty)
@@ -152,9 +159,10 @@ test('constants are exported', async (t) => {
   t.is(doctor.DOCS_BASE_URL, 'https://quire.getty.edu/docs-v1')
   t.is(doctor.REQUIRED_NODE_VERSION, 22)
   t.is(doctor.QUIRE_11TY_PACKAGE, '@thegetty/quire-11ty')
-  t.deepEqual(doctor.SECTION_NAMES, ['environment', 'project', 'outputs'])
+  t.deepEqual(doctor.SECTION_NAMES, ['environment', 'tools', 'project', 'outputs'])
   t.deepEqual(doctor.CHECK_IDS, [
-    'os', 'cli', 'node', 'npm', 'git', 'prince', 'pandoc', 'runtime',
+    'os', 'cli', 'node', 'runtime', 'npm', 'git',
+    'prince', 'pandoc',
     'project', 'deps', '11ty', 'data',
     'build', 'pdf', 'epub',
   ])
@@ -171,11 +179,11 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
-  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -189,11 +197,13 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
       checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
+      checkRuntimeInfo: mockCheckRuntime,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: mockCheckPrince,
       checkPandocAvailable: mockCheckPandoc,
-      checkRuntimeInfo: mockCheckRuntime,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -223,11 +233,11 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   t.true(mockCheckOs.calledOnce)
   t.true(mockCheckCli.calledOnce)
   t.true(mockCheckNode.calledOnce)
+  t.true(mockCheckRuntime.calledOnce)
   t.true(mockCheckNpm.calledOnce)
   t.true(mockCheckGit.calledOnce)
   t.true(mockCheckPrince.calledOnce)
   t.true(mockCheckPandoc.calledOnce)
-  t.true(mockCheckRuntime.calledOnce)
   t.true(mockCheckProject.calledOnce)
   t.true(mockCheckDeps.calledOnce)
   t.true(mockCheckQuire11ty.calledOnce)
@@ -237,18 +247,18 @@ test('runAllChecks runs all checks and returns results array', async (t) => {
   t.true(mockCheckEpub.calledOnce)
 })
 
-test('runAllChecksWithSections returns results organized by 3 sections', async (t) => {
+test('runAllChecksWithSections returns results organized by 4 sections', async (t) => {
   const { sandbox } = t.context
 
   // Create mock check functions
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
-  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -262,11 +272,13 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
       checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
+      checkRuntimeInfo: mockCheckRuntime,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: mockCheckPrince,
       checkPandocAvailable: mockCheckPandoc,
-      checkRuntimeInfo: mockCheckRuntime,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -284,11 +296,11 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
   const sections = await runAllChecksWithSections()
 
   t.true(Array.isArray(sections))
-  t.is(sections.length, 3)
+  t.is(sections.length, 4)
 
   // Verify section structure
   const sectionNames = sections.map((s) => s.section)
-  t.deepEqual(sectionNames, ['Environment', 'Project', 'Outputs'])
+  t.deepEqual(sectionNames, ['Environment', 'Tools', 'Project', 'Outputs'])
 
   // Verify each section has results
   for (const { section, results } of sections) {
@@ -302,7 +314,10 @@ test('runAllChecksWithSections returns results organized by 3 sections', async (
 
   // Verify section sizes
   const envSection = sections.find((s) => s.section === 'Environment')
-  t.is(envSection.results.length, 8)
+  t.is(envSection.results.length, 6)
+
+  const toolsSection = sections.find((s) => s.section === 'Tools')
+  t.is(toolsSection.results.length, 2)
 
   const projectSection = sections.find((s) => s.section === 'Project')
   t.is(projectSection.results.length, 4)
@@ -318,11 +333,11 @@ test('runAllChecksWithSections filters by section name', async (t) => {
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
-  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -336,11 +351,13 @@ test('runAllChecksWithSections filters by section name', async (t) => {
       checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
+      checkRuntimeInfo: mockCheckRuntime,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: mockCheckPrince,
       checkPandocAvailable: mockCheckPandoc,
-      checkRuntimeInfo: mockCheckRuntime,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -360,19 +377,19 @@ test('runAllChecksWithSections filters by section name', async (t) => {
 
   t.is(sections.length, 1)
   t.is(sections[0].section, 'Environment')
-  t.is(sections[0].results.length, 8)
+  t.is(sections[0].results.length, 6)
 
   // Verify only environment checks were called
   t.true(mockCheckOs.calledOnce)
   t.true(mockCheckCli.calledOnce)
   t.true(mockCheckNode.calledOnce)
+  t.true(mockCheckRuntime.calledOnce)
   t.true(mockCheckNpm.calledOnce)
   t.true(mockCheckGit.calledOnce)
-  t.true(mockCheckPrince.calledOnce)
-  t.true(mockCheckPandoc.calledOnce)
-  t.true(mockCheckRuntime.calledOnce)
 
-  // Verify project and output checks were NOT called
+  // Verify tools, project, and output checks were NOT called
+  t.false(mockCheckPrince.called)
+  t.false(mockCheckPandoc.called)
   t.false(mockCheckProject.called)
   t.false(mockCheckDeps.called)
   t.false(mockCheckQuire11ty.called)
@@ -389,11 +406,11 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
-  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -407,11 +424,13 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
       checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
+      checkRuntimeInfo: mockCheckRuntime,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: mockCheckPrince,
       checkPandocAvailable: mockCheckPandoc,
-      checkRuntimeInfo: mockCheckRuntime,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -445,6 +464,7 @@ test('runAllChecksWithSections filters by check ID', async (t) => {
   // Verify other checks were NOT called
   t.false(mockCheckOs.called)
   t.false(mockCheckCli.called)
+  t.false(mockCheckRuntime.called)
   t.false(mockCheckNpm.called)
   t.false(mockCheckPrince.called)
   t.false(mockCheckPandoc.called)
@@ -464,11 +484,11 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
   const mockCheckOs = sandbox.stub().returns({ ok: true, message: 'macOS 14 (arm64)' })
   const mockCheckCli = sandbox.stub().returns({ ok: true, message: 'v1.0.0-rc.33' })
   const mockCheckNode = sandbox.stub().returns({ ok: true, message: 'v22' })
+  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckNpm = sandbox.stub().resolves({ ok: true, message: '10.2.4' })
   const mockCheckGit = sandbox.stub().resolves({ ok: true, message: '2.43.0' })
   const mockCheckPrince = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckPandoc = sandbox.stub().returns({ ok: true, message: 'installed' })
-  const mockCheckRuntime = sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' })
   const mockCheckProject = sandbox.stub().returns({ ok: true, message: '.quire' })
   const mockCheckDeps = sandbox.stub().returns({ ok: true, message: 'installed' })
   const mockCheckQuire11ty = sandbox.stub().resolves({ ok: true, message: 'v1.0.0' })
@@ -482,11 +502,13 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
       checkOsInfo: mockCheckOs,
       checkCliVersion: mockCheckCli,
       checkNodeVersion: mockCheckNode,
+      checkRuntimeInfo: mockCheckRuntime,
       checkNpmAvailable: mockCheckNpm,
       checkGitAvailable: mockCheckGit,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: mockCheckPrince,
       checkPandocAvailable: mockCheckPandoc,
-      checkRuntimeInfo: mockCheckRuntime,
     },
     './checks/project/index.js': {
       checkQuireProject: mockCheckProject,
@@ -522,9 +544,11 @@ test('runAllChecksWithSections filters checks across multiple sections', async (
   t.true(mockCheckNode.calledOnce)
   t.true(mockCheckPdf.calledOnce)
 
-  // Project section should not appear (no checks from it)
+  // Project and Tools sections should not appear (no checks from them)
   const projectSection = sections.find((s) => s.section === 'Project')
   t.falsy(projectSection)
+  const toolsSection = sections.find((s) => s.section === 'Tools')
+  t.falsy(toolsSection)
 })
 
 test('runAllChecks handles async checks correctly', async (t) => {
@@ -539,11 +563,13 @@ test('runAllChecks handles async checks correctly', async (t) => {
       checkOsInfo: mockSyncCheck,
       checkCliVersion: mockSyncCheck,
       checkNodeVersion: mockSyncCheck,
+      checkRuntimeInfo: mockSyncCheck,
       checkNpmAvailable: mockAsyncCheck,
       checkGitAvailable: mockAsyncCheck,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: mockSyncCheck,
       checkPandocAvailable: mockSyncCheck,
-      checkRuntimeInfo: mockSyncCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: mockSyncCheck,
@@ -587,11 +613,13 @@ test('runAllChecks preserves all check result properties', async (t) => {
       checkOsInfo: sandbox.stub().returns({ ok: true, message: 'macOS 14' }),
       checkCliVersion: sandbox.stub().returns(fullResult),
       checkNodeVersion: sandbox.stub().returns({ ok: true, message: null }),
+      checkRuntimeInfo: sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' }),
       checkNpmAvailable: sandbox.stub().resolves({ ok: true, message: '10.2.4' }),
       checkGitAvailable: sandbox.stub().resolves({ ok: true, message: '2.43.0' }),
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: sandbox.stub().returns({ ok: true, message: 'installed' }),
       checkPandocAvailable: sandbox.stub().returns({ ok: true, message: 'installed' }),
-      checkRuntimeInfo: sandbox.stub().returns({ ok: true, message: 'Heap limit: 4096 MB' }),
     },
     './checks/project/index.js': {
       checkQuireProject: sandbox.stub().returns({ ok: true, message: null }),
@@ -641,11 +669,13 @@ test('runAllChecksWithSections handles slow checks with timeout', async (t) => {
       checkOsInfo: fastCheck,
       checkCliVersion: fastCheck,
       checkNodeVersion: slowCheck,
+      checkRuntimeInfo: fastCheck,
       checkNpmAvailable: fastCheck,
       checkGitAvailable: fastCheck,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: fastCheck,
       checkPandocAvailable: fastCheck,
-      checkRuntimeInfo: fastCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: fastCheck,
@@ -684,11 +714,13 @@ test('runAllChecksWithSections completes checks within timeout', async (t) => {
       checkOsInfo: fastCheck,
       checkCliVersion: fastCheck,
       checkNodeVersion: fastCheck,
+      checkRuntimeInfo: fastCheck,
       checkNpmAvailable: fastCheck,
       checkGitAvailable: fastCheck,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: fastCheck,
       checkPandocAvailable: fastCheck,
-      checkRuntimeInfo: fastCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: fastCheck,
@@ -724,11 +756,13 @@ test('runAllChecksWithSections includes check id in results', async (t) => {
       checkOsInfo: fastCheck,
       checkCliVersion: fastCheck,
       checkNodeVersion: fastCheck,
+      checkRuntimeInfo: fastCheck,
       checkNpmAvailable: fastCheck,
       checkGitAvailable: fastCheck,
+    },
+    './checks/tools/index.js': {
       checkPrinceAvailable: fastCheck,
       checkPandocAvailable: fastCheck,
-      checkRuntimeInfo: fastCheck,
     },
     './checks/project/index.js': {
       checkQuireProject: fastCheck,
