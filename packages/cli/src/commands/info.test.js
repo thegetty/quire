@@ -424,3 +424,89 @@ test('info command should log debug information', async (t) => {
   t.true(mockDebug.called, 'debug should be called')
   t.true(mockDebug.calledWith('called with options %O', {}))
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JSON output tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('info --json should output valid JSON with project versions', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const { default: InfoCommand } = await esmock('./info.js', {
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
+    },
+    'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new InfoCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ json: true }, {})
+
+  // Should output via console.log, not logger.info
+  t.true(consoleLogStub.calledOnce, 'console.log should be called once')
+  t.false(mockLogger.info.called, 'logger.info should not be called in JSON mode')
+
+  // Parse and validate the JSON structure
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+
+  t.truthy(output.project, 'JSON should have project section')
+
+  // Project section
+  t.is(output.project.cli, '1.0.0-rc.33')
+  t.is(output.project.quire11ty, '1.0.0')
+  t.is(output.project.starter, 'https://github.com/thegetty/quire-starter-default')
+  t.is(typeof output.project.directory, 'string')
+})
+
+test.serial('info --json should set starter to null when not available', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  // Version file without starter
+  t.context.mockFs.readFileSync.callsFake((filePath, options) => {
+    if (filePath === './.quire-version') {
+      return JSON.stringify({ cli: '1.0.0-rc.33' })
+    }
+    if (filePath === './package.json') {
+      return t.context.packageJsonContent
+    }
+    return ''
+  })
+
+  const { default: InfoCommand } = await esmock('./info.js', {
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
+    },
+    'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new InfoCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ json: true }, {})
+
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+
+  t.is(output.project.starter, null, 'starter should be null when not in version file')
+})
