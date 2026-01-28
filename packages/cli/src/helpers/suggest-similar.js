@@ -118,6 +118,7 @@ export function suggestSimilar(word, candidates) {
  */
 export function formatSuggestion(matches) {
   if (!matches?.length) return undefined
-  if (matches.length === 1) return `Did you mean: ${matches[0]}?`
-  return `Did you mean one of: ${matches.join(', ')}?`
+  return (matches.length === 1)
+    ? `Did you mean: ${matches[0]}?`
+    : `Did you mean one of: ${matches.join(', ')}?`
 }
