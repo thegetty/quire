@@ -49,20 +49,12 @@ Note: Run before "quire pdf" or "quire epub" commands.
     // Configure reporter for this command
     reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
-    reporter.start('Building site...', { showElapsed: true })
-
-    try {
-      if (options['11ty'] === 'api') {
-        this.debug('running eleventy using lib/11ty api')
-        await api.build(options)
-      } else {
-        this.debug('running eleventy using lib/11ty cli')
-        await cli.build(options)
-      }
-      reporter.succeed('Build complete')
-    } catch (error) {
-      reporter.fail('Build failed')
-      throw error
+    if (options['11ty'] === 'api') {
+      this.debug('running eleventy using lib/11ty api')
+      await api.build(options)
+    } else {
+      this.debug('running eleventy using lib/11ty cli')
+      await cli.build(options)
     }
   }
 

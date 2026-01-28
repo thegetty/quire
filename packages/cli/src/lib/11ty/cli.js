@@ -3,8 +3,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
 import processManager from '#lib/process/manager.js'
+import reporter from '#lib/reporter/index.js'
 import { BuildFailedError } from '#src/errors/index.js'
-import { logger } from '#lib/logger/index.js'
 import createDebug from '#debug'
 
 const debug = createDebug('lib:11ty')
@@ -108,13 +108,13 @@ export default {
    * @param {Object} options - Build options
    */
   build: async (options = {}) => {
-    logger.info('Building site...')
-
     const { command, env, projectRoot } = factory(options)
 
     if (options.dryRun) command.push('--dryrun')
 
     env.ELEVENTY_ENV = 'production'
+
+    reporter.start('Building site...', { showElapsed: true })
 
     try {
       const build = spawn(command, { cwd: projectRoot, env })
@@ -123,11 +123,13 @@ export default {
       if (build.exitCode !== 0) {
         throw new BuildFailedError(`Eleventy exited with code ${build.exitCode}`)
       }
+      reporter.succeed('Build complete')
     } catch (error) {
       if (error.isCanceled) {
         debug('build cancelled')
         return
       }
+      reporter.fail('Build failed')
       throw error
     }
   },
@@ -137,8 +139,6 @@ export default {
    * @param {Object} options - Serve options
    */
   serve: async (options = {}) => {
-    logger.info('Starting development server...')
-
     const { command, env, projectRoot } = factory(options)
 
     command.push('--serve')
@@ -146,6 +146,8 @@ export default {
     if (options.port) command.push(`--port=${options.port}`)
 
     env.ELEVENTY_ENV = 'development'
+
+    reporter.start('Starting development server...')
 
     try {
       await spawn(command, { cwd: projectRoot, env })

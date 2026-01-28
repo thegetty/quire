@@ -33,7 +33,7 @@
 import { dynamicImport } from '#helpers/os-utils.js'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
-import { logger } from '#lib/logger/index.js'
+import reporter from '#lib/reporter/index.js'
 import createDebug from '#debug'
 
 const debug = createDebug('lib:11ty:api')
@@ -174,13 +174,19 @@ class Quire11ty {
 
     configureEleventyEnv({ mode: 'production', debug: options.debug })
 
+    reporter.start('Building site...', { showElapsed: true })
+
     const eleventy = await createEleventyInstance(options)
 
     eleventy.setDryRun(options.dryRun)
 
-    logger.info('Building site...')
-
-    await eleventy.write()
+    try {
+      await eleventy.write()
+      reporter.succeed('Build complete')
+    } catch (error) {
+      reporter.fail('Build failed')
+      throw error
+    }
   }
 
   /**
@@ -198,6 +204,8 @@ class Quire11ty {
 
     configureEleventyEnv({ mode: 'development', debug: options.debug })
 
+    reporter.start('Starting development server...')
+
     const eleventy =
       await createEleventyInstance({ ...options, runMode: 'serve' })
 
@@ -206,8 +214,6 @@ class Quire11ty {
 
     // Initialize Eleventy before serving (required for eleventyServe)
     await eleventy.init()
-
-    logger.info('Starting development server...')
 
     await eleventy.serve(options.port)
   }

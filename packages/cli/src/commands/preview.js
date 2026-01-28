@@ -2,6 +2,7 @@ import Command from '#src/Command.js'
 import { Option } from 'commander'
 import { withOutputModes } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
+import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -40,12 +41,15 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
+
     if (options['11ty'] === 'api') {
       this.debug('running eleventy using lib/11ty api')
-      api.serve(options)
+      await api.serve(options)
     } else {
       this.debug('running eleventy using lib/11ty cli')
-      cli.serve(options)
+      await cli.serve(options)
     }
   }
 
