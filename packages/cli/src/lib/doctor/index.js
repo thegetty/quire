@@ -14,6 +14,7 @@ import {
   checkGitAvailable,
   checkPrinceAvailable,
   checkPandocAvailable,
+  checkRuntimeInfo,
 } from './checks/environment/index.js'
 
 import {
@@ -42,6 +43,7 @@ export {
   checkGitAvailable,
   checkPrinceAvailable,
   checkPandocAvailable,
+  checkRuntimeInfo,
   // Project
   checkQuireProject,
   checkDependencies,
@@ -118,6 +120,7 @@ export const checkSections = [
       { id: 'git', name: 'Git', check: checkGitAvailable },
       { id: 'prince', name: 'PrinceXML', check: checkPrinceAvailable, subsection: 'Optional Engines' },
       { id: 'pandoc', name: 'Pandoc', check: checkPandocAvailable, subsection: 'Optional Engines' },
+      { id: 'runtime', name: 'Node.js runtime', check: checkRuntimeInfo },
     ],
   },
   {
@@ -155,6 +158,7 @@ export const checks = [
   { name: 'Git', check: checkGitAvailable },
   { name: 'PrinceXML', check: checkPrinceAvailable },
   { name: 'Pandoc', check: checkPandocAvailable },
+  { name: 'Node.js runtime', check: checkRuntimeInfo },
   { name: 'Quire project', check: checkQuireProject },
   { name: 'Dependencies', check: checkDependencies },
   { name: 'quire-11ty version', check: checkOutdatedQuire11ty },
@@ -247,6 +251,7 @@ export default {
   checkPdfOutput,
   checkPandocAvailable,
   checkPrinceAvailable,
+  checkRuntimeInfo,
   checkQuireProject,
   checkStaleBuild,
   runAllChecks,
