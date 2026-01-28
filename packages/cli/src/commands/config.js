@@ -7,6 +7,7 @@ import {
   getDefault,
   formatSettings,
 } from '#lib/conf/index.js'
+import { suggestSimilar, formatSuggestion } from '#helpers/suggest-similar.js'
 
 /**
  * Valid operations for the settings command
@@ -84,7 +85,12 @@ Examples:
    */
   #logUnknownKey(key) {
     this.logger.error(`Unknown configuration key: ${key}`)
-    this.logger.info(`Valid keys: ${getValidKeys().join(', ')}`)
+    const suggestion = formatSuggestion(suggestSimilar(key, getValidKeys()))
+    if (suggestion) {
+      this.logger.info(`  ${suggestion}`)
+    } else {
+      this.logger.info(`Valid keys: ${getValidKeys().join(', ')}`)
+    }
   }
 
   /**
@@ -230,7 +236,12 @@ Examples:
     // Validate operation if provided
     if (operation && !OPERATIONS.includes(operation)) {
       this.logger.error(`Unknown operation: ${operation}`)
-      this.logger.info(`Valid operations: ${OPERATIONS.join(', ')}`)
+      const suggestion = formatSuggestion(suggestSimilar(operation, [...OPERATIONS]))
+      if (suggestion) {
+        this.logger.info(`  ${suggestion}`)
+      } else {
+        this.logger.info(`Valid operations: ${OPERATIONS.join(', ')}`)
+      }
       return
     }
 
