@@ -40,7 +40,7 @@ quire pdf --lib prince       # Use PrinceXML
 
 ## Configuration
 
-PDF settings in `_quire.yml`:
+PDF settings in `content/_data/config.yaml`:
 
 ```yaml
 pdf:

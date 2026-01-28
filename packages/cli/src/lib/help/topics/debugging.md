@@ -54,8 +54,8 @@ quire clean && quire preview
 ### "Not in a Quire project" Error
 
 Make sure you're in a directory containing:
-- `_quire.yml` configuration file
 - `content/` directory
+- An Eleventy configuration file (`.eleventy.js` or `eleventy.config.js`)
 
 ```bash
 cd your-project-name

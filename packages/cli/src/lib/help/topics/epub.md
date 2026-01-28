@@ -35,7 +35,7 @@ quire epub --lib pandoc      # Use Pandoc
 
 ## Configuration
 
-EPUB settings in `_quire.yml`:
+EPUB settings in `content/_data/config.yaml`:
 
 ```yaml
 epub:
@@ -48,7 +48,7 @@ epub:
 ### EPUB fails validation
 
 Common issues:
-- Missing required metadata in `_quire.yml`
+- Missing required metadata in `content/_data/publication.yaml`
 - Invalid image formats (use JPEG or PNG)
 - Broken internal links
 

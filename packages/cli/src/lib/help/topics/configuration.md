@@ -7,7 +7,7 @@ description: Project and CLI configuration options
 
 ## Project Configuration
 
-The `_quire.yml` file in your project root contains publication settings:
+The `content/_data/publication.yaml` file contains publication settings:
 
 ```yaml
 title: My Publication
