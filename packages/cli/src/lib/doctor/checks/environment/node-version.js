@@ -51,6 +51,7 @@ export function checkNodeVersion() {
     return {
       ok: true,
       message: `v${process.version.slice(1)} (>= ${REQUIRED_NODE_VERSION} required)`,
+      details: process.execPath,
     }
   }
 
