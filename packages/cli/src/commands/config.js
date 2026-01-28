@@ -1,6 +1,12 @@
 import Command from '#src/Command.js'
-import schema from '#lib/conf/schema.js'
-import defaults from '#lib/conf/defaults.js'
+import {
+  isValidKey,
+  getValidKeys,
+  coerceValue,
+  formatValidationError,
+  getDefault,
+  formatSettings,
+} from '#lib/conf/index.js'
 
 /**
  * Valid operations for the settings command
@@ -52,6 +58,8 @@ Examples:
   quire settings delete <key>       Delete (reset to default)
   quire settings reset [key]        Reset all or single key
   quire settings path               Show settings file path
+  quire settings --json             Output raw config JSON
+  quire settings get <key> --json   Output single value as JSON
 `,
     version: '2.0.0',
     args: [
@@ -60,7 +68,8 @@ Examples:
       ['[value]', 'value to set (for set operation)'],
     ],
     options: [
-      ['--debug', 'run command in debug mode'],
+      ['--json', 'output raw JSON'],
+      ['--debug', 'enable debug output for troubleshooting'],
     ],
   }
 
@@ -69,70 +78,39 @@ Examples:
   }
 
   /**
-   * Coerce a string value to the appropriate type based on schema
+   * Log an unknown key error with valid keys hint
    *
-   * @param {string} key - Configuration key
-   * @param {string} value - String value from CLI
-   * @returns {*} Coerced value
+   * @param {string} key - The unknown configuration key
    */
-  #coerceValue(key, value) {
-    const keySchema = schema[key]
-    if (!keySchema) return value
-
-    switch (keySchema.type) {
-      case 'boolean':
-        if (value === 'true' || value === '1') return true
-        if (value === 'false' || value === '0') return false
-        return value
-      case 'number':
-        const num = Number(value)
-        return isNaN(num) ? value : num
-      default:
-        return value
-    }
-  }
-
-  /**
-   * Format a validation error with helpful information
-   *
-   * @param {string} key - Configuration key
-   * @param {*} value - Invalid value
-   * @returns {string} Formatted error message
-   */
-  #formatValidationError(key, value) {
-    const keySchema = schema[key]
-    const lines = [`Invalid value for '${key}': ${JSON.stringify(value)}`]
-
-    if (keySchema) {
-      if (keySchema.enum) {
-        lines.push(`Valid values: ${keySchema.enum.join(', ')}`)
-      }
-      if (keySchema.description) {
-        lines.push(`Description: ${keySchema.description}`)
-      }
-    }
-
-    return lines.join('\n')
+  #logUnknownKey(key) {
+    this.logger.error(`Unknown configuration key: ${key}`)
+    this.logger.info(`Valid keys: ${getValidKeys().join(', ')}`)
   }
 
   /**
    * Get a single configuration value
    *
    * @param {string} key - Configuration key
+   * @param {Object} options - Command options
    */
-  #getValue(key) {
+  #getValue(key, options) {
     if (!key) {
       this.logger.error('Usage: quire conf get <key>')
       return
     }
 
-    if (!Object.hasOwn(schema, key) && !key.startsWith('__internal__')) {
-      this.logger.error(`Unknown configuration key: ${key}`)
-      this.logger.info(`Valid keys: ${Object.keys(schema).join(', ')}`)
+    if (!isValidKey(key) && !key.startsWith('__internal__')) {
+      this.#logUnknownKey(key)
       return
     }
 
     const value = this.config.get(key)
+
+    if (options.json) {
+      console.log(JSON.stringify(value))
+      return
+    }
+
     if (value === undefined) {
       this.logger.info(`${key}: (not set)`)
     } else {
@@ -152,19 +130,18 @@ Examples:
       return
     }
 
-    if (!Object.hasOwn(schema, key)) {
-      this.logger.error(`Unknown configuration key: ${key}`)
-      this.logger.info(`Valid keys: ${Object.keys(schema).join(', ')}`)
+    if (!isValidKey(key)) {
+      this.#logUnknownKey(key)
       return
     }
 
-    const coercedValue = this.#coerceValue(key, value)
+    const coercedValue = coerceValue(key, value)
 
     try {
       this.config.set(key, coercedValue)
       this.logger.info(`${key}: ${JSON.stringify(coercedValue)}`)
     } catch {
-      this.logger.error(this.#formatValidationError(key, coercedValue))
+      this.logger.error(formatValidationError(key, coercedValue))
     }
   }
 
@@ -179,14 +156,13 @@ Examples:
       return
     }
 
-    if (!Object.hasOwn(schema, key)) {
-      this.logger.error(`Unknown configuration key: ${key}`)
-      this.logger.info(`Valid keys: ${Object.keys(schema).join(', ')}`)
+    if (!isValidKey(key)) {
+      this.#logUnknownKey(key)
       return
     }
 
     this.config.delete(key)
-    const defaultValue = defaults[key]
+    const defaultValue = getDefault(key)
     this.logger.info(`${key}: reset to ${JSON.stringify(defaultValue)}`)
   }
 
@@ -197,13 +173,12 @@ Examples:
    */
   #reset(key) {
     if (key) {
-      if (!Object.hasOwn(schema, key)) {
-        this.logger.error(`Unknown configuration key: ${key}`)
-        this.logger.info(`Valid keys: ${Object.keys(schema).join(', ')}`)
+      if (!isValidKey(key)) {
+        this.#logUnknownKey(key)
         return
       }
       this.config.reset(key)
-      const defaultValue = defaults[key]
+      const defaultValue = getDefault(key)
       this.logger.info(`${key}: reset to ${JSON.stringify(defaultValue)}`)
     } else {
       this.config.clear()
@@ -212,17 +187,25 @@ Examples:
   }
 
   /**
-   * Show all configuration values
+   * Show all configuration values with descriptions
    */
   #showAll(options) {
-    const lines = [`quire-cli configuration ${this.config.path}`, '']
-
-    for (const [key, value] of Object.entries(this.config.store)) {
-      if (key.startsWith('__internal__') && !options.debug) continue
-      lines.push(`  ${key}: ${JSON.stringify(value)}`)
+    if (options.json) {
+      const store = options.debug
+        ? this.config.store
+        : Object.fromEntries(
+          Object.entries(this.config.store).filter(([k]) => !k.startsWith('__internal__'))
+        )
+      console.log(JSON.stringify(store, null, 2))
+      return
     }
 
-    this.logger.info(lines.join('\n'))
+    const output = formatSettings(this.config.store, {
+      showInternal: options.debug,
+      configPath: this.config.path,
+      useColor: this.config.get('logUseColor'),
+    })
+    this.logger.info(output)
   }
 
   /**
@@ -252,7 +235,7 @@ Examples:
     // Dispatch to operation handler
     switch (operation) {
       case 'get':
-        return this.#getValue(key)
+        return this.#getValue(key, options)
       case 'set':
         return this.#setValue(key, value)
       case 'delete':

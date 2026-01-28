@@ -6,6 +6,15 @@
  */
 export default {
   /**
+   * Enable debug output by default (DEBUG=quire:* namespace logging).
+   * Can be overridden per-command with --debug or --no-debug.
+   */
+  debug: false,
+  /**
+   * Default EPUB engine for quire epub command.
+   */
+  epubEngine: 'epubjs',
+  /**
    * Logging level for the Quire CLI output.
    */
   logLevel: 'info',
@@ -31,6 +40,15 @@ export default {
    */
   logUseColor: true,
   /**
+   * Whether to color message text by log level (e.g., red for errors).
+   * Requires logUseColor to be enabled.
+   */
+  logColorMessages: true,
+  /**
+   * Default PDF engine for quire pdf command.
+   */
+  pdfEngine: 'pagedjs',
+  /**
    * Project starter template to use when creating new projects.
    */
   projectTemplate: 'https://github.com/thegetty/quire-starter-default',
@@ -51,6 +69,11 @@ export default {
    * and to quire-11ty version for a prject.
    */
   updateInterval: 'DAILY',
+  /**
+   * Enable verbose output by default (detailed progress with paths, timing).
+   * Can be overridden per-command with --verbose or --no-verbose.
+   */
+  verbose: false,
   /**
    * File name for the quire-11ty version file.
    */

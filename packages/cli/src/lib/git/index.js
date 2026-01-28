@@ -29,11 +29,73 @@
  * @module git
  */
 import { execa } from 'execa'
+import fs from 'node:fs'
 import path from 'node:path'
 import which from '#helpers/which.js'
 import createDebug from '#debug'
 
 const debug = createDebug('lib:git')
+
+/**
+ * Check if a source string is a remote URL (vs local path)
+ *
+ * Git supports various remote URL formats:
+ * - https://github.com/user/repo.git
+ * - git@github.com:user/repo.git
+ * - ssh://git@github.com/user/repo.git
+ * - http://github.com/user/repo.git
+ * - git://github.com/user/repo.git
+ *
+ * @param {string} source - Source string to check
+ * @returns {boolean} True if source appears to be a remote URL
+ */
+export function isRemoteUrl(source) {
+  return source.startsWith('https://') ||
+         source.startsWith('git@') ||
+         source.startsWith('ssh://') ||
+         source.startsWith('http://') ||
+         source.startsWith('git://')
+}
+
+/**
+ * Check if a path is a git repository
+ *
+ * A directory is considered a git repository if it contains a .git directory.
+ *
+ * @param {string} dirPath - Path to check
+ * @returns {boolean} True if the path is a git repository
+ */
+export function isGitRepository(dirPath) {
+  const gitDir = path.join(dirPath, '.git')
+  return fs.existsSync(gitDir)
+}
+
+/**
+ * Validate a clone source before attempting to clone
+ *
+ * For remote URLs, validation is skipped (let git clone handle network errors).
+ * For local paths, validates the path exists and is a git repository.
+ *
+ * @param {string} source - Clone source (URL or local path)
+ * @returns {{ valid: boolean, reason?: string }} Validation result
+ */
+export function validateCloneSource(source) {
+  // Remote URLs are assumed valid - let git clone handle errors
+  if (isRemoteUrl(source)) {
+    return { valid: true }
+  }
+
+  // Local path validation
+  if (!fs.existsSync(source)) {
+    return { valid: false, reason: 'path does not exist' }
+  }
+
+  if (!isGitRepository(source)) {
+    return { valid: false, reason: 'not a git repository' }
+  }
+
+  return { valid: true }
+}
 
 /**
  * Git façade class
@@ -74,7 +136,10 @@ class Git {
   async add(files) {
     const fileList = Array.isArray(files) ? files : [files]
     debug('staging files in %s: %s', this.#resolvedCwd(), fileList.join(', '))
-    await execa('git', ['add', ...fileList], this.#getOptions())
+    const { stderr } = await execa('git', ['add', ...fileList], this.#getOptions())
+    if (stderr) {
+      debug('git add stderr: %s', stderr)
+    }
   }
 
   /**
@@ -87,7 +152,10 @@ class Git {
   async clone(url, destination = '.') {
     const resolvedDest = path.resolve(this.#resolvedCwd(), destination)
     debug('cloning %s to %s', url, resolvedDest)
-    await execa('git', ['clone', url, destination], this.#getOptions())
+    const { stderr } = await execa('git', ['clone', url, destination], this.#getOptions())
+    if (stderr) {
+      debug('git clone stderr: %s', stderr)
+    }
   }
 
   /**
@@ -98,7 +166,10 @@ class Git {
    */
   async commit(message) {
     debug('committing in %s: %s...', this.#resolvedCwd(), message.substring(0, 50))
-    await execa('git', ['commit', '-m', message], this.#getOptions())
+    const { stderr } = await execa('git', ['commit', '-m', message], this.#getOptions())
+    if (stderr) {
+      debug('git commit stderr: %s', stderr)
+    }
   }
 
   /**
@@ -108,7 +179,10 @@ class Git {
    */
   async init() {
     debug('initializing repository in %s', this.#resolvedCwd())
-    await execa('git', ['init'], this.#getOptions())
+    const { stderr } = await execa('git', ['init'], this.#getOptions())
+    if (stderr) {
+      debug('git init stderr: %s', stderr)
+    }
   }
 
   /**
@@ -128,7 +202,10 @@ class Git {
   async rm(files) {
     const fileList = Array.isArray(files) ? files : [files]
     debug('removing files in %s: %s', this.#resolvedCwd(), fileList.join(', '))
-    await execa('git', ['rm', ...fileList], this.#getOptions())
+    const { stderr } = await execa('git', ['rm', ...fileList], this.#getOptions())
+    if (stderr) {
+      debug('git rm stderr: %s', stderr)
+    }
   }
 
   /**

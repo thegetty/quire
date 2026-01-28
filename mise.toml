@@ -299,6 +299,6 @@ run = "npm test"
 # ============================================================================
 
 [tools]
-circleci = "latest"
+circleci-cli = "latest"
 node = "22.10.0"  # Match CircleCI exactly
 "npm:npm-check-updates" = "latest"

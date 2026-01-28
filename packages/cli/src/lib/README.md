@@ -5,28 +5,28 @@ This directory contains domain-specific modules that encapsulate the core functi
 ## Architecture Overview
 
 ```
-                                    Commands Layer
-                    ┌─────────────────────────────────────────┐
-                    │  build  preview  new  pdf  epub  info   │
-                    └──────────────────┬──────────────────────┘
-                                       │
-                    ┌──────────────────┴──────────────────────┐
-                    │              lib/ modules               │
-                    └─────────────────────────────────────────┘
+                            Commands Layer
+                ┌─────────────────────────────────────────┐
+                │  build  preview  new  pdf  epub  info   │
+                └──────────────────┬──────────────────────┘
+                                   │
+                ┌──────────────────┴──────────────────────┐
+                │              lib/ modules               │
+                └─────────────────────────────────────────┘
 
      ┌─────────────────────────────────────────────────────────────────┐
      │                        Domain Modules                           │
-     │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
-     │  │ project/ │  │  11ty/   │  │   pdf/   │  │      epub/       │ │
-     │  │          │  │          │  │          │  │                  │ │
-     │  │ - paths  │  │ - api    │  │ - prince │  │ - pandoc         │ │
-     │  │ - config │  │ - cli    │  │ - paged  │  │                  │ │
-     │  │ - detect │  │          │  │          │  │                  │ │
-     │  │ - version│  │          │  │          │  │                  │ │
-     │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────────┬─────────┘ │
-     └───────┼─────────────┼─────────────┼─────────────────┼───────────┘
-             │             │             │                 │
-             │      ┌──────┴─────────────┴─────────────────┘
+     │  ┌────────────┐  ┌──────────┐  ┌────────────┐  ┌─────────────┐  │
+     │  │ project/   │  │  11ty/   │  │   pdf/     │  │   epub/     │  │
+     │  │            │  │          │  │            │  │             │  │
+     │  │ - paths    │  │ - api    │  │ - pagedjs  │  │ - epubjs    │  │
+     │  │ - config   │  │ - cli    │  │ - prince   │  │ - pandoc    │  │
+     │  │ - detect   │  │          │  │            │  │             │  │
+     │  │ - version  │  │          │  │            │  │             │  │
+     │  └────┬───────┘  └────┬─────┘  └────┬───────┘  └──────┬──────┘  │
+     └───────┼───────────────┼─────────────┼─────────────────┼─────────┘
+             │               │             │                 │
+             │      ┌────────┴─────────────┴─────────────────┘
              │      │
      ┌───────┴──────┴──────────────────────────────────────────────────┐
      │                     Installation Module                         │
@@ -37,14 +37,18 @@ This directory contains domain-specific modules that encapsulate the core functi
      │  │  - latest (resolve version from npm)                     │   │
      │  │  - versions (list published versions)                    │   │
      │  └──────────────────────────────────────────────────────────┘   │
-     └─────────────────────────────────────────────────────────────────┘
-                                       │
-     ┌─────────────────────────────────┴───────────────────────────────┐
+     └───────────────────────────────┬─────────────────────────────────┘
+                                     │
+     ┌───────────────────────────────┴─────────────────────────────────┐
      │                    Infrastructure Modules                       │
-     │  ┌────────┐  ┌────────┐  ┌────────┐  ┌──────────┐  ┌─────────┐  │
-     │  │  npm/  │  │  git/  │  │ conf/  │  │  logger  │  │ reporter│  │
-     │  │        │  │        │  │        │  │          │  │         │  │
-     │  └────────┘  └────────┘  └────────┘  └──────────┘  └─────────┘  │
+     │  ┌────────┐  ┌────────┐  ┌────────┐  ┌─────────┐  ┌──────────┐  │
+     │  │  npm/  │  │  git/  │  │ conf/  │  │ error/  │  │ logger/  │  │
+     │  │        │  │        │  │        │  │         │  │          │  │
+     │  └────────┘  └────────┘  └────────┘  └─────────┘  └──────────┘  │
+     │  ┌───────────┐  ┌───────────┐                                   │
+     │  │ reporter/ │  │  ui/      │                                   │
+     │  │           │  │ (prompt)  │                                   │
+     │  └───────────┘  └───────────┘                                   │
      └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -149,14 +153,20 @@ These modules provide cross-cutting concerns and external tool integrations.
 **Dependencies:** `simple-git`
 
 #### `conf/`
-**Purpose:** CLI configuration persistence.
+**Purpose:** CLI configuration persistence and schema-aware helpers.
 
-| Files | Description |
-|-------|-------------|
-| `config.js` | Configuration store (Conf) |
-| `defaults.js` | Default configuration values |
-| `migrations.js` | Version migrations |
-| `schema.js` | Configuration schema |
+| Export | Source | Description |
+|--------|--------|-------------|
+| `default` | `config.js` | `Conf` singleton instance |
+| `isValidKey(key)` | `helpers.js` | Check if key exists in schema |
+| `getValidKeys()` | `helpers.js` | Sorted array of all schema keys |
+| `coerceValue(key, value)` | `helpers.js` | Coerce CLI string to schema type |
+| `formatValidationError(key, value)` | `helpers.js` | Format error with enum/description hints |
+| `getDefault(key)` | `helpers.js` | Get default value for a key |
+| `getKeyDescription(key)` | `helpers.js` | Get schema description for a key |
+| `formatSettings(store, options)` | `helpers.js` | Format all settings for display |
+
+Uses a barrel export (`index.js`) rather than a wrapper class to keep pure helper functions separate from the stateful `Conf` singleton. This avoids circular dependencies with the logger module and keeps helpers directly testable without mocking.
 
 **Dependencies:** `conf`
 
@@ -176,13 +186,27 @@ These modules provide cross-cutting concerns and external tool integrations.
 |--------|-------------|
 | `default` | Reporter façade |
 
-#### `i18n/`
-**Purpose:** Internationalization support.
+#### `error/`
+**Purpose:** Centralized error handling and formatting.
 
-| Files | Description |
-|-------|-------------|
-| `config.js` | i18n configuration |
-| `localeService.js` | Locale resolution |
+| Export | Description |
+|--------|-------------|
+| `formatError(error, options)` | Format error for display |
+| `handleError(error, options)` | Handle single error (format, log, exit) |
+| `handleErrors(errors, options)` | Handle multiple errors (batch validation) |
+
+**Features:**
+- Consistent error formatting with suggestion, docs URL, file path
+- Debug mode shows error codes and stack traces
+- Conditional `--debug` hint (controlled by `showDebugHint` property)
+- Exit code management per error category
+
+**Dependencies:** `logger/`
+
+#### `ui/`
+**Purpose:** Display and interactive prompt
+
+_Future feature: Not yet impemented._
 
 ## Design Patterns
 

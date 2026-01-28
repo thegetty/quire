@@ -8,10 +8,9 @@
  * @property {string} suggestion - Actionable fix for the user
  * @property {string} docsUrl - Link to relevant documentation
  * @property {string} filePath - Source file that caused the error (optional)
+ * @property {boolean} showDebugHint - Whether to show --debug hint (default: true)
  */
 export default class QuireError extends Error {
-  static DOCS_BASE = 'https://quire.getty.edu/docs-v1'
-
   constructor(message, options = {}) {
     super(message)
     this.name = this.constructor.name
@@ -20,6 +19,7 @@ export default class QuireError extends Error {
     this.suggestion = options.suggestion
     this.docsUrl = options.docsUrl
     this.filePath = options.filePath
+    this.showDebugHint = options.showDebugHint ?? true
     if ('captureStackTrace' in Error) {
       Error.captureStackTrace(this, this.constructor)
     }

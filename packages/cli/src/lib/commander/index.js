@@ -2,11 +2,21 @@
  * Commander.js utilities
  *
  * Provides helper functions for converting array-based definitions
- * to Commander.js Argument and Option objects.
+ * to Commander.js Argument and Option objects, plus shared option definitions.
  *
  * @module lib/commander
  */
 import { Argument, Option } from 'commander'
+
+// Re-export shared option definitions
+export {
+  quietOption,
+  verboseOption,
+  debugOption,
+  outputModeOptions,
+  outputModeHelpText,
+  withOutputModes,
+} from './options.js'
 
 /**
  * Convert array argument definition to Argument object

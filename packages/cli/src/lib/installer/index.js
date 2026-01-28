@@ -10,7 +10,7 @@ import { execa } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import fs from 'fs-extra'
-import { Git } from '#lib/git/index.js'
+import { Git, validateCloneSource } from '#lib/git/index.js'
 import npm from '#lib/npm/index.js'
 import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
@@ -19,8 +19,9 @@ import {
   setVersion,
   writeVersionFile,
 } from '#lib/project/index.js'
-import { DirectoryNotEmptyError, VersionNotFoundError } from '#src/errors/index.js'
+import { DirectoryNotEmptyError, InvalidPathError, InvalidStarterError, VersionNotFoundError } from '#src/errors/index.js'
 import { logger } from '#lib/logger/index.js'
+import reporter from '#lib/reporter/index.js'
 import createDebug from '#debug'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -29,6 +30,44 @@ const __dirname = path.dirname(__filename)
 const debug = createDebug('lib:installer')
 
 const PACKAGE_NAME = '@thegetty/quire-11ty'
+
+/**
+ * Read the version from a local quire-11ty package
+ *
+ * @param {string} quirePath - Path to local quire-11ty package (will be resolved)
+ * @returns {{ version: string, resolvedPath: string }} Version and resolved path
+ * @throws {InvalidPathError} When the path does not exist
+ * @throws {VersionNotFoundError} When the package.json is missing or has no version
+ */
+export function getVersionFromPath(quirePath) {
+  const resolvedPath = path.resolve(quirePath)
+  debug('reading version from local path: %s (resolved: %s)', quirePath, resolvedPath)
+
+  if (!fs.existsSync(resolvedPath)) {
+    throw new InvalidPathError(quirePath, resolvedPath)
+  }
+
+  const localPackageJsonPath = path.join(resolvedPath, 'package.json')
+  if (!fs.existsSync(localPackageJsonPath)) {
+    throw new VersionNotFoundError(resolvedPath, 'package.json not found')
+  }
+
+  try {
+    const localPackage = fs.readJsonSync(localPackageJsonPath)
+    if (!localPackage.version) {
+      throw new VersionNotFoundError(resolvedPath, 'package.json has no version field')
+    }
+    return { version: localPackage.version, resolvedPath }
+  } catch (error) {
+    if (error.code === 'VERSION_NOT_FOUND') {
+      throw error
+    }
+    throw new VersionNotFoundError(
+      resolvedPath,
+      `Failed to read package.json: ${error.message}`
+    )
+  }
+}
 
 /**
  * Retrieve latest published version of the quire-11ty package
@@ -70,6 +109,22 @@ export async function versions() {
 export async function initStarter(starter, projectPath, options = {}) {
   projectPath = projectPath || process.cwd()
 
+  /**
+   * Validate arguments before any side effects (directory creation, cloning)
+   */
+
+  // Validate starter is a valid clone source (URL or local git repo)
+  const starterValidation = validateCloneSource(starter)
+  if (!starterValidation.valid) {
+    throw new InvalidStarterError(starter, starterValidation.reason)
+  }
+
+  // Validate --quire-path points to a valid local quire-11ty package
+  let localQuire11tyInfo
+  if (options.quirePath) {
+    localQuire11tyInfo = getVersionFromPath(options.quirePath)
+  }
+
   // Ensure that the target path exists
   fs.ensureDirSync(projectPath)
 
@@ -84,17 +139,30 @@ export async function initStarter(starter, projectPath, options = {}) {
   /**
    * Clone starter project repository
    */
-  const repo = new Git(projectPath)
-  await repo.clone(starter, '.')
+  reporter.start('Cloning starter project...')
+  const repository = new Git(projectPath)
+  await repository.clone(starter, '.')
 
   /**
-   * Determine the quire-11ty version to use in the new project,
-   * from the quireVersion option or as required by the starter project.
+   * Determine the quire-11ty version to use in the new project:
+   * 1. If --quire-path is provided, use the version from the local package (already validated)
+   * 2. Otherwise, use --quire-version option or the version required by the starter
    *
    * Uses 'latest' to get the latest semantic version compatible with version ranges
    */
+  reporter.update('Resolving quire-11ty version...')
   const { quire11tyVersion, starterVersion } = await getVersionsFromStarter(projectPath)
-  const quireVersion = await latest(options.quireVersion || quire11tyVersion)
+
+  let quireVersion
+  if (localQuire11tyInfo) {
+    // Use the pre-validated local quire-11ty package
+    const { version, resolvedPath } = localQuire11tyInfo
+    quireVersion = version
+    logger.info(`Using local quire-11ty: ${version} from ${resolvedPath}`)
+  } else {
+    quireVersion = await latest(options.quireVersion || quire11tyVersion)
+  }
+
   setVersion(quireVersion, projectPath)
 
   /**
@@ -107,6 +175,7 @@ export async function initStarter(starter, projectPath, options = {}) {
   writeVersionFile(projectPath, versionInfo)
 
   // Re-initialize project directory as a new git repository
+  reporter.update('Initializing git repository...')
   await fs.remove(path.join(projectPath, '.git'))
 
   /**
@@ -121,9 +190,9 @@ export async function initStarter(starter, projectPath, options = {}) {
    * Create an initial commit of files in new repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
-  await repo.init()
-  await repo.add('.')
-  await repo.commit('Initial Commit')
+  await repository.init()
+  await repository.add('.')
+  await repository.commit('Initial Commit')
   return quireVersion
 }
 
@@ -148,9 +217,9 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Delete the starter project package configuration so that it can be replaced
    * with the @thegetty/quire-11ty configuration
    */
-  const repo = new Git(projectPath)
+  const repository = new Git(projectPath)
   try {
-    await repo.rm(['package.json'])
+    await repository.rm(['package.json'])
   } catch (error) {
     debug('error removing package.json: %O', error)
   }
@@ -159,14 +228,27 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
   const tempDir = path.join(projectPath, temp11tyDirectory)
   fs.mkdirSync(tempDir)
 
-  // Copy if passed a path and it exists, otherwise attempt to download the tarball
-  if (fs.existsSync(quirePath)) {
-    fs.cpSync(quirePath, tempDir, { recursive: true })
+  // Copy if passed a path, otherwise attempt to download the tarball
+  if (quirePath) {
+    // Normalize the path to handle relative paths and `..` segments
+    // Nota bene: Path validation is done in initStarter via getVersionFromPath,
+    // but we validate again here to support direct calls to installInProject
+    const resolvedPath = path.resolve(quirePath)
+    debug('using local quire-11ty path: %s (resolved: %s)', quirePath, resolvedPath)
+
+    if (!fs.existsSync(resolvedPath)) {
+      throw new InvalidPathError(quirePath, resolvedPath)
+    }
+
+    reporter.update('Copying local quire-11ty package...')
+    fs.cpSync(resolvedPath, tempDir, { recursive: true })
   } else {
+    reporter.update(`Downloading quire-11ty ${quireVersion}...`)
     await npm.pack(quire11tyPackage, tempDir, { debug: options.debug, quiet: !options.debug })
 
     // Extract only the package dir from the archive and strip it from the extracted path
     // Nota bene: Use array-based execa() to prevent command injection via path variables
+    reporter.update('Extracting package...')
     const tarballPath = path.join(tempDir, `thegetty-quire-11ty-${quireVersion}.tgz`)
     await execa('tar', ['-xzf', tarballPath, '-C', tempDir, '--strip-components=1', 'package/'])
 
@@ -186,6 +268,7 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Installing with --prefer-offline prioritizes local cache,
    * falling back to network only when necessary.
    */
+  reporter.update('Installing dependencies (this may take a few minutes)...')
   try {
     if (options.cleanCache) {
       // Nota bene: cache is self-healing, this should not be necessary.
@@ -209,14 +292,16 @@ export async function installInProject(projectPath, quireVersion, options = {}) 
    * Create an additional commit of new @thegetty/quire-11ty files in repository
    * Using '.' respects .gitignore and avoids attempting to add ignored directories
    */
-  await repo.add('.')
-  await repo.commit('Adds `@thegetty/quire-11ty` files')
+  reporter.update('Finalizing project...')
+  await repository.add('.')
+  await repository.commit('Adds `@thegetty/quire-11ty` files')
 }
 
 /**
  * Export installer functions
  */
 export const installer = {
+  getVersionFromPath,
   initStarter,
   installInProject,
   latest,

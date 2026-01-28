@@ -43,14 +43,24 @@ export const LOG_LEVELS = {
 }
 
 /**
- * Chalk styles for each log level
+ * Chalk style functions for prefix and level label
  */
-const styles = {
+const lableStyleFns = {
   trace: chalk.gray,
   debug: chalk.yellow,
   info: chalk.magenta,
   warn: chalk.yellow.inverse,
   error: chalk.redBright.inverse
+}
+
+/**
+ * Chalk style functions for message text
+ *
+ * Only levels that need distinct message styling are listed.
+ * Unlisted levels render message text without styling.
+ */
+const messageStyleFns = {
+  error: chalk.red,
 }
 
 /**
@@ -144,7 +154,8 @@ export default function createLogger(name = 'quire', level) {
    */
   const createLogFn = (type) => {
     const logMethod = loggerInstance[type]
-    const style = styles[type]
+    const styleLabel = lableStyleFns[type]
+    const styleMessage = messageStyleFns[type]
 
     return (...args) => {
       // Read config each time to support runtime changes
@@ -152,6 +163,7 @@ export default function createLogger(name = 'quire', level) {
       const prefixStyle = config.get('logPrefixStyle')
       const showLevel = config.get('logShowLevel')
       const useColor = config.get('logUseColor')
+      const colorMessages = config.get('logColorMessages')
 
       const parts = []
 
@@ -159,7 +171,7 @@ export default function createLogger(name = 'quire', level) {
       const formattedPrefix = formatPrefix(prefixStyle, prefix)
       if (formattedPrefix) {
         if (useColor) {
-          parts.push(style(chalk.bold(formattedPrefix)))
+          parts.push(styleLabel(chalk.bold(formattedPrefix)))
         } else {
           parts.push(formattedPrefix)
         }
@@ -169,7 +181,7 @@ export default function createLogger(name = 'quire', level) {
       if (showLevel) {
         const levelLabel = type.toUpperCase().padEnd(5, ' ')
         if (useColor) {
-          parts.push(style(levelLabel))
+          parts.push(styleLabel(levelLabel))
         } else {
           parts.push(levelLabel)
         }
@@ -178,7 +190,7 @@ export default function createLogger(name = 'quire', level) {
       // Format message with printf-style substitution (%s, %d, %i, %o, %O, %j)
       const message = format(...args)
 
-      logMethod(...parts, message)
+      logMethod(...parts, useColor && colorMessages && styleMessage ? styleMessage(message) : message)
     }
   }
 

@@ -1,27 +1,22 @@
 import { Command, Argument, Option } from 'commander'
-import { arrayToArgument, arrayToOption } from '#lib/commander/index.js'
+import {
+  arrayToArgument,
+  arrayToOption,
+  quietOption,
+  verboseOption,
+  debugOption
+} from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
+import { docsUrl, DOCS_BASE } from '#helpers/docs-url.js'
 import packageConfig from '#src/packageConfig.js'
 import { enableDebug } from '#lib/logger/debug.js'
 
 const { version } = packageConfig
 
-/**
- * Base URL for documentation links appended to command help text
- */
-const DOCS_BASE_URL = 'https://quire.getty.edu/docs-v1/'
-
-/**
- * Join base URL with path, handling trailing/leading slashes correctly
- * @param {string} path - Path to append to base URL
- * @returns {string} Full URL
- */
-const docsUrl = (path) => new URL(path, DOCS_BASE_URL).href
-
 const mainHelpText = `
-Docs: ${DOCS_BASE_URL}
+Docs: ${DOCS_BASE}
 
 Common Workflows:
   New project     quire new my-book && cd my-book && quire preview
@@ -30,6 +25,13 @@ Common Workflows:
   Generate EPUB   quire epub --build
 
   Run 'quire help workflows' for detailed workflow documentation.
+
+Output Modes:
+  -q, --quiet      Suppress progress output (for CI/scripts)
+  -v, --verbose    Show detailed progress (paths, timing, steps)
+  --debug          Enable debug output for developers/troubleshooting
+
+  Set defaults: quire settings set verbose true
 
 Paging:
   --no-pager             Disable paging for long output
@@ -45,14 +47,15 @@ Environment Variables:
 
 Examples:
   $ quire build                  Build the publication
-  $ quire build --verbose        Build with debug output
+  $ quire build --verbose        Build with detailed progress
+  $ quire build --debug          Build with debug output
   $ DEBUG=quire:* quire pdf      Generate PDF with debug output
 `
 
 /**
  * Quire CLI implements the command pattern.
  *
- * The `main` module acts as the _receiver_, parsing input from the client,
+ * The \`main\` module acts as the _receiver_, parsing input from the client,
  * calling the appropriate command module(s), managing messages between modules,
  * and sending formatted messages to the client for display.
  */
@@ -61,8 +64,10 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(version, '-v, --version', 'output quire version number')
-  .option('--verbose', 'enable verbose output for debugging')
+  .version(version, '-V, --version', 'output quire version number')
+  .addOption(arrayToOption(quietOption))
+  .addOption(arrayToOption(verboseOption))
+  .addOption(arrayToOption(debugOption))
   .option('--no-pager', 'disable paging for long output')
   .addHelpText('after', mainHelpText)
   .configureHelp({
@@ -77,11 +82,21 @@ program
 
 /**
  * Handle global options before any command runs
+ *
+ * Output mode semantics:
+ * - --quiet: Suppress progress spinners (for CI/scripts)
+ * - --verbose: Show detailed progress (paths, timing, steps)
+ * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
+ *
+ * These global options are passed through to commands via opts()
+ * and should be merged with command-level options.
  */
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts()
 
-  if (opts.verbose) {
+  // --debug or config.debug enables the quire:* DEBUG namespace for internal logging
+  // CLI flag takes precedence, then config setting
+  if (opts.debug ?? config.get('debug')) {
     enableDebug('quire:*')
   }
 
@@ -152,7 +167,8 @@ commands.forEach((command) => {
       try {
         await command.postAction.call(command, thisCommand, actionCommand)
       } catch (error) {
-        handleError(error)
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
@@ -166,7 +182,8 @@ commands.forEach((command) => {
       try {
         await command.preAction.call(command, thisCommand, actionCommand)
       } catch (error) {
-        handleError(error)
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
@@ -180,7 +197,8 @@ commands.forEach((command) => {
       try {
         await command.preSubcommand.call(command, thisCommand, theSubcommand)
       } catch (error) {
-        handleError(error)
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
@@ -191,7 +209,8 @@ commands.forEach((command) => {
     try {
       await action.apply(command, args)
     } catch (error) {
-      handleError(error)
+      const { debug } = program.opts()
+      handleError(error, { debug })
     }
   })
 
