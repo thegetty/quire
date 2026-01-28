@@ -172,13 +172,13 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    logger.info('Building site...')
-
     configureEleventyEnv({ mode: 'production', debug: options.debug })
 
     const eleventy = await createEleventyInstance(options)
 
     eleventy.setDryRun(options.dryRun)
+
+    logger.info('Building site...')
 
     await eleventy.write()
   }
@@ -196,8 +196,6 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    logger.info('Starting development server...')
-
     configureEleventyEnv({ mode: 'development', debug: options.debug })
 
     const eleventy =
@@ -208,6 +206,8 @@ class Quire11ty {
 
     // Initialize Eleventy before serving (required for eleventyServe)
     await eleventy.init()
+
+    logger.info('Starting development server...')
 
     await eleventy.serve(options.port)
   }
