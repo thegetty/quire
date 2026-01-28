@@ -4,6 +4,7 @@ import { withOutputModes } from '#lib/commander/index.js'
 import { api, cli } from '#lib/11ty/index.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
+import { recordStatus } from '#lib/conf/build-status.js'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -49,12 +50,18 @@ Note: Run before "quire pdf" or "quire epub" commands.
     // Configure reporter for this command
     reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
-    if (options['11ty'] === 'api') {
-      this.debug('running eleventy using lib/11ty api')
-      await api.build(options)
-    } else {
-      this.debug('running eleventy using lib/11ty cli')
-      await cli.build(options)
+    try {
+      if (options['11ty'] === 'api') {
+        this.debug('running eleventy using lib/11ty api')
+        await api.build(options)
+      } else {
+        this.debug('running eleventy using lib/11ty cli')
+        await cli.build(options)
+      }
+      recordStatus(paths.getProjectRoot(), 'build', 'ok')
+    } catch (error) {
+      recordStatus(paths.getProjectRoot(), 'build', 'failed')
+      throw error
     }
   }
 

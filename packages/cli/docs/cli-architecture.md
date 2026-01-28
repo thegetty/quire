@@ -52,7 +52,7 @@ See [Commander.js: Other option types](https://github.com/tj/commander.js#other-
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                         Command Layer                           │
-│   create │ build │ preview │ pdf │ epub │ clean │ info │ ...    │
+│  create │ build │ preview │ pdf │ epub │ clean │ doctor │ ...   │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
@@ -78,6 +78,7 @@ See [Commander.js: Other option types](https://github.com/tj/commander.js#other-
 | `pdf` | `pdf.js` | Generate PDF from built publication |
 | `epub` | `epub.js` | Generate EPUB from built publication |
 | `clean` | `clean.js` | Remove build outputs |
+| `doctor` | `doctor.js` | Diagnose environment and project health |
 | `conf` | `conf.js` | Manage CLI configuration |
 | `info` | `info.js` | Display version information |
 | `validate` | `validate.js` | Validate YAML configuration files |
@@ -90,7 +91,7 @@ See [Commander.js: Other option types](https://github.com/tj/commander.js#other-
 | Module | Purpose | Pattern |
 |--------|---------|---------|
 | `lib/11ty` | Eleventy API and CLI integration | Façade |
-| `lib/conf` | CLI-level configuration management | Singleton |
+| `lib/conf` | CLI-level configuration and per-project data persistence | Singleton |
 | `lib/installer` | Project creation and quire-11ty installation | Exported functions |
 | `lib/project` | Project paths, detection, config, versions | Class + singleton |
 
@@ -114,6 +115,99 @@ See [Commander.js: Other option types](https://github.com/tj/commander.js#other-
 |--------|---------|
 | `lib/logger` | Logging façade with loglevel + chalk (log levels, colors, prefixes) |
 | `lib/i18n` | Internationalization (in development) |
+
+## Per-Project Data Persistence
+
+The CLI persists per-project data in the **global** CLI configuration file rather than within individual project directories. This avoids polluting project repositories with CLI state and ensures data survives `quire clean` operations.
+
+### What is persisted
+
+Currently, only **build status** is persisted: the outcome (`ok` or `failed`) and timestamp of the last `build`, `pdf`, and `epub` command run for each project. This allows `quire doctor` to distinguish between "command never ran" (show N/A) and "command ran and failed" (show error) when no output files exist on disk.
+
+### Storage location
+
+Data is stored in the global CLI config file managed by the [conf](https://github.com/sindresorhus/conf) package:
+
+| Platform | Path |
+|----------|------|
+| macOS | `~/Library/Preferences/@thegetty/quire-cli/config.json` |
+| Linux | `~/.config/@thegetty/quire-cli/config.json` |
+| Windows | `%APPDATA%/@thegetty/quire-cli/config.json` |
+
+### Schema
+
+Projects are stored under the `projects` key, keyed by a SHA-256 hash (first 12 hex characters) of the project's absolute path. The hash avoids dot-notation traversal issues in the conf library's key resolution.
+
+```json
+{
+  "projects": {
+    "a1b2c3d4e5f6": {
+      "projectPath": "/Users/example/my-publication",
+      "buildStatus": {
+        "build": { "status": "ok", "timestamp": 1706400000000 },
+        "pdf":   { "status": "failed", "timestamp": 1706400060000 },
+        "epub":  { "status": "ok", "timestamp": 1706400120000 }
+      }
+    }
+  }
+}
+```
+
+The `projectPath` field stores the original path for reverse lookup and debugging. The schema is defined in `lib/conf/schema.js` and validated by the conf library on every write.
+
+### Data flow
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                      Commands (write)                                │
+│                                                                      │
+│   build.js ─┐                                                        │
+│   pdf.js   ─┼── recordStatus(projectPath, command, 'ok'|'failed')    │
+│   epub.js  ─┘                                                        │
+│                         │                                            │
+│                         ▼                                            │
+│              lib/conf/build-status.js                                │
+│                projectKey() ← SHA-256 hash                           │
+│                         │                                            │
+│                         ▼                                            │
+│              lib/conf/config.js (global config singleton)            │
+│                         │                                            │
+│                         ▼                                            │
+│              ~/.config/.../config.json                               │
+│                                                                      │
+│                         ▲                                            │
+│                         │                                            │
+│              lib/conf/build-status.js                                │
+│             getStatus() / clearStatus()                              │
+│                         │                                            │
+│                         ▼                                            │
+│  Doctor checks (read)                Clean/Doctor (clear)            │
+│    stale-build.js ─┐                   clean --status ─┐             │
+│    pdf-output.js  ─┼──> getStatus()    doctor --reset ─┼──> clearStatus()
+│    epub-output.js ─┘                                   ┘             │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### API
+
+The `lib/conf/build-status` module exports:
+
+| Function | Purpose |
+|----------|---------|
+| `recordStatus(projectPath, command, status)` | Record `'ok'` or `'failed'` for a tracked command |
+| `getStatus(projectPath, command)` | Retrieve `{ status, timestamp }` or `undefined` |
+| `clearStatus(projectPath)` | Delete all build status for a project |
+| `projectKey(projectPath)` | Derive the hashed config key for a project path |
+| `TRACKED_COMMANDS` | Frozen array: `['build', 'pdf', 'epub']` |
+
+### Clearing stored status
+
+| Method | Effect |
+|--------|--------|
+| `quire clean --status` | Clear build status for the current project |
+| `quire doctor --reset` | Clear build status and exit without running checks |
+
+Neither `quire clean` (without `--status`) nor deleting output files clears the stored status. This is intentional: if a build failed, that information remains useful even after cleaning up.
 
 ## Helpers
 
@@ -171,14 +265,14 @@ graph TB
         direction LR
         C1[create<br/>build<br/>preview]
         C2[pdf<br/>epub<br/>clean]
-        C3[info<br/>validate<br/>version]
+        C3[doctor<br/>info<br/>validate<br/>version]
     end
 
     subgraph Libraries["Libraries"]
         direction LR
         L1[installer<br/>project<br/>11ty]
         L2[pdf<br/>epub<br/>conf]
-        L3[npm<br/>git<br/>logger]
+        L3[doctor<br/>npm<br/>git<br/>logger]
     end
 
     subgraph Helpers["Helpers"]
@@ -286,6 +380,7 @@ sequenceDiagram
     participant 11ty as lib/11ty
     participant Paths as project/paths
     participant Eleventy as Eleventy
+    participant Status as build-status
 
     User->>CLI: quire build [options]
 
@@ -315,8 +410,15 @@ sequenceDiagram
         Eleventy-->>11ty: complete
     end
 
-    11ty-->>CLI: complete
-    CLI-->>User: Build complete
+    alt success
+        11ty-->>CLI: complete
+        CLI->>Status: recordStatus(projectRoot, 'build', 'ok')
+        CLI-->>User: Build complete
+    else failure
+        11ty-->>CLI: error
+        CLI->>Status: recordStatus(projectRoot, 'build', 'failed')
+        CLI-->>User: Build failed
+    end
 ```
 
 ### PDF Generation Flow (`quire pdf`)
@@ -330,6 +432,7 @@ sequenceDiagram
     participant Config as project/config
     participant Backend as paged.js/prince.js
     participant Split as split.js
+    participant Status as build-status
 
     User->>CLI: quire pdf [options]
 
@@ -354,9 +457,57 @@ sequenceDiagram
         Split-->>Backend: individual PDFs
     end
 
-    Backend-->>PDF: complete
-    PDF-->>CLI: complete
-    CLI-->>User: PDF generated
+    alt success
+        Backend-->>PDF: complete
+        PDF-->>CLI: complete
+        CLI->>Status: recordStatus(projectRoot, 'pdf', 'ok')
+        CLI-->>User: PDF generated
+    else failure
+        Backend-->>PDF: error
+        PDF-->>CLI: error
+        CLI->>Status: recordStatus(projectRoot, 'pdf', 'failed')
+        CLI-->>User: PDF generation failed
+    end
+```
+
+### EPUB Generation Flow (`quire epub`)
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant CLI as EpubCommand
+    participant EPUB as lib/epub
+    participant Paths as project/paths
+    participant Backend as epubjs/pandoc
+    participant Status as build-status
+
+    User->>CLI: quire epub [options]
+
+    CLI->>EPUB: generateEpub(options)
+
+    EPUB->>EPUB: resolveLibrary(options.lib)
+    EPUB->>Paths: getProjectRoot()
+
+    EPUB->>EPUB: check epub source exists
+    EPUB->>EPUB: getOutputPath()
+
+    EPUB->>Backend: dynamicImport(backend)
+    EPUB->>Backend: generate(input, output, options)
+
+    Backend->>Backend: assemble EPUB contents
+    Backend->>Backend: generate .epub file
+
+    alt success
+        Backend-->>EPUB: complete
+        EPUB-->>CLI: complete
+        CLI->>Status: recordStatus(projectRoot, 'epub', 'ok')
+        CLI-->>User: EPUB generated
+    else failure
+        Backend-->>EPUB: error
+        EPUB-->>CLI: error
+        CLI->>Status: recordStatus(projectRoot, 'epub', 'failed')
+        CLI-->>User: EPUB generation failed
+    end
 ```
 
 ### Validation Flow (`quire validate`)
@@ -414,11 +565,12 @@ sequenceDiagram
 | Module | Dependencies |
 |--------|--------------|
 | `create` | installer, logger, fs-extra |
-| `build` | 11ty, helpers/clean, helpers/test-cwd |
+| `build` | 11ty, conf/build-status, helpers/clean, helpers/test-cwd |
 | `preview` | 11ty, helpers/test-cwd |
-| `pdf` | lib/pdf, helpers/test-cwd |
-| `epub` | lib/epub, helpers/test-cwd |
-| `clean` | helpers/clean, helpers/test-cwd, project |
+| `pdf` | lib/pdf, conf/build-status, helpers/test-cwd |
+| `epub` | lib/epub, conf/build-status, helpers/test-cwd |
+| `clean` | conf/build-status, helpers/clean, helpers/test-cwd, project |
+| `doctor` | conf/build-status, lib/doctor |
 | `info` | npm, project, helpers/test-cwd |
 | `validate` | project, helpers/test-cwd, validators |
 | `version` | installer, project, helpers/test-cwd |

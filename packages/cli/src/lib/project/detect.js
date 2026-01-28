@@ -7,7 +7,21 @@
  */
 import fs from 'node:fs'
 
-const QUIRE_DOT_FILES = Object.freeze([
+/**
+ * Files that indicate a Quire project directory.
+ *
+ * These marker files are created by `quire new` or exist in Quire project templates.
+ * The presence of any one of these files indicates the directory is a Quire project root.
+ *
+ * @constant {ReadonlyArray<string>}
+ *
+ * @example
+ * // Check if a file is a project marker
+ * if (PROJECT_MARKERS.includes(filename)) {
+ *   console.log('This is a Quire project root')
+ * }
+ */
+export const PROJECT_MARKERS = Object.freeze([
   '.eleventy.js',
   '.quire',
   '.quire-11ty',
@@ -29,5 +43,5 @@ const QUIRE_DOT_FILES = Object.freeze([
  */
 export default function (dirpath) {
   return fs.readdirSync(dirpath)
-    .find((entry) => QUIRE_DOT_FILES.includes(entry))
+    .find((entry) => PROJECT_MARKERS.includes(entry))
 }

@@ -39,26 +39,10 @@ test('registered command has no arguments', (t) => {
 test('registered command has correct options', (t) => {
   const { command } = t.context
 
-  // Get all options
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
-  // Verify all options exist
   t.truthy(debugOption, '--debug option should exist')
-
-  // Verify they are Option instances
   t.true(debugOption instanceof Option, '--debug should be Option instance')
-
-  // Verify option properties
-  t.is(debugOption.long, '--debug')
   t.truthy(debugOption.description)
   t.false(debugOption.required, '--debug should not require a value')
-})
-
-test('command options are accessible via public API', (t) => {
-  const { command } = t.context
-
-  // Test that options can be accessed the way Commander.js does
-  const optionNames = command.options.map((opt) => opt.long)
-
-  t.true(optionNames.includes('--debug'))
 })
