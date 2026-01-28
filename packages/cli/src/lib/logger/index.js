@@ -162,7 +162,7 @@ export default function createLogger(name = 'quire', level) {
       const prefix = config.get('logPrefix')
       const prefixStyle = config.get('logPrefixStyle')
       const showLevel = config.get('logShowLevel')
-      const useColor = config.get('logUseColor')
+      const useColor = config.get('logUseColor') && !process.env.NO_COLOR
       const colorMessages = config.get('logColorMessages')
 
       const parts = []
