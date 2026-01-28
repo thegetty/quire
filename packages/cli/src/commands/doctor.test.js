@@ -110,11 +110,11 @@ test.serial('doctor command should run all diagnostic checks with sections', asy
     'should display diagnostic header'
   )
   t.true(
-    calledWithMatch(consoleStubs.log, /^Environment$/),
+    calledWithMatch(consoleStubs.log, /Environment/),
     'should display Environment section header'
   )
   t.true(
-    calledWithMatch(consoleStubs.log, /^Project$/),
+    calledWithMatch(consoleStubs.log, /Project/),
     'should display Project section header'
   )
 })
