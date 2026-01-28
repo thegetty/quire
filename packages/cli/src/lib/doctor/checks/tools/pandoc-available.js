@@ -4,7 +4,7 @@
  * Checks if Pandoc is installed and available in PATH.
  * Pandoc is an optional EPUB engine - only required when using --engine pandoc.
  *
- * @module lib/doctor/checks/environment/pandoc-available
+ * @module lib/doctor/checks/tools/pandoc-available
  */
 import which from 'which'
 import createDebug from '#debug'

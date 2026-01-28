@@ -4,7 +4,7 @@
  * Checks if PrinceXML is installed and available in PATH.
  * PrinceXML is an optional PDF engine - only required when using --engine prince.
  *
- * @module lib/doctor/checks/environment/prince-available
+ * @module lib/doctor/checks/tools/prince-available
  */
 import which from 'which'
 import createDebug from '#debug'
