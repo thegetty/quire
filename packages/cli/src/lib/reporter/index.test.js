@@ -591,3 +591,272 @@ test('multi-phase workflow with different outcomes', (t) => {
 
   t.pass()
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Reduced motion tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('reduced motion: start() does not create ora spinner', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.start('Building...')
+
+    t.false(mockOra.called, 'ora should not be called in reduced motion mode')
+    t.true(consoleLog.calledOnce, 'console.log should be called once')
+    t.true(consoleLog.firstCall.args[0].includes('Building...'),
+      'output should include the text')
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: update() prints new line instead of overwriting', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.start('Step 1...')
+    rep.update('Step 2...')
+
+    t.is(consoleLog.callCount, 2, 'should print two separate lines')
+    t.true(consoleLog.firstCall.args[0].includes('Step 1...'))
+    t.true(consoleLog.secondCall.args[0].includes('Step 2...'))
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: succeed() prints static success line', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.start('Building...')
+    rep.succeed('Build complete')
+
+    t.is(consoleLog.callCount, 2)
+    // Second call is succeed
+    t.true(consoleLog.secondCall.args[0].includes('✔'))
+    t.true(consoleLog.secondCall.args[0].includes('Build complete'))
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: fail() prints static failure line', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.start('Generating PDF...')
+    rep.fail('PDF generation failed')
+
+    t.is(consoleLog.callCount, 2)
+    t.true(consoleLog.secondCall.args[0].includes('✖'))
+    t.true(consoleLog.secondCall.args[0].includes('PDF generation failed'))
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: warn() prints static warning line', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.start('Checking...')
+    rep.warn('Dependencies outdated')
+
+    t.is(consoleLog.callCount, 2)
+    t.true(consoleLog.secondCall.args[0].includes('⚠'))
+    t.true(consoleLog.secondCall.args[0].includes('Dependencies outdated'))
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: info() prints static info line', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.info('Using cached dependencies')
+
+    t.true(consoleLog.calledOnce)
+    t.true(consoleLog.firstCall.args[0].includes('ℹ'))
+    t.true(consoleLog.firstCall.args[0].includes('Using cached dependencies'))
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: multi-phase workflow outputs each phase on new line', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalIsTTY = process.stdout.isTTY
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true })
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.start('Cloning starter...')
+    rep.update('Installing dependencies...')
+    rep.succeed('Project created')
+
+    t.is(consoleLog.callCount, 3, 'each stage should print on a new line')
+    t.true(consoleLog.getCall(0).args[0].includes('Cloning starter...'))
+    t.true(consoleLog.getCall(1).args[0].includes('Installing dependencies...'))
+    t.true(consoleLog.getCall(2).args[0].includes('✔'))
+    t.true(consoleLog.getCall(2).args[0].includes('Project created'))
+    t.false(mockOra.called, 'ora should never be called')
+  } finally {
+    Object.defineProperty(process.stdout, 'isTTY', { value: originalIsTTY, configurable: true })
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})
+
+test.serial('reduced motion: quiet mode takes precedence over reduced motion', async (t) => {
+  const { sandbox } = t.context
+  const mockOra = sandbox.stub()
+
+  const { Reporter: MockedReporter } = await esmock('./index.js', {
+    ora: { default: mockOra },
+  })
+
+  const originalReduceMotion = process.env.REDUCED_MOTION
+  const consoleLog = sandbox.stub(console, 'log')
+
+  try {
+    process.env.REDUCED_MOTION = '1'
+
+    const rep = new MockedReporter()
+    rep.configure({ quiet: true })
+    rep.start('Building...')
+    rep.succeed('Build complete')
+
+    t.false(consoleLog.called, 'quiet mode should suppress all output')
+    t.false(mockOra.called, 'ora should not be called')
+  } finally {
+    if (originalReduceMotion === undefined) {
+      delete process.env.REDUCED_MOTION
+    } else {
+      process.env.REDUCED_MOTION = originalReduceMotion
+    }
+  }
+})

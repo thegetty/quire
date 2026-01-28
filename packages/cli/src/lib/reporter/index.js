@@ -14,14 +14,27 @@
  * | Default | (none) | Show spinner with basic status |
  * | Quiet | `-q, --quiet` | Suppress all output (for CI/scripts) |
  * | Verbose | `-v, --verbose` | Show detailed progress with paths, timing |
+ * | Reduced Motion | `--reduced-motion` | Static text, no animation, no line overwriting |
  *
  * Note: `--debug` is handled separately and enables DEBUG namespace logging,
  * not reporter output. Use verbose mode for detailed user-facing output.
+ *
+ * ## Reduced Motion
+ *
+ * When reduced motion is enabled (via `--reduced-motion` flag, `REDUCED_MOTION`
+ * environment variable, or `reducedMotion` config setting), the reporter:
+ * - Prints static text instead of animated spinners
+ * - Outputs each stage on a new line (no line overwriting)
+ * - Still shows status symbols (✔ ✖ ⚠ ℹ) for completion states
+ *
+ * This mode is designed for screen reader users and environments where
+ * terminal animation is problematic.
  *
  * ## Config Defaults
  *
  * Users can set default values via `quire settings`:
  * - `quire settings set verbose true` - Always run in verbose mode
+ * - `quire settings set reducedMotion true` - Disable spinner animation
  *
  * CLI flags override config settings. Use `--no-verbose` to disable verbose
  * mode even when enabled in config.
@@ -82,10 +95,26 @@ import config from '#lib/conf/config.js'
 const debug = createDebug('lib:reporter')
 
 /**
+ * Status symbols for reduced motion output
+ *
+ * These match the symbols used by ora for visual consistency,
+ * ensuring the same information is conveyed with or without animation.
+ * @private
+ */
+const STATUS_SYMBOLS = {
+  start: '–',
+  succeed: '✔',
+  fail: '✖',
+  warn: '⚠',
+  info: 'ℹ',
+}
+
+/**
  * Reporter class for CLI progress feedback
  *
  * Wraps ora spinner with additional features:
  * - Respects --quiet and --json flags
+ * - Supports reduced motion (static text, no line overwriting)
  * - Supports elapsed time display
  * - Provides consistent API across commands
  */
@@ -112,6 +141,22 @@ class Reporter {
   #baseText = ''
 
   /**
+   * Check if reduced motion mode is active
+   *
+   * Reduced motion disables spinner animation and line overwriting.
+   * Reads from the REDUCED_MOTION environment variable, which is set by:
+   * - `--reduced-motion` CLI flag (via preAction hook)
+   * - `REDUCED_MOTION=1` shell environment variable
+   * - `reducedMotion: true` config setting (via bin/cli.js)
+   *
+   * @private
+   * @returns {boolean}
+   */
+  #isReducedMotion() {
+    return Boolean(process.env.REDUCED_MOTION)
+  }
+
+  /**
    * Configure reporter for current command context
    *
    * Call this at the start of command action() to respect command options.
@@ -134,7 +179,8 @@ class Reporter {
     this.#json = options.json || false
     // CLI flag takes precedence, then config setting, then default false
     this.#verbose = options.verbose ?? config.get('verbose') ?? false
-    debug('configured: quiet=%s, json=%s, verbose=%s', this.#quiet, this.#json, this.#verbose)
+    debug('configured: quiet=%s, json=%s, verbose=%s, reducedMotion=%s',
+      this.#quiet, this.#json, this.#verbose, this.#isReducedMotion())
     return this
   }
 
@@ -172,6 +218,13 @@ class Reporter {
 
     if (this.#shouldSuppress()) {
       debug('spinner suppressed: %s', text)
+      return this
+    }
+
+    // Reduced motion: print static text on a new line, no spinner
+    if (this.#isReducedMotion()) {
+      debug('spinner start (reduced motion): %s', text)
+      console.log(`${STATUS_SYMBOLS.start} ${text}`)
       return this
     }
 
@@ -235,6 +288,13 @@ class Reporter {
       return this
     }
 
+    // Reduced motion: print new line instead of overwriting
+    if (this.#isReducedMotion()) {
+      debug('spinner update (reduced motion): %s', text)
+      console.log(`${STATUS_SYMBOLS.start} ${text}`)
+      return this
+    }
+
     if (this.#spinner) {
       debug('spinner update: %s', text)
       this.#spinner.text = text
@@ -270,6 +330,13 @@ class Reporter {
     if (this.#shouldSuppress()) {
       debug('spinner succeed (suppressed): %s', message)
       this.#spinner = null
+      return this
+    }
+
+    // Reduced motion: print static success line
+    if (this.#isReducedMotion()) {
+      debug('spinner succeed (reduced motion): %s', message)
+      console.log(`${STATUS_SYMBOLS.succeed} ${message}`)
       return this
     }
 
@@ -309,6 +376,13 @@ class Reporter {
       return this
     }
 
+    // Reduced motion: print static failure line
+    if (this.#isReducedMotion()) {
+      debug('spinner fail (reduced motion): %s', message)
+      console.log(`${STATUS_SYMBOLS.fail} ${message}`)
+      return this
+    }
+
     if (this.#spinner) {
       debug('spinner fail: %s', message)
       this.#spinner.fail(message)
@@ -343,6 +417,13 @@ class Reporter {
       return this
     }
 
+    // Reduced motion: print static warning line
+    if (this.#isReducedMotion()) {
+      debug('spinner warn (reduced motion): %s', message)
+      console.log(`${STATUS_SYMBOLS.warn} ${message}`)
+      return this
+    }
+
     if (this.#spinner) {
       debug('spinner warn: %s', message)
       this.#spinner.warn(message)
@@ -367,6 +448,13 @@ class Reporter {
     if (this.#shouldSuppress()) {
       debug('spinner info (suppressed): %s', text)
       this.#spinner = null
+      return this
+    }
+
+    // Reduced motion: print static info line
+    if (this.#isReducedMotion()) {
+      debug('spinner info (reduced motion): %s', text)
+      console.log(`${STATUS_SYMBOLS.info} ${text}`)
       return this
     }
 
@@ -402,6 +490,13 @@ class Reporter {
     // Only show details in verbose mode
     if (!this.#verbose || this.#shouldSuppress()) {
       debug('detail (suppressed): %s', text)
+      return this
+    }
+
+    // Reduced motion: print detail directly (no spinner to stop/restart)
+    if (this.#isReducedMotion()) {
+      console.log(`  ${text}`)
+      debug('detail (reduced motion): %s', text)
       return this
     }
 
