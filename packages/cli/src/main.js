@@ -31,7 +31,14 @@ Common Workflows:
 
   Run 'quire help workflows' for detailed workflow documentation.
 
+Paging:
+  --no-pager             Disable paging for long output
+  NO_PAGER=1             Disable paging via environment variable
+  PAGER=cat              Traditional Unix alternative (passes output through)
+
 Environment Variables:
+  NO_PAGER=1             Disable paging for long output
+  PAGER=<program>        Set pager program (default: less). Use PAGER=cat to disable
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
   DEBUG=quire:lib:*      Enable debug output for all lib modules
@@ -56,6 +63,7 @@ program
   .description('Quire command-line interface')
   .version(version, '-v, --version', 'output quire version number')
   .option('--verbose', 'enable verbose output for debugging')
+  .option('--no-pager', 'disable paging for long output')
   .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
@@ -68,12 +76,18 @@ program
   })
 
 /**
- * Handle global --verbose option before any command runs
+ * Handle global options before any command runs
  */
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts()
+
   if (opts.verbose) {
     enableDebug('quire:*')
+  }
+
+  // --no-pager sets pager to false; propagate via env var for pager utility
+  if (opts.pager === false) {
+    process.env.NO_PAGER = '1'
   }
 })
 
