@@ -21,12 +21,15 @@ export default class InfoCommand extends Command {
     summary: 'show version information',
     docsLink: 'quire-commands/#get-help',
     helpText: `
-Example:
-  quire info --debug    Include node, npm, and OS versions
+Examples:
+  quire info              Show project and system CLI versions
+  quire info --debug      Include node, npm, and OS versions
+  quire info --json       Output version information as JSON
 `,
     version: '1.0.0',
     options: [
-      ['--debug', 'include os versions in output']
+      ['--json', 'output version information as JSON'],
+      ['--debug', 'include os versions in output'],
     ],
   }
 
@@ -55,6 +58,35 @@ Example:
 
     const { name: projectDirectory } = path.parse(process.cwd())
 
+    // Read quire-11ty version from package.json
+    const { version: quire11tyVersion } = JSON.parse(fs.readFileSync('./package.json'))
+
+    // Get system CLI version
+    const { stdout: systemCliVersion } = await execa('quire', ['--version'])
+
+    /**
+     * JSON output includes all version data regardless of --debug flag
+     * to provide a stable schema for automation and scripting.
+     */
+    if (options.json) {
+      const result = {
+        project: {
+          directory: projectDirectory,
+          cli: versionInfo.cli,
+          quire11ty: quire11tyVersion,
+          starter: versionInfo.starter,
+        },
+        system: {
+          cli: systemCliVersion,
+          node: process.version,
+          npm: await npm.version(),
+          os: `${os.type()} ${os.release()}`,
+        },
+      }
+      console.log(JSON.stringify(result, null, 2))
+      return
+    }
+
     const versions = [
       {
         title: `[${projectDirectory}]`,
@@ -65,10 +97,7 @@ Example:
           },
           {
             name: 'quire-11ty',
-            get: () => {
-              const { version } = JSON.parse(fs.readFileSync('./package.json'))
-              return version
-            },
+            get: () => quire11tyVersion,
           },
           {
             name: 'starter',
@@ -81,10 +110,7 @@ Example:
         items: [
           {
             name: 'quire-cli',
-            get: async () => {
-              const { stdout } = await execa('quire', ['--version'])
-              return stdout
-            },
+            get: () => systemCliVersion,
           },
           {
             debug: true,
