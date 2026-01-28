@@ -10,7 +10,7 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkOsInfo returns ok with platform info', async (t) => {
+test('checkOsInfo returns ok with platform info and details', async (t) => {
   const { sandbox } = t.context
 
   const { checkOsInfo } = await esmock('./os-info.js', {
@@ -21,6 +21,8 @@ test('checkOsInfo returns ok with platform info', async (t) => {
     },
     'node:os': {
       arch: sandbox.stub().returns('arm64'),
+      totalmem: sandbox.stub().returns(64 * 1024 * 1024 * 1024),
+      cpus: sandbox.stub().returns(new Array(12)),
     },
   })
 
@@ -29,6 +31,7 @@ test('checkOsInfo returns ok with platform info', async (t) => {
   t.true(result.ok)
   t.regex(result.message, /macOS 14/)
   t.regex(result.message, /arm64/)
+  t.is(result.details, 'Memory: 64.0 GB, CPUs: 12')
 })
 
 test('checkOsInfo adds Windows note on Windows', async (t) => {
@@ -42,6 +45,8 @@ test('checkOsInfo adds Windows note on Windows', async (t) => {
     },
     'node:os': {
       arch: sandbox.stub().returns('x64'),
+      totalmem: sandbox.stub().returns(16 * 1024 * 1024 * 1024),
+      cpus: sandbox.stub().returns(new Array(8)),
     },
   })
 
@@ -63,6 +68,8 @@ test('checkOsInfo works on Linux', async (t) => {
     },
     'node:os': {
       arch: sandbox.stub().returns('x64'),
+      totalmem: sandbox.stub().returns(32 * 1024 * 1024 * 1024),
+      cpus: sandbox.stub().returns(new Array(4)),
     },
   })
 

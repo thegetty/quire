@@ -20,7 +20,10 @@ const debug = createDebug('lib:doctor:os-info')
 export function checkOsInfo() {
   const platform = getPlatform()
   const platformName = getPlatformName()
+
   const arch = os.arch()
+  const cpuCount = os.cpus().length
+  const totalMem = os.totalmem()
 
   debug('Platform: %s, Name: %s, Arch: %s', platform, platformName, arch)
 
@@ -32,9 +35,13 @@ export function checkOsInfo() {
     message += ' - Git for Windows recommended'
   }
 
+  const memGB = (totalMem / 1024 / 1024 / 1024).toFixed(1)
+  const details = `Memory: ${memGB} GB, CPUs: ${cpuCount}`
+
   return {
     ok: true,
     message,
+    details,
   }
 }
 
