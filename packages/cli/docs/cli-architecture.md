@@ -246,6 +246,27 @@ Creates instances based on runtime conditions:
 - `lib/11ty/cli.js` factory() - constructs Eleventy CLI arguments
 - `lib/logger` createLogger() - creates module-specific loggers with custom prefixes
 
+## Documentation
+
+### Man Page (`man/quire.1`)
+
+The man page source is `man/quire.1.md`, a hand-authored markdown file following `marked-man` conventions (ronn-format headings: NAME, SYNOPSIS, DESCRIPTION, etc.). The generated roff file `man/quire.1` is committed alongside the source so that `man quire` works immediately after a global install without requiring a build step.
+
+To regenerate after editing:
+
+```bash
+mise run cli:man
+```
+
+Both `man/quire.1.md` and `man/quire.1` should be committed. When adding or modifying commands, update the man page to reflect:
+
+- New commands or removed commands
+- Changed options or arguments
+- New aliases
+- Updated descriptions
+
+The `man` field in `package.json` tells npm to install the man page into the system man path on `npm install -g`.
+
 ---
 
 ## Appendix A: Component Diagrams
