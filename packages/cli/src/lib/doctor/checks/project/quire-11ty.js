@@ -29,6 +29,7 @@ export async function checkOutdatedQuire11ty() {
     debug('quire-11ty not installed, skipping outdated check')
     return {
       ok: true,
+      level: 'na',
       message: 'quire-11ty not installed (not in project)',
     }
   }

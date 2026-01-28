@@ -10,7 +10,7 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkDataFiles returns ok when no data directory exists', async (t) => {
+test('checkDataFiles returns N/A when no data directory exists', async (t) => {
   const { sandbox } = t.context
 
   const { checkDataFiles } = await esmock('./data-files.js', {
@@ -28,6 +28,7 @@ test('checkDataFiles returns ok when no data directory exists', async (t) => {
   const result = checkDataFiles()
 
   t.true(result.ok)
+  t.is(result.level, 'na')
   t.regex(result.message, /No content\/_data directory/)
 })
 

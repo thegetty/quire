@@ -10,7 +10,7 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkOutdatedQuire11ty returns ok when quire-11ty is not installed', async (t) => {
+test('checkOutdatedQuire11ty returns N/A when quire-11ty is not installed', async (t) => {
   const { sandbox } = t.context
 
   const path = await import('node:path')
@@ -28,6 +28,7 @@ test('checkOutdatedQuire11ty returns ok when quire-11ty is not installed', async
   const result = await checkOutdatedQuire11ty()
 
   t.true(result.ok)
+  t.is(result.level, 'na')
   t.regex(result.message, /not installed/)
 })
 

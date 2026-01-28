@@ -29,6 +29,7 @@ export function checkDataFiles() {
     debug('No %s directory found, skipping data files check', DATA_DIR)
     return {
       ok: true,
+      level: 'na',
       message: `No ${DATA_DIR} directory (not in project)`,
     }
   }
