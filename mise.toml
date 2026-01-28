@@ -147,6 +147,18 @@ description = "Generate CLI documentation"
 dir = "{{ config_root }}/packages/cli"
 run = "npm run docs"
 
+[tasks."cli:man"]
+description = "Generate CLI man page"
+dir = "{{ config_root }}/packages/cli"
+run = """
+mkdir -p man
+npx --yes marked-man man/quire.1.md \
+  --version "$(node -p 'require(\"./package.json\").version')" \
+  --section 1 \
+  --name quire \
+  > man/quire.1
+"""
+
 [tasks."cli:pack"]
 description = "Pack CLI for testing (like CI does)"
 run = "npm pack --workspace packages/cli"
