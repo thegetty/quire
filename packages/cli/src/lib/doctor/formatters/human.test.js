@@ -68,10 +68,15 @@ test('formatHuman header has no filter suffix without filters', (t) => {
   t.false(header.text.includes('only'))
 })
 
-test('formatHuman includes section names', (t) => {
+test('formatHuman includes section names as headings', (t) => {
   const { lines } = formatHuman(mockSections)
-  const sectionLines = lines.filter((l) => l.text === 'Environment' || l.text === 'Project')
-  t.is(sectionLines.length, 2)
+  const envLine = lines.find((l) => l.text.includes('Environment') && !l.text.includes('Running'))
+  const projectLine = lines.find((l) => l.text.includes('Project'))
+  t.truthy(envLine)
+  t.truthy(projectLine)
+  // Section headings should be info level
+  t.is(envLine.level, 'info')
+  t.is(projectLine.level, 'info')
 })
 
 test('formatHuman includes check names and messages', (t) => {

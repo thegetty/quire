@@ -5,6 +5,7 @@
  *
  * @module lib/doctor/formatters/human
  */
+import chalk from 'chalk'
 import wrapAnsi from 'wrap-ansi'
 import {
   STATUS_ICONS,
@@ -186,7 +187,7 @@ export function formatHuman(sections, options = {}) {
   // Process each section
   for (const { section, results } of filteredSections) {
     // Section header
-    lines.push({ text: section, level: 'info' })
+    lines.push({ text: chalk.bold(section), level: 'info' })
 
     for (const result of results) {
       displayedCount++
