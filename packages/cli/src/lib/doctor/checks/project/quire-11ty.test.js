@@ -10,18 +10,36 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore()
 })
 
-test('checkOutdatedQuire11ty returns N/A when quire-11ty is not installed', async (t) => {
+test('checkOutdatedQuire11ty returns N/A when package.json does not exist', async (t) => {
   const { sandbox } = t.context
 
-  const path = await import('node:path')
   const { checkOutdatedQuire11ty } = await esmock('./quire-11ty.js', {
     'node:fs': {
       default: {
         existsSync: sandbox.stub().returns(false),
       },
     },
-    'node:path': {
-      default: path.default,
+  })
+
+  const result = await checkOutdatedQuire11ty()
+
+  t.true(result.ok)
+  t.is(result.level, 'na')
+  t.regex(result.message, /not installed/)
+})
+
+test('checkOutdatedQuire11ty returns N/A when package.json is not a quire-11ty project', async (t) => {
+  const { sandbox } = t.context
+
+  const { checkOutdatedQuire11ty } = await esmock('./quire-11ty.js', {
+    'node:fs': {
+      default: {
+        existsSync: sandbox.stub().returns(true),
+        readFileSync: sandbox.stub().returns(JSON.stringify({
+          name: 'some-other-package',
+          version: '1.0.0',
+        })),
+      },
     },
   })
 
@@ -35,16 +53,15 @@ test('checkOutdatedQuire11ty returns N/A when quire-11ty is not installed', asyn
 test('checkOutdatedQuire11ty returns ok when version is up to date', async (t) => {
   const { sandbox } = t.context
 
-  const path = await import('node:path')
   const { checkOutdatedQuire11ty } = await esmock('./quire-11ty.js', {
     'node:fs': {
       default: {
         existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.33' })),
+        readFileSync: sandbox.stub().returns(JSON.stringify({
+          name: '@thegetty/quire-11ty',
+          version: '1.0.0-rc.33',
+        })),
       },
-    },
-    'node:path': {
-      default: path.default,
     },
     '#lib/npm/index.js': {
       default: {
@@ -68,16 +85,15 @@ test('checkOutdatedQuire11ty returns ok when version is up to date', async (t) =
 test('checkOutdatedQuire11ty returns warning when version is outdated', async (t) => {
   const { sandbox } = t.context
 
-  const path = await import('node:path')
   const { checkOutdatedQuire11ty } = await esmock('./quire-11ty.js', {
     'node:fs': {
       default: {
         existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.30' })),
+        readFileSync: sandbox.stub().returns(JSON.stringify({
+          name: '@thegetty/quire-11ty',
+          version: '1.0.0-rc.30',
+        })),
       },
-    },
-    'node:path': {
-      default: path.default,
     },
     '#lib/npm/index.js': {
       default: {
@@ -104,16 +120,12 @@ test('checkOutdatedQuire11ty returns warning when version is outdated', async (t
 test('checkOutdatedQuire11ty returns warning when cannot read installed version', async (t) => {
   const { sandbox } = t.context
 
-  const path = await import('node:path')
   const { checkOutdatedQuire11ty } = await esmock('./quire-11ty.js', {
     'node:fs': {
       default: {
         existsSync: sandbox.stub().returns(true),
         readFileSync: sandbox.stub().throws(new Error('ENOENT')),
       },
-    },
-    'node:path': {
-      default: path.default,
     },
   })
 
@@ -128,16 +140,15 @@ test('checkOutdatedQuire11ty returns warning when cannot read installed version'
 test('checkOutdatedQuire11ty returns ok with message when network check fails', async (t) => {
   const { sandbox } = t.context
 
-  const path = await import('node:path')
   const { checkOutdatedQuire11ty } = await esmock('./quire-11ty.js', {
     'node:fs': {
       default: {
         existsSync: sandbox.stub().returns(true),
-        readFileSync: sandbox.stub().returns(JSON.stringify({ version: '1.0.0-rc.30' })),
+        readFileSync: sandbox.stub().returns(JSON.stringify({
+          name: '@thegetty/quire-11ty',
+          version: '1.0.0-rc.30',
+        })),
       },
-    },
-    'node:path': {
-      default: path.default,
     },
     '#lib/npm/index.js': {
       default: {

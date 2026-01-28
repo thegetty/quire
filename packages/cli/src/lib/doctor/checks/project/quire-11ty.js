@@ -4,7 +4,6 @@
  * @module lib/doctor/checks/project/quire-11ty
  */
 import fs from 'node:fs'
-import path from 'node:path'
 import semver from 'semver'
 import npm from '#lib/npm/index.js'
 import config from '#lib/conf/config.js'
@@ -22,11 +21,11 @@ const debug = createDebug('lib:doctor:quire-11ty')
  * @returns {Promise<import('../../index.js').CheckResult>}
  */
 export async function checkOutdatedQuire11ty() {
-  const packagePath = path.join('node_modules', QUIRE_11TY_PACKAGE, 'package.json')
+  const packagePath = 'package.json'
 
-  // Skip if quire-11ty is not installed
+  // Skip if not in a project directory
   if (!fs.existsSync(packagePath)) {
-    debug('quire-11ty not installed, skipping outdated check')
+    debug('package.json not found, skipping outdated check')
     return {
       ok: true,
       level: 'na',
@@ -34,10 +33,20 @@ export async function checkOutdatedQuire11ty() {
     }
   }
 
-  // Read installed version
+  // Read installed version from the project's own package.json
+  // Nota bene: in Quire projects, quire-11ty IS the project itself
+  // (its files are copied into the project root by `quire new`)
   let installedVersion
   try {
     const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+    if (packageJson.name !== QUIRE_11TY_PACKAGE) {
+      debug('package.json is not a quire-11ty project: %s', packageJson.name)
+      return {
+        ok: true,
+        level: 'na',
+        message: 'quire-11ty not installed (not in project)',
+      }
+    }
     installedVersion = packageJson.version
     debug('Installed quire-11ty version: %s', installedVersion)
   } catch (error) {
