@@ -13,6 +13,7 @@ export {
   quietOption,
   verboseOption,
   debugOption,
+  reducedMotionOption,
   outputModeOptions,
   outputModeHelpText,
   withOutputModes,

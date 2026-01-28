@@ -4,7 +4,8 @@ import {
   arrayToOption,
   quietOption,
   verboseOption,
-  debugOption
+  debugOption,
+  reducedMotionOption,
 } from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
@@ -27,13 +28,22 @@ Common Workflows:
   Run 'quire help workflows' for detailed workflow documentation.
 
 Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing, steps)
-  --debug          Enable debug output for developers/troubleshooting
+  -q, --quiet          Suppress progress output (for CI/scripts)
+  -v, --verbose        Show detailed progress (paths, timing, steps)
+  --debug              Enable debug output for developers/troubleshooting
+  --reduced-motion      Disable spinner animation and line overwriting
 
   Set defaults: quire settings set verbose true
 
+Accessibility:
+  --reduced-motion disables animated spinners and line overwriting.
+  Each stage prints on a new line as static text, making output
+  compatible with screen readers and reduced-motion preferences.
+
+  Set default: quire settings set reducedMotion true
+
 Environment Variables:
+  REDUCED_MOTION          Disable spinner animation and line overwriting
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
   DEBUG=quire:lib:*      Enable debug output for all lib modules
@@ -42,6 +52,8 @@ Examples:
   $ quire build                  Build the publication
   $ quire build --verbose        Build with detailed progress
   $ quire build --debug          Build with debug output
+  $ quire build --reduced-motion  Build without animated spinners
+  $ REDUCED_MOTION=1 quire build  Build without animated spinners
   $ DEBUG=quire:* quire pdf      Generate PDF with debug output
 `
 
@@ -61,6 +73,7 @@ program
   .addOption(arrayToOption(quietOption))
   .addOption(arrayToOption(verboseOption))
   .addOption(arrayToOption(debugOption))
+  .addOption(arrayToOption(reducedMotionOption))
   .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
@@ -79,6 +92,7 @@ program
  * - --quiet: Suppress progress spinners (for CI/scripts)
  * - --verbose: Show detailed progress (paths, timing, steps)
  * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
+ * - --reduced-motion: Disable animated spinners, use static text on new lines
  *
  * These global options are passed through to commands via opts()
  * and should be merged with command-level options.
@@ -90,6 +104,12 @@ program.hook('preAction', (thisCommand) => {
   // CLI flag takes precedence, then config setting
   if (opts.debug ?? config.get('debug')) {
     enableDebug('quire:*')
+  }
+
+  // --reduced-motion sets REDUCED_MOTION env var for reporter to read
+  // CLI flag takes precedence over env var and config setting
+  if (opts.reducedMotion) {
+    process.env.REDUCED_MOTION = '1'
   }
 })
 
