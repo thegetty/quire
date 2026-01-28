@@ -1,37 +1,52 @@
 import Command from '#src/Command.js'
-import npm from '#lib/npm/index.js'
-import { execa } from 'execa'
+import { withOutputModes } from '#lib/commander/index.js'
+import { binPath } from '#src/packageConfig.js'
 import fs from 'node:fs'
-import os from 'node:os'
 import path from 'node:path'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
  * Quire CLI `info` Command
  *
- * Runs the Eleventy `info` command to list the quire-cli, quire-11ty, node, and npm versions.
+ * Display version information for the current Quire project.
+ * Shows the versions of quire-cli and quire-11ty that the project was
+ * created with, plus the starter template version.
+ *
+ * With --debug, also shows the full filesystem path to the quire-cli
+ * executable.
+ *
+ * For system environment information (OS, Node.js, npm, Git),
+ * use the `quire doctor` command instead.
  *
  * @class      InfoCommand
  * @extends    {Command}
  */
 export default class InfoCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'info',
-    description: 'List Quire cli, quire-11ty, and node versions',
-    summary: 'show version information',
+    description: 'Display version information for the current project',
+    summary: 'show project version information',
     docsLink: 'quire-commands/#get-help',
     helpText: `
-Examples:
-  quire info              Show project and system CLI versions
-  quire info --debug      Include node, npm, and OS versions
-  quire info --json       Output version information as JSON
+Shows the versions used when this project was created:
+  • quire-cli version that created the project
+  • quire-11ty version installed in the project
+  • starter template version (if available)
+
+For system environment checks (OS, Node.js, npm, Git),
+use 'quire doctor' instead.
+
+Example:
+  quire info           Show project versions
+  quire info --debug   Include installation paths
+  quire info --json    Output version information as JSON
+  quire doctor         Check environment and project health
 `,
     version: '1.0.0',
     options: [
       ['--json', 'output version information as JSON'],
-      ['--debug', 'include os versions in output'],
     ],
-  }
+  })
 
   constructor() {
     super(InfoCommand.definition)
@@ -46,102 +61,69 @@ Examples:
 
     try {
       const versionFileData = fs.readFileSync(versionFileName, { encoding: 'utf8' })
-
-      versionInfo = JSON.parse(versionFileData)      
+      versionInfo = JSON.parse(versionFileData)
     } catch (error) {
       this.logger.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
-
       fs.writeFileSync(versionFileName, JSON.stringify(versionInfo))
     }
 
     const { name: projectDirectory } = path.parse(process.cwd())
 
-    // Read quire-11ty version from package.json
-    const { version: quire11tyVersion } = JSON.parse(fs.readFileSync('./package.json'))
+    // Read quire-11ty version from project's package.json
+    let quire11tyVersion = 'unknown'
+    try {
+      const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'))
+      quire11tyVersion = packageJson.version
+    } catch {
+      this.debug('Could not read package.json')
+    }
 
-    // Get system CLI version
-    const { stdout: systemCliVersion } = await execa('quire', ['--version'])
-
-    /**
-     * JSON output includes all version data regardless of --debug flag
-     * to provide a stable schema for automation and scripting.
-     */
     if (options.json) {
       const result = {
         project: {
           directory: projectDirectory,
           cli: versionInfo.cli,
           quire11ty: quire11tyVersion,
-          starter: versionInfo.starter,
-        },
-        system: {
-          cli: systemCliVersion,
-          node: process.version,
-          npm: await npm.version(),
-          os: `${os.type()} ${os.release()}`,
+          starter: versionInfo.starter || null,
         },
       }
       console.log(JSON.stringify(result, null, 2))
       return
     }
 
-    const versions = [
-      {
-        title: `[${projectDirectory}]`,
-        items: [
-          {
-            name: 'quire-cli',
-            get: () => versionInfo.cli,
-          },
-          {
-            name: 'quire-11ty',
-            get: () => quire11tyVersion,
-          },
-          {
-            name: 'starter',
-            get: () => versionInfo.starter,
-          },
-        ],
-      },
-      {
-        title: '[System]',
-        items: [
-          {
-            name: 'quire-cli',
-            get: () => systemCliVersion,
-          },
-          {
-            debug: true,
-            name: 'node',
-            get: () => process.version,
-          },
-          {
-            debug: true,
-            name: 'npm',
-            get: async () => await npm.version(),
-          },
-          {
-            debug: true,
-            name: 'os',
-            get: () => `${os.type()} ${os.release()}`,
-          },
-        ],
-      },
+    const lines = [
+      `Project: ${projectDirectory}`,
+      '',
+      `  quire-cli    ${versionInfo.cli || 'unknown'}`,
+      `  quire-11ty   ${quire11tyVersion}`,
     ]
 
-    /**
-     * Filter the command output based on `debug` settings
-     */
-    for (const { items, title } of versions) {
-      const versionList = await Promise.all(
-        items
-          .filter(({ debug }) => !debug || (options.debug && debug))
-          .map(async ({ name, get }) => `${name} ${await get()}`)
-      )
-      this.logger.info(`${title}\n ${versionList.join('\n ')}`)
+    if (versionInfo.starter) {
+      lines.push(`  starter      ${versionInfo.starter}`)
     }
+
+    if (options.debug) {
+      lines.push('')
+      lines.push(this.resolveCliPath())
+    }
+
+    lines.push('')
+    lines.push('Tip: Run \'quire doctor\' for system environment checks')
+
+    this.logger.info(lines.join('\n'))
+  }
+
+  /**
+   * Resolve the full filesystem path to the quire CLI executable
+   * @returns {string} Formatted path line
+   */
+  resolveCliPath() {
+    const resolved = binPath()
+    return resolved
+      ? `  quire-cli    ${resolved}`
+      : '  quire-cli    not found in PATH'
   }
 
   preAction(thisCommand, actionCommand) {

@@ -5,28 +5,28 @@ This directory contains domain-specific modules that encapsulate the core functi
 ## Architecture Overview
 
 ```
-                            Commands Layer
-                ┌─────────────────────────────────────────┐
-                │  build  preview  new  pdf  epub  info   │
-                └──────────────────┬──────────────────────┘
-                                   │
-                ┌──────────────────┴──────────────────────┐
-                │              lib/ modules               │
-                └─────────────────────────────────────────┘
+                                    Commands Layer
+                    ┌───────────────────────────────────────────────────┐
+                    │  build  preview  new  pdf  epub  info  doctor    │
+                    └────────────────────────┬──────────────────────────┘
+                                             │
+                    ┌────────────────────────┴──────────────────────────┐
+                    │                   lib/ modules                    │
+                    └───────────────────────────────────────────────────┘
 
-     ┌─────────────────────────────────────────────────────────────────┐
-     │                        Domain Modules                           │
-     │  ┌────────────┐  ┌──────────┐  ┌────────────┐  ┌─────────────┐  │
-     │  │ project/   │  │  11ty/   │  │   pdf/     │  │   epub/     │  │
-     │  │            │  │          │  │            │  │             │  │
-     │  │ - paths    │  │ - api    │  │ - pagedjs  │  │ - epubjs    │  │
-     │  │ - config   │  │ - cli    │  │ - prince   │  │ - pandoc    │  │
-     │  │ - detect   │  │          │  │            │  │             │  │
-     │  │ - version  │  │          │  │            │  │             │  │
-     │  └────┬───────┘  └────┬─────┘  └────┬───────┘  └──────┬──────┘  │
-     └───────┼───────────────┼─────────────┼─────────────────┼─────────┘
-             │               │             │                 │
-             │      ┌────────┴─────────────┴─────────────────┘
+     ┌─────────────────────────────────────────────────────────────────────────┐
+     │                           Domain Modules                                │
+     │  ┌────────────┐  ┌──────────┐  ┌────────────┐  ┌──────────┐  ┌────────┐  │
+     │  │ project/   │  │  11ty/   │  │   pdf/     │  │  epub/   │  │doctor/ │  │
+     │  │            │  │          │  │            │  │          │  │        │  │
+     │  │ - paths    │  │ - api    │  │ - pagedjs  │  │ - epubjs │  │-checks │  │
+     │  │ - config   │  │ - cli    │  │ - prince   │  │ - pandoc │  │-format │  │
+     │  │ - detect   │  │          │  │            │  │          │  │        │  │
+     │  │ - version  │  │          │  │            │  │          │  │        │  │
+     │  └────┬───────┘  └────┬─────┘  └────┬───────┘  └────┬─────┘  └───┬────┘  │
+     └───────┼───────────────┼─────────────┼───────────────┼─────────────┼──────┘
+             │               │             │               │             │
+             │      ┌────────┴─────────────┴───────────────┴─────────────┘
              │      │
      ┌───────┴──────┴──────────────────────────────────────────────────┐
      │                     Installation Module                         │
@@ -65,6 +65,10 @@ These modules encapsulate specific business domains of Quire.
 |--------|-------------|
 | `paths` (default) | Singleton for path resolution |
 | `Paths` | Class for custom path instances |
+| `DATA_DIR` | Path to data files directory (`content/_data`) |
+| `PROJECT_MARKERS` | Files that identify a Quire project |
+| `REQUIRED_DATA_FILES` | Required data files (`publication.yaml`) |
+| `SOURCE_DIRECTORIES` | Directories monitored for changes |
 | `detect(dirpath)` | Check if directory is a Quire project |
 | `loadProjectConfig(projectRoot?)` | Load and validate project config |
 | `getVersion(projectPath?)` | Read `quire-11ty` version from project |
@@ -106,6 +110,57 @@ These modules encapsulate specific business domains of Quire.
 | `default` | EPUB generator façade |
 
 **Dependencies:** `project/`
+
+#### `doctor/`
+**Purpose:** Diagnostic checks for Quire environment and project health.
+
+| Export | Description |
+|--------|-------------|
+| `default` | Object with all check functions and arrays |
+| `checks` | Flat array of all diagnostic checks |
+| `checkSections` | Checks organized by section (Environment, Project) |
+| `runAllChecks()` | Run all checks, return flat results array |
+| `runAllChecksWithSections()` | Run all checks, return results by section |
+| `checkNodeVersion()` | Verify Node.js >= 22 |
+| `checkNpmAvailable()` | Verify npm in PATH |
+| `checkGitAvailable()` | Verify git in PATH |
+| `checkQuireProject()` | Detect project marker files |
+| `checkDependencies()` | Verify node_modules exists |
+| `checkDataFiles()` | Validate YAML files in content/_data/ |
+| `checkStaleBuild()` | Compare source vs build timestamps |
+
+**Sub-modules:**
+
+| File | Description |
+|------|-------------|
+| `formatDuration.js` | Human-readable time duration formatting |
+
+**Duration Formatting:**
+
+The `formatDuration` function converts milliseconds to the most appropriate time unit:
+
+| Duration       | Example Output  |
+|----------------|-----------------|
+| < 1 minute     | "45 seconds"    |
+| < 1 hour       | "30 minutes"    |
+| < 1 day        | "5 hours"       |
+| < 1 week       | "3 days"        |
+| < 1 month      | "2 weeks"       |
+| < 1 year       | "3 months"      |
+| >= 1 year      | "2 years"       |
+
+**Data Files Validation:**
+
+The `checkDataFiles` function validates YAML files in `content/_data/`:
+
+| Validation | Description |
+|------------|-------------|
+| Required files | Checks `publication.yaml` exists |
+| YAML syntax | Parses each file and reports syntax errors |
+| Schema validation | Validates against JSON schemas in `schemas/` |
+| Duplicate IDs | Detects duplicate `id` values in arrays |
+
+**Dependencies:** `project/`, `npm/`, `git/`, `validators/validate-data-files`
 
 #### `installer/`
 **Purpose:** Installation of `@thegetty/quire-11ty` into Quire projects.

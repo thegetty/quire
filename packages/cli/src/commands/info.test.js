@@ -23,19 +23,8 @@ test.beforeEach((t) => {
   // Mock testcwd helper
   t.context.mockTestcwd = t.context.sandbox.stub()
 
-  // Mock execa for external commands
-  t.context.mockExeca = t.context.sandbox.stub().resolves({ stdout: '1.0.0-rc.33' })
-
-  // Mock npm module
-  t.context.mockNpm = {
-    version: t.context.sandbox.stub().resolves('10.2.4')
-  }
-
-  // Mock os module
-  t.context.mockOs = {
-    type: t.context.sandbox.stub().returns('Darwin'),
-    release: t.context.sandbox.stub().returns('23.0.0')
-  }
+  // Mock packageConfig binPath
+  t.context.mockBinPath = t.context.sandbox.stub().returns('/usr/local/bin/quire')
 
   // Mock fs module
   t.context.mockFs = {
@@ -75,19 +64,15 @@ test.afterEach.always((t) => {
 })
 
 test('info command should validate Quire project in preAction', async (t) => {
-  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockExeca, mockNpm, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockTestcwd, mockConfig, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -114,19 +99,15 @@ test('info command should validate Quire project in preAction', async (t) => {
 })
 
 test('info command should display project version information', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -144,85 +125,42 @@ test('info command should display project version information', async (t) => {
   // Verify logger.info was called with project information
   t.true(mockLogger.info.called, 'logger.info should be called')
 
-  // Check for project section header (uses current directory name)
+  // Check for project header
   const calls = mockLogger.info.getCalls()
   const hasProjectInfo = calls.some((call) =>
-    call.args[0] && call.args[0].includes('[') && call.args[0].includes(']')
+    call.args[0] && call.args[0].includes('Project:')
   )
-  t.true(hasProjectInfo, 'should display project section')
+  t.true(hasProjectInfo, 'should display project header')
 
   // Check for quire-cli version in output
   const hasCliVersion = calls.some((call) =>
     call.args[0] && call.args[0].includes('quire-cli') && call.args[0].includes('1.0.0-rc.33')
   )
   t.true(hasCliVersion, 'should display quire-cli version')
+
+  // Check for quire-11ty version in output
+  const has11tyVersion = calls.some((call) =>
+    call.args[0] && call.args[0].includes('quire-11ty')
+  )
+  t.true(has11tyVersion, 'should display quire-11ty version')
+
+  // Check for doctor tip
+  const hasDoctorTip = calls.some((call) =>
+    call.args[0] && call.args[0].includes('quire doctor')
+  )
+  t.true(hasDoctorTip, 'should display doctor tip')
 })
 
-test('info command should display system information with debug flag', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+test('info command should display starter version when available', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
-    'node:fs': mockFs
-  }, {
-    '#lib/logger/index.js': {
-      default: () => mockLogger
-    }
-  })
-
-  const command = new InfoCommand()
-  command.config = mockConfig
-  command.logger = mockLogger
-  command.debug = sandbox.stub()
-
-  await command.action({ debug: true }, {})
-
-  // Verify logger.info was called
-  t.true(mockLogger.info.called, 'logger.info should be called')
-
-  // Check for system section header
-  const calls = mockLogger.info.getCalls()
-  const hasSystemInfo = calls.some((call) =>
-    call.args[0] && call.args[0].includes('[System]')
-  )
-  t.true(hasSystemInfo, 'should display system section with debug flag')
-
-  // Check for node version in output (only shown with debug)
-  const hasNodeVersion = calls.some((call) =>
-    call.args[0] && call.args[0].includes('node')
-  )
-  t.true(hasNodeVersion, 'should display node version with debug flag')
-
-  // Check for npm version in output (only shown with debug)
-  const hasNpmVersion = calls.some((call) =>
-    call.args[0] && call.args[0].includes('npm')
-  )
-  t.true(hasNpmVersion, 'should display npm version with debug flag')
-})
-
-test('info command should hide system details without debug flag', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
-
-  const { default: InfoCommand } = await esmock('./info.js', {
-    '#helpers/test-cwd.js': {
-      default: mockTestcwd
-    },
-    'execa': {
-      execa: mockExeca
-    },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -240,18 +178,80 @@ test('info command should hide system details without debug flag', async (t) => 
   // Verify logger.info was called
   t.true(mockLogger.info.called, 'logger.info should be called')
 
-  // Check that system details are NOT shown without debug flag
+  // Check for starter version in output (from version file)
   const calls = mockLogger.info.getCalls()
-
-  // Node version should not appear in non-debug output
-  const hasNodeVersion = calls.some((call) =>
-    call.args[0] && call.args[0].toLowerCase().includes('node') && !call.args[0].includes('quire')
+  const hasStarterVersion = calls.some((call) =>
+    call.args[0] && call.args[0].includes('starter')
   )
-  t.false(hasNodeVersion, 'should not display node version without debug flag')
+  t.true(hasStarterVersion, 'should display starter version when available')
+})
+
+test('info command --debug shows installation paths', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
+
+  const { default: InfoCommand } = await esmock('./info.js', {
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
+    },
+    'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new InfoCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ debug: true }, {})
+
+  const calls = mockLogger.info.getCalls()
+  const output = calls.map((call) => call.args[0]).join('\n')
+
+  // Check for quire-cli path
+  t.true(output.includes('/usr/local/bin/quire'), 'should display quire-cli path')
+})
+
+test('info command --debug handles missing quire-cli in PATH', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockFs } = t.context
+
+  // binPath returns null when executable is not found
+  const mockBinPathNotFound = sandbox.stub().returns(null)
+
+  const { default: InfoCommand } = await esmock('./info.js', {
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#src/packageConfig.js': {
+      binPath: mockBinPathNotFound
+    },
+    'node:fs': mockFs
+  }, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new InfoCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ debug: true }, {})
+
+  const calls = mockLogger.info.getCalls()
+  const output = calls.map((call) => call.args[0]).join('\n')
+
+  t.true(output.includes('not found in PATH'), 'should show not found message for quire-cli')
 })
 
 test('info command should handle missing version file', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   // Setup mockFs to throw error for missing version file (simulating file not found)
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -268,13 +268,9 @@ test('info command should handle missing version file', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -301,7 +297,7 @@ test('info command should handle missing version file', async (t) => {
 })
 
 test('info command should handle malformed version file', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   // Setup mockFs to return malformed JSON (simulating corrupted file)
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -318,13 +314,9 @@ test('info command should handle malformed version file', async (t) => {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -354,7 +346,7 @@ test('info command should handle malformed version file', async (t) => {
 })
 
 test('info command should read quire-11ty version from package.json', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   // Override package.json to have specific version
   mockFs.readFileSync.callsFake((filePath, options) => {
@@ -374,13 +366,9 @@ test('info command should read quire-11ty version from package.json', async (t) 
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -406,8 +394,8 @@ test('info command should read quire-11ty version from package.json', async (t) 
   t.true(hasEleventyVersion, 'should display quire-11ty version from package.json')
 })
 
-test('info command should log debug information when debug flag is set', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+test('info command should log debug information', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
 
   const mockDebug = sandbox.stub()
 
@@ -415,13 +403,9 @@ test('info command should log debug information when debug flag is set', async (
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -434,32 +418,28 @@ test('info command should log debug information when debug flag is set', async (
   command.logger = mockLogger
   command.debug = mockDebug
 
-  await command.action({ debug: true }, {})
+  await command.action({}, {})
 
   // Verify debug was called
-  t.true(mockDebug.called, 'debug should be called with debug flag')
-  t.true(mockDebug.calledWith('called with options %O', { debug: true }))
+  t.true(mockDebug.called, 'debug should be called')
+  t.true(mockDebug.calledWith('called with options %O', {}))
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
 // JSON output tests
 // ─────────────────────────────────────────────────────────────────────────────
 
-test.serial('info --json should output valid JSON with project and system versions', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+test.serial('info --json should output valid JSON with project versions', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
   const consoleLogStub = sandbox.stub(console, 'log')
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -482,36 +462,36 @@ test.serial('info --json should output valid JSON with project and system versio
   const output = JSON.parse(consoleLogStub.firstCall.args[0])
 
   t.truthy(output.project, 'JSON should have project section')
-  t.truthy(output.system, 'JSON should have system section')
 
   // Project section
   t.is(output.project.cli, '1.0.0-rc.33')
   t.is(output.project.quire11ty, '1.0.0')
   t.is(output.project.starter, 'https://github.com/thegetty/quire-starter-default')
   t.is(typeof output.project.directory, 'string')
-
-  // System section (always included regardless of --debug)
-  t.is(output.system.cli, '1.0.0-rc.33')
-  t.is(output.system.npm, '10.2.4')
-  t.is(output.system.os, 'Darwin 23.0.0')
-  t.is(typeof output.system.node, 'string')
 })
 
-test.serial('info --json should include system details without --debug flag', async (t) => {
-  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockExeca, mockNpm, mockOs, mockFs } = t.context
+test.serial('info --json should set starter to null when not available', async (t) => {
+  const { sandbox, mockLogger, mockConfig, mockTestcwd, mockBinPath, mockFs } = t.context
   const consoleLogStub = sandbox.stub(console, 'log')
+
+  // Version file without starter
+  t.context.mockFs.readFileSync.callsFake((filePath, options) => {
+    if (filePath === './.quire-version') {
+      return JSON.stringify({ cli: '1.0.0-rc.33' })
+    }
+    if (filePath === './package.json') {
+      return t.context.packageJsonContent
+    }
+    return ''
+  })
 
   const { default: InfoCommand } = await esmock('./info.js', {
     '#helpers/test-cwd.js': {
       default: mockTestcwd
     },
-    'execa': {
-      execa: mockExeca
+    '#src/packageConfig.js': {
+      binPath: mockBinPath
     },
-    '#lib/npm/index.js': {
-      default: mockNpm
-    },
-    'node:os': mockOs,
     'node:fs': mockFs
   }, {
     '#lib/logger/index.js': {
@@ -524,12 +504,9 @@ test.serial('info --json should include system details without --debug flag', as
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
-  // JSON mode without --debug should still include system node/npm/os
   await command.action({ json: true }, {})
 
   const output = JSON.parse(consoleLogStub.firstCall.args[0])
 
-  t.truthy(output.system.node, 'JSON should include node version without --debug')
-  t.truthy(output.system.npm, 'JSON should include npm version without --debug')
-  t.truthy(output.system.os, 'JSON should include os version without --debug')
+  t.is(output.project.starter, null, 'starter should be null when not in version file')
 })

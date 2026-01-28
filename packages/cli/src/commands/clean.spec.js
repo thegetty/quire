@@ -42,6 +42,7 @@ test('registered command has correct options', (t) => {
   // Get all options
   const dryRunOption = command.options.find((opt) => opt.long === '--dry-run')
   const dryrunAlias = command.options.find((opt) => opt.long === '--dryrun')
+  const statusOption = command.options.find((opt) => opt.long === '--status')
   const progressOption = command.options.find((opt) => opt.long === '--progress')
   const quietOption = command.options.find((opt) => opt.long === '--quiet')
   const verboseOption = command.options.find((opt) => opt.long === '--verbose')
@@ -50,6 +51,7 @@ test('registered command has correct options', (t) => {
   // Verify all options exist
   t.truthy(dryRunOption, '--dry-run option should exist')
   t.truthy(dryrunAlias, '--dryrun alias should exist')
+  t.truthy(statusOption, '--status option should exist')
   t.truthy(progressOption, '--progress option should exist')
   t.truthy(quietOption, '--quiet option should exist')
   t.truthy(verboseOption, '--verbose option should exist')
@@ -58,6 +60,7 @@ test('registered command has correct options', (t) => {
   // Verify they are Option instances
   t.true(dryRunOption instanceof Option, '--dry-run should be Option instance')
   t.true(dryrunAlias instanceof Option, '--dryrun should be Option instance')
+  t.true(statusOption instanceof Option, '--status should be Option instance')
   t.true(progressOption instanceof Option, '--progress should be Option instance')
   t.true(quietOption instanceof Option, '--quiet should be Option instance')
   t.true(verboseOption instanceof Option, '--verbose should be Option instance')
@@ -72,6 +75,12 @@ test('registered command has correct options', (t) => {
   // --dryrun is a hidden alias for --dry-run
   t.is(dryrunAlias.long, '--dryrun')
   t.true(dryrunAlias.hidden, '--dryrun should be hidden from help')
+
+  // --status clears stored build status
+  t.is(statusOption.long, '--status')
+  t.falsy(statusOption.short, '--status should not have a short flag')
+  t.truthy(statusOption.description)
+  t.false(statusOption.required, '--status should not require a value')
 
   // --progress is a hidden alias for --verbose
   t.is(progressOption.long, '--progress')
@@ -101,6 +110,7 @@ test('command options are accessible via public API', (t) => {
 
   t.true(optionNames.includes('--dry-run'))
   t.true(optionNames.includes('--dryrun'))
+  t.true(optionNames.includes('--status'))
   t.true(optionNames.includes('--progress'))
   t.true(optionNames.includes('--quiet'))
   t.true(optionNames.includes('--verbose'))
