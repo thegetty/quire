@@ -7,7 +7,8 @@ This document describes the accessibility features and design principles of the 
 The Quire CLI is designed to be usable by people with a range of abilities and in a variety of environments. Key principles:
 
 - **Color is never the sole information channel.** All status indicators use distinct Unicode symbols alongside color.
-- **Output respects user preferences.** Color, verbosity, and spinners can all be controlled.
+- **Output respects user preferences.** Color, verbosity, spinners, and motion can all be controlled.
+- **Reduced motion is supported.** Animated spinners and line overwriting can be disabled for screen reader compatibility.
 - **Errors are actionable.** Every error includes a suggestion and documentation link, not just a code or stack trace.
 - **Structured output is available.** Machine-readable JSON output is supported for automation and assistive tooling.
 
@@ -76,6 +77,57 @@ Paging is automatically skipped when output is not a TTY (e.g., piped to a file 
 ### Selecting a Pager
 
 The `PAGER` environment variable selects the pager program. The default is `less -R` on Unix (`-R` preserves ANSI colors) and `more` on Windows.
+
+## Reduced Motion
+
+Animated spinners and line overwriting can be disabled for users who prefer reduced motion or use screen readers. When reduced motion is enabled, the reporter outputs static text on new lines instead of animated spinners that overwrite the current line.
+
+### Enabling Reduced Motion
+
+| Method | Scope | Example |
+|--------|-------|---------|
+| `--reduced-motion` flag | Single command | `quire build --reduced-motion` |
+| `REDUCED_MOTION` env var | Shell session | `REDUCED_MOTION=1 quire build` |
+| Config setting | Persistent | `quire settings set reducedMotion true` |
+
+### Behavior
+
+In reduced motion mode, the reporter changes its output strategy:
+
+| Feature | Default | Reduced Motion |
+|---------|---------|----------------|
+| Progress indicator | Animated spinner (`⠋ Building...`) | Static text (`– Building...`) |
+| Phase updates | Overwrites current line | Prints on a new line |
+| Success/failure | Spinner stops with symbol (`✔`, `✖`) | Static line with symbol (`✔`, `✖`) |
+| Elapsed time | Updates in place (`Building... (12s)`) | Not shown (cannot update in place) |
+
+Example default output (animated, single line updates):
+
+```
+⠋ Building site...        ← spinner animates, line overwrites
+✔ Build complete           ← spinner stops, final status shown
+```
+
+Example reduced motion output (static, new lines):
+
+```
+– Building site...
+✔ Build complete
+```
+
+### How Reduced Motion Propagates
+
+The CLI uses `process.env.REDUCED_MOTION` as the signal for disabling animation. The reporter reads this environment variable directly via `Boolean(process.env.REDUCED_MOTION)`.
+
+The `--reduced-motion` flag sets `process.env.REDUCED_MOTION = '1'` in the Commander.js `preAction` hook, before any command runs. The config-based `reducedMotion: true` setting is applied earlier, in `bin/cli.js`, before modules are loaded.
+
+### Interaction with Other Modes
+
+Reduced motion is orthogonal to output verbosity modes:
+
+- `--quiet` takes precedence — no output is shown regardless of reduced motion.
+- `--verbose` works with reduced motion — detail lines print on new lines (same as default verbose behavior).
+- `--no-color` combines freely — static text is printed without ANSI color codes.
 
 ## Non-TTY and CI Environments
 
@@ -173,7 +225,7 @@ Design principles:
 
 ## Output Modes
 
-Three output modes control verbosity. These are orthogonal to color settings and can be combined freely:
+Three output modes control verbosity. These are orthogonal to color and motion settings and can be combined freely:
 
 | Mode | Flag | Purpose |
 |------|------|---------|
@@ -181,6 +233,7 @@ Three output modes control verbosity. These are orthogonal to color settings and
 | Default | (none) | Spinner with basic status |
 | Verbose | `-v, --verbose` | Detailed progress (paths, timing) |
 | Debug | `--debug` | Developer-level diagnostic output |
+| Reduced Motion | `--reduced-motion` | Static text, no animation or line overwriting |
 
 See [cli-output-modes.md](cli-output-modes.md) for the full output mode architecture.
 
@@ -188,7 +241,7 @@ See [cli-output-modes.md](cli-output-modes.md) for the full output mode architec
 
 1. **`quire --no-color --help`** may still render Commander.js help styling with color, because Commander processes `--help` before the `preAction` hook runs. Use `NO_COLOR=1 quire --help` instead.
 
-2. **No reduced-motion detection.** Spinners always animate in TTY environments. There is no `prefers-reduced-motion` equivalent or `--no-spinner` flag. Use `--quiet` to suppress spinners entirely.
+2. **No automatic reduced-motion detection.** The CLI does not read the operating system's `prefers-reduced-motion` media query. Users must opt in via `--reduced-motion`, the `REDUCED_MOTION` environment variable, or the `reducedMotion` config setting. See [Reduced Motion](#reduced-motion) above.
 
 ## Environment Variables
 
@@ -196,6 +249,7 @@ See [cli-output-modes.md](cli-output-modes.md) for the full output mode architec
 |----------|---------|
 | `NO_COLOR` | Disable color output ([no-color.org](https://no-color.org/)) |
 | `FORCE_COLOR` | Force color output (overrides `NO_COLOR`) |
+| `REDUCED_MOTION` | Disable spinner animation and line overwriting |
 | `NO_PAGER` | Disable paging for long output |
 | `PAGER` | Set pager program (default: `less`). Use `PAGER=cat` to disable |
 | `DEBUG=quire:*` | Enable debug output for all modules |
@@ -211,6 +265,9 @@ quire settings set logUseColor false
 
 # Disable colored error/warning labels
 quire settings set logColorMessages false
+
+# Enable reduced motion permanently
+quire settings set reducedMotion true
 
 # Enable verbose output by default
 quire settings set verbose true
