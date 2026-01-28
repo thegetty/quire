@@ -1,6 +1,6 @@
 # CLI Output Modes
 
-This document describes the three output modes available across Quire CLI commands for controlling console output verbosity.
+This document describes the output modes available across Quire CLI commands for controlling console output verbosity and accessibility.
 
 ## Overview
 
@@ -12,11 +12,12 @@ Quire CLI commands support three output modes that control the level of feedback
 | **Default** | (none) | Show spinner with basic status | General users |
 | **Verbose** | `-v, --verbose` | Show detailed progress | Users wanting more info |
 
-Additionally, there's a separate debugging mode:
+Additionally, there are modes for debugging and accessibility:
 
 | Mode | Flag | Description | Audience |
 |------|------|-------------|----------|
 | **Debug** | `--debug` | Enable debug output for troubleshooting | Developers/maintainers |
+| **Reduced Motion** | `--reduced-motion` | Disable spinner animation and line overwriting | Screen reader users, reduced-motion preferences |
 
 ## Semantic Model
 
@@ -45,6 +46,31 @@ Debug mode can be combined with verbose mode:
 - `quire build --debug` - Default output + debug logs
 - `quire build --verbose --debug` - Verbose output + debug logs
 
+### Accessibility (Reduced Motion)
+
+Reduced motion mode is orthogonal to the verbosity spectrum. When enabled, the reporter outputs static text on new lines instead of animated spinners:
+
+- **No animation**: Spinners are replaced with static status symbols (`–`, `✔`, `✖`, `⚠`, `ℹ`)
+- **No line overwriting**: Each stage prints on a new line instead of overwriting the current line
+- **Compatible with screen readers**: Static text output is reliably read by assistive technology
+
+Reduced motion can be enabled three ways:
+
+```bash
+# CLI flag (single command)
+quire build --reduced-motion
+
+# Environment variable (shell session)
+REDUCED_MOTION=1 quire build
+
+# Config setting (persistent)
+quire settings set reducedMotion true
+```
+
+Reduced motion can be combined with any verbosity mode:
+- `quire build --reduced-motion` - Static text, default verbosity
+- `quire build --reduced-motion --verbose` - Static text with details
+
 ### Option Conflicts
 
 Quiet mode conflicts with verbose and debug modes since they have opposing purposes:
@@ -67,6 +93,9 @@ quire settings set verbose true
 # Always run in debug mode
 quire settings set debug true
 
+# Always use reduced motion
+quire settings set reducedMotion true
+
 # View current settings
 quire settings list
 ```
@@ -79,6 +108,7 @@ quire build --no-verbose
 
 # Disable debug even if enabled in config
 quire build --no-debug
+
 ```
 
 > **Note:** The `--no-` prefix is a [Commander.js built-in feature](https://github.com/tj/commander.js#other-option-types-negatable-boolean-and-booleanvalue).
@@ -91,9 +121,10 @@ These flags are available both globally and per-command:
 ### Global Flags (from main.js)
 
 ```bash
-quire -q [command]      # Run any command in quiet mode
-quire -v [command]      # Run any command in verbose mode
-quire --debug [command] # Run any command with debug output
+quire -q [command]              # Run any command in quiet mode
+quire -v [command]              # Run any command in verbose mode
+quire --debug [command]         # Run any command with debug output
+quire --reduced-motion [command] # Run any command with static text output
 ```
 
 ### Command-Level Flags
@@ -175,6 +206,12 @@ quire build --debug
 
 # Verbose + Debug - all output
 quire build --verbose --debug
+
+# Reduced motion - static text, no animation
+quire build --reduced-motion
+
+# Reduced motion + verbose
+quire build --reduced-motion --verbose
 ```
 
 ### PDF Command
@@ -231,7 +268,8 @@ quire doctor --quiet --json report.json
 1. **CI/CD pipelines**: Always use `--quiet` to avoid spinner output that can clutter logs
 2. **Troubleshooting**: Start with `--verbose`, escalate to `--debug` if needed
 3. **Scripts**: Use `--quiet` and rely on exit codes for success/failure
-4. **Persistent defaults**: Use `quire settings set verbose true` if you always want verbose output
+4. **Screen readers**: Use `--reduced-motion` or `quire settings set reducedMotion true` to disable animated spinners
+5. **Persistent defaults**: Use `quire settings set verbose true` if you always want verbose output
 
 ### For Developers
 
