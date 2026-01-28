@@ -108,8 +108,6 @@ test('build command should call eleventy CLI with default options', async (t) =>
   t.true(mockClean.called, 'clean should be called in preAction')
   t.false(mockEleventyApi.build.called, 'eleventy API build should not be called')
   t.true(mockEleventyCli.build.called, 'eleventy CLI build should be called')
-  t.true(mockReporter.start.called, 'reporter.start should be called')
-  t.true(mockReporter.succeed.called, 'reporter.succeed should be called')
 })
 
 test('build command should call eleventy API when 11ty option is "api"', async (t) => {
@@ -282,7 +280,7 @@ test('build command should pass options to eleventy build', async (t) => {
   t.true(mockEleventyCli.build.calledWith(options), 'eleventy CLI build should be called with options')
 })
 
-test('build command should call reporter.fail when build fails', async (t) => {
+test('build command should propagate errors from eleventy build', async (t) => {
   const { sandbox, fs, mockLogger, mockReporter } = t.context
 
   const buildError = new Error('Build failed')
@@ -334,11 +332,8 @@ test('build command should call reporter.fail when build fails', async (t) => {
   command.name = sandbox.stub().returns('build')
 
   // Run action and expect it to throw
+  // Nota bene: reporter.start/succeed/fail are called by the lib layer, not the command
   await t.throwsAsync(() => command.action({ '11ty': 'api' }, command), { message: 'Build failed' })
-
-  t.true(mockReporter.start.called, 'reporter.start should be called')
-  t.true(mockReporter.fail.called, 'reporter.fail should be called on error')
-  t.false(mockReporter.succeed.called, 'reporter.succeed should not be called on error')
 })
 
 test('build command should configure reporter with quiet option', async (t) => {

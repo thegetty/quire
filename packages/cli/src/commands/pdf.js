@@ -5,6 +5,7 @@ import eleventy from '#lib/11ty/index.js'
 import generatePdf, { ENGINES } from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
+import { recordStatus } from '#lib/conf/build-status.js'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 import { MissingBuildOutputError } from '#src/errors/index.js'
@@ -81,10 +82,16 @@ Examples:
 
     // Generate PDF - façade handles validation, progress, and errors
     const pdfOptions = { ...options, lib: options.engine }
-    const output = await generatePdf(pdfOptions)
 
-    if (options.open) {
-      open(output)
+    try {
+      const output = await generatePdf(pdfOptions)
+      recordStatus(paths.getProjectRoot(), 'pdf', 'ok')
+      if (options.open) {
+        open(output)
+      }
+    } catch (error) {
+      recordStatus(paths.getProjectRoot(), 'pdf', 'failed')
+      throw error
     }
   }
 

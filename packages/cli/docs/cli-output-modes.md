@@ -137,6 +137,17 @@ reporter.succeed('Build complete')
 | `detail(text)` | Show detailed info | Yes |
 | `stop()` | Stop spinner | No |
 
+### Reporter Lifecycle
+
+The reporter's elapsed time display uses `setInterval`, which keeps the Node.js event loop alive. To ensure clean process exit, `main.js` manages the reporter lifecycle automatically:
+
+- **Success path**: A global `postAction` hook calls `reporter.stop()` after every command
+- **Error path**: The action wrapper's `catch` block calls `reporter.stop()` before `handleError()`
+
+Commands do not need to call `reporter.stop()` themselves — this is handled centrally. Commands should use `reporter.succeed()`, `reporter.fail()`, or `reporter.warn()` to signal completion, which also clears the timer. The centralized cleanup is a safety net for cases where a command throws before reaching those calls.
+
+See [Error Handling Architecture](error-handling.md#reporter-cleanup) for details.
+
 ### Debug Mode
 
 Debug mode is enabled via the `enableDebug` function in the CLI preAction hook:
@@ -239,3 +250,4 @@ quire doctor --quiet --json report.json
 2. Use `reporter.detail()` for verbose-only information
 3. Use `this.debug()` for internal state, not user-facing messages
 4. Ensure commands work correctly in all three modes
+5. Do **not** call `reporter.stop()` for cleanup — `main.js` handles this automatically in both success and error paths (see [Reporter Lifecycle](#reporter-lifecycle))

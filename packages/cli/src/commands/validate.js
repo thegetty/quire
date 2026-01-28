@@ -25,11 +25,14 @@ export default class ValidateCommand extends Command {
 Examples:
   quire validate               Check YAML syntax in content/_data/
   quire validate --verbose     Validate with detailed file listing
+  quire validate --json        Output validation results as JSON
 
 Validates YAML files in content/_data/ directory.
 `,
     version: '1.0.0',
-    options: [],
+    options: [
+      ['--json', 'output validation results as JSON'],
+    ],
   })
 
   constructor() {
@@ -45,21 +48,50 @@ Validates YAML files in content/_data/ directory.
       .map(file => path.join(dataPath, file)
       )
 
-    let errorList = []
-    this.logger.info('Validating YAML files..')
+    const results = []
+    if (!options.json) {
+      this.logger.info('Validating YAML files..')
+    }
 
     for (const file of files) {
       try {
         yamlValidation(file)
+        results.push({ file, status: 'passed' })
       } catch (error){
-        errorList.push(error)
+        results.push({ file, status: 'failed', error: error.reason })
       }
     }
 
-    if(errorList.length > 0) {
-      errorList.forEach(err => { this.logger.error(`${err.reason}`) })
+    const errors = results.filter((r) => r.status === 'failed')
+
+    if (options.json) {
+      const output = {
+        summary: {
+          files: results.length,
+          passed: results.length - errors.length,
+          failed: errors.length,
+        },
+        files: results,
+      }
+      console.log(JSON.stringify(output, null, 2))
+
+      // Still throw so exit code reflects failure
+      if (errors.length > 0) {
+        throw new ValidationError(
+          `Validation failed with ${errors.length} error(s)`,
+          {
+            code: 'VALIDATION_FAILED',
+            suggestion: 'Fix the errors listed above and run validation again'
+          }
+        )
+      }
+      return
+    }
+
+    if (errors.length > 0) {
+      errors.forEach((r) => { this.logger.error(`${r.error}`) })
       throw new ValidationError(
-        `Validation failed with ${errorList.length} error(s)`,
+        `Validation failed with ${errors.length} error(s)`,
         {
           code: 'VALIDATION_FAILED',
           suggestion: 'Fix the errors listed above and run validation again'

@@ -232,3 +232,147 @@ test('validate command should pass debug option through', async (t) => {
   t.true(mockYamlValidation.called, 'validation should run')
   // Debug output should be logged (verified through console.debug stub)
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JSON output tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('validate --json should output valid JSON when all files pass', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const mockYamlValidation = sandbox.stub()
+  const mockTestcwd = sandbox.stub()
+
+  const ValidateCommand = await esmock('./validate.js', {
+    '../validators/validate-yaml.js': {
+      default: mockYamlValidation
+    },
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
+    },
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#lib/logger/index.js': {
+      logger: mockLogger
+    },
+    'fs-extra': fs
+  })
+
+  const command = new ValidateCommand()
+  command.name = sandbox.stub().returns('validate')
+
+  command.action({ json: true }, command)
+
+  // Should output via console.log, not logger.info
+  t.true(consoleLogStub.calledOnce, 'console.log should be called once')
+  t.false(mockLogger.info.called, 'logger.info should not be called in JSON mode')
+
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+
+  // Verify JSON structure
+  t.truthy(output.summary, 'JSON should have summary section')
+  t.truthy(output.files, 'JSON should have files section')
+  t.is(output.summary.files, 2, 'should report 2 YAML files')
+  t.is(output.summary.passed, 2, 'both files should pass')
+  t.is(output.summary.failed, 0, 'no files should fail')
+
+  // Verify each file result
+  t.true(output.files.every((f) => f.status === 'passed'), 'all files should have passed status')
+})
+
+test.serial('validate --json should output valid JSON with errors and throw', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  const validationError = new Error('Invalid YAML')
+  validationError.reason = 'Invalid YAML: missing required field'
+  const mockYamlValidation = sandbox.stub().throws(validationError)
+  const mockTestcwd = sandbox.stub()
+
+  const ValidateCommand = await esmock('./validate.js', {
+    '../validators/validate-yaml.js': {
+      default: mockYamlValidation
+    },
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
+    },
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#lib/logger/index.js': {
+      logger: mockLogger
+    },
+    'fs-extra': fs
+  })
+
+  const command = new ValidateCommand()
+  command.name = sandbox.stub().returns('validate')
+  command.logger = mockLogger
+
+  // Should still throw ValidationError for exit code
+  const error = t.throws(() => command.action({ json: true }, command), { instanceOf: ValidationError })
+  t.is(error.code, 'VALIDATION_FAILED')
+
+  // Should output JSON before throwing
+  t.true(consoleLogStub.calledOnce, 'console.log should be called once')
+
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+
+  t.is(output.summary.files, 2)
+  t.is(output.summary.failed, 2, 'both files should fail')
+  t.is(output.summary.passed, 0)
+
+  // Verify error details in file results
+  t.true(output.files.every((f) => f.status === 'failed'), 'all files should have failed status')
+  t.true(output.files.every((f) => f.error), 'all failed files should have error details')
+
+  // logger.error should NOT be called in JSON mode
+  t.false(mockLogger.error.called, 'logger.error should not be called in JSON mode')
+})
+
+test.serial('validate --json should output mixed results', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
+  const consoleLogStub = sandbox.stub(console, 'log')
+
+  // First file passes, second file fails
+  const validationError = new Error('Invalid YAML')
+  validationError.reason = 'duplicated mapping key at line 5'
+  const mockYamlValidation = sandbox.stub()
+  mockYamlValidation.onFirstCall().returns(undefined)
+  mockYamlValidation.onSecondCall().throws(validationError)
+  const mockTestcwd = sandbox.stub()
+
+  const ValidateCommand = await esmock('./validate.js', {
+    '../validators/validate-yaml.js': {
+      default: mockYamlValidation
+    },
+    '#lib/project/index.js': {
+      default: { getProjectRoot: () => '/project' }
+    },
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#lib/logger/index.js': {
+      logger: mockLogger
+    },
+    'fs-extra': fs
+  })
+
+  const command = new ValidateCommand()
+  command.name = sandbox.stub().returns('validate')
+  command.logger = mockLogger
+
+  // Should throw because there are errors
+  t.throws(() => command.action({ json: true }, command), { instanceOf: ValidationError })
+
+  const output = JSON.parse(consoleLogStub.firstCall.args[0])
+
+  t.is(output.summary.files, 2)
+  t.is(output.summary.passed, 1)
+  t.is(output.summary.failed, 1)
+  t.is(output.files[0].status, 'passed')
+  t.is(output.files[1].status, 'failed')
+  t.is(output.files[1].error, 'duplicated mapping key at line 5')
+})

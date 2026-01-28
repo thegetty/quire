@@ -22,12 +22,26 @@ Command Action ─► throws QuireError or Error
   try/catch wrapper (main.js)
      │
      ▼ (on error)
+  reporter.stop()  ◄── Clear active timers (see below)
+     │
+     ▼
   handleError()
      │
      ├─► QuireError ──► Format with code, suggestion, docs link ──► exit(exitCode)
      │
      └─► Other Error ─► Display as unexpected, prompt to report ─► exit(1)
 ```
+
+### Reporter Cleanup
+
+The reporter module uses `setInterval` for elapsed time display (e.g. "Building... 3s"). If a command throws before calling `reporter.succeed()` or `reporter.fail()`, the active interval timer keeps the Node.js event loop alive, preventing the process from exiting.
+
+To prevent this, `main.js` stops the reporter in two places:
+
+1. **Error path**: `reporter.stop()` is called in the action wrapper's `catch` block before `handleError()`, ensuring timers are cleared when a command throws.
+2. **Success path**: A global `postAction` hook calls `reporter.stop()` after every command completes successfully.
+
+Both calls are idempotent — `stop()` is a no-op if no spinner or timer is active. Commands do not need to handle reporter cleanup themselves; `main.js` guarantees it.
 
 Signal-based exits (Ctrl-C, SIGTERM) are handled separately by the process manager module using POSIX conventions (SIGINT → 130, SIGTERM → 143).
 

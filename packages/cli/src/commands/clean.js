@@ -1,6 +1,7 @@
 import Command from '#src/Command.js'
 import { withOutputModes } from '#lib/commander/index.js'
 import { clean } from '#helpers/clean.js'
+import { clearStatus } from '#lib/conf/build-status.js'
 import paths from '#lib/project/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -31,6 +32,7 @@ Examples:
     options: [
       [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
       [ '--dryrun', 'alias for --dry-run', { hidden: true, implies: { dryRun: true } } ],
+      [ '--status', 'also clear stored build status for this project' ],
     ],
   })
 
@@ -41,10 +43,16 @@ Examples:
   async action(options, command) {
     this.debug('called with options %O', options)
 
-    const deletedPaths = await clean(paths.getProjectRoot(), paths.toObject(), options)
+    const projectRoot = paths.getProjectRoot()
+    const deletedPaths = await clean(projectRoot, paths.toObject(), options)
+
+    if (options.status && !options.dryRun) {
+      clearStatus(projectRoot)
+      this.logger.info('Cleared build status for this project')
+    }
 
     if (!deletedPaths || !deletedPaths.length) {
-      this.logger.info('No files to delete')
+      if (!options.status) this.logger.info('No files to delete')
       return
     }
 

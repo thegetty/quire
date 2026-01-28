@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-rc.35",
+  "version": "1.0.0-rc.38",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
@@ -80,7 +80,8 @@
     "read-package-up": "^11.0.0",
     "semver": "^7.3.8",
     "update-notifier": "^7.3.1",
-    "which": "^2.0.2"
+    "which": "^2.0.2",
+    "wrap-ansi": "^8.1.0"
   },
   "devDependencies": {
     "ava": "^6.2.0",

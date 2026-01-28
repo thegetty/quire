@@ -33,7 +33,7 @@
 import { dynamicImport } from '#helpers/os-utils.js'
 import path from 'node:path'
 import paths from '#lib/project/index.js'
-import { logger } from '#lib/logger/index.js'
+import reporter from '#lib/reporter/index.js'
 import createDebug from '#debug'
 
 const debug = createDebug('lib:11ty:api')
@@ -172,15 +172,21 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    logger.info('Building site...')
-
     configureEleventyEnv({ mode: 'production', debug: options.debug })
+
+    reporter.start('Building site...', { showElapsed: true })
 
     const eleventy = await createEleventyInstance(options)
 
     eleventy.setDryRun(options.dryRun)
 
-    await eleventy.write()
+    try {
+      await eleventy.write()
+      reporter.succeed('Build complete')
+    } catch (error) {
+      reporter.fail('Build failed')
+      throw error
+    }
   }
 
   /**
@@ -196,9 +202,9 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    logger.info('Starting development server...')
-
     configureEleventyEnv({ mode: 'development', debug: options.debug })
+
+    reporter.start('Starting development server...')
 
     const eleventy =
       await createEleventyInstance({ ...options, runMode: 'serve' })
@@ -208,6 +214,19 @@ class Quire11ty {
 
     // Initialize Eleventy before serving (required for eleventyServe)
     await eleventy.init()
+
+    // Register a ready callback to resolve the spinner when the server is listening
+    // @see https://www.11ty.dev/docs/dev-server/#options
+    eleventy.eleventyServe.config.serverOptions = {
+      ...eleventy.eleventyServe.config.serverOptions,
+      ready: (server) => {
+        const url = server.getServerUrl('localhost')
+        reporter.succeed(`Server running at ${url}`)
+        if (options.open) {
+          import('open').then(({ default: open }) => open(url))
+        }
+      },
+    }
 
     await eleventy.serve(options.port)
   }
