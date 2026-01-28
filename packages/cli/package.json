@@ -70,7 +70,7 @@
     "inquirer": "^9.1.4",
     "js-yaml": "^4.1.0",
     "loglevel": "^1.8.1",
-    "marked": "^17.0.1",
+    "marked": "^15.0.12",
     "marked-terminal": "^7.3.0",
     "node-fetch": "^3.3.2",
     "open": "^8.4.0",
