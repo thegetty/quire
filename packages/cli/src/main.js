@@ -16,6 +16,7 @@ import reporter from '#lib/reporter/index.js'
 import { docsUrl, DOCS_BASE } from '#helpers/docs-url.js'
 import packageConfig from '#src/packageConfig.js'
 import { enableDebug } from '#lib/logger/debug.js'
+import { formatPrefix } from '#lib/logger/index.js'
 
 const { version } = packageConfig
 
@@ -151,6 +152,10 @@ program.hook('preAction', (thisCommand) => {
   if (opts.pager === false) {
     process.env.NO_PAGER = '1'
   }
+
+  // Log prefix and level label visibility for quire-11ty's chalk logger
+  process.env.QUIRE_LOG_PREFIX = formatPrefix(config.get('logPrefixStyle'), config.get('logPrefix'))
+  process.env.QUIRE_LOG_SHOW_LEVEL = String(config.get('logShowLevel'))
 })
 
 /**

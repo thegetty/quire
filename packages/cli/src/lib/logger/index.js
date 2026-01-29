@@ -88,7 +88,7 @@ export const LOG_LEVEL_ENV_VAR = 'QUIRE_LOG_LEVEL'
  * @param {string} text - Prefix text
  * @returns {string} Formatted prefix
  */
-function formatPrefix(style, text) {
+export function formatPrefix(style, text) {
   switch (style) {
     case 'bracket':
       return `[${text}]`
