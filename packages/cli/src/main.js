@@ -2,6 +2,8 @@ import { Command, Argument, Option } from 'commander'
 import {
   arrayToArgument,
   arrayToOption,
+  colorOption,
+  noColorOption,
   quietOption,
   verboseOption,
   debugOption
@@ -34,12 +36,20 @@ Output Modes:
 
   Set defaults: quire settings set verbose true
 
+Color Output:
+  --no-color       Disable colored output
+  --color          Force colored output (overrides NO_COLOR env var)
+
+  Respects NO_COLOR environment variable (https://no-color.org/)
+  Set default: quire settings set logUseColor false
+
 Paging:
   --no-pager             Disable paging for long output
   NO_PAGER=1             Disable paging via environment variable
   PAGER=cat              Traditional Unix alternative (passes output through)
 
 Environment Variables:
+  NO_COLOR               Disable colored output (https://no-color.org/)
   NO_PAGER=1             Disable paging for long output
   PAGER=<program>        Set pager program (default: less). Use PAGER=cat to disable
   DEBUG=quire:*          Enable debug output for all modules
@@ -50,6 +60,8 @@ Examples:
   $ quire build                  Build the publication
   $ quire build --verbose        Build with detailed progress
   $ quire build --debug          Build with debug output
+  $ quire build --no-color       Build without colored output
+  $ NO_COLOR=1 quire build       Build without colored output
   $ DEBUG=quire:* quire pdf      Generate PDF with debug output
 `
 
@@ -66,6 +78,8 @@ program
   .name('quire')
   .description('Quire command-line interface')
   .version(version, '-V, --version', 'output quire version number')
+  .addOption(arrayToOption(colorOption))
+  .addOption(arrayToOption(noColorOption))
   .addOption(arrayToOption(quietOption))
   .addOption(arrayToOption(verboseOption))
   .addOption(arrayToOption(debugOption))
@@ -88,12 +102,24 @@ program
  * - --quiet: Suppress progress spinners (for CI/scripts)
  * - --verbose: Show detailed progress (paths, timing, steps)
  * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
+ * - --no-color: Disable colored output (sets NO_COLOR env var)
+ * - --color: Force colored output (overrides NO_COLOR env var)
  *
  * These global options are passed through to commands via opts()
  * and should be merged with command-level options.
  */
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts()
+
+  // Handle --no-color / --color flag
+  // Sets NO_COLOR env var for chalk, ora, and logger to read
+  if (opts.color === false) {
+    process.env.NO_COLOR = '1'
+    delete process.env.FORCE_COLOR
+  } else if (opts.color === true) {
+    delete process.env.NO_COLOR
+    process.env.FORCE_COLOR = '1'
+  }
 
   // --debug or config.debug enables the quire:* DEBUG namespace for internal logging
   // CLI flag takes precedence, then config setting

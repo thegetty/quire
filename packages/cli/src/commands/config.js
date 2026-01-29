@@ -205,7 +205,7 @@ Examples:
     const output = formatSettings(this.config.store, {
       showInternal: options.debug,
       configPath: this.config.path,
-      useColor: this.config.get('logUseColor'),
+      useColor: this.config.get('logUseColor') && !process.env.NO_COLOR,
     })
     this.logger.info(output)
   }
