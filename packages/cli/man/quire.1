@@ -27,6 +27,10 @@ omitted, the current directory is used\. An optional \fIstarter\fR argument
 specifies a repository URL or local path for a starter project\.
 .P
 \fB\-\-quire\-version\fP \fIversion\fR pins the quire\-11ty version to install\.
+.br
+\fB\-\-quire\-path\fP \fIpath\fR uses a local quire\-11ty package instead of a
+.br
+published version\.
 
 .RE
 .SS Development
@@ -49,7 +53,7 @@ Run the Eleventy build to generate static HTML output\. Build outputs
 .br
 are written to the project's output directory\.
 .P
-\fB\-\-clean\fP removes previous build output before building\.
+\fB\-d\fP, \fB\-\-dry\-run\fP runs the build without writing files\.
 .IP \(bu 2
 \fBclean\fP:
 .br
@@ -130,12 +134,16 @@ Display version information for the current project, including
 quire\-cli, quire\-11ty, and starter template versions\.
 .P
 \fB\-\-debug\fP includes installation paths\.
+.br
+\fB\-\-json\fP outputs version information as JSON\.
 .IP \(bu 2
 \fBvalidate\fP:
 .br
 Check YAML files in the project's \fBcontent/_data/\fP directory for
 .br
 syntax errors\.
+.P
+\fB\-\-json\fP outputs validation results as JSON\.
 .IP \(bu 2
 \fBsettings\fP [operation] [key] [value]:
 .br
@@ -146,8 +154,20 @@ settings\.
 Operations: \fBget\fP, \fBset\fP, \fBdelete\fP, \fBreset\fP, \fBpath\fP\|\.
 .P
 \fB\-\-json\fP outputs raw JSON\.
+.br
+\fB\-\-debug\fP enables debug output for troubleshooting\.
 .P
 Aliases: \fBprefs\fP, \fBpreferences\fP, \fBconf\fP, \fBconfig\fP, \fBconfigure\fP\|\.
+.IP \(bu 2
+\fBhelp\fP [topic]:
+.br
+Display help for a topic or list available topics\. Topics include
+.br
+individual commands, workflows, and configuration guides\.
+.P
+\fB\-\-list\fP lists all available topics\.
+.P
+Alias: \fBh\fP\|\.
 
 .RE
 .SH GLOBAL OPTIONS
@@ -156,19 +176,53 @@ Aliases: \fBprefs\fP, \fBpreferences\fP, \fBconf\fP, \fBconfig\fP, \fBconfigure\
 .IP \(bu 2
 \fB\-q\fP, \fB\-\-quiet\fP:
 .br
-Suppress progress spinners and informational output\. Useful for
+Suppress progress output\. Hides spinner messages, quire\-11ty log
 .br
-CI pipelines and scripts\.
+output, Vite log output, and the Eleventy directory listing\. Exit
+.br
+codes still indicate success or failure\. Useful for CI pipelines
+.br
+and scripts\.
 .IP \(bu 2
 \fB\-v\fP, \fB\-\-verbose\fP:
 .br
-Show detailed progress including paths, timing, and intermediate steps\.
+Show detailed progress\. Enables quire\-11ty informational log output,
+.br
+the Eleventy directory listing (file\-by\-file build table), and Vite
+.br
+info\-level output in addition to spinner messages\.
 .IP \(bu 2
 \fB\-\-debug\fP:
 .br
 Enable debug output for troubleshooting\. Activates the \fBquire:*\fP debug
 .br
-namespace\.
+namespace, Eleventy's \fBDEBUG=Eleventy*\fP tracing, and quire\-11ty debug\-
+.br
+level log output\. Can be combined with \fB\-\-verbose\fP\.
+.IP \(bu 2
+\fB\-\-reduced\-motion\fP:
+.br
+Disable spinner animation and line overwriting\. Each build phase prints
+.br
+on a new line with a static status symbol\. Compatible with screen
+.br
+readers and terminals that do not support ANSI escape sequences\. Can
+.br
+also be enabled via the \fBREDUCED_MOTION\fP environment variable or the
+.br
+\fBreducedMotion\fP config setting\.
+.IP \(bu 2
+\fB\-\-color\fP:
+.br
+Force colored output, overriding the \fBNO_COLOR\fP environment variable\.
+.IP \(bu 2
+\fB\-\-no\-color\fP:
+.br
+Disable colored output\.
+.IP \(bu 2
+\fB\-\-no\-pager\fP:
+.br
+Disable paging for long output (e\.g\., help topics)\.
 .IP \(bu 2
 \fB\-V\fP, \fB\-\-version\fP:
 .br
@@ -183,15 +237,45 @@ Display help for quire or a subcommand\.
 
 .RS 1
 .IP \(bu 2
+\fBQUIRE_LOG_LEVEL\fP=\fIlevel\fR:
+.br
+Override the log verbosity for quire\-11ty output\. Valid values are
+.br
+\fBtrace\fP, \fBdebug\fP, \fBinfo\fP, \fBwarn\fP, \fBerror\fP, and \fBsilent\fP\. This is
+.br
+normally set automatically by the CLI based on \fB\-\-quiet\fP, \fB\-\-verbose\fP,
+.br
+and \fB\-\-debug\fP flags\. Setting it manually is useful when running
+.br
+quire\-11ty outside the CLI\.
+.IP \(bu 2
+\fBREDUCED_MOTION\fP=\fI1\fR:
+.br
+Disable spinner animation, equivalent to \fB\-\-reduced\-motion\fP\.
+.IP \(bu 2
+\fBNO_COLOR\fP=\fI1\fR:
+.br
+Disable colored output (respected by chalk)\. Overridden by \fB\-\-color\fP\.
+.IP \(bu 2
+\fBNO_PAGER\fP=\fI1\fR:
+.br
+Disable paging for long output, equivalent to \fB\-\-no\-pager\fP\.
+.IP \(bu 2
+\fBPAGER\fP=\fIprogram\fR:
+.br
+Set the pager program for long output (default: \fBless\fP)\.
+.IP \(bu 2
 \fBDEBUG\fP=\fIpattern\fR:
 .br
 Enable debug output for matching namespaces\. Examples:
 .P
-\fBDEBUG=quire:*\fP enables all debug output\.
+\fBDEBUG=quire:*\fP enables all Quire CLI debug output\.
 .br
 \fBDEBUG=quire:lib:pdf\fP enables only PDF module debug output\.
 .br
 \fBDEBUG=quire:lib:*\fP enables all library module debug output\.
+.br
+\fBDEBUG=Eleventy*\fP enables Eleventy internal debug output\.
 
 .RE
 .SH COMMON WORKFLOWS
@@ -255,4 +339,3 @@ Full documentation: https://quire.getty.edu/docs-v1
 Report bugs: https://github.com/thegetty/quire/issues
 .P
 Source code: https://github.com/thegetty/quire
-
