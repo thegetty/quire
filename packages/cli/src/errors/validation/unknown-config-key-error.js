@@ -1,14 +1,15 @@
 import QuireError from '../quire-error.js'
 import { docsUrl } from '#helpers/docs-url.js'
 import { suggestSimilar, formatSuggestion } from '#helpers/suggest-similar.js'
-import { getValidKeys } from '#lib/conf/index.js'
 
 /**
  * Error thrown when an unrecognized configuration key is used
+ *
+ * @param {string} key - The unrecognized key
+ * @param {string[]} validKeys - Array of valid configuration keys
  */
 export default class UnknownConfigKeyError extends QuireError {
-  constructor(key) {
-    const validKeys = getValidKeys()
+  constructor(key, validKeys) {
     const suggestion = formatSuggestion(suggestSimilar(key, validKeys))
       || `Valid keys: ${validKeys.join(', ')}`
 

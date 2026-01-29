@@ -60,6 +60,16 @@ async function listTopics() {
 }
 
 /**
+ * Get available topic names from the topics directory
+ * @returns {Promise<string[]>} Topic names (filenames without .md)
+ */
+async function getTopicNames() {
+  if (!await fs.pathExists(TOPICS_DIR)) return []
+  const files = await fs.readdir(TOPICS_DIR)
+  return files.filter((f) => f.endsWith('.md')).map((f) => path.basename(f, '.md'))
+}
+
+/**
  * Load a help topic by name
  * @param {string} name - Topic name (without .md extension)
  * @returns {Promise<string>} Topic content
@@ -69,7 +79,8 @@ async function loadTopic(name) {
   const filePath = path.join(TOPICS_DIR, `${name}.md`)
 
   if (!await fs.pathExists(filePath)) {
-    throw new HelpTopicNotFoundError(name)
+    const validTopics = await getTopicNames()
+    throw new HelpTopicNotFoundError(name, validTopics)
   }
 
   const content = await fs.readFile(filePath, 'utf-8')

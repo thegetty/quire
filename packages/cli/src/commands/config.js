@@ -1,6 +1,7 @@
 import Command from '#src/Command.js'
 import {
   isValidKey,
+  getValidKeys,
   coerceValue,
   formatValidationError,
   getDefault,
@@ -90,7 +91,7 @@ Examples:
     }
 
     if (!isValidKey(key) && !key.startsWith('__internal__')) {
-      throw new UnknownConfigKeyError(key)
+      throw new UnknownConfigKeyError(key, getValidKeys())
     }
 
     const value = this.config.get(key)
@@ -120,7 +121,7 @@ Examples:
     }
 
     if (!isValidKey(key)) {
-      throw new UnknownConfigKeyError(key)
+      throw new UnknownConfigKeyError(key, getValidKeys())
     }
 
     const coercedValue = coerceValue(key, value)
@@ -145,7 +146,7 @@ Examples:
     }
 
     if (!isValidKey(key)) {
-      throw new UnknownConfigKeyError(key)
+      throw new UnknownConfigKeyError(key, getValidKeys())
     }
 
     this.config.delete(key)
@@ -161,7 +162,7 @@ Examples:
   #reset(key) {
     if (key) {
       if (!isValidKey(key)) {
-        throw new UnknownConfigKeyError(key)
+        throw new UnknownConfigKeyError(key, getValidKeys())
       }
       this.config.reset(key)
       const defaultValue = getDefault(key)
