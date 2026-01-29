@@ -34,6 +34,19 @@ if (process.env.REDUCED_MOTION === undefined && config.get('reducedMotion') === 
 }
 
 /**
+ * Set NO_COLOR env var from config before importing CLI modules
+ *
+ * Chalk 5.x and ora read NO_COLOR at module load time.
+ * Setting it here ensures color is disabled before any styled imports.
+ * If NO_COLOR is already set in the shell environment, we do not override it.
+ *
+ * @see https://no-color.org/
+ */
+if (process.env.NO_COLOR === undefined && config.get('logUseColor') === false) {
+  process.env.NO_COLOR = '1'
+}
+
+/**
  * Dynamic import ensures env vars are set before logger modules are loaded
  */
 const { default: cli } = await import('#src/main.js')

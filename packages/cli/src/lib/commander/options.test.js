@@ -1,7 +1,7 @@
 import test from 'ava'
 import { Command } from 'commander'
 import { arrayToOption } from './index.js'
-import { quietOption, verboseOption, debugOption, reducedMotionOption } from './options.js'
+import { colorOption, noColorOption, quietOption, verboseOption, debugOption, reducedMotionOption } from './options.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Integration tests for option conflicts
@@ -16,6 +16,8 @@ import { quietOption, verboseOption, debugOption, reducedMotionOption } from './
 function createTestProgram() {
   const program = new Command()
   program
+    .addOption(arrayToOption(colorOption))
+    .addOption(arrayToOption(noColorOption))
     .addOption(arrayToOption(quietOption))
     .addOption(arrayToOption(verboseOption))
     .addOption(arrayToOption(debugOption))
@@ -156,5 +158,48 @@ test('--reduced-motion combines with --debug without conflict', (t) => {
 
   t.notThrows(() => {
     program.parse(['node', 'test', '--reduced-motion', '--debug'])
+  })
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Color option tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('--no-color sets color to false', (t) => {
+  const program = createTestProgram()
+  program.parse(['node', 'test', '--no-color'])
+  t.is(program.opts().color, false)
+})
+
+test('--color sets color to true', (t) => {
+  const program = createTestProgram()
+  program.parse(['node', 'test', '--color'])
+  t.is(program.opts().color, true)
+})
+
+test('no color flag leaves color undefined', (t) => {
+  const program = createTestProgram()
+  program.parse(['node', 'test'])
+  t.is(program.opts().color, undefined)
+})
+
+test('--no-color can be combined with --verbose', (t) => {
+  const program = createTestProgram()
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--no-color', '--verbose'])
+  })
+})
+
+test('--no-color can be combined with --quiet', (t) => {
+  const program = createTestProgram()
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--no-color', '--quiet'])
+  })
+})
+
+test('--no-color can be combined with --debug', (t) => {
+  const program = createTestProgram()
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--no-color', '--debug'])
   })
 })

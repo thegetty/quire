@@ -194,7 +194,9 @@ Examples:
       const store = options.debug
         ? this.config.store
         : Object.fromEntries(
-          Object.entries(this.config.store).filter(([k]) => !k.startsWith('__internal__'))
+          Object.entries(this.config.store).filter(([k]) =>
+            !k.startsWith('__internal__') && k !== 'projects'
+          )
         )
       console.log(JSON.stringify(store, null, 2))
       return
@@ -203,7 +205,7 @@ Examples:
     const output = formatSettings(this.config.store, {
       showInternal: options.debug,
       configPath: this.config.path,
-      useColor: this.config.get('logUseColor'),
+      useColor: this.config.get('logUseColor') && !process.env.NO_COLOR,
     })
     this.logger.info(output)
   }

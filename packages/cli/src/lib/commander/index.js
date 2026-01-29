@@ -10,6 +10,8 @@ import { Argument, Option } from 'commander'
 
 // Re-export shared option definitions
 export {
+  colorOption,
+  noColorOption,
   quietOption,
   verboseOption,
   debugOption,

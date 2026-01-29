@@ -1,3 +1,4 @@
+import util from 'node:util'
 import debug from 'debug'
 
 /**
@@ -5,6 +6,10 @@ import debug from 'debug'
  *
  * Creates debug instances with the `quire:` namespace prefix.
  * Uses the standard `debug` package for namespace-based filtering.
+ *
+ * Object formatting:
+ *   %O  Pretty-printed, indented on a new line (multi-line)
+ *   %o  Compact single-line output (built-in default)
  *
  * @example
  * // In a module (short alias)
@@ -23,6 +28,42 @@ import debug from 'debug'
  */
 
 /**
+ * Override %O formatter to produce indented multi-line output
+ *
+ * Pretty-prints objects with each line indented by 2 spaces,
+ * starting on a new line after the label.
+ *
+ * Use %o (lowercase) for compact single-line output.
+ */
+debug.formatters.O = function (value) {
+  this.inspectOpts.colors = this.useColors
+  const string = util.inspect(value, this.inspectOpts)
+  return '\n' + string.split('\n').map((line) => '  ' + line).join('\n')
+}
+
+/**
+ * Override formatArgs to prevent per-line namespace prefixing
+ *
+ * The default debug formatArgs (in color mode) splits the formatted
+ * message on newlines and inserts the namespace prefix before every
+ * line. This makes multi-line %O output noisy. This override only
+ * prefixes the first line, letting continuation lines flow cleanly.
+ */
+const originalFormatArgs = debug.formatArgs
+debug.formatArgs = function (args) {
+  if (this.useColors) {
+    const c = this.color
+    const colorCode = '\u001B[3' + (c < 8 ? c : '8;5;' + c)
+    const prefix = `  ${colorCode};1m${this.namespace} \u001B[0m`
+
+    args[0] = prefix + args[0]
+    args.push(colorCode + 'm+' + debug.humanize(this.diff) + '\u001B[0m')
+  } else {
+    originalFormatArgs.call(this, args)
+  }
+}
+
+/**
  * Root namespace for all Quire CLI debug output
  */
 export const DEBUG_NAMESPACE = 'quire'
@@ -37,7 +78,8 @@ export const DEBUG_NAMESPACE = 'quire'
  * const debug = createDebug('lib:pdf:paged')
  * debug('printer options: %O', options)
  * // Output (when DEBUG=quire:lib:pdf:paged):
- * // quire:lib:pdf:paged printer options: { ... } +0ms
+ * // quire:lib:pdf:paged printer options:
+ * //   { format: 'A4', landscape: false } +0ms
  */
 export default function createDebug(namespace) {
   return debug(`${DEBUG_NAMESPACE}:${namespace}`)

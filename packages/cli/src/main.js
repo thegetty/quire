@@ -2,6 +2,8 @@ import { Command, Argument, Option } from 'commander'
 import {
   arrayToArgument,
   arrayToOption,
+  colorOption,
+  noColorOption,
   quietOption,
   verboseOption,
   debugOption,
@@ -10,6 +12,7 @@ import {
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
 import { handleError } from '#lib/error/handler.js'
+import reporter from '#lib/reporter/index.js'
 import { docsUrl, DOCS_BASE } from '#helpers/docs-url.js'
 import packageConfig from '#src/packageConfig.js'
 import { enableDebug } from '#lib/logger/debug.js'
@@ -42,8 +45,23 @@ Accessibility:
 
   Set default: quire settings set reducedMotion true
 
+Color Output:
+  --no-color       Disable colored output
+  --color          Force colored output (overrides NO_COLOR env var)
+
+  Respects NO_COLOR environment variable (https://no-color.org/)
+  Set default: quire settings set logUseColor false
+
+Paging:
+  --no-pager             Disable paging for long output
+  NO_PAGER=1             Disable paging via environment variable
+  PAGER=cat              Traditional Unix alternative (passes output through)
+
 Environment Variables:
   REDUCED_MOTION          Disable spinner animation and line overwriting
+  NO_COLOR               Disable colored output (https://no-color.org/)
+  NO_PAGER=1             Disable paging for long output
+  PAGER=<program>        Set pager program (default: less). Use PAGER=cat to disable
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
   DEBUG=quire:lib:*      Enable debug output for all lib modules
@@ -54,13 +72,15 @@ Examples:
   $ quire build --debug          Build with debug output
   $ quire build --reduced-motion  Build without animated spinners
   $ REDUCED_MOTION=1 quire build  Build without animated spinners
+  $ quire build --no-color       Build without colored output
+  $ NO_COLOR=1 quire build       Build without colored output
   $ DEBUG=quire:* quire pdf      Generate PDF with debug output
 `
 
 /**
  * Quire CLI implements the command pattern.
  *
- * The `main` module acts as the _receiver_, parsing input from the client,
+ * The \`main\` module acts as the _receiver_, parsing input from the client,
  * calling the appropriate command module(s), managing messages between modules,
  * and sending formatted messages to the client for display.
  */
@@ -70,10 +90,13 @@ program
   .name('quire')
   .description('Quire command-line interface')
   .version(version, '-V, --version', 'output quire version number')
+  .addOption(arrayToOption(colorOption))
+  .addOption(arrayToOption(noColorOption))
   .addOption(arrayToOption(quietOption))
   .addOption(arrayToOption(verboseOption))
   .addOption(arrayToOption(debugOption))
   .addOption(arrayToOption(reducedMotionOption))
+  .option('--no-pager', 'disable paging for long output')
   .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
@@ -93,12 +116,24 @@ program
  * - --verbose: Show detailed progress (paths, timing, steps)
  * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
  * - --reduced-motion: Disable animated spinners, use static text on new lines
+ * - --no-color: Disable colored output (sets NO_COLOR env var)
+ * - --color: Force colored output (overrides NO_COLOR env var)
  *
  * These global options are passed through to commands via opts()
  * and should be merged with command-level options.
  */
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts()
+
+  // Handle --no-color / --color flag
+  // Sets NO_COLOR env var for chalk, ora, and logger to read
+  if (opts.color === false) {
+    process.env.NO_COLOR = '1'
+    delete process.env.FORCE_COLOR
+  } else if (opts.color === true) {
+    delete process.env.NO_COLOR
+    process.env.FORCE_COLOR = '1'
+  }
 
   // --debug or config.debug enables the quire:* DEBUG namespace for internal logging
   // CLI flag takes precedence, then config setting
@@ -111,6 +146,19 @@ program.hook('preAction', (thisCommand) => {
   if (opts.reducedMotion) {
     process.env.REDUCED_MOTION = '1'
   }
+
+  // --no-pager sets pager to false; propagate via env var for pager utility
+  if (opts.pager === false) {
+    process.env.NO_PAGER = '1'
+  }
+})
+
+/**
+ * Stop the reporter after every command to clear any active setInterval timers
+ * (e.g. elapsed time display) that would otherwise keep the event loop alive.
+ */
+program.hook('postAction', () => {
+  reporter.stop()
 })
 
 /**
@@ -210,12 +258,25 @@ commands.forEach((command) => {
     })
   }
 
-  // Wrap action in centralized error handler
-  // Using apply() preserves `this` context for `this.debug` and `this.logger`
+  /**
+   * Wrap action in centralized error handler.
+   * Using apply() preserves `this` context for `this.debug` and `this.logger`.
+   *
+   * Nota bene: Commander passes subcommand-local opts as the options argument,
+   * but global options (--verbose, --quiet, --debug) defined on the parent
+   * program are only available via optsWithGlobals(). We replace the options
+   * argument with the merged set so action handlers see all options uniformly.
+   */
   subCommand.action(async (...args) => {
     try {
+      // Commander Command instance is the last element in args array
+      // @see https://github.com/tj/commander.js#action-handler
+      const cmd = args[args.length - 1]
+      const mergedOpts = cmd.optsWithGlobals()
+      args[args.length - 2] = mergedOpts
       await action.apply(command, args)
     } catch (error) {
+      reporter.stop()
       const { debug } = program.opts()
       handleError(error, { debug })
     }
