@@ -34,7 +34,14 @@ Output Modes:
 
   Set defaults: quire settings set verbose true
 
+Paging:
+  --no-pager             Disable paging for long output
+  NO_PAGER=1             Disable paging via environment variable
+  PAGER=cat              Traditional Unix alternative (passes output through)
+
 Environment Variables:
+  NO_PAGER=1             Disable paging for long output
+  PAGER=<program>        Set pager program (default: less). Use PAGER=cat to disable
   DEBUG=quire:*          Enable debug output for all modules
   DEBUG=quire:lib:pdf    Enable debug output for PDF module only
   DEBUG=quire:lib:*      Enable debug output for all lib modules
@@ -49,7 +56,7 @@ Examples:
 /**
  * Quire CLI implements the command pattern.
  *
- * The `main` module acts as the _receiver_, parsing input from the client,
+ * The \`main\` module acts as the _receiver_, parsing input from the client,
  * calling the appropriate command module(s), managing messages between modules,
  * and sending formatted messages to the client for display.
  */
@@ -62,6 +69,7 @@ program
   .addOption(arrayToOption(quietOption))
   .addOption(arrayToOption(verboseOption))
   .addOption(arrayToOption(debugOption))
+  .option('--no-pager', 'disable paging for long output')
   .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
@@ -91,6 +99,11 @@ program.hook('preAction', (thisCommand) => {
   // CLI flag takes precedence, then config setting
   if (opts.debug ?? config.get('debug')) {
     enableDebug('quire:*')
+  }
+
+  // --no-pager sets pager to false; propagate via env var for pager utility
+  if (opts.pager === false) {
+    process.env.NO_PAGER = '1'
   }
 })
 
