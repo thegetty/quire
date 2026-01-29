@@ -46,3 +46,9 @@ export {
 
 // Validation errors (exit code: 4)
 export { default as ValidationError } from './validation/validation-error.js'
+
+// Input errors (exit code: 2)
+export { InvalidInputError } from './input/index.js'
+
+// Help errors (exit code: 2)
+export { HelpTopicNotFoundError } from './help/index.js'

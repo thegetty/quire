@@ -93,6 +93,12 @@ quire settings get <key> --json    # Output single value as JSON
 quire settings --json --debug      # Include __internal__ keys in JSON output
 ```
 
+`staleThreshold` How stale an output must be before `quire doctor` warns; default `'HOURLY'`. Options: `'ZERO'` (0 min), `'SHORT'` (5 min), `'HOURLY'` (60 min), `'DAILY'` (12 hours), `'NEVER'` (disabled).
+
+```sh
+❯ quire config set staleThreshold DAILY
+```
+
 The `--json` flag outputs raw JSON to stdout (bypassing the logger), suitable for piping to `jq` or other tools. `__internal__` keys are excluded from JSON output unless `--debug` is also passed, consistent with the plain-text display.
 
 | Key | Type | Default | Description |

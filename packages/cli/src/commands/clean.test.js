@@ -258,3 +258,125 @@ test('clean command should pass all options to clean helper', async (t) => {
 
   t.true(mockClean.calledWith('/project', { output: '_site' }, options), 'clean should receive all options')
 })
+
+test('clean --status calls clearStatus for the project', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
+
+  const mockClean = sandbox.stub().resolves(['/project/_site'])
+  const mockTestcwd = sandbox.stub()
+  const mockClearStatus = sandbox.stub()
+
+  const CleanCommand = await esmock('./clean.js', {
+    '#helpers/clean.js': {
+      clean: mockClean
+    },
+    '#lib/conf/build-status.js': {
+      clearStatus: mockClearStatus
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#lib/logger/index.js': {
+      logger: mockLogger
+    },
+    'fs-extra': fs
+  })
+
+  const command = new CleanCommand()
+  command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ status: true }, command)
+
+  t.true(mockClearStatus.calledOnce, 'clearStatus should be called once')
+  t.true(mockClearStatus.calledWith('/project'), 'clearStatus should be called with project root')
+
+  const calls = mockLogger.info.args.map((a) => a[0])
+  t.true(calls.some((c) => c.includes('Cleared build status')), 'should log status cleared message')
+})
+
+test('clean --status does not call clearStatus during dry-run', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
+
+  const mockClean = sandbox.stub().resolves(['/project/_site'])
+  const mockTestcwd = sandbox.stub()
+  const mockClearStatus = sandbox.stub()
+
+  const CleanCommand = await esmock('./clean.js', {
+    '#helpers/clean.js': {
+      clean: mockClean
+    },
+    '#lib/conf/build-status.js': {
+      clearStatus: mockClearStatus
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#lib/logger/index.js': {
+      logger: mockLogger
+    },
+    'fs-extra': fs
+  })
+
+  const command = new CleanCommand()
+  command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ status: true, dryRun: true }, command)
+
+  t.false(mockClearStatus.called, 'clearStatus should not be called during dry-run')
+})
+
+test('clean --status with no files still clears status', async (t) => {
+  const { sandbox, fs, mockLogger } = t.context
+
+  const mockClean = sandbox.stub().resolves([])
+  const mockTestcwd = sandbox.stub()
+  const mockClearStatus = sandbox.stub()
+
+  const CleanCommand = await esmock('./clean.js', {
+    '#helpers/clean.js': {
+      clean: mockClean
+    },
+    '#lib/conf/build-status.js': {
+      clearStatus: mockClearStatus
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/test-cwd.js': {
+      default: mockTestcwd
+    },
+    '#lib/logger/index.js': {
+      logger: mockLogger
+    },
+    'fs-extra': fs
+  })
+
+  const command = new CleanCommand()
+  command.name = sandbox.stub().returns('clean')
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  await command.action({ status: true }, command)
+
+  t.true(mockClearStatus.calledOnce, 'clearStatus should be called even when no files deleted')
+  t.true(mockClearStatus.calledWith('/project'), 'clearStatus should be called with project root')
+})

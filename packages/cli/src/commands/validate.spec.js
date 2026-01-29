@@ -40,21 +40,28 @@ test('registered command has correct options', (t) => {
   const { command } = t.context
 
   // Get all options
+  const jsonOption = command.options.find((opt) => opt.long === '--json')
   const quietOption = command.options.find((opt) => opt.long === '--quiet')
   const verboseOption = command.options.find((opt) => opt.long === '--verbose')
   const debugOption = command.options.find((opt) => opt.long === '--debug')
 
   // Verify all options exist
+  t.truthy(jsonOption, '--json option should exist')
   t.truthy(quietOption, '--quiet option should exist')
   t.truthy(verboseOption, '--verbose option should exist')
   t.truthy(debugOption, '--debug option should exist')
 
   // Verify they are Option instances
+  t.true(jsonOption instanceof Option, '--json should be Option instance')
   t.true(quietOption instanceof Option, '--quiet should be Option instance')
   t.true(verboseOption instanceof Option, '--verbose should be Option instance')
   t.true(debugOption instanceof Option, '--debug should be Option instance')
 
   // Verify option properties
+  t.is(jsonOption.long, '--json')
+  t.truthy(jsonOption.description)
+  t.false(jsonOption.required, '--json should not require a value')
+
   t.is(quietOption.long, '--quiet')
   t.is(quietOption.short, '-q')
   t.truthy(quietOption.description)
@@ -76,6 +83,7 @@ test('command options are accessible via public API', (t) => {
   // Test that options can be accessed the way Commander.js does
   const optionNames = command.options.map((opt) => opt.long)
 
+  t.true(optionNames.includes('--json'))
   t.true(optionNames.includes('--quiet'))
   t.true(optionNames.includes('--verbose'))
   t.true(optionNames.includes('--debug'))
