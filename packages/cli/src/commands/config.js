@@ -7,6 +7,7 @@ import {
   getDefault,
   formatSettings,
 } from '#lib/conf/index.js'
+import { UnknownConfigKeyError, UnknownConfigOperationError } from '#src/errors/index.js'
 
 /**
  * Valid operations for the settings command
@@ -78,16 +79,6 @@ Examples:
   }
 
   /**
-   * Log an unknown key error with valid keys hint
-   *
-   * @param {string} key - The unknown configuration key
-   */
-  #logUnknownKey(key) {
-    this.logger.error(`Unknown configuration key: ${key}`)
-    this.logger.info(`Valid keys: ${getValidKeys().join(', ')}`)
-  }
-
-  /**
    * Get a single configuration value
    *
    * @param {string} key - Configuration key
@@ -100,8 +91,7 @@ Examples:
     }
 
     if (!isValidKey(key) && !key.startsWith('__internal__')) {
-      this.#logUnknownKey(key)
-      return
+      throw new UnknownConfigKeyError(key, getValidKeys())
     }
 
     const value = this.config.get(key)
@@ -131,8 +121,7 @@ Examples:
     }
 
     if (!isValidKey(key)) {
-      this.#logUnknownKey(key)
-      return
+      throw new UnknownConfigKeyError(key, getValidKeys())
     }
 
     const coercedValue = coerceValue(key, value)
@@ -157,8 +146,7 @@ Examples:
     }
 
     if (!isValidKey(key)) {
-      this.#logUnknownKey(key)
-      return
+      throw new UnknownConfigKeyError(key, getValidKeys())
     }
 
     this.config.delete(key)
@@ -174,8 +162,7 @@ Examples:
   #reset(key) {
     if (key) {
       if (!isValidKey(key)) {
-        this.#logUnknownKey(key)
-        return
+        throw new UnknownConfigKeyError(key, getValidKeys())
       }
       this.config.reset(key)
       const defaultValue = getDefault(key)
@@ -229,9 +216,7 @@ Examples:
 
     // Validate operation if provided
     if (operation && !OPERATIONS.includes(operation)) {
-      this.logger.error(`Unknown operation: ${operation}`)
-      this.logger.info(`Valid operations: ${OPERATIONS.join(', ')}`)
-      return
+      throw new UnknownConfigOperationError(operation, [...OPERATIONS])
     }
 
     // Dispatch to operation handler

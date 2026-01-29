@@ -134,7 +134,10 @@ test('getTopicContent() throws HelpTopicNotFoundError for missing topic', async 
   const { sandbox } = t.context
 
   const mockFs = {
-    pathExists: sandbox.stub().resolves(false)
+    pathExists: sandbox.stub()
+      .onFirstCall().resolves(false)   // topic file does not exist
+      .onSecondCall().resolves(true),  // topics directory exists
+    readdir: sandbox.stub().resolves(['epub.md', 'pdf.md', 'debugging.md'])
   }
 
   const { getTopicContent } = await esmock('./index.js', {
@@ -148,6 +151,31 @@ test('getTopicContent() throws HelpTopicNotFoundError for missing topic', async 
 
   t.is(error.code, 'HELP_TOPIC_NOT_FOUND')
   t.is(error.topic, 'nonexistent')
+})
+
+test('getTopicContent() suggests similar topic for typo', async (t) => {
+  const { sandbox } = t.context
+
+  const mockFs = {
+    pathExists: sandbox.stub()
+      .onFirstCall().resolves(false)
+      .onSecondCall().resolves(true),
+    readdir: sandbox.stub().resolves([
+      'configuration.md', 'debugging.md', 'epub.md',
+      'pdf.md', 'publishing.md', 'workflows.md'
+    ])
+  }
+
+  const { getTopicContent } = await esmock('./index.js', {
+    'fs-extra': mockFs
+  })
+
+  const error = await t.throwsAsync(
+    () => getTopicContent('edub'),
+    { name: 'HelpTopicNotFoundError' }
+  )
+
+  t.is(error.suggestion, 'Did you mean: epub?')
 })
 
 test('getTopicsDir() returns the topics directory path', async (t) => {

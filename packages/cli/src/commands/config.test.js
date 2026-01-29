@@ -200,7 +200,7 @@ test('conf get should show error when key is missing', async (t) => {
   t.true(mockLogger.error.calledWith('Usage: quire conf get <key>'))
 })
 
-test('conf get should show error for unknown key', async (t) => {
+test('conf get should throw UnknownConfigKeyError for unknown key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./config.js', {}, {
@@ -214,12 +214,55 @@ test('conf get should show error for unknown key', async (t) => {
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
-  await command.action('get', 'unknownKey', undefined, {})
+  const error = await t.throwsAsync(
+    () => command.action('get', 'unknownKey', undefined, {}),
+    { code: 'UNKNOWN_CONFIG_KEY' }
+  )
+  t.true(error.message.includes('Unknown configuration key: unknownKey'))
+  t.true(error.suggestion.includes('Valid keys:'))
+})
 
-  t.true(mockLogger.error.calledOnce)
-  t.true(mockLogger.error.calledWith('Unknown configuration key: unknownKey'))
-  t.true(mockLogger.info.calledOnce)
-  t.true(mockLogger.info.firstCall.args[0].includes('Valid keys:'))
+test('conf get should suggest similar key for close misspelling', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  const error = await t.throwsAsync(
+    () => command.action('get', 'logLeve', undefined, {}),
+    { code: 'UNKNOWN_CONFIG_KEY' }
+  )
+  t.true(error.message.includes('Unknown configuration key: logLeve'))
+  t.true(error.suggestion.includes('Did you mean: logLevel?'))
+})
+
+test('conf get should suggest similar key for case difference', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  const error = await t.throwsAsync(
+    () => command.action('get', 'loglevel', undefined, {}),
+    { code: 'UNKNOWN_CONFIG_KEY' }
+  )
+  t.true(error.suggestion.includes('Did you mean: logLevel?'))
 })
 
 // =============================================================================
@@ -420,7 +463,7 @@ test('conf delete should show error when key is missing', async (t) => {
   t.false(mockConfig.delete.called)
 })
 
-test('conf delete should show error for unknown key', async (t) => {
+test('conf delete should throw UnknownConfigKeyError for unknown key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./config.js', {}, {
@@ -434,9 +477,10 @@ test('conf delete should show error for unknown key', async (t) => {
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
-  await command.action('delete', 'unknownKey', undefined, {})
-
-  t.true(mockLogger.error.calledOnce)
+  await t.throwsAsync(
+    () => command.action('delete', 'unknownKey', undefined, {}),
+    { code: 'UNKNOWN_CONFIG_KEY' }
+  )
   t.false(mockConfig.delete.called)
 })
 
@@ -485,7 +529,7 @@ test('conf reset should reset all config when no key provided', async (t) => {
   t.true(mockLogger.info.calledWith('Configuration reset to defaults'))
 })
 
-test('conf reset should show error for unknown key', async (t) => {
+test('conf reset should throw UnknownConfigKeyError for unknown key', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./config.js', {}, {
@@ -499,9 +543,10 @@ test('conf reset should show error for unknown key', async (t) => {
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
-  await command.action('reset', 'unknownKey', undefined, {})
-
-  t.true(mockLogger.error.calledOnce)
+  await t.throwsAsync(
+    () => command.action('reset', 'unknownKey', undefined, {}),
+    { code: 'UNKNOWN_CONFIG_KEY' }
+  )
   t.false(mockConfig.reset.called)
 })
 
@@ -533,7 +578,7 @@ test('conf path should show config file path', async (t) => {
 // Invalid operation
 // =============================================================================
 
-test('conf should show error for unknown operation', async (t) => {
+test('conf should throw UnknownConfigOperationError for unknown operation', async (t) => {
   const { sandbox, mockLogger, mockConfig } = t.context
 
   const { default: ConfCommand } = await esmock('./config.js', {}, {
@@ -547,12 +592,56 @@ test('conf should show error for unknown operation', async (t) => {
   command.logger = mockLogger
   command.debug = sandbox.stub()
 
-  await command.action('unknownOp', undefined, undefined, {})
+  const error = await t.throwsAsync(
+    () => command.action('unknownOp', undefined, undefined, {}),
+    { code: 'UNKNOWN_CONFIG_OPERATION' }
+  )
+  t.true(error.message.includes('Unknown operation: unknownOp'))
+  t.true(error.suggestion.includes('Valid operations:'))
+})
 
-  t.true(mockLogger.error.calledOnce)
-  t.true(mockLogger.error.calledWith('Unknown operation: unknownOp'))
-  t.true(mockLogger.info.calledOnce)
-  t.true(mockLogger.info.firstCall.args[0].includes('Valid operations:'))
+test('conf should suggest similar operation for close misspelling', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  const error = await t.throwsAsync(
+    () => command.action('gt', undefined, undefined, {}),
+    { code: 'UNKNOWN_CONFIG_OPERATION' }
+  )
+  t.true(error.message.includes('Unknown operation: gt'))
+  t.true(error.suggestion.includes('Did you mean: get?'))
+})
+
+test('conf should suggest similar operation for transposition', async (t) => {
+  const { sandbox, mockLogger, mockConfig } = t.context
+
+  const { default: ConfCommand } = await esmock('./config.js', {}, {
+    '#lib/logger/index.js': {
+      default: () => mockLogger
+    }
+  })
+
+  const command = new ConfCommand()
+  command.config = mockConfig
+  command.logger = mockLogger
+  command.debug = sandbox.stub()
+
+  const error = await t.throwsAsync(
+    () => command.action('ste', undefined, undefined, {}),
+    { code: 'UNKNOWN_CONFIG_OPERATION' }
+  )
+  t.true(error.message.includes('Unknown operation: ste'))
+  t.true(error.suggestion.includes('Did you mean: set?'))
 })
 
 // =============================================================================
