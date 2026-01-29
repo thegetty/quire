@@ -84,6 +84,7 @@ test('getBuildInfo returns correct status for existing builds', async (t) => {
   vol.fromJSON({
     [memfsPath('_site', 'index.html')]: '<html></html>',
     [memfsPath('_epub', 'content.opf')]: '<package></package>',
+    [memfsPath('epubjs.epub')]: 'PK\x03\x04',
     [memfsPath('pagedjs.pdf')]: '%PDF-1.4',
   })
 
@@ -95,15 +96,17 @@ test('getBuildInfo returns correct status for existing builds', async (t) => {
 
   t.true(info.site.exists)
   t.is(info.site.path, nativePath('_site'))
-  t.truthy(info.site.mtime)
+  t.truthy(info.site.lastModified)
 
   t.true(info.epub.exists)
-  t.is(info.epub.path, nativePath('_epub'))
-  t.truthy(info.epub.mtime)
+  t.true(info.epub.buildDirExists)
+  t.is(info.epub.buildDir, nativePath('_epub'))
+  t.true(info.epub.paths.includes(nativePath('epubjs.epub')))
+  t.truthy(info.epub.lastModified)
 
   t.true(info.pdf.exists)
   t.deepEqual(info.pdf.paths, [nativePath('pagedjs.pdf')])
-  t.truthy(info.pdf.mtime)
+  t.truthy(info.pdf.lastModified)
 })
 
 test('getBuildInfo returns correct status for missing builds', async (t) => {
@@ -120,14 +123,15 @@ test('getBuildInfo returns correct status for missing builds', async (t) => {
   const info = getBuildInfo(testRoot)
 
   t.false(info.site.exists)
-  t.is(info.site.mtime, null)
+  t.is(info.site.lastModified, null)
 
   t.false(info.epub.exists)
-  t.is(info.epub.mtime, null)
+  t.false(info.epub.buildDirExists)
+  t.is(info.epub.lastModified, null)
 
   t.false(info.pdf.exists)
   t.deepEqual(info.pdf.paths, [])
-  t.is(info.pdf.mtime, null)
+  t.is(info.pdf.lastModified, null)
 })
 
 test('getBuildInfo returns multiple PDF paths when both exist', async (t) => {
@@ -148,7 +152,25 @@ test('getBuildInfo returns multiple PDF paths when both exist', async (t) => {
   t.is(info.pdf.paths.length, 2)
   t.true(info.pdf.paths.includes(nativePath('pagedjs.pdf')))
   t.true(info.pdf.paths.includes(nativePath('prince.pdf')))
-  t.truthy(info.pdf.mtime)
+  t.truthy(info.pdf.lastModified)
+})
+
+test('getBuildInfo detects epub build dir without .epub files', async (t) => {
+  const { vol } = t.context
+
+  vol.fromJSON({
+    [memfsPath('_epub', 'content.opf')]: '<package></package>',
+  })
+
+  const { getBuildInfo } = await esmock('./build.js', {
+    'node:fs': createFsFromVolume(vol),
+  })
+
+  const info = getBuildInfo(testRoot)
+
+  t.false(info.epub.exists, 'no .epub files should mean exists is false')
+  t.true(info.epub.buildDirExists, '_epub directory should be detected')
+  t.truthy(info.epub.lastModified, 'lastModified from _epub dir should be present')
 })
 
 test('requireBuildOutput throws when site output missing', async (t) => {

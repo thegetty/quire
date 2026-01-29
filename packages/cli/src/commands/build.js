@@ -7,6 +7,7 @@ import processManager from '#lib/process/manager.js'
 import paths from '#lib/project/index.js'
 import { clean } from '#helpers/clean.js'
 import open from 'open'
+import { recordStatus } from '#lib/conf/build-status.js'
 import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
@@ -57,8 +58,6 @@ Note: Run before "quire pdf" or "quire epub" commands.
     // Configure reporter for this command
     reporter.configure({ quiet: options.quiet, verbose: options.verbose })
 
-    reporter.start('Building site...', { showElapsed: true })
-
     try {
       if (options['11ty'] === 'api') {
         this.debug('running eleventy using lib/11ty api')
@@ -67,9 +66,9 @@ Note: Run before "quire pdf" or "quire epub" commands.
         this.debug('running eleventy using lib/11ty cli')
         await cli.build(options)
       }
-      reporter.succeed('Build complete')
+      recordStatus(paths.getProjectRoot(), 'build', 'ok')
     } catch (error) {
-      reporter.fail('Build failed')
+      recordStatus(paths.getProjectRoot(), 'build', 'failed')
       throw error
     }
 

@@ -1,7 +1,14 @@
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import path from 'node:path'
-import which from '#helpers/which.js'
+import { EpubGenerationError } from '#src/errors/index.js'
+import createDebug from '#debug'
+import ENGINES from './engines.js'
+
+const debug = createDebug('lib:epub:pandoc')
+
+/** Re-export engine metadata from central registry */
+export const metadata = ENGINES.pandoc
 
 /**
  * Filter directory entries for XHTML files
@@ -18,9 +25,18 @@ const xhtmlFiles = (dirent) => {
 /**
  * A façade module for interacting with Pandoc CLI.
  * @see https://pandoc.org/MANUAL.html#general-options
+ *
+ * Pandoc availability is checked by the parent façade (lib/epub/index.js)
+ * before this module is loaded, so we can assume pandoc is in PATH.
+ *
+ * @param {string} input - Path to the input directory containing XHTML files
+ * @param {string} output - Path where the EPUB should be written
+ * @param {Object} [options={}] - Generation options
+ * @returns {Promise<void>}
  */
 export default async (input, output, options = {}) => {
-  which('pandoc')
+  debug('input: %s', input)
+  debug('output: %s', output)
 
   const inputs = fs.readdirSync(input)
     .map((entry) => path.join(input, entry))
@@ -37,5 +53,19 @@ export default async (input, output, options = {}) => {
     `--standalone`,
   ]
 
-  await execa('pandoc', [...cmdOptions, ...inputs])
+  debug('cmd options: %O', cmdOptions)
+  debug('inputs: %d XHTML files', inputs.length)
+
+  try {
+    const { stderr } = await execa('pandoc', [...cmdOptions, ...inputs])
+    // Pandoc may emit warnings to stderr even on success
+    if (stderr) {
+      debug('pandoc stderr: %s', stderr)
+    }
+  } catch (error) {
+    const details = error.stderr || error.message
+    throw new EpubGenerationError(`Pandoc EPUB generation failed: ${details}`)
+  }
+
+  debug('complete')
 }

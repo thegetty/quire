@@ -45,7 +45,7 @@ export function formatSettings(store, { configPath, showInternal = false, useCol
   lines.push('')
 
   for (const [key, value] of Object.entries(store)) {
-    if (key.startsWith('__internal__') && !showInternal) continue
+    if ((key.startsWith('__internal__') || key === 'projects') && !showInternal) continue
     const description = getKeyDescription(key)
     lines.push(`  ${style.cyan(key)}: ${JSON.stringify(value)}`)
     if (description) {

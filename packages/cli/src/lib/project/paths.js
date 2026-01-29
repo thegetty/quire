@@ -6,6 +6,54 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /**
+ * Source directories that contain content for building.
+ *
+ * These directories are monitored for changes during preview and are used
+ * to determine if a build is stale. Changes to files in these directories
+ * indicate the site needs to be rebuilt.
+ *
+ * @constant {ReadonlyArray<string>}
+ *
+ * @example
+ * // Check all source directories for changes
+ * for (const dir of SOURCE_DIRECTORIES) {
+ *   const mtime = getLatestMtime(dir)
+ *   // ...
+ * }
+ */
+export const SOURCE_DIRECTORIES = Object.freeze([
+  '_data',
+  '_includes',
+  '_layouts',
+  'content',
+  'static',
+])
+
+/**
+ * Path to data files directory (relative to project root)
+ *
+ * Contains YAML configuration files for the publication:
+ * - publication.yaml - Publication metadata
+ * - config.yaml - Site configuration
+ * - figures.yaml - Figure definitions
+ * - objects.yaml - Object catalog entries
+ * - references.yaml - Bibliography entries
+ *
+ * @constant {string}
+ */
+export const DATA_DIR = 'content/_data'
+
+/**
+ * Required data files that must exist in a Quire project.
+ *
+ * These files are validated by the doctor command and the validate command.
+ * Missing required files will trigger a warning.
+ *
+ * @constant {ReadonlyArray<string>}
+ */
+export const REQUIRED_DATA_FILES = Object.freeze(['publication.yaml'])
+
+/**
  * Project path configuration
  *
  * Provides accessor methods for project paths, computing values on access
