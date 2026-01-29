@@ -93,6 +93,27 @@ const factory = (options = {}) => {
     ELEVENTY_LAYOUTS: paths.getLayoutsDir(),
   }
 
+  // QUIRE_LOG_LEVEL controls output from the quire-11ty chalk logger,
+  // the Vite plugin logLevel, and the directory output plugin registration.
+  // @see packages/cli/docs/cli-output-modes.md
+  if (options.quiet) {
+    env.QUIRE_LOG_LEVEL = 'silent'
+  } else if (options.debug) {
+    env.QUIRE_LOG_LEVEL = 'debug'
+  } else if (options.verbose) {
+    env.QUIRE_LOG_LEVEL = 'info'
+  } else {
+    env.QUIRE_LOG_LEVEL = 'warn'
+  }
+
+  // Forward CLI log prefix and show-level settings (set by configureLogEnv)
+  if (process.env.QUIRE_LOG_PREFIX !== undefined) {
+    env.QUIRE_LOG_PREFIX = process.env.QUIRE_LOG_PREFIX
+  }
+  if (process.env.QUIRE_LOG_SHOW_LEVEL !== undefined) {
+    env.QUIRE_LOG_SHOW_LEVEL = process.env.QUIRE_LOG_SHOW_LEVEL
+  }
+
   if (options.debug) env.DEBUG = 'Eleventy*'
 
   return { command, env, projectRoot }

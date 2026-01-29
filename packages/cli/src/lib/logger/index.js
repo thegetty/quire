@@ -88,7 +88,7 @@ export const LOG_LEVEL_ENV_VAR = 'QUIRE_LOG_LEVEL'
  * @param {string} text - Prefix text
  * @returns {string} Formatted prefix
  */
-function formatPrefix(style, text) {
+export function formatPrefix(style, text) {
   switch (style) {
     case 'bracket':
       return `[${text}]`
@@ -162,7 +162,7 @@ export default function createLogger(name = 'quire', level) {
       const prefix = config.get('logPrefix')
       const prefixStyle = config.get('logPrefixStyle')
       const showLevel = config.get('logShowLevel')
-      const useColor = config.get('logUseColor')
+      const useColor = config.get('logUseColor') && !process.env.NO_COLOR
       const colorMessages = config.get('logColorMessages')
 
       const parts = []

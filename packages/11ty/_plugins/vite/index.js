@@ -12,13 +12,22 @@ import path from 'node:path'
  * @param {Object} eleventyConfig
  * @param {Object} globalData
  */
+/**
+ * Map QUIRE_LOG_LEVEL to Vite's logLevel option
+ * Vite accepts: 'info' | 'warn' | 'error' | 'silent'
+ */
+const VITE_LOG_LEVELS = { trace: 'info', debug: 'info', info: 'info', warn: 'warn', error: 'error', silent: 'silent' }
+
 export default function (eleventyConfig, { directoryConfig, publication }) {
   const { pathname } = publication
   const { inputDir, outputDir, publicDir } = directoryConfig
 
+  const viteLogLevel = VITE_LOG_LEVELS[process.env.QUIRE_LOG_LEVEL] || 'warn'
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
+      logLevel: viteLogLevel,
       publicDir,
       /**
        * @see https://vitejs.dev/config/#build-options

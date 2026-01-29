@@ -20,7 +20,34 @@ process.removeAllListeners('warning')
 process.env.QUIRE_LOG_LEVEL = config.get('logLevel') || 'info'
 
 /**
- * Dynamic import ensures env var is set before logger modules are loaded
+ * Set REDUCED_MOTION env var from config before importing CLI modules
+ *
+ * The reporter reads REDUCED_MOTION to decide whether to use animated
+ * spinners or static text output. Setting it here ensures the reporter
+ * picks up the config value at module load time.
+ * If REDUCED_MOTION is already set in the shell environment, we do not override it.
+ *
+ * @see lib/reporter/index.js
+ */
+if (process.env.REDUCED_MOTION === undefined && config.get('reducedMotion') === true) {
+  process.env.REDUCED_MOTION = '1'
+}
+
+/**
+ * Set NO_COLOR env var from config before importing CLI modules
+ *
+ * Chalk 5.x and ora read NO_COLOR at module load time.
+ * Setting it here ensures color is disabled before any styled imports.
+ * If NO_COLOR is already set in the shell environment, we do not override it.
+ *
+ * @see https://no-color.org/
+ */
+if (process.env.NO_COLOR === undefined && config.get('logUseColor') === false) {
+  process.env.NO_COLOR = '1'
+}
+
+/**
+ * Dynamic import ensures env vars are set before logger modules are loaded
  */
 const { default: cli } = await import('#src/main.js')
 

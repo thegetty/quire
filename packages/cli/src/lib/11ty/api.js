@@ -44,13 +44,27 @@ const debug = createDebug('lib:11ty:api')
  * These must be set before the Eleventy instance is created and the
  * `.eleventy.js` configuration file is parsed.
  *
+ * Sets QUIRE_LOG_LEVEL to control output from multiple systems:
+ *   - quire-11ty chalk logger (_lib/chalk) — reads env var as level ceiling
+ *   - Vite bundler (_plugins/vite) — maps env var to Vite's logLevel option
+ *   - Directory output plugin (.eleventy.js) — conditionally registered
+ *
+ * CLI flag mapping:
+ *   (default)   → 'warn'   — spinner + warn/error only
+ *   --verbose   → 'info'   — adds chalk info output, directory listing, Vite info
+ *   --debug     → 'debug'  — adds chalk debug output, Eleventy DEBUG traces
+ *   --quiet     → 'silent' — suppresses all chalk/Vite/directory output
+ *
  * @see https://github.com/11ty/eleventy/issues/2655
+ * @see packages/cli/docs/cli-output-modes.md
  *
  * @param {Object} options
  * @param {'production'|'development'} options.mode - Build mode
  * @param {boolean} options.debug - Enable Eleventy debug output
+ * @param {boolean} options.verbose - Enable verbose output
+ * @param {boolean} options.quiet - Suppress output
  */
-const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
+const configureEleventyEnv = ({ mode = 'production', debug = false, verbose = false, quiet = false } = {}) => {
   // Path configuration for decoupling quire-11ty from project input directory
   process.env.ELEVENTY_DATA = paths.getDataDir()
   process.env.ELEVENTY_INCLUDES = paths.getIncludesDir()
@@ -58,6 +72,21 @@ const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
 
   // Build mode
   process.env.ELEVENTY_ENV = mode
+
+  // Log level for quire-11ty's chalk logger
+  if (quiet) {
+    process.env.QUIRE_LOG_LEVEL = 'silent'
+  } else if (debug) {
+    process.env.QUIRE_LOG_LEVEL = 'debug'
+  } else if (verbose) {
+    process.env.QUIRE_LOG_LEVEL = 'info'
+  } else {
+    process.env.QUIRE_LOG_LEVEL = 'warn'
+  }
+
+  // QUIRE_LOG_PREFIX and QUIRE_LOG_SHOW_LEVEL are set by the preAction hook
+  // in main.js from config values. No action needed here — they are already
+  // in process.env and will be read by the chalk logger at instantiation time.
 
   // Debug output
   if (debug) {
@@ -102,7 +131,7 @@ const createEleventyInstance = async (options = {}) => {
       return eleventyConfig
     },
     configPath: options.config || config,
-    quietMode: options.quiet || false,
+    quietMode: options.quiet || !options.verbose,
     runMode: options.runMode || 'build',
   })
 
@@ -172,13 +201,13 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    configureEleventyEnv({ mode: 'production', debug: options.debug })
-
-    reporter.start('Building site...', { showElapsed: true })
+    configureEleventyEnv({ mode: 'production', ...options })
 
     const eleventy = await createEleventyInstance(options)
 
     eleventy.setDryRun(options.dryRun)
+
+    reporter.start('Building site...', { showElapsed: true })
 
     try {
       await eleventy.write()
@@ -202,9 +231,7 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    configureEleventyEnv({ mode: 'development', debug: options.debug })
-
-    reporter.start('Starting development server...')
+    configureEleventyEnv({ mode: 'development', ...options })
 
     const eleventy =
       await createEleventyInstance({ ...options, runMode: 'serve' })
@@ -212,8 +239,20 @@ class Quire11ty {
     // Store reference for lifecycle management (graceful shutdown)
     this.activeInstance = eleventy
 
-    // Initialize Eleventy before serving (required for eleventyServe)
+    // Initialize Eleventy (required before watch/serve)
     await eleventy.init()
+
+    reporter.start('Building site...', { showElapsed: true })
+
+    // Build the site and start file watchers.
+    // watch() performs the initial build via write(), then sets up chokidar
+    // file watchers for incremental rebuilds on file changes.
+    // This matches the Eleventy CLI sequence: init() → watch() → serve()
+    // @see https://github.com/11ty/eleventy/blob/main/cmd.cjs
+    await eleventy.watch()
+
+    reporter.succeed('Build complete')
+    reporter.start('Starting development server...')
 
     // Register a ready callback to resolve the spinner when the server is listening
     // @see https://www.11ty.dev/docs/dev-server/#options
@@ -228,6 +267,7 @@ class Quire11ty {
       },
     }
 
+    // Start the HTTP dev server (serves the built _site/ directory)
     await eleventy.serve(options.port)
   }
 }

@@ -475,3 +475,104 @@ test.serial('invalid env var value falls back to info', async (t) => {
     }
   }
 })
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NO_COLOR environment variable tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.serial('logger disables color when NO_COLOR env var is set', async (t) => {
+  const { sandbox } = t.context
+  const consoleErrorStub = sandbox.stub(console, 'error')
+  const originalNoColor = process.env.NO_COLOR
+
+  try {
+    process.env.NO_COLOR = '1'
+
+    const mockConfig = {
+      get: sandbox.stub().callsFake((key) => ({
+        logPrefix: 'quire',
+        logPrefixStyle: 'bracket',
+        logShowLevel: true,
+        logUseColor: true, // Config says use color, but NO_COLOR overrides
+        logColorMessages: true,
+      })[key])
+    }
+
+    const { default: createLoggerMocked } = await esmock('./index.js', {
+      '#lib/conf/config.js': { default: mockConfig }
+    })
+
+    const log = createLoggerMocked('test:nocolor', 'error')
+    log.error('Error message')
+
+    t.true(consoleErrorStub.calledOnce)
+    const output = consoleErrorStub.firstCall.args.join(' ')
+    // Should not contain ANSI escape sequences when NO_COLOR is set
+    t.false(/\u001b\[/.test(output), 'output should not contain ANSI escape codes')
+    // Should still contain the actual text
+    t.true(output.includes('[quire]'))
+    t.true(output.includes('ERROR'))
+    t.true(output.includes('Error message'))
+  } finally {
+    if (originalNoColor === undefined) {
+      delete process.env.NO_COLOR
+    } else {
+      process.env.NO_COLOR = originalNoColor
+    }
+  }
+})
+
+test.serial('logger uses color when NO_COLOR env var is not set and config enables color', async (t) => {
+  const { sandbox } = t.context
+  const consoleErrorStub = sandbox.stub(console, 'error')
+  const originalNoColor = process.env.NO_COLOR
+
+  try {
+    delete process.env.NO_COLOR
+
+    const mockConfig = {
+      get: sandbox.stub().callsFake((key) => ({
+        logPrefix: 'quire',
+        logPrefixStyle: 'bracket',
+        logShowLevel: true,
+        logUseColor: true,
+        logColorMessages: true,
+      })[key])
+    }
+
+    // Create a mock chalk that always applies ANSI styling regardless of TTY/env
+    const ansiRed = (s) => `\u001b[91m${s}\u001b[39m`
+    const ansiRedInverse = (s) => `\u001b[91m\u001b[7m${s}\u001b[27m\u001b[39m`
+    const ansiBold = (s) => `\u001b[1m${s}\u001b[22m`
+    const mockChalk = {
+      bold: ansiBold,
+      gray: (s) => s,
+      yellow: (s) => s,
+      magenta: (s) => s,
+      red: ansiRed,
+      redBright: { inverse: ansiRedInverse },
+      'yellow.inverse': (s) => s,
+    }
+    // Support chained properties
+    mockChalk.yellow.inverse = (s) => s
+
+    const { default: createLoggerMocked } = await esmock('./index.js', {
+      '#lib/conf/config.js': { default: mockConfig },
+      'chalk': { default: mockChalk }
+    })
+
+    const log = createLoggerMocked('test:withcolor', 'error')
+    log.error('Error message')
+
+    t.true(consoleErrorStub.calledOnce)
+    const output = consoleErrorStub.firstCall.args.join(' ')
+    // Should contain ANSI escape sequences when color is enabled and NO_COLOR not set
+    t.true(/\u001b\[/.test(output), 'output should contain ANSI escape codes')
+  } finally {
+    if (originalNoColor === undefined) {
+      delete process.env.NO_COLOR
+    } else {
+      process.env.NO_COLOR = originalNoColor
+    }
+  }
+})

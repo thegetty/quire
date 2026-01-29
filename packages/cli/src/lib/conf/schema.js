@@ -41,6 +41,10 @@ export default {
     type: 'boolean',
     description: 'Color message text by log level (e.g., red for errors). Requires logUseColor'
   },
+  reducedMotion: {
+    type: 'boolean',
+    description: 'Disable spinner animation and line overwriting (for screen readers and reduced-motion preferences)'
+  },
   projectTemplate: {
     type: 'string',
     format: 'uri',

@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { binPath } from '#src/packageConfig.js'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -21,7 +22,7 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class InfoCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'info',
     description: 'Display version information for the current project',
     summary: 'show project version information',
@@ -38,13 +39,14 @@ use 'quire doctor' instead.
 Example:
   quire info           Show project versions
   quire info --debug   Include installation paths
+  quire info --json    Output version information as JSON
   quire doctor         Check environment and project health
 `,
     version: '1.0.0',
     options: [
-      [ '--debug', 'include installation paths in output' ],
+      ['--json', 'output version information as JSON'],
     ],
-  }
+  })
 
   constructor() {
     super(InfoCommand.definition)
@@ -76,6 +78,19 @@ Example:
       quire11tyVersion = packageJson.version
     } catch {
       this.debug('Could not read package.json')
+    }
+
+    if (options.json) {
+      const result = {
+        project: {
+          directory: projectDirectory,
+          cli: versionInfo.cli,
+          quire11ty: quire11tyVersion,
+          starter: versionInfo.starter || null,
+        },
+      }
+      console.log(JSON.stringify(result, null, 2))
+      return
     }
 
     const lines = [

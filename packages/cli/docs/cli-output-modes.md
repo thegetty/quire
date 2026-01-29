@@ -1,6 +1,6 @@
 # CLI Output Modes
 
-This document describes the three output modes available across Quire CLI commands for controlling console output verbosity.
+This document describes the output modes available across Quire CLI commands for controlling console output verbosity and accessibility.
 
 ## Overview
 
@@ -12,11 +12,12 @@ Quire CLI commands support three output modes that control the level of feedback
 | **Default** | (none) | Show spinner with basic status | General users |
 | **Verbose** | `-v, --verbose` | Show detailed progress | Users wanting more info |
 
-Additionally, there's a separate debugging mode:
+Additionally, there are modes for debugging and accessibility:
 
 | Mode | Flag | Description | Audience |
 |------|------|-------------|----------|
 | **Debug** | `--debug` | Enable debug output for troubleshooting | Developers/maintainers |
+| **Reduced Motion** | `--reduced-motion` | Disable spinner animation and line overwriting | Screen reader users, reduced-motion preferences |
 
 ## Semantic Model
 
@@ -45,6 +46,31 @@ Debug mode can be combined with verbose mode:
 - `quire build --debug` - Default output + debug logs
 - `quire build --verbose --debug` - Verbose output + debug logs
 
+### Accessibility (Reduced Motion)
+
+Reduced motion mode is orthogonal to the verbosity spectrum. When enabled, the reporter outputs static text on new lines instead of animated spinners:
+
+- **No animation**: Spinners are replaced with static status symbols (`–`, `✔`, `✖`, `⚠`, `ℹ`)
+- **No line overwriting**: Each stage prints on a new line instead of overwriting the current line
+- **Compatible with screen readers**: Static text output is reliably read by assistive technology
+
+Reduced motion can be enabled three ways:
+
+```bash
+# CLI flag (single command)
+quire build --reduced-motion
+
+# Environment variable (shell session)
+REDUCED_MOTION=1 quire build
+
+# Config setting (persistent)
+quire settings set reducedMotion true
+```
+
+Reduced motion can be combined with any verbosity mode:
+- `quire build --reduced-motion` - Static text, default verbosity
+- `quire build --reduced-motion --verbose` - Static text with details
+
 ### Option Conflicts
 
 Quiet mode conflicts with verbose and debug modes since they have opposing purposes:
@@ -67,6 +93,9 @@ quire settings set verbose true
 # Always run in debug mode
 quire settings set debug true
 
+# Always use reduced motion
+quire settings set reducedMotion true
+
 # View current settings
 quire settings list
 ```
@@ -79,6 +108,7 @@ quire build --no-verbose
 
 # Disable debug even if enabled in config
 quire build --no-debug
+
 ```
 
 > **Note:** The `--no-` prefix is a [Commander.js built-in feature](https://github.com/tj/commander.js#other-option-types-negatable-boolean-and-booleanvalue).
@@ -91,9 +121,10 @@ These flags are available both globally and per-command:
 ### Global Flags (from main.js)
 
 ```bash
-quire -q [command]      # Run any command in quiet mode
-quire -v [command]      # Run any command in verbose mode
-quire --debug [command] # Run any command with debug output
+quire -q [command]              # Run any command in quiet mode
+quire -v [command]              # Run any command in verbose mode
+quire --debug [command]         # Run any command with debug output
+quire --reduced-motion [command] # Run any command with static text output
 ```
 
 ### Command-Level Flags
@@ -167,6 +198,59 @@ Commands use the debug instance from the base Command class:
 this.debug('called with options %O', options)
 ```
 
+### Eleventy Output
+
+The `build` and `preview` commands run Eleventy, which has multiple independent output systems. The CLI bridges its verbosity flags to each system via the `QUIRE_LOG_LEVEL` environment variable, set by `configureEleventyEnv()` (API mode) and `factory()` (CLI subprocess mode).
+
+#### Output systems and how they are controlled
+
+| Output source | Prefix | Controlled by | Suppression mechanism |
+|---------------|--------|---------------|----------------------|
+| **Eleventy ConsoleLogger** | `[11ty]` | `quietMode` option | `quietMode: options.quiet \|\| !options.verbose` |
+| **Eleventy build summary** | `[11ty]` | Nothing (forced) | Uses `force: true`, bypasses quietMode |
+| **quire-11ty chalk logger** | `[quire]` | `QUIRE_LOG_LEVEL` env var | Level ceiling via `Math.max()` in `_lib/chalk/index.js` |
+| **Vite bundler** | `[vite]` | `logLevel` config option | Mapped from `QUIRE_LOG_LEVEL` in `_plugins/vite/index.js` |
+| **Directory output plugin** | (table) | Conditional registration | Only added when `QUIRE_LOG_LEVEL` is info/debug/trace |
+
+#### QUIRE_LOG_LEVEL mapping
+
+| CLI flags | `QUIRE_LOG_LEVEL` | Chalk logger | Vite | Directory output | Eleventy [11ty] |
+|-----------|-------------------|--------------|------|------------------|-----------------|
+| (default) | `warn` | warn + error | warn | hidden | suppressed (quietMode) |
+| `--verbose` | `info` | info + warn + error | info | shown | shown |
+| `--debug` | `debug` | debug + info + warn + error | info | shown | shown + Eleventy* DEBUG |
+| `--quiet` | `silent` | all suppressed | silent | hidden | suppressed (quietMode) |
+
+#### Chalk logger level ceiling
+
+The quire-11ty chalk factory (`packages/11ty/_lib/chalk/index.js`) accepts an optional `loglevel` parameter. Some modules (e.g. Figures) pass an explicit level like `'DEBUG'` to enable detailed output during development.
+
+When `QUIRE_LOG_LEVEL` is set, the effective level is `Math.max(paramLevel, envLevel)` — the env var acts as a ceiling so that CLI flags always win:
+
+```
+Figures module passes 'DEBUG' (1)
+--quiet sets QUIRE_LOG_LEVEL = 'silent' (5)
+Effective level: Math.max(1, 5) = 5 (silent) → all output suppressed
+```
+
+Without the env var (standalone quire-11ty), the explicit parameter or default ('info') is used unchanged.
+
+#### Forced Eleventy output
+
+Eleventy's build summary line (`"[11ty] Copied N Wrote N files in X seconds"`) is logged with `force: true`, which bypasses `quietMode` and `isVerbose` checks in ConsoleLogger. This line cannot be suppressed without patching Eleventy itself.
+
+#### Environment variable bridge
+
+The following env vars are set by the CLI and read by the 11ty package:
+
+| Variable | Set by | Read by | Purpose |
+|----------|--------|---------|---------|
+| `QUIRE_LOG_LEVEL` | `configureEleventyEnv()` / `factory()` | chalk factory, Vite plugin, .eleventy.js | Log verbosity |
+| `QUIRE_LOG_PREFIX` | `main.js` preAction hook | chalk factory | Formatted prefix tag (e.g. `[quire]`) |
+| `QUIRE_LOG_SHOW_LEVEL` | `main.js` preAction hook | chalk factory | Whether to show level label (INFO, WARN, etc.) |
+| `ELEVENTY_ENV` | `configureEleventyEnv()` / `factory()` | .eleventy.js | Build mode (production/development) |
+| `DEBUG` | `configureEleventyEnv()` / `factory()` | Eleventy (via debug module) | Eleventy debug namespace |
+
 ## Examples
 
 ### Build Command
@@ -186,6 +270,12 @@ quire build --debug
 
 # Verbose + Debug - all output
 quire build --verbose --debug
+
+# Reduced motion - static text, no animation
+quire build --reduced-motion
+
+# Reduced motion + verbose
+quire build --reduced-motion --verbose
 ```
 
 ### PDF Command
@@ -242,7 +332,8 @@ quire doctor --quiet --json report.json
 1. **CI/CD pipelines**: Always use `--quiet` to avoid spinner output that can clutter logs
 2. **Troubleshooting**: Start with `--verbose`, escalate to `--debug` if needed
 3. **Scripts**: Use `--quiet` and rely on exit codes for success/failure
-4. **Persistent defaults**: Use `quire settings set verbose true` if you always want verbose output
+4. **Screen readers**: Use `--reduced-motion` or `quire settings set reducedMotion true` to disable animated spinners
+5. **Persistent defaults**: Use `quire settings set verbose true` if you always want verbose output
 
 ### For Developers
 
