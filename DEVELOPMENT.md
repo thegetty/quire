@@ -151,7 +151,7 @@ mise pw:debug             # Interactive debug mode
 
 **Test specific file:**
 ```bash
-npx playwright test _tests/publication.spec.js
+npx playwright test tests/publication.spec.js
 ```
 
 **View test report:**

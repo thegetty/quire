@@ -189,13 +189,13 @@ Tests run in this sequence (see `commands.run_tests` around [config.yml:153-170]
 
 ### Test Structure
 
-**End-to-end tests** ([_tests/e2e-test.mjs](../_tests/e2e-test.mjs)):
+**End-to-end tests** ([tests/e2e-test.mjs](../tests/e2e-test.mjs)):
 1. Creates new publication via `quire new`
 2. Builds HTML via `quire build`
 3. Generates PDF via `quire pdf`
 4. Generates EPUB via `quire epub`
 
-**Browser tests** ([_tests/publication.spec.js](../_tests/publication.spec.js)):
+**Browser tests** ([tests/publication.spec.js](../tests/publication.spec.js)):
 - Run twice per platform: once at root path `/` and once with pathname `/quire-test-project/`
 - Validate page titles, image URLs, IIIF canvas-panel dimensions
 - Use sitemap for page discovery
@@ -342,7 +342,7 @@ circleci config process .circleci/config.yml  # Expand orbs/anchors
 ```bash
 npx playwright test --headed              # See browser
 npx playwright test --debug               # Step through
-npx playwright test _tests/publication.spec.js  # Single file
+npx playwright test tests/publication.spec.js  # Single file
 ```
 
 **Failed test locally:**

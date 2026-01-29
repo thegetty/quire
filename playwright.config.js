@@ -8,7 +8,7 @@ const pathnameTesting = !!process.env.QUIRE_TEST_PUB_PATHNAME
  */
 export default defineConfig({
   expect: { toHaveScreenshot: { maxDiffPixels: 100 } },
-  testDir: './_tests',
+  testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

@@ -201,7 +201,7 @@ commands:
             - reports
             - test-publication-pathname/_site
             - test-publication/_site
-            - _tests
+            - tests
 
       - store_test_results:
           path: reports
