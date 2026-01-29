@@ -127,13 +127,13 @@ Icon
 /blob-report/
 
 # Temporary directories
-/tmp/
-/temp/
+tmp/
+temp/
 
 # Test reports + build outputs
-/reports/
-/test-publication/
-/test-results/
+reports/
+test-publication/
+test-results/
 
 # Local working notes (not committed to repository)
-/local/
+local/

@@ -185,7 +185,7 @@ cd packages/cli
 npm run dev              # Watch mode (if configured)
 npm test                 # Run tests
 npm run lint             # Check code style
-npm run docs             # Generate documentation
+mise run cli:man         # Generate man page (man/quire.1)
 ```
 
 **Test globally:**
