@@ -102,7 +102,7 @@ const createEleventyInstance = async (options = {}) => {
       return eleventyConfig
     },
     configPath: options.config || config,
-    quietMode: options.quiet || false,
+    quietMode: options.quiet || !options.verbose,
     runMode: options.runMode || 'build',
   })
 
@@ -178,10 +178,7 @@ class Quire11ty {
 
     eleventy.setDryRun(options.dryRun)
 
-    // Print a static info line before Eleventy's build output begins.
-    // A spinner is not used here because write() writes directly to stdout
-    // and would overwrite the spinner line.
-    reporter.info('Building site...')
+    reporter.start('Building site...', { showElapsed: true })
 
     try {
       await eleventy.write()
@@ -216,10 +213,7 @@ class Quire11ty {
     // Initialize Eleventy (required before watch/serve)
     await eleventy.init()
 
-    // Print a static info line before Eleventy's build output begins.
-    // A spinner is not used here because watch() writes directly to stdout
-    // and would overwrite the spinner line.
-    reporter.info('Building site...')
+    reporter.start('Building site...', { showElapsed: true })
 
     // Build the site and start file watchers.
     // watch() performs the initial build via write(), then sets up chokidar
@@ -228,6 +222,7 @@ class Quire11ty {
     // @see https://github.com/11ty/eleventy/blob/main/cmd.cjs
     await eleventy.watch()
 
+    reporter.succeed('Build complete')
     reporter.start('Starting development server...')
 
     // Register a ready callback to resolve the spinner when the server is listening
