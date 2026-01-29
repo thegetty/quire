@@ -72,6 +72,10 @@ const configureEleventyEnv = ({ mode = 'production', debug = false, verbose = fa
     process.env.QUIRE_LOG_LEVEL = 'warn'
   }
 
+  // QUIRE_LOG_PREFIX and QUIRE_LOG_SHOW_LEVEL are set by the preAction hook
+  // in main.js from config values. No action needed here — they are already
+  // in process.env and will be read by the chalk logger at instantiation time.
+
   // Debug output
   if (debug) {
     process.env.DEBUG = 'Eleventy*'

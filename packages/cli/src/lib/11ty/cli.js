@@ -104,6 +104,14 @@ const factory = (options = {}) => {
     env.QUIRE_LOG_LEVEL = 'warn'
   }
 
+  // Forward CLI log prefix and show-level settings (set by configureLogEnv)
+  if (process.env.QUIRE_LOG_PREFIX !== undefined) {
+    env.QUIRE_LOG_PREFIX = process.env.QUIRE_LOG_PREFIX
+  }
+  if (process.env.QUIRE_LOG_SHOW_LEVEL !== undefined) {
+    env.QUIRE_LOG_SHOW_LEVEL = process.env.QUIRE_LOG_SHOW_LEVEL
+  }
+
   if (options.debug) env.DEBUG = 'Eleventy*'
 
   return { command, env, projectRoot }
