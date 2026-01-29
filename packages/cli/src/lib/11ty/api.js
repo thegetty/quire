@@ -49,8 +49,10 @@ const debug = createDebug('lib:11ty:api')
  * @param {Object} options
  * @param {'production'|'development'} options.mode - Build mode
  * @param {boolean} options.debug - Enable Eleventy debug output
+ * @param {boolean} options.verbose - Enable verbose output
+ * @param {boolean} options.quiet - Suppress output
  */
-const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
+const configureEleventyEnv = ({ mode = 'production', debug = false, verbose = false, quiet = false } = {}) => {
   // Path configuration for decoupling quire-11ty from project input directory
   process.env.ELEVENTY_DATA = paths.getDataDir()
   process.env.ELEVENTY_INCLUDES = paths.getIncludesDir()
@@ -58,6 +60,17 @@ const configureEleventyEnv = ({ mode = 'production', debug = false } = {}) => {
 
   // Build mode
   process.env.ELEVENTY_ENV = mode
+
+  // Log level for quire-11ty's chalk logger
+  if (quiet) {
+    process.env.QUIRE_LOG_LEVEL = 'silent'
+  } else if (debug) {
+    process.env.QUIRE_LOG_LEVEL = 'debug'
+  } else if (verbose) {
+    process.env.QUIRE_LOG_LEVEL = 'info'
+  } else {
+    process.env.QUIRE_LOG_LEVEL = 'warn'
+  }
 
   // Debug output
   if (debug) {
@@ -172,7 +185,7 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    configureEleventyEnv({ mode: 'production', debug: options.debug })
+    configureEleventyEnv({ mode: 'production', ...options })
 
     const eleventy = await createEleventyInstance(options)
 
@@ -202,7 +215,7 @@ class Quire11ty {
     const projectRoot = this.paths.getProjectRoot()
     process.chdir(projectRoot)
 
-    configureEleventyEnv({ mode: 'development', debug: options.debug })
+    configureEleventyEnv({ mode: 'development', ...options })
 
     const eleventy =
       await createEleventyInstance({ ...options, runMode: 'serve' })

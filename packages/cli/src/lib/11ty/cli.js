@@ -93,6 +93,17 @@ const factory = (options = {}) => {
     ELEVENTY_LAYOUTS: paths.getLayoutsDir(),
   }
 
+  // Log level for quire-11ty's chalk logger
+  if (options.quiet) {
+    env.QUIRE_LOG_LEVEL = 'silent'
+  } else if (options.debug) {
+    env.QUIRE_LOG_LEVEL = 'debug'
+  } else if (options.verbose) {
+    env.QUIRE_LOG_LEVEL = 'info'
+  } else {
+    env.QUIRE_LOG_LEVEL = 'warn'
+  }
+
   if (options.debug) env.DEBUG = 'Eleventy*'
 
   return { command, env, projectRoot }
