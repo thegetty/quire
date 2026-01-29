@@ -18,7 +18,7 @@ class Modal extends LitElement {
     super()
     this.setupKeyboardControls()
     this.setupModalTriggers()
-    this.setupBackdropClick()
+    this.setupCloseOutsideClick()
   }
 
   close () {
