@@ -5,10 +5,21 @@ import log from 'loglevel'
 /**
  * A factory function for custom logging methods using loglevel and chalk
  *
- * Output format is controlled by environment variables set by the CLI:
- * - QUIRE_LOG_LEVEL: log level (trace, debug, info, warn, error, silent)
+ * Output verbosity is controlled by environment variables set by the CLI:
+ *
+ * - QUIRE_LOG_LEVEL: log level ceiling (trace, debug, info, warn, error, silent).
+ *   Acts as a minimum threshold — when both an explicit `loglevel` parameter and
+ *   the env var are set, the more restrictive (higher numeric) level wins.
+ *   This ensures CLI flags like --quiet always suppress output, even for modules
+ *   that request a lower level like 'debug'.
+ *
  * - QUIRE_LOG_PREFIX: formatted prefix tag, e.g. '[quire]' or 'quire:'
  * - QUIRE_LOG_SHOW_LEVEL: 'true' or 'false' to toggle level label
+ *
+ * Without the env var (e.g. running quire-11ty standalone), the explicit
+ * `loglevel` parameter or the default ('info') is used unchanged.
+ *
+ * @see packages/cli/docs/cli-output-modes.md
  *
  * @typedef Loglevel {Number|String} A numeric index or case-insensitive name
  *  [0]: 'trace'
@@ -19,22 +30,45 @@ import log from 'loglevel'
  *  [5]: 'silent', which disables all messages from this logger
  *
  * @param  {String} prefix  A module prefix for log messages (e.g. 'Figures:ImageProcessor')
- * @param  {Loglevel} loglevel  Disables all logging below the given level
+ * @param  {Loglevel} loglevel  Preferred log level; may be overridden by QUIRE_LOG_LEVEL ceiling
  *
- * @return {Object}  Logger with methods `debug`, error`, `info`, `trace` ,`warn`
+ * @return {Object}  Logger with methods `debug`, `error`, `info`, `trace`, `warn`
  */
+/**
+ * Map log level names to numeric values (matching loglevel library)
+ */
+const LOG_LEVELS = { trace: 0, debug: 1, info: 2, warn: 3, error: 4, silent: 5 }
+
+/**
+ * Convert a log level name or number to its numeric value
+ * @param {string|number} level
+ * @returns {number}
+ */
+const toNumeric = (level) => {
+  if (typeof level === 'number') return level
+  return LOG_LEVELS[String(level).toLowerCase()] ?? LOG_LEVELS.info
+}
+
 export default function (prefix = '', loglevel) {
-  // Resolve log level: explicit param > QUIRE_LOG_LEVEL env var > default (info)
-  if (loglevel === undefined) {
-    loglevel = process.env.QUIRE_LOG_LEVEL || 'info'
-  }
+  // Resolve the effective log level.
+  // The env var acts as a floor (minimum level) so that CLI flags like
+  // --quiet (silent) always win, even when a module requests a lower level
+  // like 'debug'. Math.max picks the more restrictive of the two.
+  const paramLevel = loglevel !== undefined ? toNumeric(loglevel) : toNumeric('info')
+  const envLevel = process.env.QUIRE_LOG_LEVEL
+    ? toNumeric(process.env.QUIRE_LOG_LEVEL)
+    : null
+
+  const effectiveLevel = envLevel !== null
+    ? Math.max(paramLevel, envLevel)
+    : paramLevel
 
   /**
    * Get a new logger object and set logging level (non-persistent)
    * @see https://github.com/pimterry/loglevel
    */
   const logger = log.getLogger(prefix)
-  logger.setLevel(loglevel, false)
+  logger.setLevel(effectiveLevel, false)
 
   /**
    * chalk themes

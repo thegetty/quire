@@ -93,7 +93,9 @@ const factory = (options = {}) => {
     ELEVENTY_LAYOUTS: paths.getLayoutsDir(),
   }
 
-  // Log level for quire-11ty's chalk logger
+  // QUIRE_LOG_LEVEL controls output from the quire-11ty chalk logger,
+  // the Vite plugin logLevel, and the directory output plugin registration.
+  // @see packages/cli/docs/cli-output-modes.md
   if (options.quiet) {
     env.QUIRE_LOG_LEVEL = 'silent'
   } else if (options.debug) {

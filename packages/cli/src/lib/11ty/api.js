@@ -44,7 +44,19 @@ const debug = createDebug('lib:11ty:api')
  * These must be set before the Eleventy instance is created and the
  * `.eleventy.js` configuration file is parsed.
  *
+ * Sets QUIRE_LOG_LEVEL to control output from multiple systems:
+ *   - quire-11ty chalk logger (_lib/chalk) — reads env var as level ceiling
+ *   - Vite bundler (_plugins/vite) — maps env var to Vite's logLevel option
+ *   - Directory output plugin (.eleventy.js) — conditionally registered
+ *
+ * CLI flag mapping:
+ *   (default)   → 'warn'   — spinner + warn/error only
+ *   --verbose   → 'info'   — adds chalk info output, directory listing, Vite info
+ *   --debug     → 'debug'  — adds chalk debug output, Eleventy DEBUG traces
+ *   --quiet     → 'silent' — suppresses all chalk/Vite/directory output
+ *
  * @see https://github.com/11ty/eleventy/issues/2655
+ * @see packages/cli/docs/cli-output-modes.md
  *
  * @param {Object} options
  * @param {'production'|'development'} options.mode - Build mode
