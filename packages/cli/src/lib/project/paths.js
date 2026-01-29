@@ -170,6 +170,14 @@ class Paths {
     return process.cwd()
   }
 
+  /**
+   * Get the absolute path to built site output directory
+   * @returns {string} Absolute path to _site directory
+   */
+  getSitePath() {
+    return path.join(this.getProjectRoot(), '_site')
+  }
+
   // ─────────────────────────────────────────────────────────────────────────
   // Relative directory names (method names ends with Dir)
   // ─────────────────────────────────────────────────────────────────────────

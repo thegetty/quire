@@ -395,3 +395,295 @@ test('build command should configure reporter with quiet option', async (t) => {
     'reporter.configure should be called with quiet option'
   )
 })
+
+// ─────────────────────────────────────────────────────────────────────────
+// --serve option tests
+// ─────────────────────────────────────────────────────────────────────────
+
+test('build --serve should start static server after successful build', async (t) => {
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
+
+  const mockStop = sandbox.stub().resolves()
+  const mockServe = sandbox.stub().resolves({
+    url: 'http://localhost:8080',
+    stop: mockStop
+  })
+  const mockOnShutdown = sandbox.stub()
+  const mockOnShutdownComplete = sandbox.stub()
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      api: { build: sandbox.stub().resolves() },
+      cli: { build: sandbox.stub().resolves() }
+    },
+    '#lib/server/index.js': {
+      serve: mockServe
+    },
+    '#lib/process/manager.js': {
+      default: {
+        onShutdown: mockOnShutdown,
+        onShutdownComplete: mockOnShutdownComplete
+      }
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getSitePath: () => '/project/_site',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/clean.js': { clean: sandbox.stub() },
+    '#helpers/test-cwd.js': { default: sandbox.stub() },
+    '#lib/logger/index.js': { logger: mockLogger },
+    '#lib/reporter/index.js': { default: mockReporter },
+    open: { default: sandbox.stub() },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  command.name = sandbox.stub().returns('build')
+
+  // Start the action but don't await (infinite promise from serve)
+  command.action({ '11ty': 'api', serve: true, port: 8080, quiet: true }, command)
+
+  // Wait a tick for async operations
+  await new Promise(resolve => setImmediate(resolve))
+
+  t.true(mockServe.called, 'serve façade should be called')
+  t.is(mockServe.firstCall.args[0], '/project/_site', 'should serve from _site directory')
+  t.true(mockOnShutdown.called, 'should register cleanup handler')
+  t.is(mockOnShutdown.firstCall.args[0], 'serve', 'should register with name "serve"')
+})
+
+test('build --serve should not start server without --serve flag', async (t) => {
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
+
+  const mockServe = sandbox.stub()
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      api: { build: sandbox.stub().resolves() },
+      cli: { build: sandbox.stub().resolves() }
+    },
+    '#lib/server/index.js': {
+      serve: mockServe
+    },
+    '#lib/process/manager.js': {
+      default: {
+        onShutdown: sandbox.stub(),
+        onShutdownComplete: sandbox.stub()
+      }
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getSitePath: () => '/project/_site',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/clean.js': { clean: sandbox.stub() },
+    '#helpers/test-cwd.js': { default: sandbox.stub() },
+    '#lib/logger/index.js': { logger: mockLogger },
+    '#lib/reporter/index.js': { default: mockReporter },
+    open: { default: sandbox.stub() },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  command.name = sandbox.stub().returns('build')
+
+  await command.action({ '11ty': 'api' }, command)
+
+  t.false(mockServe.called, 'serve should not be called without --serve flag')
+})
+
+test('build --serve --open should open browser after starting server', async (t) => {
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
+
+  const mockOpen = sandbox.stub()
+  const mockServe = sandbox.stub().resolves({
+    url: 'http://localhost:3000',
+    stop: sandbox.stub().resolves()
+  })
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      api: { build: sandbox.stub().resolves() },
+      cli: { build: sandbox.stub().resolves() }
+    },
+    '#lib/server/index.js': {
+      serve: mockServe
+    },
+    '#lib/process/manager.js': {
+      default: {
+        onShutdown: sandbox.stub(),
+        onShutdownComplete: sandbox.stub()
+      }
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getSitePath: () => '/project/_site',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/clean.js': { clean: sandbox.stub() },
+    '#helpers/test-cwd.js': { default: sandbox.stub() },
+    '#lib/logger/index.js': { logger: mockLogger },
+    '#lib/reporter/index.js': { default: mockReporter },
+    open: { default: mockOpen },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  command.name = sandbox.stub().returns('build')
+
+  command.action({ '11ty': 'api', serve: true, port: 3000, open: true, quiet: true }, command)
+
+  await new Promise(resolve => setImmediate(resolve))
+
+  t.true(mockOpen.called, 'open should be called when --open flag is provided')
+  t.is(mockOpen.firstCall.args[0], 'http://localhost:3000', 'should open correct URL')
+})
+
+test('build --serve should not open browser without --open flag', async (t) => {
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
+
+  const mockOpen = sandbox.stub()
+  const mockServe = sandbox.stub().resolves({
+    url: 'http://localhost:8080',
+    stop: sandbox.stub().resolves()
+  })
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      api: { build: sandbox.stub().resolves() },
+      cli: { build: sandbox.stub().resolves() }
+    },
+    '#lib/server/index.js': {
+      serve: mockServe
+    },
+    '#lib/process/manager.js': {
+      default: {
+        onShutdown: sandbox.stub(),
+        onShutdownComplete: sandbox.stub()
+      }
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getSitePath: () => '/project/_site',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/clean.js': { clean: sandbox.stub() },
+    '#helpers/test-cwd.js': { default: sandbox.stub() },
+    '#lib/logger/index.js': { logger: mockLogger },
+    '#lib/reporter/index.js': { default: mockReporter },
+    open: { default: mockOpen },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  command.name = sandbox.stub().returns('build')
+
+  command.action({ '11ty': 'api', serve: true, port: 8080, quiet: true }, command)
+
+  await new Promise(resolve => setImmediate(resolve))
+
+  t.false(mockOpen.called, 'open should not be called without --open flag')
+})
+
+test('build --serve should not start server when build fails', async (t) => {
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
+
+  const mockServe = sandbox.stub()
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      api: { build: sandbox.stub().rejects(new Error('Build failed')) },
+      cli: { build: sandbox.stub().resolves() }
+    },
+    '#lib/server/index.js': {
+      serve: mockServe
+    },
+    '#lib/process/manager.js': {
+      default: {
+        onShutdown: sandbox.stub(),
+        onShutdownComplete: sandbox.stub()
+      }
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getSitePath: () => '/project/_site',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/clean.js': { clean: sandbox.stub() },
+    '#helpers/test-cwd.js': { default: sandbox.stub() },
+    '#lib/logger/index.js': { logger: mockLogger },
+    '#lib/reporter/index.js': { default: mockReporter },
+    open: { default: sandbox.stub() },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  command.name = sandbox.stub().returns('build')
+
+  await t.throwsAsync(
+    () => command.action({ '11ty': 'api', serve: true, port: 8080 }, command),
+    { message: 'Build failed' }
+  )
+
+  t.false(mockServe.called, 'serve should not be called when build fails')
+})
+
+test('build --serve should pass port and options to serve façade', async (t) => {
+  const { sandbox, fs, mockLogger, mockReporter } = t.context
+
+  const mockServe = sandbox.stub().resolves({
+    url: 'http://localhost:3000',
+    stop: sandbox.stub().resolves()
+  })
+
+  const BuildCommand = await esmock('./build.js', {
+    '#lib/11ty/index.js': {
+      api: { build: sandbox.stub().resolves() },
+      cli: { build: sandbox.stub().resolves() }
+    },
+    '#lib/server/index.js': {
+      serve: mockServe
+    },
+    '#lib/process/manager.js': {
+      default: {
+        onShutdown: sandbox.stub(),
+        onShutdownComplete: sandbox.stub()
+      }
+    },
+    '#lib/project/index.js': {
+      default: {
+        getProjectRoot: () => '/project',
+        getSitePath: () => '/project/_site',
+        toObject: () => ({ output: '_site' })
+      }
+    },
+    '#helpers/clean.js': { clean: sandbox.stub() },
+    '#helpers/test-cwd.js': { default: sandbox.stub() },
+    '#lib/logger/index.js': { logger: mockLogger },
+    '#lib/reporter/index.js': { default: mockReporter },
+    open: { default: sandbox.stub() },
+    'fs-extra': fs
+  })
+
+  const command = new BuildCommand()
+  command.name = sandbox.stub().returns('build')
+
+  command.action({ '11ty': 'api', serve: true, port: 3000, quiet: false, verbose: true }, command)
+
+  await new Promise(resolve => setImmediate(resolve))
+
+  t.true(mockServe.called, 'serve façade should be called')
+  t.is(mockServe.firstCall.args[0], '/project/_site', 'should pass site path')
+  t.deepEqual(mockServe.firstCall.args[1], { port: 3000, quiet: false, verbose: true }, 'should pass port and output options')
+})
