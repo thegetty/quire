@@ -17,7 +17,11 @@ import log from 'loglevel'
  *
  * @return {Object}  Logger with methods `debug`, error`, `info`, `trace` ,`warn`
  */
-export default function (prefix = '', loglevel = 2) {
+export default function (prefix = '', loglevel) {
+  // Resolve log level: explicit param > QUIRE_LOG_LEVEL env var > default (info)
+  if (loglevel === undefined) {
+    loglevel = process.env.QUIRE_LOG_LEVEL || 'info'
+  }
   /**
    * Get a new logger object and set logging level (non-persistent)
    * @see https://github.com/pimterry/loglevel
