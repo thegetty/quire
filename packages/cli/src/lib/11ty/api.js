@@ -174,11 +174,14 @@ class Quire11ty {
 
     configureEleventyEnv({ mode: 'production', debug: options.debug })
 
-    reporter.start('Building site...', { showElapsed: true })
-
     const eleventy = await createEleventyInstance(options)
 
     eleventy.setDryRun(options.dryRun)
+
+    // Print a static info line before Eleventy's build output begins.
+    // A spinner is not used here because write() writes directly to stdout
+    // and would overwrite the spinner line.
+    reporter.info('Building site...')
 
     try {
       await eleventy.write()
@@ -204,16 +207,28 @@ class Quire11ty {
 
     configureEleventyEnv({ mode: 'development', debug: options.debug })
 
-    reporter.start('Starting development server...')
-
     const eleventy =
       await createEleventyInstance({ ...options, runMode: 'serve' })
 
     // Store reference for lifecycle management (graceful shutdown)
     this.activeInstance = eleventy
 
-    // Initialize Eleventy before serving (required for eleventyServe)
+    // Initialize Eleventy (required before watch/serve)
     await eleventy.init()
+
+    // Print a static info line before Eleventy's build output begins.
+    // A spinner is not used here because watch() writes directly to stdout
+    // and would overwrite the spinner line.
+    reporter.info('Building site...')
+
+    // Build the site and start file watchers.
+    // watch() performs the initial build via write(), then sets up chokidar
+    // file watchers for incremental rebuilds on file changes.
+    // This matches the Eleventy CLI sequence: init() → watch() → serve()
+    // @see https://github.com/11ty/eleventy/blob/main/cmd.cjs
+    await eleventy.watch()
+
+    reporter.start('Starting development server...')
 
     // Register a ready callback to resolve the spinner when the server is listening
     // @see https://www.11ty.dev/docs/dev-server/#options
@@ -228,6 +243,7 @@ class Quire11ty {
       },
     }
 
+    // Start the HTTP dev server (serves the built _site/ directory)
     await eleventy.serve(options.port)
   }
 }
