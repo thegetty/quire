@@ -6,7 +6,8 @@ import {
   noColorOption,
   quietOption,
   verboseOption,
-  debugOption
+  debugOption,
+  reducedMotionOption,
 } from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
@@ -30,11 +31,19 @@ Common Workflows:
   Run 'quire help workflows' for detailed workflow documentation.
 
 Output Modes:
-  -q, --quiet      Suppress progress output (for CI/scripts)
-  -v, --verbose    Show detailed progress (paths, timing, steps)
-  --debug          Enable debug output for developers/troubleshooting
+  -q, --quiet          Suppress progress output (for CI/scripts)
+  -v, --verbose        Show detailed progress (paths, timing, steps)
+  --debug              Enable debug output for developers/troubleshooting
+  --reduced-motion      Disable spinner animation and line overwriting
 
   Set defaults: quire settings set verbose true
+
+Accessibility:
+  --reduced-motion disables animated spinners and line overwriting.
+  Each stage prints on a new line as static text, making output
+  compatible with screen readers and reduced-motion preferences.
+
+  Set default: quire settings set reducedMotion true
 
 Color Output:
   --no-color       Disable colored output
@@ -49,6 +58,7 @@ Paging:
   PAGER=cat              Traditional Unix alternative (passes output through)
 
 Environment Variables:
+  REDUCED_MOTION          Disable spinner animation and line overwriting
   NO_COLOR               Disable colored output (https://no-color.org/)
   NO_PAGER=1             Disable paging for long output
   PAGER=<program>        Set pager program (default: less). Use PAGER=cat to disable
@@ -60,6 +70,8 @@ Examples:
   $ quire build                  Build the publication
   $ quire build --verbose        Build with detailed progress
   $ quire build --debug          Build with debug output
+  $ quire build --reduced-motion  Build without animated spinners
+  $ REDUCED_MOTION=1 quire build  Build without animated spinners
   $ quire build --no-color       Build without colored output
   $ NO_COLOR=1 quire build       Build without colored output
   $ DEBUG=quire:* quire pdf      Generate PDF with debug output
@@ -83,6 +95,7 @@ program
   .addOption(arrayToOption(quietOption))
   .addOption(arrayToOption(verboseOption))
   .addOption(arrayToOption(debugOption))
+  .addOption(arrayToOption(reducedMotionOption))
   .option('--no-pager', 'disable paging for long output')
   .addHelpText('after', mainHelpText)
   .configureHelp({
@@ -102,6 +115,7 @@ program
  * - --quiet: Suppress progress spinners (for CI/scripts)
  * - --verbose: Show detailed progress (paths, timing, steps)
  * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
+ * - --reduced-motion: Disable animated spinners, use static text on new lines
  * - --no-color: Disable colored output (sets NO_COLOR env var)
  * - --color: Force colored output (overrides NO_COLOR env var)
  *
@@ -125,6 +139,12 @@ program.hook('preAction', (thisCommand) => {
   // CLI flag takes precedence, then config setting
   if (opts.debug ?? config.get('debug')) {
     enableDebug('quire:*')
+  }
+
+  // --reduced-motion sets REDUCED_MOTION env var for reporter to read
+  // CLI flag takes precedence over env var and config setting
+  if (opts.reducedMotion) {
+    process.env.REDUCED_MOTION = '1'
   }
 
   // --no-pager sets pager to false; propagate via env var for pager utility

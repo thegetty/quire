@@ -20,6 +20,20 @@ process.removeAllListeners('warning')
 process.env.QUIRE_LOG_LEVEL = config.get('logLevel') || 'info'
 
 /**
+ * Set REDUCED_MOTION env var from config before importing CLI modules
+ *
+ * The reporter reads REDUCED_MOTION to decide whether to use animated
+ * spinners or static text output. Setting it here ensures the reporter
+ * picks up the config value at module load time.
+ * If REDUCED_MOTION is already set in the shell environment, we do not override it.
+ *
+ * @see lib/reporter/index.js
+ */
+if (process.env.REDUCED_MOTION === undefined && config.get('reducedMotion') === true) {
+  process.env.REDUCED_MOTION = '1'
+}
+
+/**
  * Set NO_COLOR env var from config before importing CLI modules
  *
  * Chalk 5.x and ora read NO_COLOR at module load time.

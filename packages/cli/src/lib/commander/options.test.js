@@ -1,7 +1,7 @@
 import test from 'ava'
 import { Command } from 'commander'
 import { arrayToOption } from './index.js'
-import { colorOption, noColorOption, quietOption, verboseOption, debugOption } from './options.js'
+import { colorOption, noColorOption, quietOption, verboseOption, debugOption, reducedMotionOption } from './options.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Integration tests for option conflicts
@@ -21,6 +21,7 @@ function createTestProgram() {
     .addOption(arrayToOption(quietOption))
     .addOption(arrayToOption(verboseOption))
     .addOption(arrayToOption(debugOption))
+    .addOption(arrayToOption(reducedMotionOption))
     .action(() => {})
     .exitOverride() // Throw instead of process.exit
     .configureOutput({
@@ -108,6 +109,56 @@ test('options order does not affect conflict detection', (t) => {
   // Both orders should throw
   t.throws(() => program1.parse(['node', 'test', '--quiet', '--verbose']))
   t.throws(() => program2.parse(['node', 'test', '--verbose', '--quiet']))
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Reduced motion option tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+test('--reduced-motion alone is valid', (t) => {
+  const program = createTestProgram()
+
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--reduced-motion'])
+  })
+})
+
+test('--reduced-motion sets opts.reducedMotion to true', (t) => {
+  const program = createTestProgram()
+  program.parse(['node', 'test', '--reduced-motion'])
+
+  t.is(program.opts().reducedMotion, true)
+})
+
+test('no flag leaves opts.reducedMotion as undefined', (t) => {
+  const program = createTestProgram()
+  program.parse(['node', 'test'])
+
+  t.is(program.opts().reducedMotion, undefined)
+})
+
+test('--reduced-motion combines with --verbose without conflict', (t) => {
+  const program = createTestProgram()
+
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--reduced-motion', '--verbose'])
+  })
+})
+
+test('--reduced-motion combines with --quiet without conflict', (t) => {
+  const program = createTestProgram()
+
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--reduced-motion', '--quiet'])
+  })
+})
+
+test('--reduced-motion combines with --debug without conflict', (t) => {
+  const program = createTestProgram()
+
+  t.notThrows(() => {
+    program.parse(['node', 'test', '--reduced-motion', '--debug'])
+  })
 })
 
 // ─────────────────────────────────────────────────────────────────────────────

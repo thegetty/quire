@@ -125,6 +125,24 @@ export const debugOption = [
 ]
 
 /**
+ * Reduced motion option - disable spinner animation and line overwriting
+ *
+ * When enabled, the reporter outputs static text on new lines instead of
+ * animated spinners that overwrite the current line. This is useful for:
+ * - Screen reader users (animated overwriting disrupts reading flow)
+ * - Users who prefer reduced motion
+ * - Environments where terminal animation is problematic
+ *
+ * Respects config default: `quire settings set reducedMotion true`
+ * Also respects REDUCED_MOTION environment variable.
+ *
+ * @type {Array}
+ */
+export const reducedMotionOption = [
+  '--reduced-motion', 'disable spinner animation and line overwriting',
+]
+
+/**
  * Color options - enable/disable colored output
  *
  * Commander.js requires separate option definitions for --color and --no-color
