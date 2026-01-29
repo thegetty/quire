@@ -74,7 +74,7 @@
     "marked-terminal": "^7.3.0",
     "node-fetch": "^3.3.2",
     "open": "^8.4.0",
-    "ora": "^6.1.2",
+    "ora": "^9.1.0",
     "pagedjs-cli": "^0.4.3",
     "pdf-lib": "^1.17.1",
     "read-package-up": "^11.0.0",
