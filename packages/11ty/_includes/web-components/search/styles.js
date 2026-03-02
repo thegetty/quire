@@ -69,6 +69,10 @@ export const searchResultsListStyles = css`
     max-height: 6rem;
   }
 
+  .search-subresults {
+    margin-left: 3rem;
+  }
+
   .subresults-item {
     margin: 1rem 0 0 0;
   }
@@ -78,10 +82,7 @@ export const searchResultsListStyles = css`
     margin-bottom: 0.25rem;
   }
 
-  mark {
-    background-color:#ff0;
-    border-radius:2px;
-    padding:0 2px;
-    color:#000
+  .result-excerpt mark {
+    background-color: var(--highlight-color, #F9F9A3);
   }
   `

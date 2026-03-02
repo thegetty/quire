@@ -86,7 +86,10 @@ class SearchResultsList extends LitElement {
         ${this.resultImageTemplate(result)}
         <div class="result-item-content">
           ${this.resultMetaTemplate(result)}
-          <p class="result-excerpt">${unsafeHTML(result.excerpt)}</p>
+          <p class="result-excerpt">
+            ${unsafeHTML(result.excerpt)}
+            ${result.meta.credit ? html`<span class="result-credit">${result.meta.credit}</span>` : ''}
+          </p>
         </div>
       </div>
     `
@@ -138,16 +141,12 @@ class SearchResultsList extends LitElement {
    * @description Renders metadata information for a search result including page title, contributors, and credits
    * @param {Object} result - Search result object from Pagefind
    * @param {Object} result.meta - Metadata object
-   * @param {string} [result.meta.pageTitle] - Page title metadata
    * @param {string} [result.meta.contributors] - Contributors metadata
-   * @param {string} [result.meta.credit] - Credit metadata
    * @returns {TemplateResult} Lit HTML template for the result metadata
    */
   resultMetaTemplate (result) {
     return html`
-      ${result.meta.pageTitle ? html`<p class="result-meta">${result.meta.pageTitle}</p>` : ''}
       ${result.meta.contributors ? html`<p class="result-meta">${result.meta.contributors}</p>` : ''}
-      ${result.meta.credit ? html`<p class="result-meta">${result.meta.credit}</p>` : ''}
     `
   }
 
