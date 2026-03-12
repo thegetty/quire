@@ -241,3 +241,4 @@ Special acknowledgment is due to Eric Gardner ([@egardner](https://github.com/eg
 ## License
 
 Copyright © 2022, J Paul Getty Trust.
+
