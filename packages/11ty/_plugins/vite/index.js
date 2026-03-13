@@ -12,22 +12,13 @@ import path from 'node:path'
  * @param {Object} eleventyConfig
  * @param {Object} globalData
  */
-/**
- * Map QUIRE_LOG_LEVEL to Vite's logLevel option
- * Vite accepts: 'info' | 'warn' | 'error' | 'silent'
- */
-const VITE_LOG_LEVELS = { trace: 'info', debug: 'info', info: 'info', warn: 'warn', error: 'error', silent: 'silent' }
-
 export default function (eleventyConfig, { directoryConfig, publication }) {
   const { pathname } = publication
   const { inputDir, outputDir, publicDir } = directoryConfig
 
-  const viteLogLevel = VITE_LOG_LEVELS[process.env.QUIRE_LOG_LEVEL] || 'warn'
-
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
-      logLevel: viteLogLevel,
       publicDir,
       /**
        * @see https://vitejs.dev/config/#build-options
@@ -44,7 +35,6 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
         mode: 'production',
         outDir: outputDir,
         rollupOptions: {
-          external: ['../../../_search/pagefind.js'],
           output: {
             assetFileNames: ({ name, originalFileName }) => {
               const fullFilePathSegments = (originalFileName ?? name).split('/').slice(0, -1)
@@ -94,12 +84,12 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
         preprocessorOptions: {
           scss: {
             api: 'modern-compiler',
-            quietDeps: true,
             silenceDeprecations: [
               'color-functions',
               'global-builtin',
-              'if-function',
-              'import'
+              'import',
+              'legacy-js-api',
+              'mixed-decls'
             ]
           }
         }

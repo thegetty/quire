@@ -1,275 +1,133 @@
-/**
- * Quire11ty façade for Eleventy integration
- *
- * Provides a unified interface for Eleventy operations with path resolution.
- * Follows the singleton pattern like lib/npm and lib/git for consistency
- * and easy mocking in tests.
- *
- * @example Production usage
- * import eleventy from '#lib/11ty/index.js'
- * await eleventy.build({ debug: true })
- * const outputDir = eleventy.paths.getOutputDir()
- *
- * @example Path-only usage
- * import { paths } from '#lib/11ty/index.js'
- * const projectRoot = paths.getProjectRoot()
- *
- * @example Test mocking
- * const mockEleventy = {
- *   build: sandbox.stub().resolves(),
- *   serve: sandbox.stub().resolves(),
- *   paths: {
- *     getProjectRoot: () => '/project',
- *     getOutputDir: () => '_site'
- *   }
- * }
- * const MyCommand = await esmock('./mycommand.js', {
- *   '#lib/11ty/index.js': { default: mockEleventy }
- * })
- *
- * @see https://www.11ty.dev/docs/programmatic/
- * @module lib/11ty
- */
 import { dynamicImport } from '#helpers/os-utils.js'
+import { pathToFileURL } from 'node:url'
 import path from 'node:path'
-import paths from '#lib/project/index.js'
-import reporter from '#lib/reporter/index.js'
-import createDebug from '#debug'
-
-const debug = createDebug('lib:11ty:api')
+import paths, { eleventyRoot, projectRoot } from './paths.js'
 
 /**
- * Configure environment variables required for Eleventy.
+ * A factory function to configure an instance of Eleventy
+ * @see https://www.11ty.dev/docs/config/#configuration-options
  *
- * These must be set before the Eleventy instance is created and the
- * `.eleventy.js` configuration file is parsed.
- *
- * Sets QUIRE_LOG_LEVEL to control output from multiple systems:
- *   - quire-11ty chalk logger (_lib/chalk) — reads env var as level ceiling
- *   - Vite bundler (_plugins/vite) — maps env var to Vite's logLevel option
- *   - Directory output plugin (.eleventy.js) — conditionally registered
- *
- * CLI flag mapping:
- *   (default)   → 'warn'   — spinner + warn/error only
- *   --verbose   → 'info'   — adds chalk info output, directory listing, Vite info
- *   --debug     → 'debug'  — adds chalk debug output, Eleventy DEBUG traces
- *   --quiet     → 'silent' — suppresses all chalk/Vite/directory output
- *
- * @see https://github.com/11ty/eleventy/issues/2655
- * @see packages/cli/docs/cli-output-modes.md
- *
- * @param {Object} options
- * @param {'production'|'development'} options.mode - Build mode
- * @param {boolean} options.debug - Enable Eleventy debug output
- * @param {boolean} options.verbose - Enable verbose output
- * @param {boolean} options.quiet - Suppress output
+ * @param  {Object}  options  Eleventy configuration options
+ * @return  {Eleventy}  A configured instance of Eleventy
  */
-const configureEleventyEnv = ({ mode = 'production', debug = false, verbose = false, quiet = false } = {}) => {
-  // Path configuration for decoupling quire-11ty from project input directory
-  process.env.ELEVENTY_DATA = paths.getDataDir()
-  process.env.ELEVENTY_INCLUDES = paths.getIncludesDir()
-  process.env.ELEVENTY_LAYOUTS = paths.getLayoutsDir()
+const factory = async (options = {}) => {
+  const { config, input, output } = paths
 
-  // Build mode
-  process.env.ELEVENTY_ENV = mode
-
-  // Log level for quire-11ty's chalk logger
-  if (quiet) {
-    process.env.QUIRE_LOG_LEVEL = 'silent'
-  } else if (debug) {
-    process.env.QUIRE_LOG_LEVEL = 'debug'
-  } else if (verbose) {
-    process.env.QUIRE_LOG_LEVEL = 'info'
-  } else {
-    process.env.QUIRE_LOG_LEVEL = 'warn'
+  if (options.debug) {
+    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
   }
 
-  // QUIRE_LOG_PREFIX and QUIRE_LOG_SHOW_LEVEL are set by the preAction hook
-  // in main.js from config values. No action needed here — they are already
-  // in process.env and will be read by the chalk logger at instantiation time.
-
-  // Debug output
-  if (debug) {
-    process.env.DEBUG = 'Eleventy*'
-  }
-}
-
-/**
- * Create an instance of Eleventy configured for Quire projects
- *
- * @param {Object} options - Eleventy configuration options
- * @param {boolean} [options.debug=false] - Enable debug output
- * @param {boolean} [options.quiet=false] - Suppress output
- * @param {string} [options.config] - Custom config path override
- * @param {'build'|'serve'|'watch'} [options.runMode='build'] - Eleventy run mode
- * @returns {Promise<Eleventy>} Configured Eleventy instance
- */
-const createEleventyInstance = async (options = {}) => {
-  const config = paths.getConfigPath()
-  const eleventyRoot = paths.getEleventyRoot()
-  const input = paths.getInputDir()
-  const output = paths.getOutputDir()
-  const projectRoot = paths.getProjectRoot()
-
-  debug('projectRoot: %s', projectRoot)
-  debug('paths: %O', paths.toObject())
-
-  // Dynamically import the correct version of Eleventy
+  /**
+   * Dynamically import the correct version of Eleventy
+   */
   const modulePath = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy', 'src', 'Eleventy.js')
   const { default: Eleventy } = await dynamicImport(modulePath)
 
-  // Create Eleventy instance
-  // @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
+  /**
+   * Set Eleventy passthrough copy options
+   * @see https://www.11ty.dev/docs/copy/#advanced-options
+   * @see https://github.com/timkendrick/recursive-copy
+   */
+  const copyOptions = {
+    debug: options.debug || false
+  }
+
+  /**
+   * Set environment variables for paths relative to eleventy `input` dir,
+   * to allow `quire-11ty` to be decouple from the project input directory.
+   * Nota bene: environment variables read into the eleventy configuration
+   * file _must_ be set before the eleventy configuration file is parsed.
+   * @see https://github.com/11ty/eleventy/issues/2655
+   */
+  process.env.ELEVENTY_DATA = paths.data
+  process.env.ELEVENTY_INCLUDES = paths.includes
+  process.env.ELEVENTY_LAYOUTS = paths.layouts
+
+  /**
+   * Get an instance of the runtime of eleventy.
+   * @see https://github.com/11ty/eleventy/blob/src/Eleventy.js
+   *
+   * @param {String} input  Path from which to read content templates
+   * @param {String} output  Path where rendered files will be written
+   * @param {Object} options  Options are merged with the Eleventy UserConfig
+   * @param {Object} config  An eleventy configurtion object
+   *
+   * @returns {module:11ty/eleventy/Eleventy~Eleventy}
+   */
   const eleventy = new Eleventy(input, output, {
     config: (eleventyConfig) => {
-      // Event callback when a build completes
-      // @see https://www.11ty.dev/docs/events/#eleventy.after
+      /**
+       * Override addPassthroughCopy to use _absolute_ system paths.
+       * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
+       * Nota bene: Eleventy addPassthroughCopy assumes paths are _relative_
+       * to the `config` file however the quire-cli separates 11ty from the
+       * project directory (`input`) and needs to use absolute system paths.
+       */
+      const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
+      eleventyConfig.addPassthroughCopy = (entry) => {
+        if (typeof entry === 'string') {
+          const filePath = path.resolve(entry) //path.join(projectRoot, file)
+          // console.debug('[11ty:API] passthrough copy %s', filePath)
+          return addPassthroughCopy(filePath, copyOptions)
+        } else {
+          // console.debug('[11ty:API] passthrough copy %o', entry)
+          entry = Object.fromEntries(
+            Object.entries(entry).map(([ src, dest ]) => {
+              return [ path.join(eleventyRoot, src), path.resolve(dest) ]
+            })
+          )
+          // console.debug('[11ty:API] passthrough copy %o', entry)
+          return addPassthroughCopy(entry, copyOptions)
+        }
+      }
+
+      /**
+       * Event callback when a build completes
+       * @see https://www.11ty.dev/docs/events/#eleventy.after
+       */
       eleventyConfig.on('eleventy.after', async () => {
-        debug('build complete')
+        console.debug('[11ty:API] build complete')
       })
 
       return eleventyConfig
     },
     configPath: options.config || config,
-    quietMode: options.quiet || !options.verbose,
-    runMode: options.runMode || 'build',
+    quietMode: options.quiet || false,
   })
 
   return eleventy
 }
 
 /**
- * Quire11ty façade class
- *
- * Provides abstracted Eleventy operations with unified logging,
- * error handling, and path resolution. Stores active Eleventy
- * instance for cleanup registration with ProcessManager.
+ * A wrapper module for using the Eleventy programmatic API
+ * @see https://www.11ty.dev/docs/programmatic/
+ * @todo read paths from the Quire project configuration
  */
-class Quire11ty {
-  /**
-   * Create Quire11ty instance
-   * @param {Object} pathsInstance - Paths instance for path resolution
-   */
-  constructor(pathsInstance) {
-    this.paths = pathsInstance
-    /**
-     * Active Eleventy instance (for API mode)
-     * @type {Eleventy|null}
-     */
-    this.activeInstance = null
-  }
+export default {
+  build: async (options = {}) => {
+    process.cwd(projectRoot)
 
-  /**
-   * Check if an Eleventy process is currently active
-   * @returns {boolean}
-   */
-  isActive() {
-    return this.activeInstance !== null
-  }
+    console.info('[CLI:11ty] running eleventy build')
 
-  /**
-   * Gracefully close any active Eleventy process
-   *
-   * Calls eleventy.close() to stop the dev server and file watchers.
-   * This method is registered with ProcessManager for signal handling.
-   *
-   * @returns {Promise<void>}
-   */
-  async close() {
-    if (this.activeInstance) {
-      debug('shutting down Eleventy')
-      try {
-        await this.activeInstance.close()
-      } catch (error) {
-        // Ignore errors during shutdown (may already be closing)
-        debug('close error (may be expected): %s', error.message)
-      }
-      this.activeInstance = null
-    }
-  }
+    process.env.ELEVENTY_ENV = 'production'
+    if (options.debug) process.env.DEBUG = 'Eleventy*'
 
-  /**
-   * Run Eleventy production build
-   *
-   * @param {Object} options - Build options
-   * @param {boolean} [options.debug=false] - Enable debug output
-   * @param {boolean} [options.dryRun=false] - Perform dry run without writing files
-   * @param {boolean} [options.quiet=false] - Suppress output
-   * @returns {Promise<void>}
-   */
-  async build(options = {}) {
-    const projectRoot = this.paths.getProjectRoot()
-    process.chdir(projectRoot)
+    const eleventy = await factory(options)
 
-    configureEleventyEnv({ mode: 'production', ...options })
+    eleventy.setDryRun(options.dryrun)
 
-    const eleventy = await createEleventyInstance(options)
+    await eleventy.write()
+  },
+  serve: async (options = {}) => {
+    process.cwd(projectRoot)
 
-    eleventy.setDryRun(options.dryRun)
+    console.info('[CLI:11ty] running development server')
 
-    reporter.start('Building site...', { showElapsed: true })
+    process.env.ELEVENTY_ENV = 'development'
+    if (options.debug) process.env.DEBUG = 'Eleventy*'
 
-    try {
-      await eleventy.write()
-      reporter.succeed('Build complete')
-    } catch (error) {
-      reporter.fail('Build failed')
-      throw error
-    }
-  }
+    const eleventy = await factory(options)
 
-  /**
-   * Run Eleventy development server
-   *
-   * @param {Object} options - Serve options
-   * @param {boolean} [options.debug=false] - Enable debug output
-   * @param {number} [options.port] - Server port
-   * @param {boolean} [options.quiet=false] - Suppress output
-   * @returns {Promise<void>}
-   */
-  async serve(options = {}) {
-    const projectRoot = this.paths.getProjectRoot()
-    process.chdir(projectRoot)
-
-    configureEleventyEnv({ mode: 'development', ...options })
-
-    const eleventy =
-      await createEleventyInstance({ ...options, runMode: 'serve' })
-
-    // Store reference for lifecycle management (graceful shutdown)
-    this.activeInstance = eleventy
-
-    // Initialize Eleventy (required before watch/serve)
-    await eleventy.init()
-
-    reporter.start('Building site...', { showElapsed: true })
-
-    // Build the site and start file watchers.
-    // watch() performs the initial build via write(), then sets up chokidar
-    // file watchers for incremental rebuilds on file changes.
-    // This matches the Eleventy CLI sequence: init() → watch() → serve()
-    // @see https://github.com/11ty/eleventy/blob/main/cmd.cjs
-    await eleventy.watch()
-
-    reporter.succeed('Build complete')
-    reporter.start('Starting development server...')
-
-    // Register a ready callback to resolve the spinner when the server is listening
-    // @see https://www.11ty.dev/docs/dev-server/#options
-    eleventy.eleventyServe.config.serverOptions = {
-      ...eleventy.eleventyServe.config.serverOptions,
-      ready: (server) => {
-        const url = server.getServerUrl('localhost')
-        reporter.succeed(`Server running at ${url}`)
-        if (options.open) {
-          import('open').then(({ default: open }) => open(url))
-        }
-      },
-    }
-
-    // Start the HTTP dev server (serves the built _site/ directory)
     await eleventy.serve(options.port)
   }
 }
-
-export { Quire11ty, createEleventyInstance, configureEleventyEnv }

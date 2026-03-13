@@ -36,7 +36,7 @@ export async function clean (projectRoot, paths, options = {}) {
   const deletedPaths = await deleteAsync(pathsToClean, {
     dryRun: options.dryRun,
     force: true,
-    onProgress: options.verbose && progressLogger,
+    onProgress: (options.progress || options.verbose) && progressLogger,
   })
 
   return deletedPaths

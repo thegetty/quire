@@ -1,11 +1,6 @@
 import Command from '#src/Command.js'
-import { Option } from 'commander'
-import { withOutputModes } from '#lib/commander/index.js'
-import { api, cli } from '#lib/11ty/index.js'
-import paths from '#lib/project/index.js'
+import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
 import { clean } from '#helpers/clean.js'
-import { recordStatus } from '#lib/conf/build-status.js'
-import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -17,59 +12,56 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class BuildCommand extends Command {
-  static definition = withOutputModes({
+  static definition = {
     name: 'build',
     description: 'Generate publication outputs',
-    summary: 'generate HTML site files',
-    docsLink: 'quire-commands/#output-files',
-    helpText: `
-Examples:
-  quire build                Build the site
-  quire build --verbose      Build with detailed progress
-  quire build --debug        Build with debug output
-
-Note: Run before "quire pdf" or "quire epub" commands.
-`,
-    version: '1.1.0',
+    summary: 'run build',
+    version: '1.0.0',
+    args: [
+      // [
+      //   '[formats...]', 'output formats',
+      //   {
+      //     choices: ['pdf', 'epub'],
+      //   }
+      // ],
+    ],
     options: [
       [ '-d', '--dry-run', 'run build without writing files' ],
-      [ '--dryrun', 'alias for --dry-run', { hidden: true, implies: { dryRun: true } } ],
-      // Use Option object syntax to configure this as a hidden option
-      new Option('--11ty <module>', 'use the specified 11ty module')
-        .choices(['api', 'cli']).default('api').hideHelp(),
+      [ '-q', '--quiet', 'run build with no console messages' ],
+      [ '-v', '--verbose', 'run build with verbose console messages' ],
+      [
+        '--11ty <module>', 'use the specified 11ty module', 'cli',
+        // { choices: ['api', 'cli'], default: 'cli' }
+      ],
+      [ '--debug', 'run build with debug output to console' ],
     ],
-  })
+  }
 
   constructor() {
     super(BuildCommand.definition)
   }
 
-  async action(options, command) {
-    this.debug('called with options %O', options)
+  action(options, command) {
+    if (options.debug) {
+      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+    }
 
-    // Configure reporter for this command
-    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
-
-    try {
-      if (options['11ty'] === 'api') {
-        this.debug('running eleventy using lib/11ty api')
-        await api.build(options)
-      } else {
-        this.debug('running eleventy using lib/11ty cli')
-        await cli.build(options)
-      }
-      recordStatus(paths.getProjectRoot(), 'build', 'ok')
-    } catch (error) {
-      recordStatus(paths.getProjectRoot(), 'build', 'failed')
-      throw error
+    if (options['11ty'] === 'cli') {
+      console.debug('[CLI] running eleventy using lib/11ty cli')
+      cli.build(options)
+    } else {
+      console.debug('[CLI] running eleventy using lib/11ty api')
+      api.build(options)
     }
   }
 
-  preAction(thisCommand, actionCommand) {
-    testcwd(thisCommand)
+  preAction(command) {
+    testcwd(command)
 
-    const options = thisCommand.opts()
-    this.debug('pre-action with options %O', options)
-    clean(paths.getProjectRoot(), paths.toObject(), options)
+    const options = command.opts()
+    if (options.debug) {
+      console.debug('[CLI] Calling \'build\' command pre-action with options', options)
+    }
+    clean(projectRoot, paths, options)
   }
 }

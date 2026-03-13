@@ -22,9 +22,8 @@ export default function (eleventyConfig) {
    */
   return function (data) {
     const {
-      annotations,
       canvasId,
-      choiceId: choice,
+      choiceId,
       height = '',
       id,
       iiifContent,
@@ -38,15 +37,6 @@ export default function (eleventyConfig) {
     if (!manifestId && !iiifContent) {
       logger.error(`Invalid params for figure "${id}": `, data)
       return ''
-    }
-
-    let choiceId = choice
-    const allAnnotations = (annotations ?? []).flatMap(anno => anno.items)
-    if (allAnnotations.some(a => a.type === 'choice') && !choice) {
-      const defaultAnnotation = allAnnotations.at(0)
-      const selectedAnnotation = allAnnotations.find(item => item.selected)
-
-      choiceId = selectedAnnotation ? selectedAnnotation.uri : defaultAnnotation.uri
     }
 
     return html`

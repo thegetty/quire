@@ -1,35 +1,7 @@
 import { execa } from 'execa'
 import fs from 'node:fs'
 import path from 'node:path'
-import paths from '#lib/project/index.js'
-import processManager from '#lib/process/manager.js'
-import reporter from '#lib/reporter/index.js'
-import { BuildFailedError } from '#src/errors/index.js'
-import createDebug from '#debug'
-
-const debug = createDebug('lib:11ty')
-
-/**
- * Spawn a cancellable subprocess with output piped to stdout
- *
- * @param {string[]} command - Command arguments for node
- * @param {Object} options - Spawn options
- * @param {string} options.cwd - Working directory
- * @param {Object} options.env - Environment variables
- * @returns {import('execa').ExecaChildProcess}
- */
-const spawn = (command, { cwd, env }) => {
-  const subprocess = execa('node', command, {
-    all: true,
-    cwd,
-    env,
-    execPath: process.execPath,
-    cancelSignal: processManager.signal,
-    gracefulCancel: true,
-  })
-  subprocess.all.pipe(process.stdout)
-  return subprocess
-}
+import paths, { eleventyRoot, projectRoot } from './paths.js'
 
 /**
  * A factory function to configure an Eleventy CLI command
@@ -38,21 +10,20 @@ const spawn = (command, { cwd, env }) => {
  * @return  {Array} Eleventy CLI options
  */
 const factory = (options = {}) => {
-  const config = paths.getConfigPath()
-  const eleventyRoot = paths.getEleventyRoot()
-  const input = paths.getInputDir()
-  const output = paths.getOutputDir()
-  const projectRoot = paths.getProjectRoot()
+  const { config, input, output } = paths
 
-  debug('projectRoot: %s', projectRoot)
-  debug('paths: %O', paths.toObject())
+  if (options.debug) {
+    console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
+  }
 
   /**
    * Use the version of Eleventy installed to `lib/quire/versions`
-   * Nota bene: in eleventy v3 the CLI extension (".cjs") is load-bearing but v2 is simply ".js"
+   * 
+   * NB: in eleventy v3 the CLI extension (".cjs") is load-bearing but v2 is simply ".js"
+   * 
    */
   const eleventyModuleDir = path.join(eleventyRoot, 'node_modules', '@11ty', 'eleventy')
-  const packagePath = path.join(eleventyModuleDir,'package.json')
+  const packagePath = path.join(eleventyModuleDir,'package.json')  
 
   const pack = JSON.parse(fs.readFileSync(packagePath))
 
@@ -88,35 +59,14 @@ const factory = (options = {}) => {
    * @see https://github.com/11ty/eleventy/issues/2655
    */
   const env = {
-    ELEVENTY_DATA: paths.getDataDir(),
-    ELEVENTY_INCLUDES: paths.getIncludesDir(),
-    ELEVENTY_LAYOUTS: paths.getLayoutsDir(),
-  }
-
-  // QUIRE_LOG_LEVEL controls output from the quire-11ty chalk logger,
-  // the Vite plugin logLevel, and the directory output plugin registration.
-  // @see packages/cli/docs/cli-output-modes.md
-  if (options.quiet) {
-    env.QUIRE_LOG_LEVEL = 'silent'
-  } else if (options.debug) {
-    env.QUIRE_LOG_LEVEL = 'debug'
-  } else if (options.verbose) {
-    env.QUIRE_LOG_LEVEL = 'info'
-  } else {
-    env.QUIRE_LOG_LEVEL = 'warn'
-  }
-
-  // Forward CLI log prefix and show-level settings (set by configureLogEnv)
-  if (process.env.QUIRE_LOG_PREFIX !== undefined) {
-    env.QUIRE_LOG_PREFIX = process.env.QUIRE_LOG_PREFIX
-  }
-  if (process.env.QUIRE_LOG_SHOW_LEVEL !== undefined) {
-    env.QUIRE_LOG_SHOW_LEVEL = process.env.QUIRE_LOG_SHOW_LEVEL
+    ELEVENTY_DATA: paths.data,
+    ELEVENTY_INCLUDES: paths.includes,
+    ELEVENTY_LAYOUTS: paths.layouts,
   }
 
   if (options.debug) env.DEBUG = 'Eleventy*'
 
-  return { command, env, projectRoot }
+  return { command, env }
 }
 
 /**
@@ -124,70 +74,45 @@ const factory = (options = {}) => {
  * @see https://www.11ty.dev/docs/usage/#command-line-usage
  */
 export default {
-  /**
-   * Run Eleventy build via CLI
-   * @param {Object} options - Build options
-   */
   build: async (options = {}) => {
-    const { command, env, projectRoot } = factory(options)
+    console.info('[CLI:11ty] running eleventy build')
+
+    const { command, env } = factory(options)
 
     if (options.dryRun) command.push('--dryrun')
 
     env.ELEVENTY_ENV = 'production'
 
-    reporter.start('Building site...', { showElapsed: true })
+    const build = execa('node', command, {
+      all: true,
+      cwd: projectRoot,
+      env,
+      execPath: process.execPath
+    })
+    build.all.pipe(process.stdout)
+    await build
 
-    try {
-      const build = spawn(command, { cwd: projectRoot, env })
-      await build
-
-      if (build.exitCode !== 0) {
-        throw new BuildFailedError(`Eleventy exited with code ${build.exitCode}`)
-      }
-      reporter.succeed('Build complete')
-    } catch (error) {
-      if (error.isCanceled) {
-        debug('build cancelled')
-        return
-      }
-      reporter.fail('Build failed')
-      throw error
+    if (build.exitCode !== 0) {
+      process.exit(build.exitCode)
     }
   },
 
-  /**
-   * Run Eleventy development server via CLI
-   * @param {Object} options - Serve options
-   */
   serve: async (options = {}) => {
-    const { command, env, projectRoot } = factory(options)
+    console.info(`[CLI:11ty] running eleventy serve`)
+
+    const { command, env } = factory(options)
 
     command.push('--serve')
 
-    const port = options.port || 8080
     if (options.port) command.push(`--port=${options.port}`)
 
     env.ELEVENTY_ENV = 'development'
 
-    reporter.start('Starting development server...')
-
-    // Resolve the spinner before the subprocess takes over stdout
-    const url = `http://localhost:${port}`
-    reporter.succeed(`Server running at ${url}`)
-
-    if (options.open) {
-      const { default: open } = await import('open')
-      open(url)
-    }
-
-    try {
-      await spawn(command, { cwd: projectRoot, env })
-    } catch (error) {
-      if (error.isCanceled) {
-        debug('server stopped')
-        return
-      }
-      throw error
-    }
-  },
+    await execa('node', command, {
+      all: true,
+      cwd: projectRoot,
+      env,
+      execPath: process.execPath
+    }).all.pipe(process.stdout)
+  }
 }

@@ -1,18 +1,19 @@
 /**
  * A helper module to test the current working directory
- * @module test-cwd
+ * @module test-csd
  */
-import { detect as isQuire } from '#lib/project/index.js'
-import { NotInProjectError } from '#src/errors/index.js'
+import isQuire from '#helpers/is-quire.js'
 
 /**
  * Test current working directory is a Quire project directory
  *
  * @param  {Command}  command  the command from which testcwd was called
- * @throws {NotInProjectError} if not in a Quire project directory
  */
 export default (command) => {
+  const message = `[CLI] ${ command ? command.name() : '' } command must be run while in a Quire project directory. Use 'cd' to navigate to your project directory and re-run the 'quire ${ command ? command.name() : '' }' command.`
+
   if (!isQuire(process.cwd())) {
-    throw new NotInProjectError(command?.name() || '')
+    console.error(message)
+    process.exit(1)
   }
 }

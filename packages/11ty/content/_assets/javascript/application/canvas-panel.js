@@ -273,15 +273,10 @@ const setUpUIEventHandlers = () => {
 
   /**
    * Add click handlers to UI inputs
-   *
-   * Note: checkboxes need initializing but radio buttons use `canvas-panel[choice-id]`
    */
   const inputs = document.querySelectorAll('.annotations-ui__input')
   for (const input of inputs) {
-    if (input.type === 'checkbox') {
-      handleSelect(input)
-    }
-
+    handleSelect(input)
     input.addEventListener('click', ({ target }) => handleSelect(target))
   }
 }

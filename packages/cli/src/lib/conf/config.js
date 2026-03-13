@@ -1,16 +1,14 @@
 import Conf from 'conf'
-import packageConfig from '#src/packageConfig.js'
 import defaults from './defaults.js'
 import migrations from './migrations.js'
+import packageConfig from '#src/packageConfig.js'
 import schema from './schema.js'
 
 const { name, version } = packageConfig
 
-const beforeEachMigration = (_store, context) => {
+const beforeEachMigration = (store, context) => {
   const { fromVersion, toVersion } = context
-  // Call console directly to avoid circular dependency (logger imports config)
-  // Migration messages are rare, so the simpler formatting is acceptable
-  console.info(`[quire] Migrating config from ${fromVersion} → ${toVersion}`)
+  console.info(`quire-cli migrating config from ${fromVersion} → ${toVersion}`)
 }
 
 /**
