@@ -119,6 +119,7 @@ commands:
       - run:
           name: Run integration tests
           command: mkdir -p reports && npm run test:integration
+          no_output_timeout: 15m
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
