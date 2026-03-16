@@ -1,10 +1,6 @@
 import { css } from 'lit'
 
 export const searchResultsListStyles = css`
-  :host {
-
-  }
-
   ol {
     list-style: none;
     padding: 0;
@@ -32,10 +28,11 @@ export const searchResultsListStyles = css`
 
   .result-title {
     font-size: 1.25rem;
+    font-weight: normal;
     line-height: 1.4;
     font-family: var(--quire-headings-font, 'IBM Plex Sans Condensed', sans-serif);
     text-transform: none;
-    margin-bottom: .25em;
+    margin: 0 0 .25em 0;
   }
 
   .result-meta {
