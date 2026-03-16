@@ -20,12 +20,13 @@ export default function (eleventyConfig) {
             ${icon({ type: 'close', description: 'Close search window' })}
           </button>
         </div>
-        <div aria-label="search results" class="quire-search__inner">
+        <div role="region" aria-label="search results" class="quire-search__inner">
           <section class="hero">
             <div class="hero-body">
               <div class="container">
               <div class="input-bar">
                 <input
+                  aria-label="Search this publication"
                   class="input is-large"
                   id="js-search-input"
                   name="search"

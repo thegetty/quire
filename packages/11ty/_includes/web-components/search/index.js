@@ -31,10 +31,6 @@ class SearchResultsList extends LitElement {
     this.query = ''
   }
 
-  connectedCallback () {
-    super.connectedCallback()
-  }
-
   willUpdate (changedProperties) {
     if (changedProperties.has('query')) {
       this.updateResults(this.query)
@@ -48,11 +44,15 @@ class SearchResultsList extends LitElement {
    * @returns {Promise<void>} Promise that resolves when results are updated
    */
   async updateResults (query = this.query) {
+    if (!query) {
+      this.results = []
+      return
+    }
     if (!PAGEFIND_GLOBAL) {
       PAGEFIND_GLOBAL = await import('../../../_search/pagefind.js')
     }
     const search = await PAGEFIND_GLOBAL.debouncedSearch(query)
-    if (!search) return
+    if (!search || query !== this.query) return
 
     const resultsData = search.results.map(async rawResult => rawResult.data())
     this.results = await Promise.all(resultsData)
@@ -66,11 +66,11 @@ class SearchResultsList extends LitElement {
    */
   resultHeaderTemplate (result) {
     return html`
-      <div class="result-title">
+      <h2 class="result-title">
         <a class="result-link" href="${result.url}" @click="${window.toggleSearch}">
           ${result.meta.title}
         </a>
-      </div>
+      </h2>
     `
   }
 

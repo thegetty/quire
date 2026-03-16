@@ -38,7 +38,7 @@ export default async function (eleventyConfig, collections, {
      * Add figures to the excluded selectors if indexing them separately.
      */
     if (indexFigures) {
-      excludeSelectors = excludeSelectors ? [QUIRE_FIGURE_CLASS] : excludeSelectors.push(QUIRE_FIGURE_CLASS)
+      excludeSelectors = [...excludeSelectors, QUIRE_FIGURE_CLASS]
     }
 
     /**
