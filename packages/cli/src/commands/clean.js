@@ -1,6 +1,8 @@
 import Command from '#src/Command.js'
+import { withOutputModes } from '#lib/commander/index.js'
 import { clean } from '#helpers/clean.js'
-import { paths, projectRoot  } from '#lib/11ty/index.js'
+import { clearStatus } from '#lib/conf/build-status.js'
+import paths from '#lib/project/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -15,39 +17,51 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class CleanCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'clean',
     description: 'Remove build outputs',
-    summary: 'remove build outputs',
+    summary: 'delete generated files',
+    docsLink: 'quire-commands/#output-files',
+    helpText: `
+Examples:
+  quire clean                  Remove build outputs
+  quire clean --dry-run        Preview files to be deleted
+  quire clean --verbose        Clean with detailed progress
+`,
     version: '1.0.0',
-    args: [],
     options: [
-      [ '-d', '--dry-run', 'show paths to be cleaned without deleting files' ],
-      [ '-p', '--progress', 'display progress of removing files' ],
-      [ '-v', '--verbose', 'run clean with verbose console messages' ],
-      [ '--debug', 'run clean with debug output to console' ],
+      [ '-d, --dry-run', 'show paths to be cleaned without deleting files' ],
+      [ '--dryrun', 'alias for --dry-run', { hidden: true, implies: { dryRun: true } } ],
+      [ '--status', 'also clear stored build status for this project' ],
     ],
-  }
+  })
 
   constructor() {
     super(CleanCommand.definition)
   }
 
   async action(options, command) {
-    if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+    this.debug('called with options %O', options)
+
+    const projectRoot = paths.getProjectRoot()
+    const deletedPaths = await clean(projectRoot, paths.toObject(), options)
+
+    if (options.status && !options.dryRun) {
+      clearStatus(projectRoot)
+      this.logger.info('Cleared build status for this project')
     }
 
-    const deletedPaths = await clean(projectRoot, paths, options)
+    if (!deletedPaths || !deletedPaths.length) {
+      if (!options.status) this.logger.info('No files to delete')
+      return
+    }
 
-    const message = deletedPaths && deletedPaths.length
-      ? `the following files ${options.dryRun ? 'will be' : 'have been'} deleted:`
-      : 'no files to delete'
-
-    console.debug(`[CLI] ${message}\n${deletedPaths.join('\n')}`)
+    const verb = options.dryRun ? 'Will delete' : 'Deleted'
+    const listing = deletedPaths.map((p) => `  ${p}`).join('\n')
+    this.logger.info(`${verb} ${deletedPaths.length} file(s):\n${listing}`)
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }

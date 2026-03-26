@@ -1,50 +1,14 @@
-import { paths, projectRoot  } from '#lib/11ty/index.js'
 import Command from '#src/Command.js'
-import fs from 'fs-extra'
-import libPdf from '#lib/pdf/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
+import paths, { hasSiteOutput } from '#lib/project/index.js'
+import eleventy from '#lib/11ty/index.js'
+import generatePdf, { ENGINES } from '#lib/pdf/index.js'
 import open from 'open'
 import path from 'node:path'
-import { pathToFileURL } from 'node:url'
-import yaml from 'js-yaml'
-
-/**
- * @function loadConfig(path) - loads and validates quire config, returns an empty object if not found
- *  
- * @param {path} string - file path to config file
- * 
- * @return {Object|undefined} User configuration object or undefined
- * 
- * @todo consider hardcoding a version check against .quire / project's package.json ver
- */
-async function loadConfig(configPath) {
-  if (!fs.existsSync(configPath)) {
-    return undefined
-  }
-
-  const data = fs.readFileSync(configPath)
-  let config = yaml.load(data)
-
-  // NB: Schemas and validators are specific to the 11ty version of the project being built
-  const schemaPath = path.join(projectRoot,'_plugins','schemas','config.json')
-  const validatorPath = path.join(projectRoot, '_plugins', 'globalData', 'validator.js')
-
-  if (fs.existsSync(schemaPath) && fs.existsSync(validatorPath)) {
-
-    const { validateUserConfig } = await import(pathToFileURL(validatorPath))
-  
-    const schemaJSON = fs.readFileSync(schemaPath)
-    const schema = JSON.parse(schemaJSON)
-
-    try {
-      config = validateUserConfig('config', config, { config: schema })
-    } catch (error) {
-      console.error(error)
-      process.exit(1)
-    }
-  }
-
-  return config
-}
+import { recordStatus } from '#lib/conf/build-status.js'
+import reporter from '#lib/reporter/index.js'
+import testcwd from '#helpers/test-cwd.js'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 /**
  * Quire CLI `pdf` Command
@@ -55,66 +19,83 @@ async function loadConfig(configPath) {
  * @extends    {Command}
  */
 export default class PDFCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'pdf',
     description: 'Generate publication PDF',
-    summary: 'run build pdf',
+    summary: 'generate print-ready PDF',
+    docsLink: 'quire-commands/#output-files',
+    helpText: `
+Examples:
+  quire pdf                       Generate PDF using default engine
+  quire pdf --engine prince       Generate PDF using PrinceXML
+  quire pdf --build               Build site first, then generate PDF
+  quire pdf --output my-book.pdf  Generate PDF with custom output path
+  quire pdf --verbose             Generate with detailed progress
+`,
     version: '1.0.0',
-    args: [
-    ],
     options: [
-      [
-        '--lib <module>', 'use the specified pdf module', 'pagedjs',
-        { choices: ['pagedjs', 'prince'], default: 'pagedjs' }
-      ],
+      [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open PDF in default application' ],
-      [ '--debug', 'run build with debug output to console' ],
+      [ '-o, --output <path>', 'output file path (default: from project config)' ],
+      [
+        '--engine <name>', 'PDF engine to use (default: from config or pagedjs)',
+        { choices: ENGINES }
+      ],
+      [
+        '--lib <name>', 'deprecated alias for --engine option',
+        { hidden: true, choices: ENGINES, conflicts: 'engine' }
+      ],
     ],
-  }
+  })
 
   constructor() {
     super(PDFCommand.definition)
   }
 
   async action(options, command) {
-    if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+    this.debug('called with options %O', options)
+    /**
+     * Configure reporter for this command
+     * reporter lifecycle (start/succeed/fail) is handled by the façade,
+     * not by the command.
+     */
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
+
+    // Resolve engine: CLI --engine > deprecated --lib > config pdfEngine > default
+    if (!options.engine) {
+      if (options.lib) {
+        // Support deprecated --lib option
+        options.engine = options.lib
+      } else {
+        // Use config setting or fallback to default
+        options.engine = this.config.get('pdfEngine') || 'pagedjs'
+      }
     }
 
-    const publicationInput = path.join(projectRoot, paths.output, 'pdf.html')
-    const coversInput = path.join(projectRoot, paths.output, 'pdf-covers.html')
-
-    const quireConfig = await loadConfig(path.join(projectRoot,'content','_data','config.yaml'))
-
-    if (quireConfig === undefined) {
-      console.error(`[quire pdf]: ERROR Unable to find a configuration file at ${path.join(projectRoot,'content','_data','config.yaml')}\nIs the command being run in a quire project?`)
-      process.exit(1)
+    // Run build first if --build flag is set and output is missing
+    if (options.build && !hasSiteOutput()) {
+      this.debug('running build before pdf generation')
+      reporter.start('Building site...', { showElapsed: true })
+      await eleventy.build({ debug: options.debug })
+      reporter.succeed('Build complete')
     }
 
-    if (!fs.existsSync(publicationInput)) {
-      console.error(`[quire pdf]: ERROR Unable to find PDF input at ${publicationInput}\nPlease first run the 'quire build' command.`)
-      process.exit(1)
-    }
-
-    const output = quireConfig.pdf !== undefined
-      ? path.join(paths.output, quireConfig.pdf.outputDir, `${quireConfig.pdf.filename}.pdf`)
-      : path.join(projectRoot, `${options.lib}.pdf`)
-
-    const pdfLib = await libPdf(options.lib, { ...options, pdfConfig: quireConfig.pdf })
-    await pdfLib(publicationInput, coversInput, output)
+    // Generate PDF - façade handles validation, progress, and errors
+    const pdfOptions = { ...options, lib: options.engine }
 
     try {
-      if (fs.existsSync(output) && options.open) open(output)
+      const output = await generatePdf(pdfOptions)
+      recordStatus(paths.getProjectRoot(), 'pdf', 'ok')
+      if (options.open) {
+        open(output)
+      }
     } catch (error) {
-      console.error(`[quire pdf]: ERROR`,error)
-      process.exit(1)
+      recordStatus(paths.getProjectRoot(), 'pdf', 'failed')
+      throw error
     }
   }
 
-  /**
-   * @todo test if build has already be run and output can be reused
-   */
-  preAction(command) {
-    // testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }

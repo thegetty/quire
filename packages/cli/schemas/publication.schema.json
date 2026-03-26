@@ -2,7 +2,6 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Publication Schema",
   "type": "object",
-
   "required": [
     "url",
     "title",
@@ -21,15 +20,12 @@
     "revision_history",
     "promo_image"
   ],
-
   "properties": {
     "url": { "type": "string" },
     "title": { "type": "string" },
     "subtitle": { "type": "string" },
-
     "reading_line": { "type": ["string", "null"] },
     "short_title": { "type": ["string", "null"] },
-
     "description": {
       "type": "object",
       "required": ["full"],
@@ -38,7 +34,6 @@
         "full": { "type": "string" }
       }
     },
-
     "pub_date": { 
         "oneOf": [
             { "type": "string" },
@@ -46,50 +41,38 @@
   ] },
     "language": { "type": "string" },
     "pub_type": { "type": "string" },
-
     "identifier": {
       "type": "object",
       "properties": {
         "isbn": { "type": ["string", "null"] }
       }
     },
-
     "publisher": {
       "type": "array",
       "items": { "$ref": "#/definitions/publisher" }
     },
-
     "contributor_as_it_appears": { "type": ["string", "null"] },
-
     "contributor": {
       "type": "array",
       "items": { "$ref": "#/definitions/contributor" }
     },
-
     "copyright": { "type": "string" },
-
     "license": { "$ref": "#/definitions/license" },
-
     "resource_link": {
       "type": "array",
       "items": { "$ref": "#/definitions/resourceLink" }
     },
-
     "subject": {
       "type": "array",
       "items": { "$ref": "#/definitions/subject" }
     },
-
     "revision_history": {
       "type": "array",
       "items": { "$ref": "#/definitions/revision" }
     },
-
     "repository_url": { "type": ["string", "null"] },
-
     "promo_image": { "type": "string" }
   },
-
   "definitions": {
     "publisher": {
       "type": "object",
@@ -101,7 +84,6 @@
         "logo": { "type": ["string", "null"] }
       }
     },
-
     "contributor": {
       "type": "object",
       "required": ["id", "type", "first_name", "last_name"],
@@ -117,7 +99,6 @@
         "image": { "type": ["string", "null"] }
       }
     },
-
     "license": {
       "type": "object",
       "required": ["name", "abbreviation", "url", "scope"],
@@ -128,7 +109,6 @@
         "scope": { "type": "string" }
       }
     },
-
     "resourceLink": {
       "type": "object",
       "required": ["type", "name", "link_relation"],
@@ -140,7 +120,6 @@
         "url": { "type": ["string", "null"] }
       }
     },
-
     "subject": {
       "type": "object",
       "required": ["type", "name"],
@@ -150,7 +129,6 @@
         "identifier": { "type": ["string", "null"] }
       }
     },
-
     "revision": {
       "type": "object",
       "properties": {

@@ -174,10 +174,25 @@ export default async function (eleventyConfig) {
 
   /**
    * Configure build output
+   *
+   * Eleventy's own [11ty] ConsoleLogger output is suppressed via quietMode.
+   * The directory output plugin (file listing table) is only registered when
+   * QUIRE_LOG_LEVEL is 'info' or lower (--verbose / --debug). In default and
+   * --quiet modes, the CLI reporter spinner provides build progress feedback.
+   *
+   * Note: Eleventy forces a build summary line ("Wrote N files in X seconds")
+   * via `force: true` on its logger — this bypasses quietMode and cannot be
+   * suppressed without patching Eleventy itself.
+   *
    * @see https://www.11ty.dev/docs/plugins/directory-output/#directory-output
+   * @see packages/cli/docs/cli-output-modes.md (Eleventy Output section)
    */
   eleventyConfig.setQuietMode(true)
-  eleventyConfig.addPlugin(directoryOutputPlugin)
+
+  const logLevel = process.env.QUIRE_LOG_LEVEL || 'info'
+  if (logLevel === 'info' || logLevel === 'debug' || logLevel === 'trace') {
+    eleventyConfig.addPlugin(directoryOutputPlugin)
+  }
 
   /**
    * @see https://www.11ty.dev/docs/plugins/html-base/

@@ -10,35 +10,19 @@
         "required": ["id"],
         "properties": {
           "id": { "type": "string" },
-
           "label": { "type": "string" },
-
           "src": { "type": "string" },
-
           "caption": { "type": "string" },
-
           "credit": { "type": ["string", "null"] },
-
           "alt": { "type": ["string", "null"] },
-
           "poster": { "type": "string" },
-
           "download": { "type": "boolean" },
-
           "zoom": { "type": "boolean" },
-
-          "media_id": {
-            "oneOf": [
-              { "type": "string" },
-              { "type": "number" }
-            ]
-          },
-
+          "media_id": { "type": "string" },
           "media_type": {
             "type": "string",
             "enum": ["youtube", "soundcloud", "table"]
           },
-
           "annotations": {
             "type": "array",
             "items": {

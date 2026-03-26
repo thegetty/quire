@@ -1,14 +1,87 @@
-import { Argument, Command, Option } from 'commander'
+import { Command, Argument, Option } from 'commander'
+import {
+  arrayToArgument,
+  arrayToOption,
+  colorOption,
+  noColorOption,
+  quietOption,
+  verboseOption,
+  debugOption,
+  reducedMotionOption,
+} from '#lib/commander/index.js'
 import commands from '#src/commands/index.js'
 import config from '#lib/conf/config.js'
+import { handleError } from '#lib/error/handler.js'
+import reporter from '#lib/reporter/index.js'
+import { docsUrl, DOCS_BASE } from '#helpers/docs-url.js'
 import packageConfig from '#src/packageConfig.js'
+import { enableDebug } from '#lib/logger/debug.js'
+import { formatPrefix } from '#lib/logger/index.js'
 
 const { version } = packageConfig
+
+const mainHelpText = `
+Docs: ${DOCS_BASE}
+
+Common Workflows:
+  New project     quire new my-book && cd my-book && quire preview
+  Build for web   quire build
+  Generate PDF    quire pdf --build
+  Generate EPUB   quire epub --build
+
+  Run 'quire help workflows' for detailed workflow documentation.
+
+Output Modes:
+  -q, --quiet          Suppress progress output (for CI/scripts)
+  -v, --verbose        Show detailed progress (paths, timing, steps)
+  --debug              Enable debug output for developers/troubleshooting
+  --reduced-motion      Disable spinner animation and line overwriting
+
+  Set defaults: quire settings set verbose true
+
+Accessibility:
+  --reduced-motion disables animated spinners and line overwriting.
+  Each stage prints on a new line as static text, making output
+  compatible with screen readers and reduced-motion preferences.
+
+  Set default: quire settings set reducedMotion true
+
+Color Output:
+  --no-color       Disable colored output
+  --color          Force colored output (overrides NO_COLOR env var)
+
+  Respects NO_COLOR environment variable (https://no-color.org/)
+  Set default: quire settings set logUseColor false
+
+Paging:
+  --no-pager             Disable paging for long output
+  NO_PAGER=1             Disable paging via environment variable
+  PAGER=cat              Traditional Unix alternative (passes output through)
+
+Environment Variables:
+  REDUCED_MOTION          Disable spinner animation and line overwriting
+  NO_COLOR               Disable colored output (https://no-color.org/)
+  NO_PAGER=1             Disable paging for long output
+  PAGER=<program>        Set pager program (default: less). Use PAGER=cat to disable
+  DEBUG=quire:*          Enable debug output for all modules
+  DEBUG=quire:lib:pdf    Enable debug output for PDF module only
+  DEBUG=quire:lib:*      Enable debug output for all lib modules
+
+Examples:
+  $ quire build                  Build the publication
+  $ quire build --verbose        Build with detailed progress
+  $ quire build --debug          Build with debug output
+  $ quire build --reduced-motion  Build without animated spinners
+  $ REDUCED_MOTION=1 quire build  Build without animated spinners
+  $ quire build --no-color       Build without colored output
+  $ NO_COLOR=1 quire build       Build without colored output
+  $ DEBUG=quire:* quire pdf      Generate PDF with debug output
+`
 
 /**
  * Quire CLI implements the command pattern.
  *
- * The `main` module acts as the _receiver_, parsing input from the client,
+ * The \`main\` module acts as the _receiver_, parsing input from the client,
  * calling the appropriate command module(s), managing messages between modules,
  * and sending formatted messages to the client for display.
  */
@@ -17,29 +90,107 @@ const program = new Command()
 program
   .name('quire')
   .description('Quire command-line interface')
-  .version(version,  '-v, --version', 'output quire version number')
+  .version(version, '-V, --version', 'output quire version number')
+  .addOption(arrayToOption(colorOption))
+  .addOption(arrayToOption(noColorOption))
+  .addOption(arrayToOption(quietOption))
+  .addOption(arrayToOption(verboseOption))
+  .addOption(arrayToOption(debugOption))
+  .addOption(arrayToOption(reducedMotionOption))
+  .option('--no-pager', 'disable paging for long output')
+  .addHelpText('after', mainHelpText)
   .configureHelp({
     helpWidth: 80,
     sortOptions: false,
     sortSubcommands: false,
+    styleOptionTerm: (term) => {
+      // Add spacing to long-only options to align with short-flag options
+      return /^-\w/.test(term) ? term : term.padStart(term.length + 4)
+    },
   })
 
 /**
- * Register each command as a subcommand of this program
+ * Handle global options before any command runs
  *
- * @todo refactor command definition to allow for per-command custom help text
+ * Output mode semantics:
+ * - --quiet: Suppress progress spinners (for CI/scripts)
+ * - --verbose: Show detailed progress (paths, timing, steps)
+ * - --debug: Enable DEBUG namespace + tool debug modes (for developers)
+ * - --reduced-motion: Disable animated spinners, use static text on new lines
+ * - --no-color: Disable colored output (sets NO_COLOR env var)
+ * - --color: Force colored output (overrides NO_COLOR env var)
+ *
+ * These global options are passed through to commands via opts()
+ * and should be merged with command-level options.
+ */
+program.hook('preAction', (thisCommand) => {
+  const opts = thisCommand.opts()
+
+  // Handle --no-color / --color flag
+  // Sets NO_COLOR env var for chalk, ora, and logger to read
+  if (opts.color === false) {
+    process.env.NO_COLOR = '1'
+    delete process.env.FORCE_COLOR
+  } else if (opts.color === true) {
+    delete process.env.NO_COLOR
+    process.env.FORCE_COLOR = '1'
+  }
+
+  // --debug or config.debug enables the quire:* DEBUG namespace for internal logging
+  // CLI flag takes precedence, then config setting
+  if (opts.debug ?? config.get('debug')) {
+    enableDebug('quire:*')
+  }
+
+  // --reduced-motion sets REDUCED_MOTION env var for reporter to read
+  // CLI flag takes precedence over env var and config setting
+  if (opts.reducedMotion) {
+    process.env.REDUCED_MOTION = '1'
+  }
+
+  // --no-pager sets pager to false; propagate via env var for pager utility
+  if (opts.pager === false) {
+    process.env.NO_PAGER = '1'
+  }
+
+  // Log prefix and level label visibility for quire-11ty's chalk logger
+  process.env.QUIRE_LOG_PREFIX = formatPrefix(config.get('logPrefixStyle'), config.get('logPrefix'))
+  process.env.QUIRE_LOG_SHOW_LEVEL = String(config.get('logShowLevel'))
+})
+
+/**
+ * Stop the reporter after every command to clear any active setInterval timers
+ * (e.g. elapsed time display) that would otherwise keep the event loop alive.
+ */
+program.hook('postAction', () => {
+  reporter.stop()
+})
+
+/**
+ * Register each command as a subcommand of this program
  * @see https://github.com/tj/commander.js?tab=readme-ov-file#automated-help
  */
 commands.forEach((command) => {
-  const { action, alias, aliases, args, description, name, options } = command
+  const { action, alias, aliases, args, description, docsLink, helpText, hidden, name, options, summary } = command
 
   const subCommand = program
-    .command(name)
+    .command(name, { hidden })
     .description(description)
+    .summary(summary || description)
     .addHelpCommand()
     .showHelpAfterError()
 
-  if (alias instanceof String) {
+  // Append docs link and/or custom help text after built-in help
+  const customHelpText = [
+    docsLink && `Docs: ${docsUrl(docsLink)}`,
+    helpText?.trim()
+  ].filter(Boolean).join('\n\n')
+
+  if (customHelpText) {
+    subCommand.addHelpText('after', '\n' + customHelpText)
+  }
+
+  if (typeof alias === 'string') {
     subCommand.alias(alias)
   }
 
@@ -48,71 +199,93 @@ commands.forEach((command) => {
   }
 
   /**
-   * @see https://github.com/tj/commander.js#more-configuration-1
+   * Register arguments with the subcommand
    */
   if (Array.isArray(args)) {
-    args.forEach(([ name, description, configuration = {} ]) => {
-      const argument = new Argument(name, description)
-      if (configuration.choices) argument.choices(configuration.choices)
-      if (configuration.default) argument.default(configuration.default)
+    args.forEach((entry) => {
+      const argument = entry instanceof Argument ? entry : arrayToArgument(entry)
       subCommand.addArgument(argument)
     })
   }
 
   /**
-   * @see https://github.com/tj/commander.js/#options
+   * Register options with the subcommand
    */
   if (Array.isArray(options)) {
     options.forEach((entry) => {
-      if (Array.isArray(entry)) {
-        // ensure we can join the first two attributes as the option name
-        // when only the short or the long flag is defined in the array
-        if (entry[0].startsWith('--')) entry.unshift('\u0020'.repeat(4))
-        if (entry[0].startsWith('-') && !entry[1].startsWith('--')) {
-          entry.splice(1, 0, '')
-        }
-        // assign attribute names to the array of option attributes
-        const [ short, long, description, defaultValue ] = entry
-        // join short and long flags as the option name attribute
-        const name = /^-\w/.test(short) && /^--\w/.test(long)
-          ? [short, long].join(', ')
-          : [short, long].join('')
-        subCommand.option(name, description, defaultValue)
-      } else {
-        /**
-         * @todo allow options to be defined by a configuration object
-         * @see https://github.com/tj/commander.js/#more-configuration
-         */
-        // const option = new Option(name, description)
-        // for (const property of configuration) {
-        //   option[property](configuration[property])
-        // }
-        // subCommand.addOption(option)
-        console.error('@TODO please use an array to define option attributes')
+      const option = entry instanceof Option ? entry : arrayToOption(entry)
+      subCommand.addOption(option)
+    })
+  }
+
+  /**
+   * Command lifecycle hook: called after action handler and nested subcommands
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#life-cycle-hooks
+   */
+  if (command.postAction) {
+    subCommand.hook('postAction', async (thisCommand, actionCommand) => {
+      try {
+        await command.postAction.call(command, thisCommand, actionCommand)
+      } catch (error) {
+        const { debug } = program.opts()
+        handleError(error, { debug })
       }
     })
   }
 
-  if (command.postAction) {
-    subCommand.hook('postAction', (thisCommand, actionCommand) => {
-      command.postAction.call(command, thisCommand, actionCommand)
-    })
-  }
-
+  /**
+   * Command lifecycle hook: called before action handler and nested subcommands
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#life-cycle-hooks
+   */
   if (command.preAction) {
-    subCommand.hook('preAction', (thisCommand, actionCommand) => {
-      command.preAction.call(command, thisCommand, actionCommand)
+    subCommand.hook('preAction', async (thisCommand, actionCommand) => {
+      try {
+        await command.preAction.call(command, thisCommand, actionCommand)
+      } catch (error) {
+        const { debug } = program.opts()
+        handleError(error, { debug })
+      }
     })
   }
 
+  /**
+   * Subcommand lifecyle hook: called before parsing direct subcommand
+   * @see https://github.com/tj/commander.js?tab=readme-ov-file#life-cycle-hooks
+   */
   if (command.preSubcommand) {
-    subCommand.hook('preSubcommand', (thisCommand, theSubcommand) => {
-      command.preSubcommand.call(command, thisCommand, theSubcommand)
+    subCommand.hook('preSubcommand', async (thisCommand, theSubcommand) => {
+      try {
+        await command.preSubcommand.call(command, thisCommand, theSubcommand)
+      } catch (error) {
+        const { debug } = program.opts()
+        handleError(error, { debug })
+      }
     })
   }
 
-  // subCommand.action((args) => action.apply(command, args))
-  subCommand.action(action)
+  /**
+   * Wrap action in centralized error handler.
+   * Using apply() preserves `this` context for `this.debug` and `this.logger`.
+   *
+   * Nota bene: Commander passes subcommand-local opts as the options argument,
+   * but global options (--verbose, --quiet, --debug) defined on the parent
+   * program are only available via optsWithGlobals(). We replace the options
+   * argument with the merged set so action handlers see all options uniformly.
+   */
+  subCommand.action(async (...args) => {
+    try {
+      // Commander Command instance is the last element in args array
+      // @see https://github.com/tj/commander.js#action-handler
+      const cmd = args[args.length - 1]
+      const mergedOpts = cmd.optsWithGlobals()
+      args[args.length - 2] = mergedOpts
+      await action.apply(command, args)
+    } catch (error) {
+      reporter.stop()
+      const { debug } = program.opts()
+      handleError(error, { debug })
+    }
+  })
 
   /**
    * Inject the CLI configuration into commands

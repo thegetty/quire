@@ -66,7 +66,7 @@ export default function (eleventyConfig) {
     }
 
     return oneLine`
-      <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}">
+      <figure id="${slugify(id)}" class="${['q-figure', 'q-figure--' + mediaType, ...classes].join(' ')}" data-pagefind-ignore="all">
         ${await component({ ...figure, lazyLoading })}
       </figure>
     `

@@ -2,7 +2,6 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "References Schema",
   "type": "object",
-
   "required": [
     "entries"
   ],
