@@ -1,12 +1,17 @@
 import Command from '#src/Command.js'
-import { paths, projectRoot  } from '#lib/11ty/index.js'
+import { withOutputModes } from '#lib/commander/index.js'
+import paths, { hasEpubOutput } from '#lib/project/index.js'
+import eleventy from '#lib/11ty/index.js'
 import fs from 'fs-extra'
-import libEpub from '#lib/epub/index.js'
+import generateEpub, { ENGINES } from '#lib/epub/index.js'
 import open from 'open'
-import path from 'node:path'
+import { recordStatus } from '#lib/conf/build-status.js'
+import reporter from '#lib/reporter/index.js'
+import testcwd from '#helpers/test-cwd.js'
+import { MissingBuildOutputError } from '#src/errors/index.js'
 
 /**
- * Quire CLI `build epub` Command
+ * Quire CLI `epub` Command
  *
  * Generate EPUB from Eleventy `build` output.
  *
@@ -14,53 +19,84 @@ import path from 'node:path'
  * @extends    {Command}
  */
 export default class EpubCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'epub',
     description: 'Generate publication EPUB',
-    summary: 'run build epub',
+    summary: 'generate EPUB e-book',
+    docsLink: 'quire-commands/#output-files',
+    helpText: `
+Examples:
+  quire epub                        Generate EPUB using default engine
+  quire epub --engine pandoc        Generate EPUB using Pandoc
+  quire epub --open                 Generate and open EPUB
+  quire epub --build                Build site first, then generate EPUB
+  quire epub --output my-book.epub  Generate EPUB with custom output path
+`,
     version: '1.0.0',
-    args: [],
     options: [
-      [
-        '--lib <module>', 'use the specified epub library', 'epubjs',
-        { choices: ['epubjs', 'pandoc'], default: 'epubjs' }
-      ],
+      [ '--build', 'run build first if output is missing' ],
       [ '--open', 'open EPUB in default application' ],
-      [ '--debug', 'run epub with debug output' ],
+      [ '-o, --output <path>', 'output file path (default: {engine}.epub)' ],
+      [
+        '--engine <name>', 'EPUB engine to use (default: from config or epubjs)',
+        { choices: ENGINES }
+      ],
+      [
+        '--lib <name>', 'deprecated alias for --engine option',
+        { hidden: true, choices: ENGINES, conflicts: 'engine' }
+      ],
     ],
-  }
+  })
 
   constructor() {
     super(EpubCommand.definition)
   }
 
   async action(options, command) {
-    if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+    this.debug('called with options %O', options)
+
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
+
+    // Resolve engine: CLI --engine > deprecated --lib > config epubEngine > default
+    if (!options.engine) {
+      if (options.lib) {
+        // Support deprecated --lib option
+        options.engine = options.lib
+      } else {
+        // Use config setting or fallback to default
+        options.engine = this.config.get('epubEngine') || 'epubjs'
+      }
     }
 
-    const input = path.join(projectRoot, paths.epub)
-
-    if (!fs.existsSync(input)) {
-      console.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
-      return
+    // Run build first if --build flag is set and output is missing
+    if (options.build && !hasEpubOutput()) {
+      this.debug('running build before epub generation')
+      reporter.start('Building site...', { showElapsed: true })
+      await eleventy.build({ debug: options.debug })
     }
 
-    const output = path.join(projectRoot, `${options.lib}.epub`)
+    // Check for build output (will throw if missing)
+    // TODO: Add interactive prompt when build output missing and --build not used
+    if (!hasEpubOutput()) {
+      throw new MissingBuildOutputError('EPUB', paths.getEpubDir())
+    }
 
-    const epubLib = await libEpub(options.lib, { debug: options.debug })
-    await epubLib(input, output)
+    // Pass engine as lib (matching lib/pdf interface)
+    // Reporter lifecycle is owned by the façade (lib/epub/index.js)
+    const epubOptions = { ...options, lib: options.engine }
 
-    if (fs.existsSync(output) && options.open) open(output)
+    try {
+      const output = await generateEpub(epubOptions)
+      recordStatus(paths.getProjectRoot(), 'epub', 'ok')
+      if (fs.existsSync(output) && options.open) open(output)
+    } catch (error) {
+      recordStatus(paths.getProjectRoot(), 'epub', 'failed')
+      throw error
+    }
   }
 
-  /**
-   * @todo test if build site has already be run and output can be reused
-   */
-  preAction(command) {
-    const options = command.opts()
-    if (options.debug) {
-      console.debug('[CLI] Calling \'epub\' command pre-action with options', options)
-    }
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }

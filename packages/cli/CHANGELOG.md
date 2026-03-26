@@ -12,6 +12,42 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [Unreleased]
+
+### Added
+
+- New `quire validate` command to check YAML syntax in `content/_data/` directory
+- New `quire use <version>` command (renamed from `quire version`) to change quire-11ty version
+- Config settings for default PDF and EPUB engines via `quire settings set pdfEngine <engine>` and `quire settings set epubEngine <engine>`
+- Config settings for default log level via `quire settings set logLevel <level>`
+- Debug logger module with namespace support (`DEBUG=quire:*`)
+- Process manager for graceful shutdown handling (Ctrl+C) during long-running operations
+- `--build` flag for `quire pdf` and `quire epub` commands to run build first if output is missing
+- `--engine` option for `quire pdf` and `quire epub` commands (deprecates `--lib`)
+- Helper functions for build output detection (`hasSiteOutput`, `hasEpubOutput`, `hasPdfOutput`)
+- Comprehensive error handling system with domain-specific error classes
+- Documentation for CLI architecture, error handling, and testing
+
+### Changed
+
+- Renamed `quire conf` command to `quire config` (aliased as `quire settings`)
+- Renamed `quire version` command to `quire use`
+- Refactored error handling to use thrown errors instead of `process.exit()` for better testability
+- Commands now inherit `debug()` and `logger` methods from base Command class
+- Improved log output with configurable log levels (trace, debug, info, warn, error, silent)
+- Replaced `simple-git` dependency with a lightweight git façade module
+- Replaced `execaCommand` with `execa` for improved command execution
+- Encapsulated project concerns into dedicated `lib/project` module
+- Encapsulated 11ty interactions into a façade module with process lifecycle management
+
+### Fixed
+
+- `quire new` command arguments and options validation
+- Command lifecycle hook errors are now correctly handled and reported
+- Disabled auto-deletion of project directory on `quire new` failures to prevent accidental data loss
+- Package schema files validation
+- Process manager import paths for logger module
+
 ## [1.0.0-rc.33]
 
 ### Bumped

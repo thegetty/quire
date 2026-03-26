@@ -17,7 +17,6 @@ import '../../styles/custom.css'
 import './soundcloud-api.min.js'
 import { goToFigureState, setUpUIEventHandlers } from './canvas-panel.js'
 import Accordion from './accordion.js'
-import Search from '../../../../_plugins/search/search.js'
 import scrollToHash from './scroll-to-hash.js'
 
 /**
@@ -66,37 +65,51 @@ window.toggleSearch = () => {
 
 /**
  * search
- * @description makes a search query using Lunr
+ * @description makes a search query using Pagefind
  */
-window.search = () => {
+window.search = async () => {
   const searchInput = document.getElementById('js-search-input')
   const searchQuery = searchInput.value
+  if (window._searchResults) {
+    await window._searchResults
+  }
+  window._searchResults = updateSearchResults(searchQuery)
+}
+
+/**
+ * updateSearchResults
+ * @description fetch and display search results from Pagefind
+ * @param {string} query The search query string
+ */
+async function updateSearchResults (query) {
   const searchInstance = window.QUIRE_SEARCH
+  const searchResults = await searchInstance.search(query)
+  await displaySearchResults(searchResults)
+  window._searchResults = undefined
+}
+
+/**
+ * displaySearchResults
+ * @description add search results items to the results container
+ * @param {object} pageFindResults The search results object from Pagefind
+ */
+async function displaySearchResults ({ results }) {
   const resultsContainer = document.getElementById('js-search-results-list')
   const resultsTemplate = document.getElementById('js-search-results-template')
-  if (searchQuery.length >= 3) {
-    const searchResults = searchInstance.search(searchQuery)
-    displayResults(searchResults)
-  }
+  resultsContainer.innerText = ''
 
-  function clearResults () {
-    resultsContainer.innerText = ''
-  }
-
-  function displayResults (results) {
-    clearResults()
-    results.forEach(result => {
-      const clone = document.importNode(resultsTemplate.content, true)
-      const item = clone.querySelector('.js-search-results-item')
-      const title = clone.querySelector('.js-search-results-item-title')
-      const type = clone.querySelector('.js-search-results-item-type')
-      const length = clone.querySelector('.js-search-results-item-length')
-      item.href = result.url
-      title.textContent = result.title
-      type.textContent = result.type
-      length.textContent = result.length
-      resultsContainer.appendChild(clone)
-    })
+  for (const rawResult of results) {
+    const result = await rawResult.data()
+    const clone = document.importNode(resultsTemplate.content, true)
+    const item = clone.querySelector('.js-search-results-item')
+    const title = clone.querySelector('.js-search-results-item-title')
+    const type = clone.querySelector('.js-search-results-item-type')
+    const length = clone.querySelector('.js-search-results-item-length')
+    item.href = result.url
+    title.textContent = result.meta.title
+    type.textContent = result.meta.type
+    length.textContent = result.word_count
+    resultsContainer.appendChild(clone)
   }
 }
 
@@ -155,22 +168,10 @@ function globalSetup () {
  * @description Load full-text index data from the specified URL
  * and pass it to the search module.
  */
-function loadSearchData () {
-  // Grab search data
-  const dataURL = document.getElementById('js-search').dataset.searchIndex
-  if (!dataURL) {
-    console.warn('Search data url is undefined')
-    return
-  }
-  fetch(dataURL).then(async (response) => {
-    const { ok, statusText, url } = response
-    if (!ok) {
-      console.warn(`Search data ${statusText.toLowerCase()} at ${url}`)
-      return
-    }
-    const data = await response.json()
-    window.QUIRE_SEARCH = new Search(data)
-  })
+async function loadSearchData () {
+  // Import path must exactly match the string in rollupOptions.external
+  const pagefind = await import('../../../_search/pagefind.js')
+  window.QUIRE_SEARCH = pagefind
 }
 
 /**

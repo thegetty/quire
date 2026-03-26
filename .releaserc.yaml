@@ -1,0 +1,14 @@
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/changelog"
+  - "@semantic-release/npm"
+  - "@semantic-release/git"
+
+branches:
+  - main
+  - /^(?:release\/(?:11ty|cli)-).*/
+
+workspaces:
+  - path: packages/cli
+  - path: packages/11ty

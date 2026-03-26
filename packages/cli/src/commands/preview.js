@@ -1,5 +1,8 @@
 import Command from '#src/Command.js'
-import { api, cli, paths, projectRoot  } from '#lib/11ty/index.js'
+import { Option } from 'commander'
+import { withOutputModes } from '#lib/commander/index.js'
+import { api, cli } from '#lib/11ty/index.js'
+import reporter from '#lib/reporter/index.js'
 import testcwd from '#helpers/test-cwd.js'
 
 /**
@@ -11,50 +14,48 @@ import testcwd from '#helpers/test-cwd.js'
  * @extends    {Command}
  */
 export default class PreviewCommand extends Command {
-  static definition = {
+  static definition = withOutputModes({
     name: 'preview',
     description: 'Run the development server and watch on file changes',
-    summary: 'run the development server',
-    version: '1.0.0',
-    args: [
-      // [
-      //   '[formats...]', 'output formats',
-      //   {
-      //     choices: ['pdf', 'epub'],
-      //   }
-      // ],
-    ],
+    summary: 'start local preview server',
+    docsLink: 'quire-commands/#start-and-preview-projects',
+    helpText: `
+Examples:
+  quire preview                  Start preview server on default port
+  quire preview --port 3000      Run on custom port
+  quire preview --open           Start server and open in browser
+  quire preview --verbose        Start with detailed progress
+`,
+    version: '1.1.0',
     options: [
-      [ '-p', '--port <port>', 'configure development server port', 8080 ],
-      [ '-q', '--quiet', 'run preview in silent mode' ],
-      [ '-v', '--verbose', 'run preview with verbose console messages' ],
-      [
-        '--11ty <module>', 'use the specified 11ty module', 'cli',
-        // { choices: ['api', 'cli'], default: 'cli' }
-      ],
-      [ '--debug', 'run preview with debug output to console' ],
+      [ '-p, --port <port>', 'configure development server port', 8080 ],
+      [ '--open', 'open in default browser when server starts' ],
+      // Use Option object syntax to configure this as a hidden option
+      new Option('--11ty <module>', 'use the specified 11ty module')
+        .choices(['api', 'cli']).default('api').hideHelp(),
     ],
-  }
+  })
 
   constructor() {
     super(PreviewCommand.definition)
   }
 
   async action(options, command) {
-    if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
-    }
+    this.debug('called with options %O', options)
 
-    if (options['11ty'] === 'cli') {
-      console.debug('[CLI] running eleventy using lib/11ty cli')
-      cli.serve(options)
+    // Configure reporter for this command
+    reporter.configure({ quiet: options.quiet, verbose: options.verbose })
+
+    if (options['11ty'] === 'api') {
+      this.debug('running eleventy using lib/11ty api')
+      await api.serve(options)
     } else {
-      console.debug('[CLI] running eleventy using lib/11ty api')
-      api.serve(options)
+      this.debug('running eleventy using lib/11ty cli')
+      await cli.serve(options)
     }
   }
 
-  preAction(command) {
-    testcwd(command)
+  preAction(thisCommand, actionCommand) {
+    testcwd(thisCommand)
   }
 }

@@ -2,7 +2,6 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Objects Schema",
   "type": "object",
-
   "required": [
     "object_card",
     "object_display_order",
@@ -12,23 +11,17 @@
   "properties": {
     "object_filters": {
       "type": "array",
-      "items": {
-        "type": "string"
-      },
+      "items": { "type": "string" },
       "minItems": 0
     },
     "object_card": {
       "type": "array",
-      "items": {
-        "type": "string"
-      },
+      "items": { "type": "string" },
       "minItems": 0
     },
     "object_display_order": {
       "type": "array",
-      "items": {
-        "type": "string"
-      },
+      "items": { "type": "string" },
       "minItems": 0
     },
     "object_list": {
@@ -36,39 +29,20 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "artist": {
-            "type": "string"
-          },
-          "year": {
-            "type": "integer"
-          },
-          "medium": {
-            "type": "string"
-          },
-          "dimensions": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "link": {
-            "type": "string",
-            "format": "uri"
-          },
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "artist": { "type": "string" },
+          "year": { "type": "string" },
+          "medium": { "type": "string" },
+          "dimensions": { "type": "string" },
+          "location": { "type": "string" },
+          "link": { "type": "string", "format": "uri" },
           "figure": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "string"
-                }
+                "id": { "type": "string" }
               },
               "required": [
                 "id"
@@ -78,15 +52,8 @@
           }
         },
         "required": [
-          "artist",
-          "dimensions",
-          "figure",
           "id",
-          "link",
-          "location",
-          "medium",
-          "title",
-          "year"
+          "title"
         ]
       },
       "minItems": 0
