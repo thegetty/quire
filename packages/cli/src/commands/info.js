@@ -1,4 +1,6 @@
 import Command from '#src/Command.js'
+import logger from '#src/lib/logger.js'
+import npm from '#lib/npm/index.js'
 import { execaCommand } from 'execa'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -19,7 +21,6 @@ export default class InfoCommand extends Command {
     description: 'List Quire cli, quire-11ty, and node versions',
     summary: 'list info',
     version: '1.0.0',
-    args: [],
     options: [
       ['--debug', 'include os versions in output']
     ],
@@ -31,13 +32,13 @@ export default class InfoCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug(
+      logger.debug(
         '[CLI] Command \'%s\' called with options %o',
         this.name(),
         options
       )
     } else {
-      console.debug('[CLI] Command \'%s\' called', this.name())
+      logger.debug('[CLI] Command \'%s\' called', this.name())
     }
 
     // Load filename from config with a default constraint if it doesn't exist
@@ -49,7 +50,7 @@ export default class InfoCommand extends Command {
 
       versionInfo = JSON.parse(versionFileData)      
     } catch (error) {
-      console.warn(
+      logger.warn(
         `This project was generated with the quire-cli prior to version 1.0.0.rc-8. Updating the version file to the new format, though this project's version file will not contain specific starter version information.`
       )
 
@@ -97,10 +98,7 @@ export default class InfoCommand extends Command {
           {
             debug: true,
             name: 'npm',
-            get: async () => {
-              const { stdout } = await execaCommand('npm --version')
-              return stdout
-            },
+            get: async () => await npm.version(),
           },
           {
             debug: true,
@@ -114,14 +112,14 @@ export default class InfoCommand extends Command {
     /**
      * Filter the command output based on `debug` settings
      */
-    versions.forEach(async ({ items, title }) => {
-      const versions = await Promise.all(
+    for (const { items, title } of versions) {
+      const versionList = await Promise.all(
         items
           .filter(({ debug }) => !debug || (options.debug && debug))
           .map(async ({ name, get }) => `${name} ${await get()}`)
       )
-      console.info(`${title}\n ${versions.join('\n ')}`)
-    })
+      logger.info(`${title}\n ${versionList.join('\n ')}`)
+    }
   }
 
   preAction(command) {

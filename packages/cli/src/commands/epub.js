@@ -1,4 +1,5 @@
 import Command from '#src/Command.js'
+import logger from '#src/lib/logger.js'
 import { paths, projectRoot  } from '#lib/11ty/index.js'
 import fs from 'fs-extra'
 import libEpub from '#lib/epub/index.js'
@@ -19,7 +20,6 @@ export default class EpubCommand extends Command {
     description: 'Generate publication EPUB',
     summary: 'run build epub',
     version: '1.0.0',
-    args: [],
     options: [
       [
         '--lib <module>', 'use the specified epub library', 'epubjs',
@@ -36,13 +36,13 @@ export default class EpubCommand extends Command {
 
   async action(options, command) {
     if (options.debug) {
-      console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
+      logger.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
     const input = path.join(projectRoot, paths.epub)
 
     if (!fs.existsSync(input)) {
-      console.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
+      logger.error(`Unable to find Epub input at ${input}\nPlease first run the 'quire build' command.`)
       return
     }
 
@@ -60,7 +60,7 @@ export default class EpubCommand extends Command {
   preAction(command) {
     const options = command.opts()
     if (options.debug) {
-      console.debug('[CLI] Calling \'epub\' command pre-action with options', options)
+      logger.debug('[CLI] Calling \'epub\' command pre-action with options', options)
     }
   }
 }

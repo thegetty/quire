@@ -1,0 +1,83 @@
+import { Command, Option } from 'commander'
+import program from '#src/main.js'
+import test from 'ava'
+
+/**
+ * Command Contract/Interface Tests
+ *
+ * Verifies the command's public API and Commander.js integration.
+ * @see docs/testing-commands.md
+ */
+
+test.before((t) => {
+  // Get the registered command (from program.commands) once and share across all tests
+  t.context.command = program.commands.find((cmd) => cmd.name() === 'clean')
+})
+
+test('command is registered in CLI program', (t) => {
+  const { command } = t.context
+
+  t.truthy(command, 'command "clean" should be registered in program')
+  t.true(command instanceof Command, 'registered command should be Commander.js Command instance')
+})
+
+test('registered command has correct metadata', (t) => {
+  const { command } = t.context
+
+  t.is(command.name(), 'clean')
+  t.truthy(command.description())
+  t.is(typeof command._actionHandler, 'function', 'command should have action handler')
+})
+
+test('registered command has no arguments', (t) => {
+  const { command } = t.context
+  const registeredArguments = command.registeredArguments
+
+  t.is(registeredArguments.length, 0, 'clean command should have no arguments')
+})
+
+test('registered command has correct options', (t) => {
+  const { command } = t.context
+
+  // Get all options
+  const dryRunOption = command.options.find((opt) => opt.long === '--dry-run')
+  const progressOption = command.options.find((opt) => opt.long === '--progress')
+  const verboseOption = command.options.find((opt) => opt.long === '--verbose')
+
+  // Verify all options exist
+  t.truthy(dryRunOption, '--dry-run option should exist')
+  t.truthy(progressOption, '--progress option should exist')
+  t.truthy(verboseOption, '--verbose option should exist')
+
+  // Verify they are Option instances
+  t.true(dryRunOption instanceof Option, '--dry-run should be Option instance')
+  t.true(progressOption instanceof Option, '--progress should be Option instance')
+  t.true(verboseOption instanceof Option, '--verbose should be Option instance')
+
+  // Verify option properties
+  t.is(dryRunOption.long, '--dry-run')
+  t.is(dryRunOption.short, '-d')
+  t.truthy(dryRunOption.description)
+  t.false(dryRunOption.required, '--dry-run should not require a value')
+
+  t.is(progressOption.long, '--progress')
+  t.is(progressOption.short, '-p')
+  t.truthy(progressOption.description)
+  t.false(progressOption.required, '--progress should not require a value')
+
+  t.is(verboseOption.long, '--verbose')
+  t.is(verboseOption.short, '-v')
+  t.truthy(verboseOption.description)
+  t.false(verboseOption.required, '--verbose should not require a value')
+})
+
+test('command options are accessible via public API', (t) => {
+  const { command } = t.context
+
+  // Test that options can be accessed the way Commander.js does
+  const optionNames = command.options.map((opt) => opt.long)
+
+  t.true(optionNames.includes('--dry-run'))
+  t.true(optionNames.includes('--progress'))
+  t.true(optionNames.includes('--verbose'))
+})

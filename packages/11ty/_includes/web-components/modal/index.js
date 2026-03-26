@@ -18,12 +18,11 @@ class Modal extends LitElement {
     super()
     this.setupKeyboardControls()
     this.setupModalTriggers()
+    this.setupCloseOutsideClick()
   }
 
   close () {
     this.active = false
-    this.currentId = null
-    this.updateLightboxCurrentId()
     this.enableScrolling()
   }
 
@@ -49,8 +48,8 @@ class Modal extends LitElement {
 
   open (event) {
     this.currentId = this.getCurrentFigureId(event)
-    this.active = true
     this.updateLightboxCurrentId()
+    this.active = true
     this.disableScrolling()
   }
 
@@ -78,6 +77,20 @@ class Modal extends LitElement {
         event.preventDefault()
         this.open(event)
       })
+    })
+  }
+
+  setupCloseOutsideClick () {
+    this.addEventListener('click', (event) => {
+      const clickedElement = event.target
+
+      const isImage = clickedElement.closest('.q-figure__image')
+      const isButton = clickedElement.closest('button')
+      const isCaption = clickedElement.closest('.q-lightbox-slides__caption-content')
+
+      if (!isImage && !isButton && !isCaption) {
+        this.close()
+      }
     })
   }
 

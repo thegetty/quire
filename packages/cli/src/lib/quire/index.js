@@ -1,15 +1,14 @@
 import { IS_WINDOWS } from '#helpers/os-utils.js'
 import { chdir, cwd } from 'node:process'
-import { execa, execaCommand } from 'execa'
+import { execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import config from '#lib/conf/config.js'
-import fetch from 'node-fetch'
 import fs from 'fs-extra'
 import git from '#lib/git/index.js'
+import npm from '#lib/npm/index.js'
 import packageConfig from '#src/packageConfig.js'
 import path from 'node:path'
-import semver from 'semver'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -135,14 +134,14 @@ async function initStarter (starter, projectPath, options) {
    * @see https://docs.npmjs.com/creating-a-package-json-file#customizing-the-packagejson-questionnaire
    */
   await fs.remove(path.join(projectPath, 'package.json'))
-  await execaCommand('npm init --yes', { cwd: projectPath })
+  await npm.init(projectPath)
 
   /**
    * Create an initial commit of files in new repository
+   * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  const projectFiles = fs.readdirSync(projectPath)
-  await git.init().add(projectFiles).commit('Initial Commit')
+  await git.init().add('.').commit('Initial Commit')
   return quireVersion
 }
 
@@ -179,46 +178,51 @@ async function installInProject(projectPath, quireVersion, options = {}) {
 
   // Copy if passed a path and it exists, otherwise attempt to download the tarball for this pathspec
   if (fs.existsSync(quirePath)) {
-    fs.copySync(quirePath, tempDir)
+    fs.cpSync(quirePath, tempDir, {recursive: true})
   } else {
-    await execaCommand(`npm pack ${ options.debug ? '--debug' : '--quiet' } ${quire11tyPackage}`)
+    await npm.pack(quire11tyPackage, tempDir, { debug: options.debug, quiet: !options.debug })
 
-    // Extract only the package dir from the tar bar and strip it from the extracted path
-    await execaCommand(`tar -xzf thegetty-quire-11ty-${quireVersion}.tgz -C ${tempDir} --strip-components=1 package/`)
+    // Extract only the package dir from the archive and strip it from the extracted path
+    const tarballPath = path.join(tempDir, `thegetty-quire-11ty-${quireVersion}.tgz`)
+    await execaCommand(`tar -xzf ${tarballPath} -C ${tempDir} --strip-components=1 package/`)
+
+    fs.rmSync(tarballPath)
   }
 
   // Copy `.temp` to projectPath
-  fs.copySync(tempDir, projectPath)
+  fs.cpSync(tempDir, projectPath, {recursive: true})
 
   console.debug('[CLI:quire] installing dev dependencies into quire project')
   /**
    * Manually install necessary dev dependencies to run 11ty;
    * these must be `devDependencies` so that they are not bundled into
    * the final `_site` package when running `quire build`
+   *
+   * Installing with --prefer-offline prioritizes local cache,
+   * falling back to network only when necessary.
+   * @see https://docs.npmjs.com/cli/v11/using-npm/config#prefer-offline
    */
-  await execaCommand('npm cache clean --force', { cwd: projectPath })
   try {
-    await execaCommand('npm install --save-dev', { cwd: projectPath })
+    if (options.cleanCache) {
+      // Nota bene: cache is self-healing, this should not be necessary.
+      await npm.cacheClean(projectPath)
+    }
+    await npm.install(projectPath, { saveDev: true, preferOffline: true })
   } catch(error) {
     console.warn(`[CLI:error]`, error)
-    fs.removeSync(projectPath)
+    fs.rmSync(projectPath, {recursive: true})
     return
   }
 
-  const eleventyFilesToCommit = fs
-    .readdirSync(tempDir)
-    .filter((filePath) => filePath !== 'node_modules')
-
-  eleventyFilesToCommit.push('package-lock.json')
-
   /**
    * Create an additional commit of new `@thegetty/quire-11ty` files in repository
+   * Using '.' respects .gitignore and avoids attempting to add ignored directories
    * @todo use a localized string for the commit message
    */
-  await git.add(eleventyFilesToCommit).commit('Adds `@thegetty/quire-11ty` files')
+  await git.add('.').commit('Adds `@thegetty/quire-11ty` files')
 
   // remove temporary 11ty install directory
-  fs.removeSync(path.join(projectPath, temp11tyDirectory))
+  fs.rmSync(path.join(projectPath, temp11tyDirectory), {recursive: true})
 }
 
 /**
@@ -232,14 +236,9 @@ async function installInProject(projectPath, quireVersion, options = {}) {
 async function latest(version) {
   let quireVersion;
   if (!version || version === 'latest') {
-    const { stdout } = 
-      await execa('npm', ['view', PACKAGE_NAME, 'version'])
-    quireVersion = stdout
+    quireVersion = await npm.view(PACKAGE_NAME, 'version')
   } else {
-    const response = await fetch(`https://registry.npmjs.org/${PACKAGE_NAME}`)
-    const json = await response.json()
-    const versions = Object.keys(json.versions)
-    quireVersion = semver.maxSatisfying(versions, version)
+    quireVersion = await npm.getCompatibleVersion(PACKAGE_NAME, version)
   }
   if (!quireVersion) {
     throw new Error(`[CLI:quire] Sorry, we couldn't find a version of quire-11ty compatible with the version "${version}". You can set the quire-11ty version in the starter project's package.json or specify a version when running \`quire new\` with the \`--quire-version\` flag. You can run \`npm view @thegetty/quire-11ty versions\` to view all versions.`)
@@ -334,7 +333,7 @@ function symlinkLatest() {
  * @return  {Array<String>}  published versions
  */
 async function versions() {
-  return await execa('npm', ['show', PACKAGE_NAME, 'versions'])
+  return await npm.show(PACKAGE_NAME, 'versions')
 }
 
 export const quire = {

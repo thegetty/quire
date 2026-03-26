@@ -1,5 +1,7 @@
 import Command from '#src/Command.js'
+import { Option } from 'commander'
 import fs from 'fs-extra'
+import logger from '#src/lib/logger.js'
 import { quire } from '#src/lib/quire/index.js'
 
 /**
@@ -25,8 +27,9 @@ export default class CreateCommand extends Command {
     options: [
       [ '--quire-path <path>', 'local path to quire-11ty package' ],
       [ '--quire-version <version>', 'quire-11ty version to install' ],
-      // [ '--eject', 'install quire-11ty into the project directory', true ],
       [ '--debug', 'debug the `quire new` command', false ],
+      // Use Option object syntax to configure this as a hidden option
+      new Option('--clean-cache', 'force clean the npm cache').default(false).hideHelp(),
     ],
   }
 
@@ -42,7 +45,7 @@ export default class CreateCommand extends Command {
    */
   async action(projectPath, starter, options = {}) {
     if (options.debug) {
-      console.info('Command \'%s\' called with options %o', CreateCommand.name, options)
+      logger.info('Command \'%s\' called with options %o', CreateCommand.name, options)
     }
 
     starter = starter || this.config.get('projectTemplate')
@@ -67,7 +70,7 @@ export default class CreateCommand extends Command {
       try {
         quireVersion = await quire.initStarter(starter, projectPath, options)
       } catch (error) {
-        console.error(error.message)
+        logger.error(error.message)
         fs.removeSync(projectPath)
         return
       }

@@ -35,6 +35,7 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
         mode: 'production',
         outDir: outputDir,
         rollupOptions: {
+          external: ['../../../_search/pagefind.js'],
           output: {
             assetFileNames: ({ name, originalFileName }) => {
               const fullFilePathSegments = (originalFileName ?? name).split('/').slice(0, -1)
@@ -84,12 +85,12 @@ export default function (eleventyConfig, { directoryConfig, publication }) {
         preprocessorOptions: {
           scss: {
             api: 'modern-compiler',
+            quietDeps: true,
             silenceDeprecations: [
               'color-functions',
               'global-builtin',
-              'import',
-              'legacy-js-api',
-              'mixed-decls'
+              'if-function',
+              'import'
             ]
           }
         }

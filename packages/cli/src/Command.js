@@ -48,6 +48,7 @@ export default class Command {
     this.name = definition.name
     this.aliases = definition.aliases
     this.description = definition.description
+    this.summary = definition.summary
     this.args = definition.args
     this.options = definition.options
     this.version = definition.version
