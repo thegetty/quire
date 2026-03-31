@@ -30,7 +30,7 @@ export default (eleventyConfig) => {
     subtitle,
     title
   } = eleventyConfig.globalData.publication
-  const { epub, figures: { imageDir } } = eleventyConfig.globalData.config
+  const { accessibilityMetadata, epub, figures: { imageDir } } = eleventyConfig.globalData.config
 
   /**
    * Contributor name, filtered by type
@@ -136,11 +136,27 @@ export default (eleventyConfig) => {
     .toISOString()
     .replace(/\.\d{3}/, '')
 
+  /**
+   * Accessibility metadata with defaults per EPUB accessibility standards
+   */
+  const {
+    accessibilitySummary = 'This publications meets baseline accessibility standards',
+    accessMode = ['textual', 'visual'],
+    accessModeSufficient = ['textual', 'visual'],
+    accessibilityFeature = ['unknown'],
+    accessibilityHazard = ['unknown']
+  } = accessibilityMetadata || {}
+
   return {
     '@context': [
       'https://schema.org',
       'https://www.w3.org/ns/pub-context'
     ],
+    accessibilitySummary,
+    accessMode,
+    accessModeSufficient,
+    accessibilityFeature,
+    accessibilityHazard,
     conformsTo: 'https://www.w3.org/TR/pub-manifest/',
     contributors: contributors('secondary'),
     creators: contributors('primary'),
