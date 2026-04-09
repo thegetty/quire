@@ -216,8 +216,29 @@ export default function (eleventyConfig, collections, content) {
     }
   }
 
-  function openAccordions (document) {
-    document.querySelectorAll('details.accordion-section').forEach((sect) => { sect.open = true })
+  /**
+   * @function replaceAccordions
+   *
+   * @param {Element} element
+   *
+   * Replaces accordions in `Document` with section elements.
+   *
+   * Primarily this is a workaround for an issue where accordions that span PDF pages
+   * trigger browser-internal summary default text to appear in PDFs.
+   **/
+  function replaceAccordions (element) {
+    element.querySelectorAll('details.accordion-section').forEach((accordionSection) => {
+      // Transfer accordion section's heading, content to a new `section` element
+      const summary = accordionSection.querySelector('summary')
+      const headingContent = summary.innerHTML
+      summary.remove()
+
+      const section = element.ownerDocument.createElement('section')
+      section.classList.add('accordion-section')
+      section.innerHTML = headingContent + accordionSection.innerHTML
+
+      accordionSection.replaceWith(section)
+    })
   }
 
   const pdfPages = collections.pdf.map(({ outputPath }) => outputPath)
@@ -260,7 +281,7 @@ export default function (eleventyConfig, collections, content) {
   filterOutputs(sectionElement, 'pdf')
   trimLeadingSeparator(sectionElement)
   slugifyIds(sectionElement)
-  openAccordions(sectionElement)
+  replaceAccordions(sectionElement)
 
   collections.pdf[pageIndex].sectionElement = sectionElement.outerHTML
 

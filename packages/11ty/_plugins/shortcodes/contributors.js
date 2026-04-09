@@ -95,6 +95,8 @@ export default function (eleventyConfig) {
       case 'name-title-block': {
         const separator = (format === 'name-title') ? ', ' : ''
         const listItems = contributorList.map((contributor) => {
+          const { first_name: firstName, id, last_name: lastName } = contributor
+
           const contributorParts = [
             `<span class="quire-contributor__name">${fullname(contributor)}</span>`
           ]
@@ -110,8 +112,9 @@ export default function (eleventyConfig) {
             )
           }
 
+          const contributorId = slugify(id ?? `${firstName} ${lastName}`)
           return `
-            <li class="quire-contributor" id="${slugify(contributor.id)}">${contributorParts.join(separator)}</li>
+            <li class="quire-contributor" id="${contributorId}">${contributorParts.join(separator)}</li>
           `
         })
         contributorsElement = `

@@ -12,6 +12,12 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.40]
+
+### Fixed
+
+- Replace deprecated analytics script with Google Analytics 4 remote gtag.js
+
 ## [1.0.0-rc.39]
 
 ### Fixed
@@ -57,7 +63,7 @@ Changelog entries are classified using the following labels:
 
 - Added `iiif_image` property to Figure factory and schema. When passed an IIIF Image API URL (eg, `iiif_image: "https://media.getty.edu/iiif/image/aedba790-5d99-4eec-9453-103efd6a1429"`) the IIIF URL will be used to source image tiles and static-sized derivatives for this figure.
 
-### Changed 
+### Changed
 
 - Ensured that `isExternalResource` is passed through the Figure adapter to data consumers.
 
