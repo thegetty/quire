@@ -54,8 +54,8 @@ export default (eleventyConfig, collections) => {
       quietDeps: true,
       silenceDeprecations: [
         'color-functions',
+        'mixed-decls',
         'global-builtin',
-        'if-function',
         'import'
       ]
     }

@@ -26,8 +26,8 @@ export default function (eleventyConfig) {
       quietDeps: true,
       silenceDeprecations: [
         'color-functions',
+        'mixed-decls',
         'global-builtin',
-        'if-function',
         'import'
       ]
     }
