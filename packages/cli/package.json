@@ -38,7 +38,7 @@
     "docs": "jsdoc2md --configure jsdoc.json --files src/**/*.js > docs/cli.md",
     "lint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "ava ./_tests/**"
   },
   "imports": {
     "#root/*": "./*",
