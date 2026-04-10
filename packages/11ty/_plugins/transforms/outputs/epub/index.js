@@ -51,12 +51,12 @@ export default (eleventyConfig, collections) => {
     const sassOptions = {
       api: 'modern-compiler',
       loadPaths: [path.resolve('node_modules')],
+      quietDeps: true,
       silenceDeprecations: [
         'color-functions',
+        'mixed-decls',
         'global-builtin',
-        'import',
-        'legacy-js-api',
-        'mixed-decls'
+        'import'
       ]
     }
 
