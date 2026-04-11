@@ -21,7 +21,18 @@ export default function (eleventyConfig) {
    * @return  {String}  Text content of the referenced template file
    */
   return async function ({ src }) {
-    const filePath = path.join(eleventyConfig.directoryAssignments.input, assetDir, src)
+    const assetRoot = path.resolve(eleventyConfig.directoryAssignments.input, assetDir)
+
+    if (typeof src !== 'string' || path.isAbsolute(src)) {
+      throw new Error('Invalid figure table source path')
+    }
+
+    const filePath = path.resolve(assetRoot, src)
+    const relativePath = path.relative(assetRoot, filePath)
+
+    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+      throw new Error('Invalid figure table source path')
+    }
 
     return await eleventyConfig.javascript.shortcodes.renderFile(filePath, {}, 'html')
   }
