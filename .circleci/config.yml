@@ -196,16 +196,25 @@ jobs:
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
+
   create_release_artifacts:
     executor: linux
     steps:
+      - node/install:
+          node-version: "22.14.0"
       - run:
           name: Package release artifacts
           command: npm -ws pack
+      - persist_to_workspace:
+          root: .
+          paths:
+            - thegetty-quire*.tgz
 
   npm_release:
     executor: linux
     steps:
+      - node/install:
+          node-version: "22.14.0"
       # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
