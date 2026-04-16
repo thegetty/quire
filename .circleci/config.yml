@@ -151,6 +151,14 @@ commands:
   test-linux:
     steps:
       - run_tests
+      - run:
+          name: Build package artifacts
+          command: npm -ws pack
+      - persist_to_workspace:
+          root: .
+          paths:
+            - thegetty-quire*.tgz
+
 
   test-macos:
     steps:
@@ -196,19 +204,6 @@ jobs:
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
-
-  create_release_artifacts:
-    executor: linux
-    steps:
-      - node/install:
-          node-version: "22.14.0"
-      - run:
-          name: Package release artifacts
-          command: npm -ws pack
-      - persist_to_workspace:
-          root: .
-          paths:
-            - thegetty-quire*.tgz
 
   npm_release:
     executor: linux
@@ -271,12 +266,6 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - create_release_artifacts:
-          filters:
-            tags:
-              only: /.+/
-          requires: 
-            - build_install_test-linux
       - gh/release:
           filters:
             tags:
