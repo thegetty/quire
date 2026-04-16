@@ -266,6 +266,8 @@ workflows:
           filters:
             tags:
               only: /.+/
+          requires: 
+            - build_install_test-linux
       - gh/release:
           filters:
             tags:
