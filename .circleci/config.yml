@@ -196,20 +196,20 @@ jobs:
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
-  release_packages:
+  create_release_artifacts:
     executor: linux
     steps:
-      # Tag is cli-XXX
       - run:
           name: Package release artifacts
           command: npm -ws pack
+
+  npm_release:
+    executor: linux
+    steps:
+      # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
           steps:
-            - gh/create_release:
-                additional_args: "--notes-from-tag"
-                tag: "$CIRCLE_TAG"
-                files: 'thegetty-quire-cli*.tgz'
             - run:
                 name: Publish CLI release to npm
                 command: npm -w packages/cli publish
@@ -218,10 +218,6 @@ jobs:
       - when:
           condition: pipeline.git.tag starts-with "11ty-"
           steps:
-            - gh/release:
-                additional_args: "--notes-from-tag"
-                tag: "$CIRCLE_TAG"
-                files: 'thegetty-quire-11ty*.tgz'
             - run:
                 name: Publish 11ty release to npm
                 command: npm -w packages/11ty publish
@@ -230,10 +226,6 @@ jobs:
       - when:
           condition: pipeline.git.tag starts-with "cli+11ty-"
           steps:
-            - gh/release:
-                additional_args: "--notes-from-tag"
-                tag: "$CIRCLE_TAG"
-                files: 'thegetty-quire*.tgz'
             - run:
                 name: Publish release to npm
                 command: npm -ws publish
@@ -246,24 +238,73 @@ workflows:
       - build_install_test:
           <<: *matrix_params
           name: build_install_test-<< matrix.os >>
+          filters:
+            tags:
+              only: /.*/
       - browser_test:
           name: browser_test-linux
           requires:
             - build_install_test-linux
+          filters:
+            tags:
+              only: /.*/
       - browser_test:
           name: browser_test-macos
           requires:
             - build_install_test-macos
+          filters:
+            tags:
+              only: /.*/
       - browser_test:
           name: browser_test-win
           requires:
             - build_install_test-win
-      - release_packages:
+          filters:
+            tags:
+              only: /.*/
+      - create_release_artifacts:
+          filters:
+            tags:
+              only: /.+/
+      - gh/release:
+          filters:
+            tags:
+              only: /^cli.+/
           requires:
             - build_install_test-linux
             - build_install_test-macos
             - build_install_test-win
+          additional_args: "--notes-from-tag"
+          tag: "$CIRCLE_TAG"
+          files: 'thegetty-quire-cli*.tgz'
+      - gh/release:
           filters:
             tags:
-              only: /(cli|11ty|cli+11ty).*/
+              only: /^11ty.+/
+          requires:
+            - build_install_test-linux
+            - build_install_test-macos
+            - build_install_test-win
+          additional_args: "--notes-from-tag"
+          tag: "$CIRCLE_TAG"
+          files: 'thegetty-quire-11ty*.tgz'
+      - gh/release:
+          filters:
+            tags:
+              only: /^cli\+11ty.+/
+          requires:
+            - build_install_test-linux
+            - build_install_test-macos
+            - build_install_test-win
+          additional_args: "--notes-from-tag"
+          tag: "$CIRCLE_TAG"
+          files: 'thegetty-quire-11ty*.tgz'
+      - npm_release:
+          filters:
+            tags:
+              only: /.+/
+          requires:
+            - build_install_test-linux
+            - build_install_test-macos
+            - build_install_test-win
           # TODO: require either main branch or release/.*
