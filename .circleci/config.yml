@@ -6,7 +6,7 @@ orbs:
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
   win: circleci/windows@5.1.0
-  github-cli: circleci/github-cli@2.7.2
+  gh: circleci/github-cli@2.7.2
 
 executors:
   pw-noble-development:
