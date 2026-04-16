@@ -6,6 +6,7 @@ orbs:
   mac: circleci/macos@2.5.2
   node: circleci/node@7.1.0
   win: circleci/windows@5.1.0
+  github-cli: circleci/github-cli@2.7.2
 
 executors:
   pw-noble-development:
@@ -199,37 +200,43 @@ jobs:
     executor: linux
     steps:
       # Tag is cli-XXX
+      - run:
+          name: Package release artifacts
+          command: npm -ws pack
       - when:
           condition: pipeline.git.tag starts-with "cli-"
           steps:
-          - run:
-              name: Publish CLI release to github
-              command: npm -w packages/cli pack && gh release create --notes-from-tag thegettyquire*.tgz 
-          - run:
-              name: Publish release to npm
-              command: npm -w packages/cli publish
+            - gh/release:
+                additional_args: "--notes-from-tag"
+                tag: "$CIRCLE_TAG"
+                files: 'thegetty-quire-cli*.tgz'
+            - run:
+                name: Publish CLI release to npm
+                command: npm -w packages/cli publish
 
       # Tag is 11ty-XXX
       - when:
           condition: pipeline.git.tag starts-with "11ty-"
           steps:
-          - run:
-              name: Publish 11ty release to github
-              command: npm -w packages/11ty pack && gh release create --notes-from-tag thegettyquire*.tgz 
-          - run:
-              name: Publish release to npm
-              command: npm -w packages/11ty publish
+            - gh/release:
+                additional_args: "--notes-from-tag"
+                tag: "$CIRCLE_TAG"
+                files: 'thegetty-quire-11ty*.tgz'
+            - run:
+                name: Publish 11ty release to npm
+                command: npm -w packages/11ty publish
 
       # Tag is cli+11ty-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli+11ty-"
           steps:
-          - run:
-              name: Publish CLI and 11ty releases to github
-              command: npm -ws pack && gh release create --notes-from-tag thegetty-quire*.tgz 
-          - run:
-              name: Publish release to npm
-              command: npm -ws publish
+            - gh/release:
+                additional_args: "--notes-from-tag"
+                tag: "$CIRCLE_TAG"
+                files: 'thegetty-quire*.tgz'
+            - run:
+                name: Publish release to npm
+                command: npm -ws publish
 
 workflows:
   build_install_test_release:
