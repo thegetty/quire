@@ -206,7 +206,7 @@ jobs:
       - when:
           condition: pipeline.git.tag starts-with "cli-"
           steps:
-            - gh/release:
+            - gh/create_release:
                 additional_args: "--notes-from-tag"
                 tag: "$CIRCLE_TAG"
                 files: 'thegetty-quire-cli*.tgz'
