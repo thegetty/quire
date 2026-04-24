@@ -26,7 +26,7 @@ const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 async function MockFigureFactory (sandbox, iiifConfig, processStub) {
   const Figure = await esmock('#plugins/figures/figure/index.js', {
     sharp: sandbox.stub().returns({
-      metadata: sandbox.stub().returns({ height: 100, width: 100 })
+      metadata: sandbox.stub().returns({ height: 1000, width: 1000 })
     })
   })
 
@@ -62,7 +62,7 @@ test('FigureFactory should create a staticInlineFigureImage for zoomable figures
 
   let passed = false
   const isTransformedZoomedAndIIIF = async (path, _, options) => {
-    passed = options.transformations?.length > 0 && options.tile && options.iiifEndpoint
+    passed = options.transformations?.length > 0 && options.tile && !options.iiifEndpoint
     return { errors: [] }
   }
 
