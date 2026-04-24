@@ -21,13 +21,13 @@ export default class FigureFactory {
    *
    * @return {Object}
    * @property {Figure} figure  A new Figure instance
-   * @property {Array} errors  `processFiles` errors
+   * @property {Array} errors  Any errors from asset handling
    */
   async create (data) {
     const processImage =
       this.imageProcessor.processImage.bind(this.imageProcessor)
     const figure = new Figure(this.iiifConfig, processImage, data)
-    const { errors } = await figure.processFiles()
+    const { errors } = await figure.processFigure()
     return { figure, errors }
   }
 }

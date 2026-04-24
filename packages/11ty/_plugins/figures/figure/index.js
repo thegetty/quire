@@ -93,10 +93,6 @@ export default class Figure {
       }
     }
 
-    const defaults = {
-      mediaType: 'image'
-    }
-
     const {
       id,
       iiif_image: iiifImage,
@@ -132,13 +128,14 @@ export default class Figure {
     this.isSequence = isSequence(data)
     this.label = label
     this.manifestId = manifestId()
-    this.mediaType = mediaType || defaults.mediaType
+    this.mediaType = mediaType || 'image'
     this.mediaId = mediaId
     this.outputDir = outputDir
     this.outputPathname = outputPathname
     this.outputFormat = format && format.output
     this.processImage = imageProcessor
     this.src = src
+
     /**
      * We are disabling zoom for all sequence figures
      * our custom image-sequence component currently only supports static images
@@ -189,8 +186,6 @@ export default class Figure {
    * Used to define canvas properties `width` and `height`
    */
   get canvasImagePath () {
-    if (!this.isCanvas) return
-
     if (this.iiifImage) return this.iiifImage
 
     const firstChoiceSrc = () => {
@@ -353,16 +348,16 @@ export default class Figure {
   }
 
   /**
-   * Get the width and height of the canvas
-   */
-  async calcCanvasDimensions () {
-    if (!this.canvasImagePath || (this.iiifImage && !this.isCanvas)) return
-
+   * @function calculateDimensions
+   *
+   * Fetches and stores figure height and width
+   *
+   **/
+  async calculateDimensions () {
     let height, width
 
     // Fetch dimensions from IIIF via `Fetch` or the disk via `sharp`
     if (this.iiifImage) {
-      // TODO: Move `try` to outer scope!! can't sharp().metadata() also throw?
       try {
         const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
 
@@ -376,6 +371,7 @@ export default class Figure {
         return
       }
     } else {
+      // TODO: Use `try / catch` here! sharp().metadata() can also throw
       ({ height, width } = await sharp(this.canvasImagePath).metadata())
     }
 
@@ -384,19 +380,21 @@ export default class Figure {
   }
 
   /**
-   * Call file process methods and return errors
-   * @todo refactor process and create methods to return a response
-   * to encapsulate collection of errors into this method.
+   * @function processFigure
+   *
+   * Processes figure metadata and asset files into servable assets
    *
    * @return {Object}
    * @property {Array} errors
+   *
    */
-  async processFiles () {
+  async processFigure () {
     this.errors = []
 
+    if (this.mediaType !== 'image') return {}
     if (this.isExternalResource && !this.iiifImage) return {}
 
-    await this.calcCanvasDimensions()
+    await this.calculateDimensions()
 
     await this.processAnnotationImages()
 
@@ -406,7 +404,9 @@ export default class Figure {
       await this.processFigureImage()
     }
 
-    await this.createManifest()
+    if (this.isCanvas) {
+      await this.createManifest()
+    }
 
     return { errors: this.errors }
   }
@@ -430,22 +430,30 @@ export default class Figure {
   }
 
   /**
-   * Process `figure.src`
+   * @function processFigureImage
+   *
+   * Tiles and transforms `src` asset
+   *
    */
   async processFigureImage () {
-    if (!this.isCanvas) return
     if (!(this.src || this.iiifImage)) return
     if (this.isExternalResource) return
 
     const { transformations } = this.iiifConfig
 
-    this.validateImageForTiling()
-    const processSrc = this.src ?? this.iiifImage
-    const { errors } = await this.processImage(processSrc, this.outputDir, {
-      tile: true,
-      iiifEndpoint: !!this.iiifImage,
+    const options = {
       transformations
-    })
+    }
+
+    if (this.isCanvas) {
+      this.validateImageForTiling()
+
+      options.iiifEndpoint = Boolean(this.iiifImage)
+      options.tile = true
+    }
+
+    const processSrc = this.src ?? this.iiifImage
+    const { errors } = await this.processImage(processSrc, this.outputDir, options)
 
     if (errors) this.errors = this.errors.concat(errors)
   }

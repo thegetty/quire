@@ -38,6 +38,8 @@ export default function (eleventyConfig) {
         } else {
           return imageService(figure)
         }
+      case !lightbox && Boolean(staticInlineFigureImage):
+        return imageTag({ alt, src: staticInlineFigureImage, isStatic: true, lazyLoading, lightbox })
       default:
         return imageTag({ ...figure, lightbox })
     }
