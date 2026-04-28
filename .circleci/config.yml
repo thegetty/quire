@@ -208,6 +208,7 @@ jobs:
   npm_release:
     executor: linux
     steps:
+      - checkout
       - node/install:
           node-version: "22.14.0"
       # Tag is cli-XXX
