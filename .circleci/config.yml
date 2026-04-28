@@ -211,6 +211,7 @@ jobs:
       - checkout
       - node/install:
           node-version: "22.14.0"
+          scope: '@thegetty'
       # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
@@ -278,9 +279,9 @@ workflows:
             tags:
               only: /^cli.+/
           requires:
-            - build_install_test-linux
-            - build_install_test-macos
-            - build_install_test-win
+            - browser_test-linux
+            - browser_test-macos
+            - browser_test-win
           additional_args: "--notes-from-tag"
           tag: "$CIRCLE_TAG"
           files: 'thegetty-quire-cli*.tgz'
@@ -289,9 +290,9 @@ workflows:
             tags:
               only: /^11ty.+/
           requires:
-            - build_install_test-linux
-            - build_install_test-macos
-            - build_install_test-win
+            - browser_test-linux
+            - browser_test-macos
+            - browser_test-win
           additional_args: "--notes-from-tag"
           tag: "$CIRCLE_TAG"
           files: 'thegetty-quire-11ty*.tgz'
@@ -300,9 +301,9 @@ workflows:
             tags:
               only: /^cli\+11ty.+/
           requires:
-            - build_install_test-linux
-            - build_install_test-macos
-            - build_install_test-win
+            - browser_test-linux
+            - browser_test-macos
+            - browser_test-win
           additional_args: "--notes-from-tag"
           tag: "$CIRCLE_TAG"
           files: 'thegetty-quire-11ty*.tgz'
@@ -311,7 +312,7 @@ workflows:
             tags:
               only: /.+/
           requires:
-            - build_install_test-linux
-            - build_install_test-macos
-            - build_install_test-win
+            - browser_test-linux
+            - browser_test-macos
+            - browser_test-win
           # TODO: require either main branch or release/.*
