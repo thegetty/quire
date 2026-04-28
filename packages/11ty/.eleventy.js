@@ -10,7 +10,6 @@ import {
   InputPathToUrlTransformPlugin,
   EleventyRenderPlugin
 } from '@11ty/eleventy'
-// import { eleventyImageTransformPlugin } from '@11ty/eleventy-img'
 import directoryOutputPlugin from '@11ty/eleventy-plugin-directory-output'
 import navigationPlugin from '@11ty/eleventy-navigation'
 import pluginWebc from '@11ty/eleventy-plugin-webc'
@@ -260,25 +259,6 @@ export default async function (eleventyConfig) {
     transformData: {},
     useTransform: false
   })
-
-  /**
-   * Configure the Eleventy Image plugin
-   * @see https://www.11ty.dev/docs/plugins/image/
-   */
-  // eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-  //   defaultAttributes: {
-  //     decoding: 'async',
-  //     loading: 'lazy'
-  //   },
-  //   filenameFormat:  (id, src, width, format, options) => {
-  //     const extension = path.extname(src)
-  //     const name = path.basename(src, extension)
-  //     return `${name}-${width}w.${format}`
-  //   },
-  //   formats: ['jpeg'],
-  //   outputDir: '.',
-  //   urlPath: '/img/'
-  // })
 
   /**
    * Register a plugin to run linters on input templates
