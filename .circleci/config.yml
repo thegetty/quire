@@ -216,16 +216,20 @@ jobs:
           condition: pipeline.git.tag starts-with "cli-"
           steps:
             - run:
-                name: Publish CLI release to npm
-                command: npm -w packages/cli publish
+                name: Publish CLI release to npm with OIDC
+                command: |
+                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+                  npm -w packages/cli publish
 
       # Tag is 11ty-XXX
       - when:
           condition: pipeline.git.tag starts-with "11ty-"
           steps:
             - run:
-                name: Publish 11ty release to npm
-                command: npm -w packages/11ty publish
+                name: Publish 11ty release to npm with OIDC
+                command: |
+                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+                  npm -w packages/11ty publish
 
       # Tag is cli+11ty-XXX
       - when:
@@ -233,7 +237,9 @@ jobs:
           steps:
             - run:
                 name: Publish release to npm
-                command: npm -ws publish
+                command: |
+                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+                  npm -ws publish
 
 workflows:
   build_install_test_release:
