@@ -225,7 +225,7 @@ jobs:
             - run:
                 name: Publish CLI release to github
                 command: |
-                  gh release create "$CIRCLE_TAG" --notes-from-tag thegett-quire-cli*.tgz 
+                  gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-cli*.tgz 
 
       # Tag is 11ty-XXX
       - when:
@@ -239,7 +239,7 @@ jobs:
             - run:
                 name: Publish 11ty release to github
                 command: |
-                  gh release create "$CIRCLE_TAG" --notes-from-tag thegett-quire-11ty*.tgz 
+                  gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-11ty*.tgz 
 
       # Tag is cli+11ty-XXX
       - when:
@@ -253,7 +253,7 @@ jobs:
             - run:
                 name: Publish CLI+11ty release to github
                 command: |
-                  gh release create "$CIRCLE_TAG" --notes-from-tag thegett-quire*.tgz 
+                  gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire*.tgz 
 
 workflows:
   build_install_test_release:
