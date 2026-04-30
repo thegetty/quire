@@ -211,6 +211,9 @@ jobs:
       - gh/install
       - checkout
       - run:
+          name: Install release dependencies
+          command: npm -ws=false ci
+      - run:
           name: Build release assets
           command: npm -ws pack
       # TODO: Set the --tag flag below as "--tag rc" if tag has an rc
