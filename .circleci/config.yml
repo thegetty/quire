@@ -212,7 +212,7 @@ jobs:
       - checkout
       - run:
           name: Install release dependencies
-          command: npm -ws=false ci
+          command: npm -w packages/11ty ci
       - run:
           name: Build release assets
           command: npm -ws pack
