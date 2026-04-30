@@ -210,6 +210,9 @@ jobs:
     steps:
       - gh/install
       - checkout
+      - run:
+          name: Build release assets
+          command: npm -ws pack
       # TODO: Set the --tag flag below as "--tag rc" if tag has an rc
       # Tag is cli-XXX
       - when:
