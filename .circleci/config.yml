@@ -207,7 +207,7 @@ jobs:
 
   npm_release:
     docker:
-      - image: cimg/node:22.14
+      - image: cimg/node:22.14.1
     steps:
       - checkout
       # Tag is cli-XXX
