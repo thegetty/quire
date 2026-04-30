@@ -211,8 +211,8 @@ jobs:
       - gh/install
       - checkout
       - run:
-          name: Install release dependencies
-          command: npm -w packages/11ty ci
+          name: Install release process dependencies
+          command: npm -ws=false ci
       - run:
           name: Build release assets
           command: npm -ws pack
@@ -238,6 +238,9 @@ jobs:
           condition: << pipeline.git.tag starts-with "11ty-" >>
           steps:
             - run:
+                name: Install release process dependencies
+                command: npm -w packages/11ty ci
+            - run:
                 name: Publish 11ty release to npm with OIDC
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
@@ -251,6 +254,9 @@ jobs:
       - when:
           condition: << pipeline.git.tag starts-with "cli+11ty-" >>
           steps:
+            - run:
+                name: Install release process dependencies
+                command: npm -w packages/11ty ci
             - run:
                 name: Publish release to npm
                 command: |
