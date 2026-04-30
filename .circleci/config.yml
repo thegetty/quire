@@ -34,7 +34,6 @@ executors:
 
 anchors:
 
-  # TODO: Need the release ver as a var for use in npm pack
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
@@ -46,7 +45,6 @@ anchors:
     matrix:
       parameters:
         os: [ 'linux', 'macos', 'win' ]
-        # TODO: Supported node versions
 
 commands:
   # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
@@ -216,8 +214,8 @@ jobs:
       - run:
           name: Build release assets
           command: npm -ws pack
-      # TODO: Set the --tag flag below as "--tag rc" if tag has an rc
-      # Tag is cli-XXX
+
+      # quire-cli only release
       - when:
           condition: << pipeline.git.tag starts-with "cli-" >>
           steps:
@@ -225,15 +223,15 @@ jobs:
                 name: Publish CLI release to npm with OIDC
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  echo $(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  echo $(npm --version)
-                  npm -w packages/cli publish --tag rc
+                  export DIST_FLAG=$([[ $CIRCLE_TAG == *"rc."* ]] && echo "--tag rc" || echo "" )
+
+                  npm -w packages/cli publish $DIST_FLAG
             - run:
                 name: Publish CLI release to github
                 command: |
                   gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-cli*.tgz 
 
-      # Tag is 11ty-XXX
+      # quire-11ty only release
       - when:
           condition: << pipeline.git.tag starts-with "11ty-" >>
           steps:
@@ -244,13 +242,15 @@ jobs:
                 name: Publish 11ty release to npm with OIDC
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  npm -w packages/11ty publish --tag rc
+                  export DIST_FLAG=$([[ $CIRCLE_TAG == *"rc."* ]] && echo "--tag rc" || echo "" )
+
+                  npm -w packages/11ty publish $DIST_FLAG
             - run:
                 name: Publish 11ty release to github
                 command: |
                   gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-11ty*.tgz 
 
-      # Tag is cli+11ty-XXX
+      # quire-cli and quire-11ty release
       - when:
           condition: << pipeline.git.tag starts-with "cli+11ty-" >>
           steps:
@@ -261,7 +261,9 @@ jobs:
                 name: Publish release to npm
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  npm -ws publish --tag rc
+                  export DIST_FLAG=$([[ $CIRCLE_TAG == *"rc."* ]] && echo "--tag rc" || echo "" )
+
+                  npm -ws publish $DIST_FLAG
             - run:
                 name: Publish CLI+11ty release to github
                 command: |
