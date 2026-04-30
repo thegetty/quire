@@ -310,7 +310,7 @@ workflows:
       - npm_release:
           filters:
             tags:
-              only: /.+/
+              only: /^(cli|11ty).+/
           # requires:
           #   - browser_test-linux
           #   - browser_test-macos
