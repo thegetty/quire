@@ -204,12 +204,12 @@ jobs:
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
-
-  npm_release:
+  release:
     docker:
       - image: cimg/node:24.15
     steps:
       - checkout
+      # TODO: Set the --tag flag below as "--tag rc" if tag has an rc
       # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
@@ -221,6 +221,10 @@ jobs:
                   echo $(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
                   echo $(npm --version)
                   npm -w packages/cli publish --tag rc
+            - gh/release:
+                additional_args: "--notes-from-tag"
+                tag: "$CIRCLE_TAG"
+                files: 'thegetty-quire-cli*.tgz'
 
       # Tag is 11ty-XXX
       - when:
@@ -230,7 +234,11 @@ jobs:
                 name: Publish 11ty release to npm with OIDC
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  npm -w packages/11ty publish
+                  npm -w packages/11ty publish --tag rc
+            - gh/release:
+                additional_args: "--notes-from-tag"
+                tag: "$CIRCLE_TAG"
+                files: 'thegetty-quire-11ty*.tgz'
 
       # Tag is cli+11ty-XXX
       - when:
@@ -240,7 +248,11 @@ jobs:
                 name: Publish release to npm
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  npm -ws publish
+                  npm -ws publish --tag rc
+            - gh/release:
+                additional_args: "--notes-from-tag"
+                tag: "$CIRCLE_TAG"
+                files: 'thegetty-quire-*.tgz'
 
 workflows:
   build_install_test_release:
@@ -274,45 +286,15 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - gh/release:
-          filters:
-            tags:
-              only: /^cli.+/
-          requires:
-            - browser_test-linux
-            - browser_test-macos
-            - browser_test-win
-          additional_args: "--notes-from-tag"
-          tag: "$CIRCLE_TAG"
-          files: 'thegetty-quire-cli*.tgz'
-      - gh/release:
-          filters:
-            tags:
-              only: /^11ty.+/
-          requires:
-            - browser_test-linux
-            - browser_test-macos
-            - browser_test-win
-          additional_args: "--notes-from-tag"
-          tag: "$CIRCLE_TAG"
-          files: 'thegetty-quire-11ty*.tgz'
-      - gh/release:
-          filters:
-            tags:
-              only: /^cli\+11ty.+/
-          requires:
-            - browser_test-linux
-            - browser_test-macos
-            - browser_test-win
-          additional_args: "--notes-from-tag"
-          tag: "$CIRCLE_TAG"
-          files: 'thegetty-quire-11ty*.tgz'
-      - npm_release:
+
+      - release:
+          when: pipeline.git.tag starts-with "cli" or pipeline.git.tag starts-with "11ty"
           filters:
             tags:
               only: /^(cli|11ty).+/
+            branches:
+              ignore: /.*/          
           # requires:
           #   - browser_test-linux
           #   - browser_test-macos
           #   - browser_test-win
-          # TODO: require either main branch or release/.*
