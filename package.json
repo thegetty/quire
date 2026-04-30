@@ -33,6 +33,8 @@
     "test:serve": "npx --yes http-server _site-test -a localhost -p 8080"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.29",
     "ava": "^6.2.0",
