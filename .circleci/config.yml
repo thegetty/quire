@@ -223,13 +223,18 @@ jobs:
                 name: Publish CLI release to npm with OIDC
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  export DIST_FLAG=$([[ $CIRCLE_TAG == *"rc."* ]] && echo "--tag rc" || echo "" )
 
-                  npm -w packages/cli publish $DIST_FLAG
+                  if [[ $CIRCLE_TAG == *"rc."* ]]; then
+                    npm -w packages/cli publish --tag rc
+                  else
+                    npm -w packages/cli publish
             - run:
                 name: Publish CLI release to github
                 command: |
-                  gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-cli*.tgz 
+                  if [[ $CIRCLE_TAG == *"rc."* ]]; then
+                    gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-cli*.tgz 
+                  else 
+                    gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire-cli*.tgz                   
 
       # quire-11ty only release
       - when:
@@ -242,13 +247,18 @@ jobs:
                 name: Publish 11ty release to npm with OIDC
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  export DIST_FLAG=$([[ $CIRCLE_TAG == *"rc."* ]] && echo "--tag rc" || echo "" )
 
-                  npm -w packages/11ty publish $DIST_FLAG
+                  if [[ $CIRCLE_TAG == *"rc."* ]]; then
+                    npm -w packages/11ty publish --tag rc
+                  else
+                    npm -w packages/11ty publish                  
             - run:
                 name: Publish 11ty release to github
                 command: |
-                  gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-11ty*.tgz 
+                  if [[ $CIRCLE_TAG == *"rc."* ]]; then
+                    gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-11ty*.tgz 
+                  else
+                    gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire-11ty*.tgz 
 
       # quire-cli and quire-11ty release
       - when:
@@ -261,14 +271,18 @@ jobs:
                 name: Publish release to npm
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  export DIST_FLAG=$([[ $CIRCLE_TAG == *"rc."* ]] && echo "--tag rc" || echo "" )
 
-                  npm -ws publish $DIST_FLAG
+                  if [[ $CIRCLE_TAG == *"rc."* ]]; then
+                    npm -ws publish --tag rc
+                  else
+                    npm -ws publish
             - run:
                 name: Publish CLI+11ty release to github
                 command: |
-                  gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire*.tgz 
-
+                  if [[ $CIRCLE_TAG == *"rc."* ]]; then
+                    gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire*.tgz 
+                  else
+                    gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire*.tgz 
 workflows:
   build_install_test_release:
     # @TODO: don't run for docs/, etc
