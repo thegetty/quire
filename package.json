@@ -44,6 +44,7 @@
     "eslint-plugin-promise": "^6.6.0",
     "esmock": "^2.7.3",
     "execa": "^9.5.2",
+    "globals": "^15.15.0",
     "js-yaml": "^4.1.1",
     "jsdom": "^26.1.0",
     "memfs": "^4.57.1",
