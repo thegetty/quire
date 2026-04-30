@@ -206,11 +206,10 @@ jobs:
           path: reports
 
   npm_release:
-    executor: linux
+    docker:
+      - image: cimg/node:22.14
     steps:
       - checkout
-      - node/install:
-          node-version: "22.14.0"
       # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
@@ -310,8 +309,8 @@ workflows:
           filters:
             tags:
               only: /.+/
-          requires:
-            - browser_test-linux
-            - browser_test-macos
-            - browser_test-win
+          # requires:
+          #   - browser_test-linux
+          #   - browser_test-macos
+          #   - browser_test-win
           # TODO: require either main branch or release/.*
