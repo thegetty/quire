@@ -212,7 +212,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm -ws ci
+          command: npm -ws ci --ignore-scripts
       # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
