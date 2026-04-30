@@ -239,7 +239,7 @@ jobs:
           steps:
             - run:
                 name: Install release process dependencies
-                command: npm -w packages/11ty ci
+                command: npm -w packages/11ty i
             - run:
                 name: Publish 11ty release to npm with OIDC
                 command: |
@@ -256,7 +256,7 @@ jobs:
           steps:
             - run:
                 name: Install release process dependencies
-                command: npm -w packages/11ty ci
+                command: npm -w packages/11ty i
             - run:
                 name: Publish release to npm
                 command: |
