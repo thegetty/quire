@@ -216,7 +216,7 @@ jobs:
       # TODO: Set the --tag flag below as "--tag rc" if tag has an rc
       # Tag is cli-XXX
       - when:
-          condition: pipeline.git.tag starts-with "cli-"
+          condition: << pipeline.git.tag starts-with "cli-" >>
           steps:
             - run:
                 name: Publish CLI release to npm with OIDC
@@ -232,7 +232,7 @@ jobs:
 
       # Tag is 11ty-XXX
       - when:
-          condition: pipeline.git.tag starts-with "11ty-"
+          condition: << pipeline.git.tag starts-with "11ty-" >>
           steps:
             - run:
                 name: Publish 11ty release to npm with OIDC
@@ -246,7 +246,7 @@ jobs:
 
       # Tag is cli+11ty-XXX
       - when:
-          condition: pipeline.git.tag starts-with "cli+11ty-"
+          condition: << pipeline.git.tag starts-with "cli+11ty-" >>
           steps:
             - run:
                 name: Publish release to npm
