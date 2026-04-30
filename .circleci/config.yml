@@ -208,6 +208,7 @@ jobs:
     docker:
       - image: cimg/node:24.15
     steps:
+      - gh/install
       - checkout
       # TODO: Set the --tag flag below as "--tag rc" if tag has an rc
       # Tag is cli-XXX
@@ -221,10 +222,10 @@ jobs:
                   echo $(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
                   echo $(npm --version)
                   npm -w packages/cli publish --tag rc
-            - gh/release:
-                additional_args: "--notes-from-tag"
-                tag: "$CIRCLE_TAG"
-                files: 'thegetty-quire-cli*.tgz'
+            - run:
+                name: Publish CLI release to github
+                command: |
+                  gh release create "$CIRCLE_TAG" --notes-from-tag thegett-quire-cli*.tgz 
 
       # Tag is 11ty-XXX
       - when:
@@ -235,10 +236,10 @@ jobs:
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
                   npm -w packages/11ty publish --tag rc
-            - gh/release:
-                additional_args: "--notes-from-tag"
-                tag: "$CIRCLE_TAG"
-                files: 'thegetty-quire-11ty*.tgz'
+            - run:
+                name: Publish 11ty release to github
+                command: |
+                  gh release create "$CIRCLE_TAG" --notes-from-tag thegett-quire-11ty*.tgz 
 
       # Tag is cli+11ty-XXX
       - when:
@@ -249,10 +250,10 @@ jobs:
                 command: |
                   export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
                   npm -ws publish --tag rc
-            - gh/release:
-                additional_args: "--notes-from-tag"
-                tag: "$CIRCLE_TAG"
-                files: 'thegetty-quire-*.tgz'
+            - run:
+                name: Publish CLI+11ty release to github
+                command: |
+                  gh release create "$CIRCLE_TAG" --notes-from-tag thegett-quire*.tgz 
 
 workflows:
   build_install_test_release:
@@ -288,7 +289,6 @@ workflows:
               only: /.*/
 
       - release:
-          when: pipeline.git.tag starts-with "cli" or pipeline.git.tag starts-with "11ty"
           filters:
             tags:
               only: /^(cli|11ty).+/
