@@ -228,6 +228,7 @@ jobs:
                     npm -w packages/cli publish --tag rc
                   else
                     npm -w packages/cli publish
+                  fi
             - run:
                 name: Publish CLI release to github
                 command: |
@@ -235,6 +236,7 @@ jobs:
                     gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-cli*.tgz 
                   else 
                     gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire-cli*.tgz                   
+                  fi
 
       # quire-11ty only release
       - when:
@@ -251,7 +253,8 @@ jobs:
                   if [[ $CIRCLE_TAG == *"rc."* ]]; then
                     npm -w packages/11ty publish --tag rc
                   else
-                    npm -w packages/11ty publish                  
+                    npm -w packages/11ty publish
+                  fi                  
             - run:
                 name: Publish 11ty release to github
                 command: |
@@ -259,6 +262,7 @@ jobs:
                     gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire-11ty*.tgz 
                   else
                     gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire-11ty*.tgz 
+                  fi
 
       # quire-cli and quire-11ty release
       - when:
@@ -276,6 +280,7 @@ jobs:
                     npm -ws publish --tag rc
                   else
                     npm -ws publish
+                  fi
             - run:
                 name: Publish CLI+11ty release to github
                 command: |
@@ -283,6 +288,7 @@ jobs:
                     gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire*.tgz 
                   else
                     gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire*.tgz 
+                  fi
 workflows:
   build_install_test_release:
     # @TODO: don't run for docs/, etc
