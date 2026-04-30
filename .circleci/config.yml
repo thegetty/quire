@@ -210,9 +210,6 @@ jobs:
       - image: cimg/node:22.14
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: npm -ws ci --ignore-scripts
       # Tag is cli-XXX
       - when:
           condition: pipeline.git.tag starts-with "cli-"
