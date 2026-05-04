@@ -61,15 +61,15 @@ commands:
 
   build_install_cli-linux:
     steps:
-      - browser-tools/install_chrome
+      # - browser-tools/install_chrome
       # @TODO: Replace this hack that force-disables sandboxing
       # 
       # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
       # See https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
-      - run:
-          name: "Modify chrome app"
-          command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
-      - browser-tools/install_chromedriver
+      # - run:
+      #     name: "Modify chrome app"
+      #     command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
+      # - browser-tools/install_chromedriver
       - build_install_cli
 
   build_install_cli-macos:
