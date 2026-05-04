@@ -1,3 +1,11 @@
+# quire CI/CD Configuration
+# 
+# CI/CD for quire has three phases:
+#   - Install, build, and test across all OS combinations
+#   - Test build outputs of all OS combinations
+#   - Publish releases for tags `@thegetty/quire-cli-vXXX` or `@thegetty/quire-11ty-vXXX`
+#
+
 version: 2.1
 
 orbs:
@@ -157,7 +165,6 @@ commands:
           paths:
             - thegetty-quire*.tgz
 
-
   test-macos:
     steps:
       - run_tests
@@ -167,6 +174,7 @@ commands:
       - run_tests
 
 jobs:
+
   # Builds the CLI, installs it, and tests it by building a publication
   build_install_test:
     <<: *os_param
@@ -185,6 +193,7 @@ jobs:
             - ~/.npm
             - ~/.cache
       - test-<< parameters.os >>
+
   # Tests the output of the publication build -- must be separate for the playwright executor
   browser_test:
     executor: pw-noble-development
@@ -202,6 +211,8 @@ jobs:
           command: npm run test:browsers-circleci
       - store_test_results:
           path: reports
+
+  # Sends to all release channels
   release:
     docker:
       - image: cimg/node:24.15
@@ -215,9 +226,9 @@ jobs:
           name: Build release assets
           command: npm -ws pack
 
-      # quire-cli only release
+      # quire-cli release
       - when:
-          condition: << pipeline.git.tag starts-with "cli-" >>
+          condition: << pipeline.git.tag starts-with "@thegetty/quire-cli" >>
           steps:
             - run:
                 name: Publish CLI release to npm with OIDC
@@ -238,9 +249,9 @@ jobs:
                     gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire-cli*.tgz                   
                   fi
 
-      # quire-11ty only release
+      # quire-11ty release
       - when:
-          condition: << pipeline.git.tag starts-with "11ty-" >>
+          condition: << pipeline.git.tag starts-with "@thegetty/quire-11ty" >>
           steps:
             - run:
                 name: Install release process dependencies
@@ -264,34 +275,9 @@ jobs:
                     gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire-11ty*.tgz 
                   fi
 
-      # quire-cli and quire-11ty release
-      - when:
-          condition: << pipeline.git.tag starts-with "cli+11ty-" >>
-          steps:
-            - run:
-                name: Install release process dependencies
-                command: npm -w packages/11ty i
-            - run:
-                name: Publish release to npm
-                command: |
-                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-
-                  if [[ $CIRCLE_TAG == *"-rc."* ]]; then
-                    npm -ws publish --tag rc
-                  else
-                    npm -ws publish
-                  fi
-            - run:
-                name: Publish CLI+11ty release to github
-                command: |
-                  if [[ $CIRCLE_TAG == *"-rc."* ]]; then
-                    gh release create "$CIRCLE_TAG" --notes-from-tag thegetty-quire*.tgz 
-                  else
-                    gh release create "$CIRCLE_TAG" --notes-from-tag --latest thegetty-quire*.tgz 
-                  fi
+# Fan out build, test, and release phases but execute sequentially
 workflows:
   build_install_test_release:
-    # @TODO: don't run for docs/, etc
     when: true
     jobs:
       - build_install_test:

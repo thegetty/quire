@@ -1,7 +1,9 @@
 /**
  * @script publication-setup.js
  * 
- * Stages publications in the site test directory
+ * Stages publications in the site test directory.
+ * 
+ * Executed in first step of the playwright config.
  * 
  **/ 
 
