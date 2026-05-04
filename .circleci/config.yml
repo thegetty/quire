@@ -69,7 +69,7 @@ commands:
       # - run:
       #     name: "Modify chrome app"
       #     command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
-      # - browser-tools/install_chromedriver
+      - browser-tools/install_chromedriver
       - build_install_cli
 
   build_install_cli-macos:
