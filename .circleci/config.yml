@@ -212,7 +212,7 @@ jobs:
       - store_test_results:
           path: reports
 
-  # Sends to all release channels
+  # Job to send package artifacts to all release channels
   release:
     docker:
       - image: cimg/node:24.15

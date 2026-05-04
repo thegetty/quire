@@ -13,17 +13,23 @@ You should complete a few checks before publishing a branch for release:
 ## Creating a release
 
 After review steps have been approved, release the package in question by following a git tagging flow:
-  1. Create a git tag on a branch appropriate for the package and semantic version of the release. Release candidates can be tagged from any branch but only tags on `main` can push as release as `latest`.  
+  1. Create a git tag on a branch appropriate for the package and semantic version of the release. Release candidates can be tagged from any branch but only tags on `main` can publish to `latest` and carry prime (ie, non-rc) versions.
+
+  If your branch needs to be published to both packages use two tags.
 
   2. For the tag name, concatenate with an `@`:
     - The package name to be released, `@thegetty/quire-cli` or `@thegetty/quire-11ty`.
     - The release's semantic version with distribution tag, eg `0.9.5-rc.3`, `1.0.1`, etc.
     
-    For the distribution tag use an empty string for `latest` or `rc` with a candidate version. For example, `@thegetty/quire-cli@v1.0.1` for public distribution vs `@thegetty/quire-cli@v.1.0.1-rc.1` for release candidate QA. See [below](#distribution-tags)
+    NB: The version tail (nothing or `-rc.3`) uses npm's "distribution tag" to route versions to the release candidate or latest channels. For example, `@thegetty/quire-cli@v1.0.1` will publish to public distribution while `@thegetty/quire-cli@v.1.0.1-rc.1` will publish a release candidate version. See [below](#distribution-tags)
 
-  3. Copy this release's changelog entry into the tag's message, these will become the releases' draft notes. Please use markdown, links to relevant PRs, commits, and files to orient future readers.
+  3. Copy this release's changelog entry into the tag's message. These will become the releases' draft notes. Please use markdown, links to relevant PRs, commits, and files to orient future readers.
+
+  Note that not all clients support multiline git tag messages so it may be necessary to use another client (or `git` directly). Release notes can also be edited directly in the github web UI after publishing. 
 
   4. Push the tag to `origin` and wait for tests to finish using quire's CI/CD pipeline to verify: https://app.circleci.com/pipelines/github/thegetty/quire .
+
+  NB: If individual tests fail for transient reasons (eg, github downtime, dockerhub slowness, etc), Circle's "Re-run from failed" option will help only re-run the failing sections of a test run.
 
   5. After testing and release pipeilne succeeds, verify releases were published to npm and github.
 
