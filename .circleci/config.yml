@@ -13,7 +13,7 @@ executors:
       - image: mcr.microsoft.com/playwright:v1.52.0-noble
   linux:
     docker:
-      - image: cimg/base:current-22.04
+      - image: cimg/node:22.22.0-browsers
         user: root
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
@@ -61,8 +61,6 @@ commands:
 
   build_install_cli-linux:
     steps:
-      - node/install:
-          node-version: "22.14.0"
       - browser-tools/install_chrome
       # @TODO: Replace this hack that force-disables sandboxing
       # 
