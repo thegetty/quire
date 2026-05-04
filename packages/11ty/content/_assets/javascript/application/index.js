@@ -56,6 +56,7 @@ window.toggleSearch = () => {
     !searchControls.classList.contains('is-active')
   )
   if (searchAriaStatus === 'true') {
+    searchInput.value = ''
     searchControls.setAttribute('aria-expanded', 'false')
   } else {
     searchInput.focus()
@@ -69,48 +70,9 @@ window.toggleSearch = () => {
  */
 window.search = async () => {
   const searchInput = document.getElementById('js-search-input')
-  const searchQuery = searchInput.value
-  if (window._searchResults) {
-    await window._searchResults
-  }
-  window._searchResults = updateSearchResults(searchQuery)
-}
-
-/**
- * updateSearchResults
- * @description fetch and display search results from Pagefind
- * @param {string} query The search query string
- */
-async function updateSearchResults (query) {
-  const searchInstance = window.QUIRE_SEARCH
-  const searchResults = await searchInstance.search(query)
-  await displaySearchResults(searchResults)
-  window._searchResults = undefined
-}
-
-/**
- * displaySearchResults
- * @description add search results items to the results container
- * @param {object} pageFindResults The search results object from Pagefind
- */
-async function displaySearchResults ({ results }) {
-  const resultsContainer = document.getElementById('js-search-results-list')
-  const resultsTemplate = document.getElementById('js-search-results-template')
-  resultsContainer.innerText = ''
-
-  for (const rawResult of results) {
-    const result = await rawResult.data()
-    const clone = document.importNode(resultsTemplate.content, true)
-    const item = clone.querySelector('.js-search-results-item')
-    const title = clone.querySelector('.js-search-results-item-title')
-    const type = clone.querySelector('.js-search-results-item-type')
-    const length = clone.querySelector('.js-search-results-item-length')
-    item.href = result.url
-    title.textContent = result.meta.title
-    type.textContent = result.meta.type
-    length.textContent = result.word_count
-    resultsContainer.appendChild(clone)
-  }
+  const resultsList = document.getElementById('js-search-results-list')
+  if (!searchInput || !resultsList) return
+  resultsList.query = searchInput.value
 }
 
 function onHashLinkClick (event) {

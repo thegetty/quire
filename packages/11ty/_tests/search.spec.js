@@ -110,7 +110,6 @@ const figureRecords = [
       credit: 'John Doe',
       image: '/_assets/images/figure1.jpg',
       image_alt: 'A photo of a tree',
-      pageTitle: 'A|Test Page 1: subtitle',
       title: 'Figure 1',
       type: 'image'
     },
