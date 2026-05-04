@@ -311,7 +311,7 @@ workflows:
       - release:
           filters:
             tags:
-              only: /^(cli|11ty).+/
+              only: /^(@thegetty\/quire-cli|@thegetty\/quire-11ty).+/
             branches:
               ignore: /.*/          
           requires:
