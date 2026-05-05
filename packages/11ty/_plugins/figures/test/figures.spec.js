@@ -33,8 +33,8 @@ const createManifestFromFigureFixture = async (figureFixtureName) => {
   } = figureFixtures[figureFixtureName]
   const { height, width } = dimensions
   const figure = new Figure(iiifConfig, null, figureFixture)
-  figure.canvasHeight = height
-  figure.canvasWidth = width
+  figure.height = height
+  figure.width = width
   const manifest = files && figure.isSequence
     ? new Manifest({ ...figure, sequences: figure.sequenceFactory.create(files) })
     : new Manifest(figure)

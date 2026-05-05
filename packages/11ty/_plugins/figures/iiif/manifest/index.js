@@ -76,7 +76,7 @@ export default class Manifest {
         const sequenceItemImage = ({ format, info, label, src, uri }) => {
           return {
             format,
-            height: this.figure.canvasHeight,
+            height: this.figure.height,
             id: uri,
             label: { en: [label] },
             type: 'Image',
@@ -88,7 +88,7 @@ export default class Manifest {
                 protocol: 'http://iiif.io/api/image'
               }
             ],
-            width: this.figure.canvasWidth
+            width: this.figure.width
           }
         }
         return {
@@ -119,7 +119,7 @@ export default class Manifest {
   createAnnotationBody ({ format, info, label, uri }) {
     return {
       format,
-      height: this.figure.canvasHeight,
+      height: this.figure.height,
       id: uri,
       label: { en: [label] },
       type: 'Image',
@@ -131,7 +131,7 @@ export default class Manifest {
           protocol: 'http://iiif.io/api/image'
         }
       ],
-      width: this.figure.canvasWidth
+      width: this.figure.width
     }
   }
 

@@ -269,7 +269,7 @@ export default class Figure {
    */
   get region () {
     if (this.isExternal || this.mediaType !== 'image') return
-    return this.data.region || `0,0,${this.canvasWidth},${this.canvasHeight}`
+    return this.data.region || `0,0,${this.width},${this.height}`
   }
 
   /**
@@ -375,8 +375,8 @@ export default class Figure {
       ({ height, width } = await sharp(this.canvasImagePath).metadata())
     }
 
-    this.canvasHeight = height
-    this.canvasWidth = width
+    this.height = height
+    this.width = width
   }
 
   /**
@@ -492,7 +492,7 @@ export default class Figure {
   validateImageForTiling (src) {
     const minLength = this.iiifConfig.tileSize * 2
 
-    this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
+    this.dimensionsValidForTiling = this.width > minLength && this.height > minLength
 
     if (!this.dimensionsValidForTiling) {
       logger.error(`Unable to create a zooming image from "${this.src ? path.parse(this.src).base : this.iiifImage}". Images under ${minLength}px will not display unless zoom is set to false.`)
