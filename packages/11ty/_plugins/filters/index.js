@@ -2,7 +2,7 @@ import capitalize from './capitalize.js'
 import fullname from './fullname.js'
 import getAnnotation from './getAnnotation.js'
 import getContributor from './getContributor.js'
-import getFigure from './getFigure.js'
+import getFigureMedia from './getFigureMedia.js'
 import getObject from './getObject.js'
 import initials from './initials.js'
 import json from './json.js'
@@ -26,7 +26,7 @@ export default function (eleventyConfig, options) {
   eleventyConfig.addFilter('fullname', (person, options) => fullname(person, options))
   eleventyConfig.addFilter('getAnnotation', (...args) => getAnnotation(eleventyConfig, ...args))
   eleventyConfig.addFilter('getContributor', (id) => getContributor(eleventyConfig, id))
-  eleventyConfig.addFilter('getFigure', (id) => getFigure(eleventyConfig, id))
+  eleventyConfig.addFilter('getFigureMedia', (id) => getFigureMedia(eleventyConfig, id))
   eleventyConfig.addFilter('getObject', (id) => getObject(eleventyConfig, id))
   eleventyConfig.addFilter('initials', (person, options) => initials(person, options))
   eleventyConfig.addFilter('keywords', () => keywords(eleventyConfig))

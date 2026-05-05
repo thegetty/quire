@@ -312,13 +312,13 @@ export default class Figure {
   }
 
   /**
-   * Return only the data properties consumed by quire shortcodes
+   * Return media data for this figure for use by quire shortcodes
+   * 
    * @return {Object} figure
    */
-  adapter () {
+  media () {
     /**
-     * TODO determine how to handle multiple sequence starting points.
-     * Assuming one (the first) sequence for now
+     * Set canvas index to the first canvas of the first sequence
      */
     const startCanvasIndex = this.isSequence ? this.sequences[0].startCanvasIndex : null
 
@@ -342,7 +342,6 @@ export default class Figure {
       startCanvasIndex,
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
-      // TODO: implement thumbnail getter
       thumbnail: this.staticInlineFigureImage
     }
   }

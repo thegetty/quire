@@ -34,17 +34,11 @@ export default function (eleventyConfig, options = {}) {
     }
 
     /**
-     * Add IIIFConfig to global data
+     * Add IIIFConfig and processed figureMedia to global data
      */
-    eleventyConfig.globalData.iiifConfig = config
+    eleventyConfig.addGlobalData('iiifConfig', config)
+    eleventyConfig.addGlobalData('figureMedia', figures.map(({ figure }) => figure.media()))
 
-    /**
-     * Update global figures data to only have properties for Quire shortcodes
-     */
-    Object.assign(
-      figureList,
-      figures.map(({ figure }) => figure.adapter())
-    )
     logger.info('Processing complete')
   })
 }
