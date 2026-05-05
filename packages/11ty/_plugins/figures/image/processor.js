@@ -55,17 +55,22 @@ export default class ImageProcessor {
 
     if (this.debugLog) logger.debug(`processing inputPath: ${inputPath}`)
 
+    const metadata = {}
     if (transformations) {
       /**
        * Transform Image
        */
-      await Promise.all(
-        options.transformations.map((transformation) => {
-          return this.transform(inputPath, outputPath, transformation, options)
-        })
-      ).catch((error) => {
-        errors.push(`Failed to transform source image ${imagePath} ${error}`)
-      })
+      for (const transformation of options.transformations) {
+        const { name } = transformation
+
+        try {
+          const result = await this.transform(inputPath, outputPath, transformation, options)
+
+          metadata[name] = { ...result }
+        } catch (error) {
+          errors.push(`Failed to transform source image ${imagePath} ${error}`)
+        }
+      }
     }
 
     if (tile) {
@@ -91,6 +96,6 @@ export default class ImageProcessor {
       }
     }
 
-    return { errors }
+    return { errors, metadata }
   }
 }
