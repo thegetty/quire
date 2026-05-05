@@ -14,6 +14,7 @@ const factory = async (options = {}) => {
   const { config, input, output } = paths
 
   if (options.debug) {
+    process.env.QUIRE_DEBUG_LOG = true
     console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
   }
 

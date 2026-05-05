@@ -16,19 +16,20 @@ const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
  */
 export default class ImageProcessor {
   constructor (iiifConfig) {
-    const { imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
+    const { debugLog, imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
     const tiler = new Tiler(iiifConfig)
     const transformer = new Transformer(iiifConfig)
 
     this.inputRoot = path.join(inputRoot, imagesDir)
+    this.debugLog = debugLog
     this.outputRoot = outputRoot
     this.tiler = tiler.tile.bind(tiler)
     this.transform = transformer.transform.bind(transformer)
 
-    logger.debug(`
-      inputRoot: ${this.inputRoot}
-      outputRoot: ${this.outputRoot}
-    `)
+    if (this.debugLog) logger.debug(`
+        inputRoot: ${this.inputRoot}
+        outputRoot: ${this.outputRoot}
+    `)      
   }
 
   /**
@@ -43,14 +44,14 @@ export default class ImageProcessor {
     const { iiifEndpoint, tile, transformations } = options
 
     if (!imagePath || (imagePath.startsWith('http') && !options.iiifEndpoint)) {
-      logger.debug(`processing skipped for '${imagePath}'`)
+      if (this.debugLog) logger.debug(`processing skipped for '${imagePath}'`)
       return {}
     }
 
     const errors = []
     const inputPath = iiifEndpoint ? imagePath : path.join(this.inputRoot, imagePath)
 
-    logger.debug(`processing inputPath: ${inputPath}`)
+    if (this.debugLog) logger.debug(`processing inputPath: ${inputPath}`)
 
     if (transformations) {
       /**

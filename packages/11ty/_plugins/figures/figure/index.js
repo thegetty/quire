@@ -28,7 +28,7 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  */
 export default class Figure {
   constructor (iiifConfig, imageProcessor, data) {
-    const { baseURI, dirs, manifestFileName } = iiifConfig
+    const { baseURI, debugLog, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
     const outputPathname = path.posix.join(dirs.outputPath, data.id)
 
@@ -120,6 +120,7 @@ export default class Figure {
     this.annotationCount = data.annotations ? data.annotations.length : 0
     this.canvasId = canvasId()
     this.data = data
+    this.debugLog = debugLog
     this.id = id
     this.iiifConfig = iiifConfig
     this.iiifImage = iiifImage
@@ -418,7 +419,7 @@ export default class Figure {
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
-      logger.debug(`processing annotation image ${item.src}`)
+      if (this.debugLog) logger.debug(`processing annotation image ${item.src}`)
       if (item.isImageService) this.validateImageForTiling(item.src)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
@@ -472,7 +473,7 @@ export default class Figure {
 
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id
-      logger.debug(`processing sequence image ${item.src}`)
+      if (this.debugLog) logger.debug(`processing sequence image ${item.src}`)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService,
         transformations: isStartItem ? transformations : []
