@@ -62,7 +62,7 @@ const { error } = chalkFactory('eleventy config')
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
 const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development
-const debugLog = process.env.QUIRE_DEBUG_LOG || false
+const debugLog = process.env.QUIRE_DEBUG_LOG === true
 
 /**
  * Eleventy configuration

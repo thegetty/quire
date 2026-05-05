@@ -13,7 +13,6 @@ const factory = (options = {}) => {
   const { config, input, output } = paths
 
   if (options.debug) {
-    process.env.QUIRE_DEBUG_LOG = true
     console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
   }
 
@@ -63,6 +62,7 @@ const factory = (options = {}) => {
     ELEVENTY_DATA: paths.data,
     ELEVENTY_INCLUDES: paths.includes,
     ELEVENTY_LAYOUTS: paths.layouts,
+    QUIRE_DEBUG_LOG: options.debug
   }
 
   if (options.debug) env.DEBUG = 'Eleventy*'

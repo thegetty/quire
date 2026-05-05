@@ -14,7 +14,6 @@ const factory = async (options = {}) => {
   const { config, input, output } = paths
 
   if (options.debug) {
-    process.env.QUIRE_DEBUG_LOG = true
     console.debug('[CLI:11ty] projectRoot %s\n%o', projectRoot, paths)
   }
 
@@ -43,6 +42,7 @@ const factory = async (options = {}) => {
   process.env.ELEVENTY_DATA = paths.data
   process.env.ELEVENTY_INCLUDES = paths.includes
   process.env.ELEVENTY_LAYOUTS = paths.layouts
+  process.env.QUIRE_DEBUG_LOG = options.debug
 
   /**
    * Get an instance of the runtime of eleventy.
