@@ -26,10 +26,12 @@ export default class ImageProcessor {
     this.tiler = tiler.tile.bind(tiler)
     this.transform = transformer.transform.bind(transformer)
 
-    if (this.debugLog) logger.debug(`
+    if (this.debugLog) {
+      logger.debug(`
         inputRoot: ${this.inputRoot}
         outputRoot: ${this.outputRoot}
-    `)      
+      `)
+    }
   }
 
   /**

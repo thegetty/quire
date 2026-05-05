@@ -314,7 +314,7 @@ export default class Figure {
 
   /**
    * Return media data for this figure for use by quire shortcodes
-   * 
+   *
    * @return {Object} figure
    */
   media () {

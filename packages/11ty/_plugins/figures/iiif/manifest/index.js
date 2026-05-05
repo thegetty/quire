@@ -17,7 +17,7 @@ const builder = new IIIFBuilder(vault)
 export default class Manifest {
   constructor (figure) {
     const { iiifConfig } = figure
-    const { debugLog, locale } = iiifConfig
+    const { locale } = iiifConfig
     this.figure = figure
     this.locale = locale
     this.writer = new Writer(iiifConfig)
