@@ -13,7 +13,7 @@ orbs:
   cypress: cypress-io/cypress@3.4.3
   mac: circleci/macos@2.5.2
   node: circleci/node@7.2.1
-  win: circleci/windows@5.1.0
+  win: circleci/windows@5.1.1
   gh: circleci/github-cli@2.7.2
 
 executors:
@@ -35,7 +35,7 @@ executors:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
   win: 
     machine:
-      image: windows-server-2019-vs2019:current
+      image: windows-server-2025:current
       resource_class: windows.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
