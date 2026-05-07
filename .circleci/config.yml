@@ -33,9 +33,10 @@ executors:
     resource_class: m4pro.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+
   win: 
     machine:
-      image: windows-server-2025:current
+      image: windows-server-2025-gui:current
       resource_class: windows.medium
     environment:
         PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
