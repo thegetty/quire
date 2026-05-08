@@ -1,0 +1,45 @@
+name: Bug Fix Agent
+
+on: 
+  issues:
+    types: [labeled]
+
+jobs:
+  fix-bug:
+    if: github.event.label.name == 'bug'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            A new bug issue has been labeld and assigned to you:
+
+            ISSUE DETAILS:
+            - Repository: ${{ github.repository }}
+            - Issue Number: ${{ github.event.issue.number }}
+            - Issue Title: ${{ github.event.issue.title }}
+            - Issue Body: ${{ github.event.issue.body }}
+
+            Your task:
+            1. Analyze the bug descirbed above
+            2. Find relevant code in repository
+            3. Create a new branch named `fix/issue-${{ github.event.issue.number }}`
+            4. Implement a fix with appropriate tests
+            5. Open a pull request that references the issue `Fixs #${{ github.event.issue.number }}`
+            6. Comment on issue #${{ github.event.issue.number }} with the pull request link and a summary of the fix
+
+            IMPORTANT: Do NOT close the issue. Do NOT merge the PR. A seperate entity must review and approve.
+            
+          claude_args: |
+            --max-turns 20
+            --model claude-sonnet-4-6
+
+            
