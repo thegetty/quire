@@ -2,7 +2,7 @@ name: Add comment
 on:
   issues:
     types:
-      -labeled
+      - labeled
 
 jobs:
   status-backlog:
@@ -17,8 +17,9 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             Your bug is important to us, but we can't get to it quite yet. Stay tuned. We will confirm when your bug has been selected for development.
+
   status-cant-reproduce:
-    if: github.event.label.name == 'status:can't reproduce'
+    if: contains(github.event.label.name, 'status:can') && contains(github.event.label.name, 'reproduce')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -29,6 +30,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             We are unable to reproduce your suspected bug and will therefore need to close it.
+
   status-discuss:
     if: github.event.label.name == 'status:discuss'
     runs-on: ubuntu-latest
@@ -41,6 +43,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             Your suspected bug needs further review and discussion by our team. Stay tuned for updates.
+
   status-in-progress:
     if: github.event.label.name == 'status:in progress'
     runs-on: ubuntu-latest
@@ -53,6 +56,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             We are currently working on a fix for your bug! Thank you again for your important contribution.
+
   status-selected-for-development:
     if: github.event.label.name == 'status:selected for development'
     runs-on: ubuntu-latest
@@ -65,6 +69,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             We have confirmed that the issue you've reported is a bug. It has been added to our development queue. Stay tuned for updates.
+
   status-triage-needed:
     if: github.event.label.name == 'status:triage needed'
     runs-on: ubuntu-latest
@@ -77,8 +82,9 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             Thank you for your contribution. Your support of Quire is greatly appreciated. We are reviewing your suspected bug and will be in touch soon.
+
   status-wont-fix:
-    if: github.event.label.name == 'status:won't fix'
+    if: contains(github.event.label.name, 'status:won') && contains(github.event.label.name, 'fix')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -89,4 +95,3 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             Thank you for taking the time to bring this to our attention. Your issue is either not a bug or is currently outside the scope of our project and will therefore be closed.
-
