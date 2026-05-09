@@ -1,12 +1,13 @@
 name: Bug Fix Agent
 
-on: 
+on:
   issues:
-    types: [labeled]
+    types:
+      - typed
 
 jobs:
   fix-bug:
-    if: github.event.label.name == 'bug'
+    if: github.event.issue.type.name == 'Bug'
     runs-on: ubuntu-latest
     permissions:
       issues: write
