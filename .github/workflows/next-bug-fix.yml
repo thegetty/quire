@@ -2,7 +2,7 @@ name: Trigger Next Bug Fix
 
 on:
   pull_request:
-    types: [closed]  # Fires when a PR is merged or closed
+    types: [closed]
 
 jobs:
   next-bug:
