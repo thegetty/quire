@@ -1,0 +1,26 @@
+name: Trigger Next Bug Fix
+
+on:
+  pull_request:
+    types: [closed]  # Fires when a PR is merged or closed
+
+jobs:
+  next-bug:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            A bug-fix PR was just merged. Check if there are any open issues
+            labeled 'bug' that don't yet have an associated open PR.
+            If found, comment on the oldest one with "@claude please fix this bug"
+            to trigger the bug-fix-agent for the next issue.
+            If no pending bugs remain, do nothing.
+          claude_args: "--max-turns 5"
