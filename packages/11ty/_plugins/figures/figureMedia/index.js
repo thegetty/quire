@@ -10,14 +10,14 @@ import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
 
-const logger = chalkFactory('Figures:Figure', 'DEBUG')
+const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
 
 /**
  * @param {Object} iiifConfig
  * @param {Function} processImage  Function to generate IIIF assets
  * @param {Object} data  Figure data from and entry in `figures.yaml`
  *
- * @typedef {Object} Figure
+ * @typedef {Object} FigureMedia
  * @property {Array<AnnotationSet>} annotations
  * @property {String} canvasId ID of IIIF canvas
  * @property {Boolean} isCanvas True if figure contains a canvas resource
@@ -26,7 +26,7 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  * @property {String} manifestId ID of IIIF manifest
  * @property {String} printImage Optional path to an alternate image to use in print
  */
-export default class Figure {
+export default class FigureMedia {
   constructor (iiifConfig, imageProcessor, data) {
     const { baseURI, debugLog, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
@@ -149,7 +149,7 @@ export default class Figure {
   }
 
   /**
-   * Figure image annotations
+   * FigureMedia image annotations
    * @type  {Array<Annotations>}
    */
   get annotations () {
@@ -157,7 +157,7 @@ export default class Figure {
   }
 
   /**
-   * Figure image sequence
+   * FigureMedia image sequence
    * @type  {Array<Sequence>}
    */
   get sequences () {

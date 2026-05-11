@@ -4,7 +4,7 @@
  * Tests for the `figure` shortcode
  *
  **/
-import Figure from '../../_plugins/figures/figureMedia/index.js'
+import FigureMedia from '../../_plugins/figures/figureMedia/index.js'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
 import { initEleventyEnvironment } from '../helpers/index.js'
@@ -51,7 +51,7 @@ test('figures with choice annotations should render a canavs-panel element with 
   // Get the component off the eleventyConfig so intermediate `getFilter()`s resolve
   const figureImage = eleventy.eleventyConfig.config.javascriptFunctions.figureImage
 
-  const figure = new Figure(iiifConfig, null, data)
+  const figure = new FigureMedia(iiifConfig, null, data)
   const rendered = await figureImage(figure)
 
   const dom = JSDOM.fragment(rendered)
@@ -92,7 +92,7 @@ test('figures with choice annotations that are `selected: true` should set the c
   const figureImage = eleventy.eleventyConfig.config.javascriptFunctions.figureImage
 
   // Use the annotation for matching on the test
-  const figure = new Figure(iiifConfig, null, data)
+  const figure = new FigureMedia(iiifConfig, null, data)
   const selected = figure.annotations.flatMap(annotation => annotation.items).find(item => item.selected)
   const rendered = await figureImage(figure)
 

@@ -1,5 +1,5 @@
 # IIIF Manifests
-The `Manifest` module accepts a `Figure` instance and provides `toJSON()` and `write()` methods for generating and writing a IIIF Presentation API manifest.
+The `Manifest` module accepts a `FigureMedia` instance and provides `toJSON()` and `write()` methods for generating and writing a IIIF Presentation API manifest.
 
 ## Figures Data to IIIF Schema Details
 Manifests are generated for figures:

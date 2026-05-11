@@ -14,35 +14,35 @@ import test from 'ava'
 const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../_plugins/figures/test/__fixtures__/iiif-config.json')
 
 /**
- * @function MockFigureFactory
+ * @function MockFigureMediaFactory
  *
  * @param {Object} iiifConfig
  * @param {Object.prototype} figureClass
  * @param {function} processStub
  *
- * Creates a FigureFactory with `processStub` as mock processor
+ * Creates a FigureMediaFactory with `processStub` as mock processor
  *
  **/
-async function MockFigureFactory (sandbox, iiifConfig, processStub) {
-  const Figure = await esmock('#plugins/figures/figureMedia/index.js', {
+async function MockFigureMediaFactory (sandbox, iiifConfig, processStub) {
+  const FigureMedia = await esmock('#plugins/figures/figureMedia/index.js', {
     sharp: sandbox.stub().returns({
       metadata: sandbox.stub().returns({ height: 1000, width: 1000 })
     })
   })
 
-  const FigureFactory = await esmock('#plugins/figures/figureMedia/factory.js', {
+  const FigureMediaFactory = await esmock('#plugins/figures/figureMedia/factory.js', {
     '#plugins/figures/image/processor.js': sandbox.stub().returns({
       processImage: sandbox.stub().callsFake(processStub)
     }),
-    '#plugins/figures/figureMedia/index.js': Figure
+    '#plugins/figures/figureMedia/index.js': FigureMedia
   })
 
-  const factory = new FigureFactory(iiifConfig)
+  const factory = new FigureMediaFactory(iiifConfig)
 
   return factory
 }
 
-// Test fixtures and Figure class that avoids real disk calls to sharp
+// Test fixtures and FigureMedia class that avoids real disk calls to sharp
 test.before('', async (t) => {
   const iiifConfig = JSON.parse(fs.readFileSync(iiifConfigPath))
   const sandbox = sinon.createSandbox()
@@ -51,7 +51,7 @@ test.before('', async (t) => {
   t.context.sandbox = sandbox
 })
 
-test('FigureFactory should create a staticInlineFigureImage for zoomable figures', async (t) => {
+test('FigureMediaFactory should create a staticInlineFigureImage for zoomable figures', async (t) => {
   const { iiifConfig, sandbox } = t.context
 
   const figure = {
@@ -66,7 +66,7 @@ test('FigureFactory should create a staticInlineFigureImage for zoomable figures
     return { errors: [] }
   }
 
-  const factory = await MockFigureFactory(sandbox, iiifConfig, isTransformedZoomedAndIIIF)
+  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, isTransformedZoomedAndIIIF)
   await factory.create(figure)
 
   if (passed) {
@@ -76,7 +76,7 @@ test('FigureFactory should create a staticInlineFigureImage for zoomable figures
   }
 })
 
-test('FigureFactory should create a staticInlineFigureImage for static figures', async (t) => {
+test('FigureMediaFactory should create a staticInlineFigureImage for static figures', async (t) => {
   const { iiifConfig, sandbox } = t.context
 
   const figure = {
@@ -90,7 +90,7 @@ test('FigureFactory should create a staticInlineFigureImage for static figures',
     return { errors: [] }
   }
 
-  const factory = await MockFigureFactory(sandbox, iiifConfig, isTransformedOnly)
+  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, isTransformedOnly)
   await factory.create(figure)
 
   if (passed) {

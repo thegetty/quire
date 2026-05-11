@@ -1,10 +1,10 @@
 # Figures
 
-## `FigureFactory`
-Creates `Figure` instances and calls `Figure.processFiles()` to generate assets for consumption by shortcodes.
+## `FigureMediaFactory`
+Creates `FigureMedia` instances and calls `Figure.processFiles()` to generate assets for consumption by shortcodes.
 
-## `Figure`
-Takes figure entry data from `figures.yaml` and creates a `Figure` instance with the `processFiles` method.
+## `FigureMedia`
+Stores `figures.yaml` data and wraps media creation methods like `processFiles`.
 
 ### `processFiles`
 Files are written to `<iiifConfig.dirs.outputRoot>/<iiifConfig.dirs.output>/<figure.id>` (default: `/_site/iiif/<figure.id>`).

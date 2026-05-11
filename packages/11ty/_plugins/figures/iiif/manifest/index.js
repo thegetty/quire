@@ -12,7 +12,7 @@ const vault = globalVault()
 const builder = new IIIFBuilder(vault)
 
 /**
- * Create a IIIF manifest from a Figure instance
+ * Create a IIIF manifest from a FigureMedia instance
  */
 export default class Manifest {
   constructor (figure) {
