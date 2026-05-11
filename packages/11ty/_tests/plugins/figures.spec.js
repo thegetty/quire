@@ -24,17 +24,17 @@ const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url))
  *
  **/
 async function MockFigureFactory (sandbox, iiifConfig, processStub) {
-  const Figure = await esmock('#plugins/figures/figure/index.js', {
+  const Figure = await esmock('#plugins/figures/figureMedia/index.js', {
     sharp: sandbox.stub().returns({
       metadata: sandbox.stub().returns({ height: 1000, width: 1000 })
     })
   })
 
-  const FigureFactory = await esmock('#plugins/figures/figure/factory.js', {
+  const FigureFactory = await esmock('#plugins/figures/figureMedia/factory.js', {
     '#plugins/figures/image/processor.js': sandbox.stub().returns({
       processImage: sandbox.stub().callsFake(processStub)
     }),
-    '#plugins/figures/figure/index.js': Figure
+    '#plugins/figures/figureMedia/index.js': Figure
   })
 
   const factory = new FigureFactory(iiifConfig)

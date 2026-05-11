@@ -4,7 +4,7 @@
  * Tests for the `figure` shortcode
  *
  **/
-import Figure from '../../_plugins/figures/figure/index.js'
+import Figure from '../../_plugins/figures/figureMedia/index.js'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
 import { initEleventyEnvironment } from '../helpers/index.js'

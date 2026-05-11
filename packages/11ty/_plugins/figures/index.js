@@ -1,4 +1,4 @@
-import FigureFactory from './figure/factory.js'
+import FigureFactory from './figureMedia/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
 import iiifConfig from './iiif/config.js'
 
