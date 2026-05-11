@@ -456,15 +456,15 @@ export default class Figure {
     const processSrc = this.src ?? this.iiifImage
     const { errors, metadata } = await this.processImage(processSrc, this.outputDir, options)
 
+    if (errors) this.errors = this.errors.concat(errors)
+
     // Store dimensions from transform metadata for downstream use
     this.dimensions = {}
-    for (const [name, data] of Object.entries(metadata)) {
+    for (const [name, data] of Object.entries(metadata ?? {})) {
       const { height, width } = data
 
       this.dimensions[name] = { height, width }
     }
-
-    if (errors) this.errors = this.errors.concat(errors)
   }
 
   async processFigureSequence () {
