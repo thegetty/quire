@@ -15,7 +15,7 @@ export default function (eleventyConfig) {
   return function (figure, options) {
     const {
       alt,
-      dimensions,
+      transformations,
       isCanvas,
       isImageService,
       isSequence,
@@ -34,12 +34,12 @@ export default function (eleventyConfig) {
         if (!interactive && staticInlineFigureImage) {
           return imageTag({
             alt,
-            height: dimensions['static-inline-figure-image'].height,
+            height: transformations['static-inline-figure-image'].dimensions.height,
             isStatic: !interactive,
             lazyLoading,
             lightbox,
             src: staticInlineFigureImage,
-            width: dimensions['static-inline-figure-image'].width
+            width: transformations['static-inline-figure-image'].dimensions.width
           })
         } else {
           return imageSequence(figure, options)
@@ -48,12 +48,12 @@ export default function (eleventyConfig) {
         if (!interactive && staticInlineFigureImage) {
           return imageTag({
             alt,
-            height: dimensions['static-inline-figure-image'].height,
+            height: transformations['static-inline-figure-image'].dimensions.height,
             isStatic: !interactive,
             lazyLoading,
             lightbox,
             src: staticInlineFigureImage,
-            width: dimensions['static-inline-figure-image'].width
+            width: transformations['static-inline-figure-image'].dimensions.width
           })
         } else {
           return canvasPanel(figure)
@@ -62,12 +62,12 @@ export default function (eleventyConfig) {
         if (!interactive && staticInlineFigureImage) {
           return imageTag({
             alt,
-            height: dimensions['static-inline-figure-image'].height,
+            height: transformations['static-inline-figure-image'].dimensions.height,
             isStatic: !interactive,
             lazyLoading,
             lightbox,
             src: staticInlineFigureImage,
-            width: dimensions['static-inline-figure-image'].width
+            width: transformations['static-inline-figure-image'].dimensions.width
           })
         } else {
           return imageService(figure)
@@ -75,12 +75,12 @@ export default function (eleventyConfig) {
       case !lightbox && Boolean(staticInlineFigureImage):
         return imageTag({
           alt,
-          height: dimensions['static-inline-figure-image'].height,
+          height: transformations['static-inline-figure-image'].dimensions.height,
           isStatic: true,
           lazyLoading,
           lightbox,
           src: staticInlineFigureImage,
-          width: dimensions['static-inline-figure-image'].width
+          width: transformations['static-inline-figure-image'].dimensions.width
         })
       default:
         return imageTag({ ...figure, lightbox })

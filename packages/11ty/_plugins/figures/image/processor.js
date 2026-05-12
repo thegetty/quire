@@ -82,18 +82,16 @@ export default class ImageProcessor {
       } catch (error) {
         errors.push(`Failed to generate tiles from source ${imagePath} ${error}`)
       }
-    } else {
-      /**
-       * Copy file to output directory since vite removes images
-       * not directly referenced by the templates
-       */
+    }
 
-      const { base } = path.parse(imagePath)
-      try {
-        fs.copySync(inputPath, path.join(this.outputRoot, outputPath, base))
-      } catch (error) {
-        errors.push(`Failed to copy source image ${imagePath} ${error}`)
-      }
+    /**
+     * Copy full file for use by downstream components
+     */
+    const { base } = path.parse(imagePath)
+    try {
+      fs.copySync(inputPath, path.join(this.outputRoot, outputPath, base))
+    } catch (error) {
+      errors.push(`Failed to copy source image ${imagePath} ${error}`)
     }
 
     return { errors, metadata }

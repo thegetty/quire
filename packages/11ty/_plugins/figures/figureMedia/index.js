@@ -183,10 +183,9 @@ export default class FigureMedia {
   }
 
   /**
-   * Path to the image file that represents the canvas
-   * Used to define canvas properties `width` and `height`
+   * Path to the image file on disk, or the image of the first choice or sequence image.
    */
-  get canvasImagePath () {
+  get imageFilePath () {
     if (this.iiifImage) return this.iiifImage
 
     const firstChoiceSrc = () => {
@@ -344,14 +343,15 @@ export default class FigureMedia {
       startCanvasIndex,
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
-      thumbnail: this.staticInlineFigureImage
+      thumbnail: this.staticInlineFigureImage,
+      transformations: this.transformations
     }
   }
 
   /**
    * @function calculateDimensions
    *
-   * Fetches and stores figure height and width
+   * Reads and stores this figure's height and width
    *
    **/
   async calculateDimensions () {
@@ -367,13 +367,17 @@ export default class FigureMedia {
 
         height = info.height
         width = info.width
-      } catch (err) {
-        logger.error(`Could not fetch metadata for figure ${this.id} with error ${err}!`)
+      } catch (error) {
+        logger.error(`Could not fetch metadata for figure ${this.id} with error ${error}!`)
         return
       }
     } else {
-      // TODO: Use `try / catch` here! sharp().metadata() can also throw
-      ({ height, width } = await sharp(this.canvasImagePath).metadata())
+      try {
+        ({ height, width } = await sharp(this.imageFilePath).metadata())
+      } catch (error) {
+        logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
+        return
+      }
     }
 
     this.height = height
@@ -440,7 +444,8 @@ export default class FigureMedia {
     if (!(this.src || this.iiifImage)) return
     if (this.isExternalResource) return
 
-    const { transformations } = this.iiifConfig
+    const { baseURI, transformations } = this.iiifConfig
+    const { pathname } = new URL(baseURI)
 
     const options = {
       transformations
@@ -458,12 +463,42 @@ export default class FigureMedia {
 
     if (errors) this.errors = this.errors.concat(errors)
 
-    // Store dimensions from transform metadata for downstream use
-    this.dimensions = {}
+    const { base: filename } = path.parse(this.src)
+    const internal = path.posix.join(this.outputPathname, filename)
+
+    // Store path and dimensions data for the full resolution transformation
+    this.transformations = {
+      full: {
+        dimensions: {
+          height: this.height,
+          width: this.width
+        },
+        paths: {
+          absolute: path.posix.join(pathname, internal),
+          internal,
+          uri: urlPathJoin(this.iiifConfig.baseURI, internal)
+        }
+      }
+    }
+
+    // Store path and dimensions data for each transformation
     for (const [name, data] of Object.entries(metadata ?? {})) {
       const { height, width } = data
 
-      this.dimensions[name] = { height, width }
+      const filename = `${name}.jpg`
+      const internal = path.join(this.outputPathname, this.id, filename)
+
+      this.transformations[name] = {
+        dimensions: {
+          height,
+          width
+        },
+        paths: {
+          absolute: path.join(pathname, internal),
+          internal,
+          uri: urlPathJoin(baseURI, internal)
+        }
+      }
     }
   }
 
