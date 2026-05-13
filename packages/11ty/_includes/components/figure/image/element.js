@@ -61,7 +61,10 @@ export default function (eleventyConfig) {
       }
 
       default:
-        return imageTag({ ...figure, lightbox })
+        const { full } = transformations
+        const { paths } = full
+
+        return imageTag({ ...figure, lightbox, src: paths.absolute })
     }
   }
 }
