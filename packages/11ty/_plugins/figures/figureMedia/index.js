@@ -485,7 +485,7 @@ export default class FigureMedia {
       filename ??= `${name}.jpg`
       const { name: directory } = path.parse(this.src)
 
-      // NB: Internal must absolute relative to publication root! 
+      // NB: Internal must absolute relative to publication root!
       const internal = path.join('/', this.outputPathname, directory, filename)
       const absolute = path.join(pathname, internal)
       const uri = urlPathJoin(baseURI, internal)
