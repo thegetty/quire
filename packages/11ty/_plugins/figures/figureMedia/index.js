@@ -496,7 +496,7 @@ export default class FigureMedia {
 
       paths = {
         absolute,
-        internal: path.join('/', internal),
+        internal: path.posix.join('/', internal),
         uri
       }
     }
