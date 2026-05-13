@@ -435,6 +435,27 @@ export default class FigureMedia {
   }
 
   /**
+   * @function convertSnakeCase
+   *
+   * @param {string} content
+   *
+   * @returns {string}
+   *
+   * Converts a string in snake-case to camelCase
+   *
+   **/
+  convertSnakeCase (content) {
+    const parts = content.split('-')
+    const capitalized = parts.map((part, i) => {
+      const first = i > 0 ? part.charAt(0).toUpperCase() : part.charAt(0)
+
+      return (first + part.substring(1))
+    })
+
+    return capitalized.join('')
+  }
+
+  /**
    * @function storeTransformResult
    *
    * @param {string} name
@@ -455,13 +476,17 @@ export default class FigureMedia {
 
     const { height, width } = metadata
 
-    // TODO: Path should be unmutated src if an URL
     let paths = {}
+
+    // Ensure the path is passed unmutated if a URL
     if (this.isExternalResource) {
       paths = { absolute: this.src, internal: this.src, uri: this.src }
     } else {
       filename ??= `${name}.jpg`
-      const internal = path.join(this.outputPathname, this.id, filename)
+      const { name: directory } = path.parse(this.src)
+
+      // NB: Internal must absolute relative to publication root! 
+      const internal = path.join('/', this.outputPathname, directory, filename)
       const absolute = path.join(pathname, internal)
       const uri = urlPathJoin(baseURI, internal)
 
@@ -472,7 +497,8 @@ export default class FigureMedia {
       }
     }
 
-    this.transformations[name] = {
+    const property = this.convertSnakeCase(name)
+    this.transformations[property] = {
       dimensions: {
         height,
         width
