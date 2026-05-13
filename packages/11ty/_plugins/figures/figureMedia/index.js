@@ -490,8 +490,8 @@ export default class FigureMedia {
 
       // `internal` is used without a leading slash for path math
       // then made absolutely internal, relative to the publication root
-      const internal = path.join(this.outputPathname, directory, filename)
-      const absolute = path.join(pathname, internal)
+      const internal = path.posix.join(this.outputPathname, directory, filename)
+      const absolute = path.posix.join(pathname, internal)
       const uri = urlPathJoin(baseURI, internal)
 
       paths = {
