@@ -435,6 +435,53 @@ export default class FigureMedia {
   }
 
   /**
+   * @function storeTransformResult
+   *
+   * @param {string} name
+   * @param {Object} metadata
+   * @param {null|string} filename
+   *
+   * Stores image paths + metadata for a transformation under the key `name`.
+   * Uses `filename` in paths if non-null.
+   *
+   **/
+  storeTransformResult (name, metadata, filename = null) {
+    if (typeof this.transformations !== 'object') {
+      this.transformations = {}
+    }
+
+    const { baseURI } = this.iiifConfig
+    const { pathname } = new URL(baseURI)
+
+    const { height, width } = metadata
+
+    // TODO: Path should be unmutated src if an URL
+    let paths = {}
+    if (this.isExternalResource) {
+      paths = { absolute: this.src, internal: this.src, uri: this.src }
+    } else {
+      filename ??= `${name}.jpg`
+      const internal = path.join(this.outputPathname, this.id, filename)
+      const absolute = path.join(pathname, internal)
+      const uri = urlPathJoin(baseURI, internal)
+
+      paths = {
+        absolute,
+        internal,
+        uri
+      }
+    }
+
+    this.transformations[name] = {
+      dimensions: {
+        height,
+        width
+      },
+      paths
+    }
+  }
+
+  /**
    * @function processFigureImage
    *
    * Tiles and transforms `src` asset
@@ -444,8 +491,7 @@ export default class FigureMedia {
     if (!(this.src || this.iiifImage)) return
     if (this.isExternalResource) return
 
-    const { baseURI, transformations } = this.iiifConfig
-    const { pathname } = new URL(baseURI)
+    const { transformations } = this.iiifConfig
 
     const options = {
       transformations
@@ -463,42 +509,12 @@ export default class FigureMedia {
 
     if (errors) this.errors = this.errors.concat(errors)
 
+    // Store path and dimensions data for the full resolution and all transformations
     const { base: filename } = path.parse(this.src)
-    const internal = path.posix.join(this.outputPathname, filename)
+    this.storeTransformResult('full', { height: this.height, width: this.width }, filename)
 
-    // Store path and dimensions data for the full resolution transformation
-    this.transformations = {
-      full: {
-        dimensions: {
-          height: this.height,
-          width: this.width
-        },
-        paths: {
-          absolute: path.posix.join(pathname, internal),
-          internal,
-          uri: urlPathJoin(this.iiifConfig.baseURI, internal)
-        }
-      }
-    }
-
-    // Store path and dimensions data for each transformation
-    for (const [name, data] of Object.entries(metadata ?? {})) {
-      const { height, width } = data
-
-      const filename = `${name}.jpg`
-      const internal = path.join(this.outputPathname, this.id, filename)
-
-      this.transformations[name] = {
-        dimensions: {
-          height,
-          width
-        },
-        paths: {
-          absolute: path.join(pathname, internal),
-          internal,
-          uri: urlPathJoin(baseURI, internal)
-        }
-      }
+    for (const [name, result] of Object.entries(metadata ?? {})) {
+      this.storeTransformResult(name, result)
     }
   }
 
