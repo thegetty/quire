@@ -483,16 +483,20 @@ export default class FigureMedia {
       paths = { absolute: this.src, internal: this.src, uri: this.src }
     } else {
       filename ??= `${name}.jpg`
-      const { name: directory } = path.parse(this.src)
 
-      // NB: Internal must absolute relative to publication root!
-      const internal = path.join('/', this.outputPathname, directory, filename)
+      // NB: Full resources are (currently) stored without a nested destination directory
+      const { name: srcName } = path.parse(this.src)
+      const directory = name === 'full' ? '' : srcName
+
+      // `internal` is used without a leading slash for path math
+      // then made absolutely internal, relative to the publication root
+      const internal = path.join(this.outputPathname, directory, filename)
       const absolute = path.join(pathname, internal)
       const uri = urlPathJoin(baseURI, internal)
 
       paths = {
         absolute,
-        internal,
+        internal: path.join('/', internal),
         uri
       }
     }

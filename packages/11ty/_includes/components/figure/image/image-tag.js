@@ -1,6 +1,5 @@
 import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Image Tag for figures that are static images
@@ -12,20 +11,7 @@ import path from 'node:path'
  * @return     {String}  An <img> element
  */
 export default function (eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.figures
-  const { pathname } = eleventyConfig.globalData.publication
-
   return function ({ height, width, alt = '', src = '', isStatic = false, lazyLoading = 'lazy', lightbox = false }) {
-    // Lightbox loads in-browser so urls must have pathname, rest are prepended by 11ty
-    const extOrIiifRegex = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
-    const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
-    let imageSrc = extOrIiifRegex.test(src) || isStatic ? src : path.posix.join(assetRoot, src)
-
-    // HACK: If an URL-unsafe path separator has made it this far, remove it
-    if (path.sep !== '/') {
-      imageSrc = imageSrc.replaceAll(path.sep, '/')
-    }
-
     // Apply height/ width attributes if they exist
     const heightAttribute = height > 0 ? `height=${height}` : ''
     const widthAttribute = width > 0 ? `width=${width}` : ''
@@ -36,7 +22,7 @@ export default function (eleventyConfig) {
         class="q-figure__image"
         decoding="async"
         loading="${lazyLoading}"
-        src="${imageSrc}"
+        src="${src}"
         ${heightAttribute}
         ${widthAttribute}
       />
