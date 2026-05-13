@@ -1,7 +1,7 @@
 {
   "name": "@thegetty/quire-cli",
   "description": "Quire command-line interface",
-  "version": "1.0.0-rc.53",
+  "version": "1.0.0-rc.54",
   "author": "Getty Digital",
   "license": "SEE LICENSE IN https://github.com/thegetty/quire/blob/main/LICENSE",
   "bugs": {
@@ -68,7 +68,7 @@
     "pagedjs-cli": "^0.4.3",
     "read-package-up": "^11.0.0",
     "semver": "^7.3.8",
-    "simple-git": "^3.16.0",
+    "simple-git": "^3.36.0",
     "update-notifier": "^7.3.1"
   },
   "devDependencies": {
