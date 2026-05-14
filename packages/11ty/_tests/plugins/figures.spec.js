@@ -60,10 +60,11 @@ test('FigureMediaFactory should create a staticInlineFigureImage for zoomable fi
     zoom: true
   }
 
+  // Check the options passed to the processor, if they are correct it passes
   let passed = false
   const isTransformedZoomedAndIIIF = async (path, _, options) => {
     passed = options.transformations?.length > 0 && options.tile && !options.iiifEndpoint
-    return { errors: [] }
+    return { errors: [], metadata: { full: { height: 1000, width: 1000 } } }
   }
 
   const factory = await MockFigureMediaFactory(sandbox, iiifConfig, isTransformedZoomedAndIIIF)
@@ -87,15 +88,40 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
   let passed = false
   const isTransformedOnly = async (path, _, options) => {
     passed = options.transformations?.length > 0 && !options.tile && !options.iiifEndpoint
-    return { errors: [] }
+    return { errors: [], metadata: { full: { height: 1000, width: 1000 } } }
   }
 
-  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, isTransformedOnly)
-  await factory.create(figure)
+  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, isTransformedOnly)
+  await factoryRoot.create(figure)
 
-  if (passed) {
-    t.pass()
-  } else {
+  if (!passed) {
     t.fail()
   }
+
+  iiifConfig.baseURI = new URL('subpath', iiifConfig.baseURI).href
+  const factorySubpath = await MockFigureMediaFactory(sandbox, iiifConfig, isTransformedOnly)
+  const { figure: subpathFigureMedia } = await factorySubpath.create(figure)
+
+  const { paths, dimensions } = subpathFigureMedia.transformations.full
+  const { absolute, internal, uri } = paths
+  const { height, width } = dimensions
+
+  // Test that:
+  // - Absolute and internal paths begin with '/'
+  // - Absolute and uri contain the subpath but internal does not
+  t.is(absolute.at(0), '/')
+  const absoluteComponents = absolute.split('/')
+  t.is(absoluteComponents.at(1), 'subpath')
+
+  t.is(internal.at(0), '/')
+  const internalComponents = internal.split('/')
+  t.not(internalComponents.at(1), 'subpath')
+
+  const mediaUrl = new URL(uri)
+  const mediaComponents = mediaUrl.pathname.split('/')
+  t.is(mediaComponents.at(1), 'subpath')
+
+  // Test that dimensions exist
+  t.is(height, 1000)
+  t.is(width, 1000)
 })
