@@ -1,4 +1,4 @@
-import FigureFactory from './figureMedia/factory.js'
+import FigureMediaFactory from './figureMedia/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
 import iiifConfig from './iiif/config.js'
 
@@ -12,7 +12,7 @@ const logger = chalkFactory('Figures', 'DEBUG')
 export default function (eleventyConfig, options) {
   eleventyConfig.on('eleventy.before', async () => {
     const config = iiifConfig(eleventyConfig)
-    const figureFactory = new FigureFactory({ ...config, ...options })
+    const figureFactory = new FigureMediaFactory({ ...config, ...options })
 
     const { figure_list: figureList } = eleventyConfig.globalData.figures
 
