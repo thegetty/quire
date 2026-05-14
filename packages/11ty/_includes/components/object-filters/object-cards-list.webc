@@ -46,13 +46,17 @@
   .object-cards-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
   }
 
   .object-cards-list li {
-    width: 2in;
+    break-inside: avoid;
+    width: calc((100% - .5in) / 3);
     margin-bottom: 0.375in;
+    margin-right: 0.25in;
     list-style-type: none;
+  }
+  .object-cards-list li:nth-child(3n) {
+    margin-right: 0;
   }
 
 }

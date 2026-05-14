@@ -85,7 +85,7 @@ const hasFilters = ($data) => {
   return $data.object_filters !== false && $data.objects.object_filters !== false;
 }
 </script>
-<script webc:keep type="text/javascript">
+<script webc:keep type="text/javascript" data-outputs-exclude="epub,pdf">
 window.customElements.define('objects-catalog', class extends HTMLElement {
   constructor() {
     super();
@@ -477,6 +477,8 @@ section.object-cards {
 }
 
 @media print {
-  .object-cards: margin: 0;
+  .object-cards {
+    margin: 0;
+  }
 }
 </style>
