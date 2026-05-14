@@ -5,6 +5,7 @@ import Fetch from '@11ty/eleventy-fetch'
 import Manifest from '../iiif/manifest/index.js'
 import SequenceFactory from '../sequence/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
+import snakeToCamelCase from '#lib/snakeToCamelCase/index.js'
 import path from 'node:path'
 import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
@@ -435,27 +436,6 @@ export default class FigureMedia {
   }
 
   /**
-   * @function convertSnakeCase
-   *
-   * @param {string} content
-   *
-   * @returns {string}
-   *
-   * Converts a string in snake-case to camelCase
-   *
-   **/
-  convertSnakeCase (content) {
-    const parts = content.split('-')
-    const capitalized = parts.map((part, i) => {
-      const first = i > 0 ? part.charAt(0).toUpperCase() : part.charAt(0)
-
-      return (first + part.substring(1))
-    })
-
-    return capitalized.join('')
-  }
-
-  /**
    * @function storeTransformResult
    *
    * @param {string} name
@@ -501,7 +481,7 @@ export default class FigureMedia {
       }
     }
 
-    const property = this.convertSnakeCase(name)
+    const property = snakeToCamelCase(name)
     this.transformations[property] = {
       dimensions: {
         height,
