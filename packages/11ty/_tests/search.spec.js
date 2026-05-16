@@ -104,7 +104,7 @@ const collections = {
 
 const figureRecords = [
   {
-    content: 'This is a test figure.',
+    content: 'This is a test figure. John Doe',
     language: 'en-us',
     meta: {
       credit: 'John Doe',

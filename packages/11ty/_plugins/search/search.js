@@ -90,13 +90,15 @@ export default class SearchIndex {
     const markdownify = this.eleventyConfig.getFilter('markdownify')
     const removeHTML = this.eleventyConfig.getFilter('removeHTML')
 
-    // Need to strip markdown and HTML tags for indexing
-    const htmlContent = markdownify(caption)
-    const content = removeHTML(htmlContent)
-
     if (!caption) {
       return
     }
+
+    // Need to strip markdown and HTML tags for indexing
+    const stripFormatting = (text) => removeHTML(markdownify(text))
+    let content = stripFormatting(caption)
+    if (credit) content += ' ' + stripFormatting(credit)
+
     const fallbackLabel = this.config.figures?.defaultLabel || 'Figure'
     await this.#index.addCustomRecord({
       url: canonicalURL + '#' + id,

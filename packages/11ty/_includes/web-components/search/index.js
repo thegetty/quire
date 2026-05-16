@@ -93,7 +93,6 @@ class SearchResultsList extends LitElement {
             : html`
               <p class="result-excerpt">
                 ${unsafeHTML(result.excerpt)}
-                ${result.meta.credit ? html`<span class="result-credit">${result.meta.credit}</span>` : ''}
               </p>
             `}
         </div>
@@ -144,7 +143,7 @@ class SearchResultsList extends LitElement {
 
   /**
    * resultMetaTemplate
-   * @description Renders metadata information for a search result including page title, contributors, and credits
+   * @description Renders the contributors line for a search result, when present.
    * @param {Object} result - Search result object from Pagefind
    * @param {Object} result.meta - Metadata object
    * @param {string} [result.meta.contributors] - Contributors metadata
