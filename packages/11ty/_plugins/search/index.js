@@ -23,6 +23,8 @@ export default async function (eleventyConfig, collections, {
   excludeSelectors = [],
   searchIndexDir = SEARCH_INDEX_DIR
 } = {}) {
+  if (eleventyConfig.globalData.config?.searchEnabled === false) return
+
   /**
    * Create a new search index.
    */
