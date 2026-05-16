@@ -81,15 +81,21 @@ class SearchResultsList extends LitElement {
    * @returns {TemplateResult} Lit HTML template for the result content
    */
   resultContentTemplate (result) {
+    const hasSubResults = (result.sub_results || [])
+      .some((subitem) => subitem.title !== result.meta.title)
     return html`
       <div class="result-item">
         ${this.resultImageTemplate(result)}
         <div class="result-item-content">
           ${this.resultMetaTemplate(result)}
-          <p class="result-excerpt">
-            ${unsafeHTML(result.excerpt)}
-            ${result.meta.credit ? html`<span class="result-credit">${result.meta.credit}</span>` : ''}
-          </p>
+          ${hasSubResults
+            ? ''
+            : html`
+              <p class="result-excerpt">
+                ${unsafeHTML(result.excerpt)}
+                ${result.meta.credit ? html`<span class="result-credit">${result.meta.credit}</span>` : ''}
+              </p>
+            `}
         </div>
       </div>
     `
