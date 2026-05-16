@@ -46,7 +46,7 @@ export default async function (eleventyConfig, collections, {
      */
     await Promise.all(results.map(async ({ url, content }) => {
       const page = collections.html.find(({ url: pageUrl }) => url === pageUrl)
-      if (!page || page.search === false) return
+      if (!page || page.data?.search === false) return
       const { canonicalURL } = page.data
       await index.addPageRecord({ url: canonicalURL, content })
     }))
