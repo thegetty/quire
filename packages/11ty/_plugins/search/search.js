@@ -94,14 +94,15 @@ export default class SearchIndex {
     const htmlContent = markdownify(caption)
     const content = removeHTML(htmlContent)
 
-    if (!label || !caption) {
+    if (!caption) {
       return
     }
+    const fallbackLabel = this.config.figures?.defaultLabel || 'Figure'
     await this.#index.addCustomRecord({
       url: canonicalURL + '#' + id,
       content,
       meta: {
-        title: label,
+        title: label || fallbackLabel,
         image: this.assetSrc(src) || '',
         image_alt: alt || '',
         credit,

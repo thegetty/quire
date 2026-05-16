@@ -199,3 +199,30 @@ test('Validate figure records added to PageFind index', async (t) => {
     )
   })
 })
+
+test('Figures without a label fall back to a default label', async (t) => {
+  const sandbox = sinon.createSandbox()
+  const { eleventy } = t.context
+  const eleventyConfig = eleventy.writer.userConfig
+
+  const search = new SearchIndex(eleventyConfig, { indexFigures: true })
+  search.index = FakePagefindIndex(sandbox)
+
+  await search.addFigureRecord({
+    canonicalURL: 'https://example.com/test-publication/page1/index.html',
+    figureData: {
+      id: 'unlabeled',
+      caption: 'A photograph with no label.',
+      src: 'unlabeled.jpg',
+      alt: 'An unlabeled photograph',
+      mediaType: 'image'
+    }
+  })
+
+  t.is(search.index.addCustomRecord.callCount, 1, 'Unlabeled figures are still indexed')
+  t.is(
+    search.index.addCustomRecord.getCall(0).args[0].meta.title,
+    'Figure',
+    'Default fallback label is used'
+  )
+})
