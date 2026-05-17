@@ -18,7 +18,8 @@ export const searchResultsListStyles = css`
     border-bottom: 1px dotted var(--accent-color, #CB3434);
     letter-spacing: 0px;
     text-decoration: none;
-    &:hover {
+    &:hover,
+    &:focus-visible {
       border-bottom: 1px solid var(--accent-color-hover, #a02a2a);
     }
     & * {
@@ -81,5 +82,13 @@ export const searchResultsListStyles = css`
 
   .result-excerpt mark {
     background-color: var(--highlight-color, #F9F9A3);
+  }
+
+  .search-result.is-highlighted {
+    background-color: var(--search-highlight-bg, rgba(203, 52, 52, 0.08));
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
   }
   `
