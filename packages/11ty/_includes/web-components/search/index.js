@@ -125,7 +125,7 @@ class SearchResultsList extends LitElement {
    * @returns {TemplateResult|string} Lit HTML template for sub-results or empty string if none
    */
   subResultsTemplate ({ sub_results: subresults, meta } = {}) {
-    const filteredResults = (subresults).filter(subitem => subitem.title !== meta.title)
+    const filteredResults = (subresults || []).filter(subitem => subitem.title !== meta.title)
     if (filteredResults.length === 0) return ''
     return html`
       <ol class="search-subresults">

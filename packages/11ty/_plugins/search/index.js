@@ -1,7 +1,6 @@
 import SearchIndex from './search.js'
 import path from 'node:path'
 
-const QUIRE_FIGURE_CLASS = '.q-figure'
 const SEARCH_INDEX_DIR = '_search'
 
 /**
@@ -35,13 +34,6 @@ export default async function (eleventyConfig, collections, {
 
   eleventyConfig.on('eleventy.after', async ({ results }) => {
     const { outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
-
-    /**
-     * Add figures to the excluded selectors if indexing them separately.
-     */
-    if (indexFigures) {
-      excludeSelectors = [...excludeSelectors, QUIRE_FIGURE_CLASS]
-    }
 
     /**
      * Adds each results HTML content to the search index.
