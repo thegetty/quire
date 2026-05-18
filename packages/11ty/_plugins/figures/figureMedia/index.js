@@ -217,7 +217,8 @@ export default class FigureMedia {
   }
 
   /**
-   * Test if the `src` is an external resource
+   * Returns true if `src` is a URL resource and should be served that way
+   *
    * @return {Boolean}
    */
   get isExternalResource () {
@@ -398,7 +399,6 @@ export default class FigureMedia {
     this.errors = []
 
     if (this.mediaType !== 'image') return {}
-    if (this.isExternalResource && !this.iiifImage) return {}
 
     await this.calculateDimensions()
 
@@ -499,12 +499,21 @@ export default class FigureMedia {
    */
   async processFigureImage () {
     if (!(this.src || this.iiifImage)) return
-    if (this.isExternalResource) return
 
     const { transformations } = this.iiifConfig
 
     const options = {
       transformations
+    }
+
+    // Add passthrough paths for absolute, etc on external image URLs
+    if (this.isExternalResource) {
+      for (const transformation of transformations) {
+        const name = snakeToCamelCase(transformation.name)
+        this.storeTransformResult(name, { height: this.height, width: this.width })
+      }
+
+      return
     }
 
     if (this.isCanvas) {
