@@ -7,7 +7,7 @@ import path from 'node:path'
  */
 export default class SequenceFactory {
   /**
-   * @param  {Figure} figure
+   * @param  {FigureMedia} figure
    */
   constructor (figure) {
     this.figure = figure

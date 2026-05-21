@@ -1,33 +1,33 @@
-import Figure from './index.js'
+import FigureMedia from './index.js'
 import ImageProcessor from '../image/processor.js'
 
 /**
- * Factory class to create instances of `Figure` on which process is called
+ * Factory class to create instances of `FigureMedia` on which process is called
  * to generate files and set computed properties used the Quire shortcodes.
  *
- * @class FigureFactory
+ * @class FigureMediaFactory
  */
-export default class FigureFactory {
+export default class FigureMediaFactory {
   constructor (iiifConfig) {
     this.iiifConfig = iiifConfig
     this.imageProcessor = new ImageProcessor(iiifConfig)
   }
 
   /**
-   * Creates a `Figure` instance and calls its `processFiles` method
+   * Creates a `FigureMedia` instance and calls its `processFiles` method
    * to create the IIIF info, manifest, and generate image tiles.
    *
    * @param {Object} data  A figure entry from `figures.yaml`
    *
    * @return {Object}
-   * @property {Figure} figure  A new Figure instance
-   * @property {Array} errors  `processFiles` errors
+   * @property {FigureMedia} figure  A new FigureMedia instance
+   * @property {Array} errors  Any errors from asset handling
    */
   async create (data) {
     const processImage =
       this.imageProcessor.processImage.bind(this.imageProcessor)
-    const figure = new Figure(this.iiifConfig, processImage, data)
-    const { errors } = await figure.processFiles()
+    const figure = new FigureMedia(this.iiifConfig, processImage, data)
+    const { errors } = await figure.processFigure()
     return { figure, errors }
   }
 }

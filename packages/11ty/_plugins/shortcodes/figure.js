@@ -26,21 +26,21 @@ export default function (eleventyConfig) {
   const figureImage = eleventyConfig.getFilter('figureImage')
   const figureTable = eleventyConfig.getFilter('figureTable')
   const figureVideo = eleventyConfig.getFilter('figureVideo')
-  const getFigure = eleventyConfig.getFilter('getFigure')
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const slugify = eleventyConfig.getFilter('slugify')
 
   return async function (id, classes = []) {
     classes = typeof classes === 'string' ? [classes] : classes
 
     /**
-     * Merge figures.yaml data and additional params
+     * Merge figure media data and passed parameters
      */
-    let figure = getFigure(id)
+    let figure = getFigureMedia(id)
     if (!figure) {
       logger.warn(`The figure id "${id}" was found in the template "${this.page.inputPath}", but is not defined in "figures.yaml"`)
       return ''
     }
-    figure = { ...figure, ...arguments }
+    figure = { ...figure, id, classes }
     this.page.figures ||= []
     this.page.figures.push(figure)
 

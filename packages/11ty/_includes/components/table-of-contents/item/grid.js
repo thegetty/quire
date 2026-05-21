@@ -12,7 +12,7 @@ import { html, oneLine } from '#lib/common-tags/index.js'
  */
 export default function (eleventyConfig) {
   const contributors = eleventyConfig.getFilter('contributors')
-  const getFigure = eleventyConfig.getFilter('getFigure')
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const getObject = eleventyConfig.getFilter('getObject')
   const icon = eleventyConfig.getFilter('icon')
   const markdownify = eleventyConfig.getFilter('markdownify')
@@ -63,14 +63,14 @@ export default function (eleventyConfig) {
         tocFigure = { alt: '', src: image }
         break
       case !!pageFigure: {
-        tocFigure = pageFigure[0] ? getFigure(pageFigure[0]) : null
+        tocFigure = pageFigure[0] ? getFigureMedia(pageFigure[0]) : null
         break
       }
       case !!pageObject: {
         const firstObjectId = pageObject[0].id
         const object = firstObjectId ? getObject(firstObjectId) : pageObject[0]
         tocFigure = object && object.figure
-          ? getFigure(object.figure[0].id)
+          ? getFigureMedia(object.figure[0].id)
           : null
         break
       }

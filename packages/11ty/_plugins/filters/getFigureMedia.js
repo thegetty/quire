@@ -7,6 +7,6 @@
  * @return {Object}                figure
  */
 export default function (eleventyConfig, id) {
-  const { figure_list } = eleventyConfig.globalData.figures
-  return figure_list.find((item) => item.id === id)
+  const { figureMedia } = eleventyConfig.globalData
+  return figureMedia.find((item) => item.id === id)
 }

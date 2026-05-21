@@ -13,8 +13,18 @@ export default function (eleventyConfig) {
   const imageTag = eleventyConfig.getFilter('imageTag')
 
   return function (figure, options) {
-    const { alt, isCanvas, isImageService, isSequence, staticInlineFigureImage, lazyLoading } = figure
+    const {
+      alt,
+      dimensions,
+      isCanvas,
+      isImageService,
+      isSequence,
+      staticInlineFigureImage,
+      lazyLoading
+    } = figure
+
     const { interactive, preset, lightbox } = options
+
     if (preset) {
       figure.preset = preset
     }
@@ -22,22 +32,56 @@ export default function (eleventyConfig) {
     switch (true) {
       case isSequence:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading, lightbox })
+          return imageTag({
+            alt,
+            height: dimensions['static-inline-figure-image'].height,
+            isStatic: !interactive,
+            lazyLoading,
+            lightbox,
+            src: staticInlineFigureImage,
+            width: dimensions['static-inline-figure-image'].width
+          })
         } else {
           return imageSequence(figure, options)
         }
       case isCanvas:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading, lightbox })
+          return imageTag({
+            alt,
+            height: dimensions['static-inline-figure-image'].height,
+            isStatic: !interactive,
+            lazyLoading,
+            lightbox,
+            src: staticInlineFigureImage,
+            width: dimensions['static-inline-figure-image'].width
+          })
         } else {
           return canvasPanel(figure)
         }
       case isImageService:
         if (!interactive && staticInlineFigureImage) {
-          return imageTag({ alt, src: staticInlineFigureImage, isStatic: !interactive, lazyLoading, lightbox })
+          return imageTag({
+            alt,
+            height: dimensions['static-inline-figure-image'].height,
+            isStatic: !interactive,
+            lazyLoading,
+            lightbox,
+            src: staticInlineFigureImage,
+            width: dimensions['static-inline-figure-image'].width
+          })
         } else {
           return imageService(figure)
         }
+      case !lightbox && Boolean(staticInlineFigureImage):
+        return imageTag({
+          alt,
+          height: dimensions['static-inline-figure-image'].height,
+          isStatic: true,
+          lazyLoading,
+          lightbox,
+          src: staticInlineFigureImage,
+          width: dimensions['static-inline-figure-image'].width
+        })
       default:
         return imageTag({ ...figure, lightbox })
     }

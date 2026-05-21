@@ -10,14 +10,14 @@ import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
 
-const logger = chalkFactory('Figures:Figure', 'DEBUG')
+const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
 
 /**
  * @param {Object} iiifConfig
  * @param {Function} processImage  Function to generate IIIF assets
  * @param {Object} data  Figure data from and entry in `figures.yaml`
  *
- * @typedef {Object} Figure
+ * @typedef {Object} FigureMedia
  * @property {Array<AnnotationSet>} annotations
  * @property {String} canvasId ID of IIIF canvas
  * @property {Boolean} isCanvas True if figure contains a canvas resource
@@ -26,9 +26,9 @@ const logger = chalkFactory('Figures:Figure', 'DEBUG')
  * @property {String} manifestId ID of IIIF manifest
  * @property {String} printImage Optional path to an alternate image to use in print
  */
-export default class Figure {
+export default class FigureMedia {
   constructor (iiifConfig, imageProcessor, data) {
-    const { baseURI, dirs, manifestFileName } = iiifConfig
+    const { baseURI, debugLog, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
     const outputPathname = path.posix.join(dirs.outputPath, data.id)
 
@@ -93,10 +93,6 @@ export default class Figure {
       }
     }
 
-    const defaults = {
-      mediaType: 'image'
-    }
-
     const {
       id,
       iiif_image: iiifImage,
@@ -124,6 +120,7 @@ export default class Figure {
     this.annotationCount = data.annotations ? data.annotations.length : 0
     this.canvasId = canvasId()
     this.data = data
+    this.debugLog = debugLog
     this.id = id
     this.iiifConfig = iiifConfig
     this.iiifImage = iiifImage
@@ -132,13 +129,14 @@ export default class Figure {
     this.isSequence = isSequence(data)
     this.label = label
     this.manifestId = manifestId()
-    this.mediaType = mediaType || defaults.mediaType
+    this.mediaType = mediaType || 'image'
     this.mediaId = mediaId
     this.outputDir = outputDir
     this.outputPathname = outputPathname
     this.outputFormat = format && format.output
     this.processImage = imageProcessor
     this.src = src
+
     /**
      * We are disabling zoom for all sequence figures
      * our custom image-sequence component currently only supports static images
@@ -151,7 +149,7 @@ export default class Figure {
   }
 
   /**
-   * Figure image annotations
+   * FigureMedia image annotations
    * @type  {Array<Annotations>}
    */
   get annotations () {
@@ -159,7 +157,7 @@ export default class Figure {
   }
 
   /**
-   * Figure image sequence
+   * FigureMedia image sequence
    * @type  {Array<Sequence>}
    */
   get sequences () {
@@ -189,8 +187,6 @@ export default class Figure {
    * Used to define canvas properties `width` and `height`
    */
   get canvasImagePath () {
-    if (!this.isCanvas) return
-
     if (this.iiifImage) return this.iiifImage
 
     const firstChoiceSrc = () => {
@@ -273,7 +269,7 @@ export default class Figure {
    */
   get region () {
     if (this.isExternal || this.mediaType !== 'image') return
-    return this.data.region || `0,0,${this.canvasWidth},${this.canvasHeight}`
+    return this.data.region || `0,0,${this.width},${this.height}`
   }
 
   /**
@@ -317,13 +313,13 @@ export default class Figure {
   }
 
   /**
-   * Return only the data properties consumed by quire shortcodes
+   * Return media data for this figure for use by quire shortcodes
+   *
    * @return {Object} figure
    */
-  adapter () {
+  media () {
     /**
-     * TODO determine how to handle multiple sequence starting points.
-     * Assuming one (the first) sequence for now
+     * Set canvas index to the first canvas of the first sequence
      */
     const startCanvasIndex = this.isSequence ? this.sequences[0].startCanvasIndex : null
 
@@ -331,6 +327,7 @@ export default class Figure {
       ...this.data,
       annotations: this.annotations,
       canvasId: this.canvasId,
+      dimensions: this.dimensions,
       id: this.id,
       iiifImage: this.iiifImage,
       isCanvas: this.isCanvas,
@@ -347,22 +344,21 @@ export default class Figure {
       startCanvasIndex,
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
-      // TODO: implement thumbnail getter
       thumbnail: this.staticInlineFigureImage
     }
   }
 
   /**
-   * Get the width and height of the canvas
-   */
-  async calcCanvasDimensions () {
-    if (!this.canvasImagePath || (this.iiifImage && !this.isCanvas)) return
-
+   * @function calculateDimensions
+   *
+   * Fetches and stores figure height and width
+   *
+   **/
+  async calculateDimensions () {
     let height, width
 
     // Fetch dimensions from IIIF via `Fetch` or the disk via `sharp`
     if (this.iiifImage) {
-      // TODO: Move `try` to outer scope!! can't sharp().metadata() also throw?
       try {
         const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
 
@@ -376,27 +372,30 @@ export default class Figure {
         return
       }
     } else {
+      // TODO: Use `try / catch` here! sharp().metadata() can also throw
       ({ height, width } = await sharp(this.canvasImagePath).metadata())
     }
 
-    this.canvasHeight = height
-    this.canvasWidth = width
+    this.height = height
+    this.width = width
   }
 
   /**
-   * Call file process methods and return errors
-   * @todo refactor process and create methods to return a response
-   * to encapsulate collection of errors into this method.
+   * @function processFigure
+   *
+   * Processes figure metadata and asset files into servable assets
    *
    * @return {Object}
    * @property {Array} errors
+   *
    */
-  async processFiles () {
+  async processFigure () {
     this.errors = []
 
+    if (this.mediaType !== 'image') return {}
     if (this.isExternalResource && !this.iiifImage) return {}
 
-    await this.calcCanvasDimensions()
+    await this.calculateDimensions()
 
     await this.processAnnotationImages()
 
@@ -406,7 +405,9 @@ export default class Figure {
       await this.processFigureImage()
     }
 
-    await this.createManifest()
+    if (this.isCanvas) {
+      await this.createManifest()
+    }
 
     return { errors: this.errors }
   }
@@ -419,7 +420,7 @@ export default class Figure {
     if (!this.annotations) return
     const annotationItems = this.annotations.flatMap(({ items }) => items)
     const results = await Promise.all(annotationItems.map((item) => {
-      logger.debug(`processing annotation image ${item.src}`)
+      if (this.debugLog) logger.debug(`processing annotation image ${item.src}`)
       if (item.isImageService) this.validateImageForTiling(item.src)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService
@@ -430,24 +431,40 @@ export default class Figure {
   }
 
   /**
-   * Process `figure.src`
+   * @function processFigureImage
+   *
+   * Tiles and transforms `src` asset
+   *
    */
   async processFigureImage () {
-    if (!this.isCanvas) return
     if (!(this.src || this.iiifImage)) return
     if (this.isExternalResource) return
 
     const { transformations } = this.iiifConfig
 
-    this.validateImageForTiling()
-    const processSrc = this.src ?? this.iiifImage
-    const { errors } = await this.processImage(processSrc, this.outputDir, {
-      tile: true,
-      iiifEndpoint: !!this.iiifImage,
+    const options = {
       transformations
-    })
+    }
+
+    if (this.isCanvas) {
+      this.validateImageForTiling()
+
+      options.iiifEndpoint = Boolean(this.iiifImage)
+      options.tile = true
+    }
+
+    const processSrc = this.src ?? this.iiifImage
+    const { errors, metadata } = await this.processImage(processSrc, this.outputDir, options)
 
     if (errors) this.errors = this.errors.concat(errors)
+
+    // Store dimensions from transform metadata for downstream use
+    this.dimensions = {}
+    for (const [name, data] of Object.entries(metadata ?? {})) {
+      const { height, width } = data
+
+      this.dimensions[name] = { height, width }
+    }
   }
 
   async processFigureSequence () {
@@ -465,7 +482,7 @@ export default class Figure {
 
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id
-      logger.debug(`processing sequence image ${item.src}`)
+      if (this.debugLog) logger.debug(`processing sequence image ${item.src}`)
       return item.src && this.processImage(item.src, this.outputDir, {
         tile: item.isImageService,
         transformations: isStartItem ? transformations : []
@@ -484,7 +501,7 @@ export default class Figure {
   validateImageForTiling (src) {
     const minLength = this.iiifConfig.tileSize * 2
 
-    this.dimensionsValidForTiling = this.canvasWidth > minLength && this.canvasHeight > minLength
+    this.dimensionsValidForTiling = this.width > minLength && this.height > minLength
 
     if (!this.dimensionsValidForTiling) {
       logger.error(`Unable to create a zooming image from "${this.src ? path.parse(this.src).base : this.iiifImage}". Images under ${minLength}px will not display unless zoom is set to false.`)
