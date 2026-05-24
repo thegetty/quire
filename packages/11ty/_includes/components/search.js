@@ -8,7 +8,9 @@ import { html } from '#lib/common-tags/index.js'
  */
 export default function (eleventyConfig) {
   const icon = eleventyConfig.getFilter('icon')
+  const searchEnabled = eleventyConfig.globalData.config?.searchEnabled !== false
   return (params) => {
+    if (!searchEnabled) return ''
     return html`
       <div
         aria-expanded="false"

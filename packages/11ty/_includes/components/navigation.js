@@ -17,6 +17,7 @@ import { html } from '#lib/common-tags/index.js'
  */
 export default function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
+  const searchEnabled = eleventyConfig.globalData.config?.searchEnabled !== false
 
   return function (params) {
     const { collections, pagination } = params
@@ -119,18 +120,20 @@ export default function (eleventyConfig) {
         </a>
         <nav class="quire-navbar-controls">
           <div class="quire-navbar-controls__left">
-            <button
-              class="quire-navbar-button search-button"
-              aria-controls="quire-search"
-              onclick="toggleSearch()"
-            >
-              <svg data-outputs-exclude="epub,pdf">
-                <switch>
-                  <use xlink:href="#search-icon"></use>
-                </switch>
-              </svg>
-              <span class="visually-hidden">Search</span>
-            </button>
+            ${searchEnabled ? html`
+              <button
+                class="quire-navbar-button search-button"
+                aria-controls="quire-search"
+                onclick="toggleSearch()"
+              >
+                <svg data-outputs-exclude="epub,pdf">
+                  <switch>
+                    <use xlink:href="#search-icon"></use>
+                  </switch>
+                </svg>
+                <span class="visually-hidden">Search</span>
+              </button>
+            ` : ''}
           </div>
           <div class="quire-navbar-controls__center">
             <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
