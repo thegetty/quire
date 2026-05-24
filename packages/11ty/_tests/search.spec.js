@@ -39,7 +39,8 @@ const stubData = {
     pub_date: new Date('2025-01-11'),
     promo_image: promoImage,
     language: 'en-us',
-    url: 'https://example.com/test-publication/'
+    url: 'https://example.com/test-publication/',
+    pathname: '/test-publication/'
   }
 }
 
@@ -108,7 +109,7 @@ const figureRecords = [
     language: 'en-us',
     meta: {
       credit: 'John Doe',
-      image: '/_assets/images/figure1.jpg',
+      image: '/test-publication/_assets/images/figure1.jpg',
       image_alt: 'A photo of a tree',
       title: 'Figure 1',
       type: 'image'

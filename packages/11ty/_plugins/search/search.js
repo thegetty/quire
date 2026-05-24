@@ -63,16 +63,23 @@ export default class SearchIndex {
 
   /**
    * Returns the served asset location for this image
-   * accounting for fully qualified asset URLs
+   * accounting for fully qualified asset URLs and
+   * prepending the publication pathname.
    *
    * @param {string} srcPath
    * @returns {string}
    */
   assetSrc (srcPath) {
     if (!srcPath) return null
-    const regexp = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
+    const externalRegexp = /^https?:\/\//
+    if (externalRegexp.test(srcPath)) return srcPath
     const { imageDir } = this.config.figures
-    return regexp.test(srcPath) ? srcPath : path.posix.join(imageDir, srcPath)
+    const { pathname } = this.publication || {}
+    const iiifRegexp = /^(\/iiif\/|\\iiif\\)/
+    const assetPath = iiifRegexp.test(srcPath) ? srcPath : path.posix.join(imageDir, srcPath)
+    if (!pathname || pathname === '/') return assetPath
+    if (assetPath.startsWith(pathname)) return assetPath
+    return path.posix.join(pathname, assetPath)
   }
 
   /**
