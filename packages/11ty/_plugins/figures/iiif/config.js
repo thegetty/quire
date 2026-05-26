@@ -94,18 +94,23 @@ export default (eleventyConfig) => {
      */
     tileSize: 256,
     /**
-     * All transformations are applied to each image and output a separate file.
+     * Each figure image is generates an output file from the configured transformations.
      *
      * @type {Array<Object>}
      * @property {String} name  Output file name
      * @property {Object} resize  Options passed to the `sharp.resize()` method
      * @see {@link https://sharp.pixelplumbing.com/api-resize}
+     *
      */
     transformations: [
       {
+        name: 'full',
+        resize: {}
+      },
+      {
         name: 'thumbnail',
         resize: {
-          width: 50
+          width: 280
         }
       },
       /**

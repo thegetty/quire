@@ -462,11 +462,9 @@ export default class FigureMedia {
     if (this.isExternalResource) {
       paths = { absolute: this.src, internal: this.src, uri: this.src }
     } else {
+      // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
       filename ??= `${name}.jpg`
-
-      // NB: Full resources are (currently) stored without a nested destination directory
-      const { name: srcName } = path.parse(this.src)
-      const directory = name === 'full' ? '' : srcName
+      const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.src).name
 
       // `internal` is used without a leading slash for path math
       // then made absolutely internal, relative to the publication root
@@ -523,15 +521,11 @@ export default class FigureMedia {
       options.tile = true
     }
 
-    const processSrc = this.src ?? this.iiifImage
-    const { errors, metadata } = await this.processImage(processSrc, this.outputDir, options)
+    const { errors, metadata } = await this.processImage(this.src ?? this.iiifImage, this.outputDir, options)
 
     if (errors) this.errors = this.errors.concat(errors)
 
-    // Store path and dimensions data for the full resolution and all transformations
-    const { base: filename } = path.parse(this.src)
-    this.storeTransformResult('full', { height: this.height, width: this.width }, filename)
-
+    // Store path and dimensions data for each transformation
     for (const [name, result] of Object.entries(metadata ?? {})) {
       this.storeTransformResult(name, result)
     }
