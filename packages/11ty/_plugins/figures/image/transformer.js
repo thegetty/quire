@@ -18,8 +18,8 @@ const iiifSize = (resize, imgInfo) => {
   const { width } = imgInfo
   const { width: xformWidth, withoutEnlargement } = resize
 
-  let reqWidth = xformWidth
-  if (xformWidth > width && withoutEnlargement || xformWidth === undefined) {
+  let reqWidth = xformWidth ?? width
+  if (xformWidth > width && withoutEnlargement) {
     reqWidth = width
   }
 
