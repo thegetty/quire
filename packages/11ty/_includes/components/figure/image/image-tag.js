@@ -15,7 +15,7 @@ export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   const { pathname } = eleventyConfig.globalData.publication
 
-  return function ({ alt = '', src = '', isStatic = false, lazyLoading = 'lazy', lightbox = false }) {
+  return function ({ height, width, alt = '', src = '', isStatic = false, lazyLoading = 'lazy', lightbox = false }) {
     // Lightbox loads in-browser so urls must have pathname, rest are prepended by 11ty
     const extOrIiifRegex = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
     const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
@@ -26,6 +26,10 @@ export default function (eleventyConfig) {
       imageSrc = imageSrc.replaceAll(path.sep, '/')
     }
 
+    // Apply height/ width attributes if they exist
+    const heightAttribute = height > 0 ? `height=${height}` : ''
+    const widthAttribute = width > 0 ? `width=${width}` : ''
+
     return html`
       <img
         alt="${escape(alt)}"
@@ -33,6 +37,8 @@ export default function (eleventyConfig) {
         decoding="async"
         loading="${lazyLoading}"
         src="${imageSrc}"
+        ${heightAttribute}
+        ${widthAttribute}
       />
     `
   }

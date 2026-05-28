@@ -42,6 +42,7 @@ const factory = async (options = {}) => {
   process.env.ELEVENTY_DATA = paths.data
   process.env.ELEVENTY_INCLUDES = paths.includes
   process.env.ELEVENTY_LAYOUTS = paths.layouts
+  process.env.QUIRE_DEBUG_LOG = options.debug
 
   /**
    * Get an instance of the runtime of eleventy.

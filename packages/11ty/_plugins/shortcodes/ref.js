@@ -18,7 +18,7 @@ const logger = chalkFactory('Shortcodes:ref')
  * @return     {String}  Anchor tag with link text annotation and region data attributes
  */
 export default function (eleventyConfig) {
-  const getFigure = eleventyConfig.getFilter('getFigure')
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const markdownify = eleventyConfig.getFilter('markdownify')
 
   const { sequenceTransition: defaultSequenceTransition } = eleventyConfig.globalData.config.ref || {}
@@ -26,7 +26,7 @@ export default function (eleventyConfig) {
   return (params) => {
     const { anno = '', fig, region = '', start, onscroll } = params
 
-    const figure = getFigure(fig)
+    const figure = getFigureMedia(fig)
     if (!figure) {
       logger.error(`[ref shortcode] "fig" parameter doesn't correspond to a valid figure id in "figures.yaml". Fig: ${fig}`)
     }

@@ -62,6 +62,7 @@ const factory = (options = {}) => {
     ELEVENTY_DATA: paths.data,
     ELEVENTY_INCLUDES: paths.includes,
     ELEVENTY_LAYOUTS: paths.layouts,
+    QUIRE_DEBUG_LOG: options.debug
   }
 
   if (options.debug) env.DEBUG = 'Eleventy*'

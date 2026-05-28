@@ -5,9 +5,9 @@
  * @return {Object}                annotation
  */
 export default function (eleventyConfig, fig, annotationId) {
-  const getFigure = eleventyConfig.getFilter('getFigure')
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
 
-  const figure = getFigure(fig)
+  const figure = getFigureMedia(fig)
   if (!figure || !Array.isArray(figure.annotations)) return
   return figure.annotations
     .flatMap(({ items }) => items)

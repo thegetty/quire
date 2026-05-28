@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readFileSync } from 'node:fs'
 import Ajv from 'ajv'
-import Figure from '../figure/index.js'
+import FigureMedia from '../figureMedia/index.js'
 import Manifest from '../iiif/manifest/index.js'
 import assert from 'assert/strict'
 import figureFixtures from './__fixtures__/figures/index.js'
@@ -32,9 +32,9 @@ const createManifestFromFigureFixture = async (figureFixtureName) => {
     manifest: manifestFixture
   } = figureFixtures[figureFixtureName]
   const { height, width } = dimensions
-  const figure = new Figure(iiifConfig, null, figureFixture)
-  figure.canvasHeight = height
-  figure.canvasWidth = width
+  const figure = new FigureMedia(iiifConfig, null, figureFixture)
+  figure.height = height
+  figure.width = width
   const manifest = files && figure.isSequence
     ? new Manifest({ ...figure, sequences: figure.sequenceFactory.create(files) })
     : new Manifest(figure)

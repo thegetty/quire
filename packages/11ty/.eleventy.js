@@ -62,6 +62,7 @@ const { error } = chalkFactory('eleventy config')
 const inputDir = process.env.ELEVENTY_INPUT || 'content'
 const outputDir = process.env.ELEVENTY_OUTPUT || '_site'
 const publicDir = process.env.ELEVENTY_ENV === 'production' ? 'public' : false // publicDir should be set explicitly to false in development
+const debugLog = process.env.QUIRE_DEBUG_LOG === true
 
 /**
  * Eleventy configuration
@@ -209,7 +210,7 @@ export default async function (eleventyConfig) {
   vitePlugin(eleventyConfig, globalData)
 
   eleventyConfig.addPlugin(i18nPlugin)
-  eleventyConfig.addPlugin(figuresPlugin)
+  eleventyConfig.addPlugin(figuresPlugin, { debugLog })
 
   /**
    * Load plugin for custom configuration of the markdown library

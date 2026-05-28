@@ -1,11 +1,14 @@
 import Annotation from './index.js'
 
 /**
- * The AnnotationFactory creates annotations for a Figure instance
+ * @class AnnotationFactory
+ *
+ * Creates Annotation instances from the Figure data embedded in FigureMedia instances.
+ *
  */
 export default class AnnotationFactory {
   /**
-   * @param  {Figure} figure
+   * @param  {FigureMedia} FigureMedia data
    */
   constructor (figure) {
     this.figure = figure
@@ -13,7 +16,7 @@ export default class AnnotationFactory {
 
   /**
    * AnnotationSet
-   * UI Structure for Figure Annotations
+   * UI Structure for Annotations
    *
    * @typedef {Object} AnnotationSet
    * @property {String} input Input element type "radio|checkbox"
@@ -31,7 +34,7 @@ export default class AnnotationFactory {
   }
 
   /**
-   * Iterates over a Figure's annotation sets and creates annotation sets
+   * Iterates over figure data's annotation sets and creates annotation sets
    * with Annotation instances for each item in set.items
    * @return {<Array[AnnotationSet]>}
    */

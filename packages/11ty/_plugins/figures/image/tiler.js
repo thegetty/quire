@@ -18,6 +18,7 @@ export default class Tiler {
    */
   constructor (iiifConfig) {
     this.baseURI = iiifConfig.baseURI
+    this.debugLog = iiifConfig.debugLog
     this.formats = iiifConfig.formats
     this.outputRoot = iiifConfig.dirs.outputRoot
     this.supportedExtensions = iiifConfig.formats.flatMap(({ input }) => input)
@@ -50,7 +51,7 @@ export default class Tiler {
     const outputPath = path.join(this.outputRoot, outputDir, name, this.tilesDir)
 
     if (fs.existsSync(path.join(outputPath, 'info.json'))) {
-      logger.debug(`skipping previously tiled image '${inputPath}'`)
+      if (this.debugLog) logger.debug(`skipping previously tiled image '${inputPath}'`)
       return
     }
 
@@ -68,7 +69,7 @@ export default class Tiler {
       imagePathOrBuf = Buffer.from(response)
     }
 
-    logger.debug(`tiling '${inputPath}'`)
+    if (this.debugLog) logger.debug(`tiling '${inputPath}'`)
     const format = this.formats.find(({ input }) => input.includes(ext))
 
     return sharp(imagePathOrBuf)

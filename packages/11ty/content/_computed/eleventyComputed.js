@@ -177,7 +177,7 @@ export default {
         if (objectData.figure) {
           objectData.figures = objectData.figure.map((figure) => {
             if (figure.id) {
-              return this.getFigure(figure.id)
+              return this.getFigureMedia(figure.id)
             } else {
               return figure
             }

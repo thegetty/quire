@@ -16,9 +16,9 @@ export default class CanvasBuilder {
       return this.sequenceItems.map((item) => {
         return {
           annotations: [item],
-          height: this.figure.canvasHeight,
+          height: this.figure.height,
           id: item.target,
-          width: this.figure.canvasWidth
+          width: this.figure.width
         }
       })
     } else {
@@ -26,9 +26,9 @@ export default class CanvasBuilder {
         {
           annotations: this.annotations,
           choices: this.choices,
-          height: this.figure.canvasHeight,
+          height: this.figure.height,
           id: this.figure.canvasId,
-          width: this.figure.canvasWidth
+          width: this.figure.width
         }
       ]
     }

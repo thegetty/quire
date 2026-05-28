@@ -3,7 +3,7 @@ import capitalize from './capitalize.js'
 import fullname from './fullname.js'
 import getAnnotation from './getAnnotation.js'
 import getContributor from './getContributor.js'
-import getFigure from './getFigure.js'
+import getFigureMedia from './getFigureMedia.js'
 import getObject from './getObject.js'
 import initials from './initials.js'
 import json from './json.js'
@@ -27,13 +27,13 @@ export default function (eleventyConfig, options) {
   eleventyConfig.addFilter('fullname', memoize((person, options) => fullname(person, options)))
   eleventyConfig.addFilter('getAnnotation', memoize((...args) => getAnnotation(eleventyConfig, ...args)))
   eleventyConfig.addFilter('getContributor', memoize((id) => getContributor(eleventyConfig, id)))
-  eleventyConfig.addFilter('getFigure', memoize((id) => getFigure(eleventyConfig, id)))
+  eleventyConfig.addFilter('getFigureMedia', memoize((id) => getFigureMedia(eleventyConfig, id)))
   eleventyConfig.addFilter('getObject', memoize((id) => getObject(eleventyConfig, id)))
   eleventyConfig.addFilter('initials', memoize((person, options) => initials(person, options)))
   eleventyConfig.addFilter('keywords', memoize(() => keywords(eleventyConfig)))
   eleventyConfig.addFilter('sortContributors', memoize((contributors) => sortContributors(eleventyConfig, contributors)))
   eleventyConfig.addFilter('sortReferences', memoize((items) => sortReferences(eleventyConfig, items)))
-  /**
+
    * String manipulation filters
    */
   eleventyConfig.addFilter('capitalize', memoize((string) => capitalize(string)))
