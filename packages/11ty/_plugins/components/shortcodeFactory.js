@@ -20,7 +20,7 @@ export default function (eleventyConfig) {
         const collections = this.ctx?.environments?.collections ?? {}
         const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
 
-        return omponent(eleventyConfig, { collections, page }).bind(this)(...args)
+        return component(eleventyConfig, { collections, page }).bind(this)(...args)
       }, { cacheKey: function(...args) { return JSON.stringify([this.page?.inputPath, ...args]) }}))
     },
     addPairedShortcode: function (tagName, component) {
