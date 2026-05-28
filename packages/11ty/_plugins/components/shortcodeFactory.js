@@ -9,24 +9,27 @@
  * @param  {Object}  component       A JavaScript shortcode component
  * @param  {String}  tagName         A template tag name for the component
  */
+
+import memoize from 'memoize';
+
 export default function (eleventyConfig) {
   return {
     addShortcode: function (tagName, component) {
-      eleventyConfig.addShortcode(tagName, function (...args) {
+      eleventyConfig.addShortcode(tagName, memoize(function (...args) {
         // Pass access from the internal collections environment to shortcodes
         const collections = this.ctx?.environments?.collections ?? {}
         const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
 
-        return component(eleventyConfig, { collections, page }).bind(this)(...args)
-      })
+        return omponent(eleventyConfig, { collections, page }).bind(this)(...args)
+      }, { cacheKey: function(...args) { return JSON.stringify([this.page?.inputPath, ...args]) }}))
     },
     addPairedShortcode: function (tagName, component) {
-      eleventyConfig.addPairedShortcode(tagName, function (content, ...args) {
+      eleventyConfig.addPairedShortcode(tagName, memoize(function (content, ...args) {
         const collections = this.ctx?.environments?.collections ?? {}
         const page = collections.all?.find(({ inputPath }) => inputPath === this.page.inputPath)
 
         return component(eleventyConfig, { collections, page })(content, ...args)
-      })
+      }, { cacheKey: function(...args) { return JSON.stringify([this.page?.inputPath, content, ...args])}}))
     }
   }
 }
