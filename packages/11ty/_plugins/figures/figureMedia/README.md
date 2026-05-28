@@ -1,5 +1,5 @@
 # FiguresMedia
-Data model that handles figure media assets and provides normalized asset path data for figures.
+Data model that handles figure media assets and provides normalized asset path data and dimensions for figures.
 
 ## `FigureMediaFactory`
 A mostly-abstract factory that creates `FigureMedia` instances via the `create` method. `create` calls the new instance's `processFiles` to start the generation of site media assets and model data for use by components.
