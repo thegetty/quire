@@ -7,6 +7,7 @@ import defaults from './defaults.js'
 import deflistPlugin from 'markdown-it-deflist'
 import footnotePlugin from 'markdown-it-footnote'
 import removeMarkdown from 'remove-markdown'
+import memoize from 'memoize'
 
 /**
  * An Eleventy plugin to configure the markdown library
@@ -115,19 +116,19 @@ export default function (eleventyConfig, options) {
    * Add a universal template filter to render markdown strings as HTML
    * @see https://github.com/markdown-it/markdown-it#simple
    */
-  eleventyConfig.addFilter('markdownify', (content, options = {}) => {
+  eleventyConfig.addFilter('markdownify', memoize((content, options = {}) => {
     if (!content) return ''
 
     return content.match(/\n/) || options.inline === false
       ? markdownLibrary.render(content)
       : markdownLibrary.renderInline(content)
-  })
+  }, { cacheKey: (content, options = {}) => JSON.stringify([content, options])}))
 
   /**
    * Add a universal template filter to remove markdown from a string
    * @see
    */
-  eleventyConfig.addFilter('removeMarkdown', (content) => {
+  eleventyConfig.addFilter('removeMarkdown', memoize((content) => {
     return content ? removeMarkdown(content) : ''
-  })
+  }))
 }
