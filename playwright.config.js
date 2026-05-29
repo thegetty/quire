@@ -16,7 +16,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: undefined, //process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['junit', {printSteps: true, outputFile: pathnameTesting ? 'reports/publication-browser-pathname.xml' :  'reports/publication-browser.xml' }]
