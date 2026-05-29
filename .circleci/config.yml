@@ -204,7 +204,7 @@ jobs:
           at: .
       - run:
           name: Install browser testing dependencies
-          command: npm i && apt-get update && apt-get install -y zip && npx playwright install
+          command: npm i --workspaces false && apt-get update && apt-get install -y zip && npx playwright install
       # test:browsers-circleci follows https://playwright.dev/docs/ci#circleci to correct sharding
       - run: 
           name: Run browser testing on integration test artifacts
