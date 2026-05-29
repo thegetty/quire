@@ -5,17 +5,15 @@ description: Quire publication cover page
 layout: base.11ty.js
 ---
 
+{% if image %}
 {% assign coverImage = image %}
 {% assign imagePath = config.figures.imageDir | concat: coverImage | join: '/' %}
+{% endif %}
 
 <section class="quire-cover__hero hero is-fullheight">
-  <div
-    class="quire-cover__overlay"
-    style="background-image: url('{{ imagePath }}');"
-  >
-    {% comment %} This ensures background image asset gets copied into epub package {% endcomment %}
-    <img class="visually-hidden" src="{{ imagePath }}" alt="" data-outputs-include="epub" />
-  </div>
+  {% if image %}
+    <img class="quire-cover__hero-image hero-image" src="{{ imagePath }}" alt="" />
+  {% endif %}
   <div class="quire-cover__hero-body hero-body">
     <div class="container is-fluid">
       <h1 class="title" id="page-header-{{ page.filePathStem }}">
