@@ -142,7 +142,7 @@ export default (eleventyConfig) => {
   const {
     accessibilitySummary = 'This publications meets baseline accessibility standards',
     accessMode = ['textual', 'visual'],
-    accessModeSufficient = ['textual', 'visual'],
+    accessModeSufficient = ['textual,visual', 'textual'],
     accessibilityFeature = ['unknown'],
     accessibilityHazard = ['unknown']
   } = accessibilityMetadata || {}
