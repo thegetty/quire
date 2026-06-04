@@ -122,6 +122,7 @@ export default class FigureMedia {
     this.canvasId = canvasId()
     this.data = data
     this.debugLog = debugLog
+    this.derivatives = {}
     this.id = id
     this.iiifConfig = iiifConfig
     this.iiifImage = iiifImage
@@ -346,6 +347,8 @@ export default class FigureMedia {
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
       thumbnail: this.staticInlineFigureImage,
+
+      // NB: sequence and annotation figures do not get processed
       derivatives: this.derivatives
     }
   }
@@ -436,7 +439,7 @@ export default class FigureMedia {
   }
 
   /**
-   * @function storeTransformResult
+   * @function storeTransformedDerivative
    *
    * @param {string} name
    * @param {Object} metadata
@@ -446,11 +449,7 @@ export default class FigureMedia {
    * Uses `filename` in paths if non-null.
    *
    **/
-  storeTransformResult (name, metadata, filename = null) {
-    if (typeof this.derivatives !== 'object') {
-      this.derivatives = {}
-    }
-
+  storeTransformedDerivative (name, metadata, filename = null) {
     const { baseURI } = this.iiifConfig
     const { pathname } = new URL(baseURI)
 
@@ -508,7 +507,7 @@ export default class FigureMedia {
     if (this.isExternalResource) {
       for (const transformation of transformations) {
         const name = snakeToCamelCase(transformation.name)
-        this.storeTransformResult(name, { height: this.height, width: this.width })
+        this.storeTransformedDerivative(name, { height: this.height, width: this.width })
       }
 
       return
@@ -527,7 +526,7 @@ export default class FigureMedia {
 
     // Store path and dimensions data for each transformation
     for (const [name, result] of Object.entries(metadata ?? {})) {
-      this.storeTransformResult(name, result)
+      this.storeTransformedDerivative(name, result)
     }
   }
 
