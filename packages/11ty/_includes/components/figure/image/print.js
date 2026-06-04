@@ -21,6 +21,7 @@ export default function (eleventyConfig) {
       alt,
       caption,
       credit,
+      derivatives,
       id,
       isExternalResource,
       label,
@@ -28,30 +29,23 @@ export default function (eleventyConfig) {
       staticInlineFigureImage
     } = figure
 
-    if (!src && !staticInlineFigureImage) return ''
+    const { printImage } = derivatives
+
+    if (printImage === undefined) return ''
+
+    const { paths, dimensions } = printImage
+    const { height, width } = dimensions
+
+    if (!paths.internal) return ''
 
     const labelElement = figureLabel({ caption, id, label })
 
-    /**
-     * NB: Image assets can be: external, in the asset dir, or in the IIIF directory
-     **/
-    let imageSrc
-    switch (true) {
-      case figure.isSequence:
-        imageSrc = figure.staticInlineFigureImage
-        break
-      case figure.isCanvas || figure.isImageService:
-        imageSrc = figure.printImage
-        break
-      case isExternalResource && src:
-        imageSrc = src
-        break
-      default:
-        imageSrc = path.posix.join(imageDir, src)
-    }
-
     return html`
-      <img alt="${escape(alt)}" class="q-figure__image" src="${imageSrc}"/>
+      <img alt="${escape(alt)}"
+           class="q-figure__image"
+           height="${height}"
+           src="${paths.internal}"
+           width="${width}"/>
       ${figureCaption({ caption, content: labelElement, credit })}
     `
   }
