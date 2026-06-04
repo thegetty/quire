@@ -1,6 +1,5 @@
 import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Renders an image with a caption in print output
@@ -14,8 +13,6 @@ export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
   return function (figure) {
     const {
       alt,
@@ -23,10 +20,7 @@ export default function (eleventyConfig) {
       credit,
       derivatives,
       id,
-      isExternalResource,
-      label,
-      src,
-      staticInlineFigureImage
+      label
     } = figure
 
     const { printImage } = derivatives
