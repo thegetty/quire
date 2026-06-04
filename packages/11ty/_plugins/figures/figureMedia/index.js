@@ -346,7 +346,7 @@ export default class FigureMedia {
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
       thumbnail: this.staticInlineFigureImage,
-      transformations: this.transformations
+      derivatives: this.derivatives
     }
   }
 
@@ -447,8 +447,8 @@ export default class FigureMedia {
    *
    **/
   storeTransformResult (name, metadata, filename = null) {
-    if (typeof this.transformations !== 'object') {
-      this.transformations = {}
+    if (typeof this.derivatives !== 'object') {
+      this.derivatives = {}
     }
 
     const { baseURI } = this.iiifConfig
@@ -480,7 +480,7 @@ export default class FigureMedia {
     }
 
     const property = snakeToCamelCase(name)
-    this.transformations[property] = {
+    this.derivatives[property] = {
       dimensions: {
         height,
         width

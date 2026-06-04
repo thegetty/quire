@@ -15,7 +15,7 @@ export default function (eleventyConfig) {
   return function (figure, options) {
     const {
       alt,
-      transformations,
+      derivatives,
       isCanvas,
       isImageService,
       isSequence,
@@ -43,7 +43,7 @@ export default function (eleventyConfig) {
       case isCanvas && !interactive && staticInlineFigureImage:
       case isImageService && !interactive && staticInlineFigureImage:
       case !lightbox && Boolean(staticInlineFigureImage): {
-        const { paths, dimensions } = transformations.staticInlineFigureImage
+        const { paths, dimensions } = derivatives.staticInlineFigureImage
         const { height, width } = dimensions
 
         // Choose media path based on whether path will be loaded as-is or processed by 11ty
@@ -61,7 +61,7 @@ export default function (eleventyConfig) {
       }
 
       default: {
-        const { full } = transformations
+        const { full } = derivatives
         const { paths } = full
 
         return imageTag({ ...figure, lightbox, src: paths.absolute })

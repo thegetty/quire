@@ -16,6 +16,8 @@ Injectable class providing an abstraction over the `sharp` incantations for gene
 ### `Transformer`
 Injectable class providing an abstraction over `sharp`'s `resize` method. Options for individual derivative transformations (eg, thumbnail images) are instantiated are configured in the IIIF configuration (see ["Image processing"](#image-processing) below).
 
+Metadata about asset derivatives' paths and dimensions are stored in the `derivatives` property in the object returned by `FigureMedia`'s `media()` method, with each derivative's metadata stored under its transformation and "full" for the complete image.  
+
 #### Image processing 
 Processes image files in `figure.src`, `figure.iiif_image`, and `annotation.src`.
 

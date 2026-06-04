@@ -68,11 +68,11 @@ test('FigureMediaFactory should use unmutated `src` properties for figure images
   const { figure: figureModel } = await factory.create(figure)
   const figureMedia = figureModel.media()
 
-  const { transformations } = figureMedia
+  const { derivatives } = figureMedia
 
   // Check that the paths of each transformation are unmutated
-  for (const [name, transformation] of Object.entries(transformations)) {
-    const { paths } = transformation
+  for (const [name, derivative] of Object.entries(derivatives)) {
+    const { paths } = derivative
 
     if (paths.absolute !== figure.src || paths.internal !== figure.src || paths.uri !== figure.src) {
       t.fail(`The transformation ${name} should not mutate external resource URLs`)
@@ -134,7 +134,7 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
   const factorySubpath = await MockFigureMediaFactory(sandbox, iiifConfig, transformedNotTiled)
   const { figure: subpathFigureMedia } = await factorySubpath.create(figure)
 
-  const { paths, dimensions } = subpathFigureMedia.transformations.full
+  const { paths, dimensions } = subpathFigureMedia.derivatives.full
   const { absolute, internal, uri } = paths
   const { height, width } = dimensions
 
