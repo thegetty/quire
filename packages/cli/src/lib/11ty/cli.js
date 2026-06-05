@@ -88,7 +88,7 @@ export default {
       all: true,
       cwd: projectRoot,
       env,
-      execPath: process.execPath
+      nodePath: process.execPath
     })
     build.all.pipe(process.stdout)
     await build
@@ -113,7 +113,7 @@ export default {
       all: true,
       cwd: projectRoot,
       env,
-      execPath: process.execPath
+      nodePath: process.execPath
     }).all.pipe(process.stdout)
   }
 }

@@ -4,7 +4,6 @@ import { execa, execaCommand } from 'execa'
 import { fileURLToPath } from 'node:url'
 import { isEmpty } from '#helpers/is-empty.js'
 import config from '#lib/conf/config.js'
-import fetch from 'node-fetch'
 import fs from 'fs-extra'
 import git from '#lib/git/index.js'
 import packageConfig from '#src/packageConfig.js'
@@ -199,7 +198,6 @@ async function installInProject(projectPath, quireVersion, options = {}) {
    * these must be `devDependencies` so that they are not bundled into
    * the final `_site` package when running `quire build`
    */
-  await execaCommand('npm cache clean --force', { cwd: projectPath })
   try {
     await execaCommand('npm install --save-dev', { cwd: projectPath })
   } catch(error) {
