@@ -38,6 +38,24 @@ export default function (eleventyConfig) {
       return pageTitle({ label, title: short_title || truncate(title, 34) })
     }
 
+    const navBarSearchButton = () => {
+      if (!searchEnabled) return ''
+      return html`
+        <button
+          class="quire-navbar-button search-button"
+          aria-controls="quire-search"
+          onclick="toggleSearch()"
+        >
+          <svg data-outputs-exclude="epub,pdf">
+            <switch>
+              <use xlink:href="#search-icon"></use>
+            </switch>
+          </svg>
+          <span class="visually-hidden">Search</span>
+        </button>
+      `
+    }
+
     const navBarStartButton = () => {
       if (!isHomePage) return ''
       const secondPageLink = collections.navigation[1].url
@@ -120,24 +138,7 @@ export default function (eleventyConfig) {
         </a>
         <nav class="quire-navbar-controls">
           <div class="quire-navbar-controls__left">
-            ${
-              searchEnabled
-                ? html`
-                  <button
-                    class="quire-navbar-button search-button"
-                    aria-controls="quire-search"
-                    onclick="toggleSearch()"
-                  >
-                    <svg data-outputs-exclude="epub,pdf">
-                      <switch>
-                        <use xlink:href="#search-icon"></use>
-                      </switch>
-                    </svg>
-                    <span class="visually-hidden">Search</span>
-                  </button>
-                `
-                : ''
-              }
+            ${navBarSearchButton()}
           </div>
           <div class="quire-navbar-controls__center">
             <ul class="quire-navbar-page-controls" role="navigation" aria-label="quick">
