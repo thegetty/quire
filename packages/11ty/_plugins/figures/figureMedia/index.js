@@ -28,6 +28,9 @@ const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
  * @property {String} printImage Optional path to an alternate image to use in print
  */
 export default class FigureMedia {
+  #annotations
+  #sequences
+
   constructor (iiifConfig, imageProcessor, data) {
     const { baseURI, debugLog, dirs, manifestFileName } = iiifConfig
     const outputDir = path.join(dirs.outputPath, data.id)
@@ -155,7 +158,10 @@ export default class FigureMedia {
    * @type  {Array<Annotations>}
    */
   get annotations () {
-    return this.annotationFactory.create()
+    if (this.#annotations === undefined) {
+      this.#annotations = this.annotationFactory.create()
+    }
+    return this.#annotations
   }
 
   /**
@@ -163,7 +169,10 @@ export default class FigureMedia {
    * @type  {Array<Sequence>}
    */
   get sequences () {
-    return this.sequenceFactory.create()
+    if (this.#sequences === undefined) {
+      this.#sequences = this.sequenceFactory.create()
+    }
+    return this.#sequences
   }
 
   /**
@@ -405,12 +414,12 @@ export default class FigureMedia {
 
     await this.calculateDimensions()
 
-    await this.processAnnotationImages()
+    await this.processAnnotationsMedia()
 
     if (this.isSequence) {
-      await this.processFigureSequence()
+      await this.processSequenceMedia()
     } else {
-      await this.processFigureImage()
+      await this.processImageMedia()
     }
 
     if (this.isCanvas) {
@@ -421,12 +430,19 @@ export default class FigureMedia {
   }
 
   /**
-   * Process annotation images
+   * @function processAnnotationsMedia
+   *
+   * Processes annotation assets
+   *
+   * TODO: Pass `transformations` to processImage options as needed for annotation print images
+   *       This should include persisting the resulting derivative metadata.
    */
-  async processAnnotationImages () {
-    // TODO Consider refactor - `this.annotations` creates new instances of AnnotationFactory on each call, `validateImageForTiling` is a no-op against its passed arg
+  async processAnnotationsMedia () {
     if (!this.annotations) return
+
     const annotationItems = this.annotations.flatMap(({ items }) => items)
+
+    // Handle the annotation images
     const results = await Promise.all(annotationItems.map((item) => {
       if (this.debugLog) logger.debug(`processing annotation image ${item.src}`)
       if (item.isImageService) this.validateImageForTiling(item.src)
@@ -434,12 +450,14 @@ export default class FigureMedia {
         tile: item.isImageService
       })
     }))
+
+    // Unwrap any errors
     const errors = results.flatMap(({ errors }) => errors || [])
     if (errors.length) this.errors = this.errors.concat(errors)
   }
 
   /**
-   * @function storeTransformedDerivative
+   * @function storeDerivativeMetadata
    *
    * @param {string} name
    * @param {Object} metadata
@@ -448,8 +466,18 @@ export default class FigureMedia {
    * Stores image paths + metadata for a transformation under the key `name`.
    * Uses `filename` in paths if non-null.
    *
+   * Paths provided:
+   *   - `internal` - Root of the publication, eg, "/iiif/figure-1/cool-image/staticInline.jpg".
+   *                  Used internally in 11ty templates, also print output formats.
+   *
+   *   - `absolute` - Root of the deployed site, eg, "/deployed-pathname/iiif/figure-1/cool-image/staticInline.jpg"
+   *                  Used in post-compiled contexts, eg search data.
+   *
+   *   - `uri` - Complete URL with scheme, eg, "https://example.org/deployed-pathname/iiif/figure-1/cool-image/staticInline.jpg"
+   *             Used in URI contexts, eg manifests.
+   *
    **/
-  storeTransformedDerivative (name, metadata, filename = null) {
+  storeDerivativeMetadata (name, metadata, outputFilename = null) {
     const { baseURI } = this.iiifConfig
     const { pathname } = new URL(baseURI)
 
@@ -457,28 +485,48 @@ export default class FigureMedia {
 
     let paths = {}
 
-    // Ensure the path is passed unmutated if a URL
-    if (this.isExternalResource) {
-      paths = { absolute: this.src, internal: this.src, uri: this.src }
-    } else {
-      // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
-      filename ??= `${name}.jpg`
-      const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.src).name
+    switch (true) {
+      // External resources should pass their URLs unmutated
+      case this.isExternalResource: {
+        paths = { absolute: this.src, internal: this.src, uri: this.src }
+        break
+      }
 
-      // `internal` is used without a leading slash for path math
-      // then made absolutely internal, relative to the publication root
-      const internal = path.posix.join(this.outputPathname, directory, filename)
+      default: {
+        // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
+        outputFilename ??= `${name}.jpg`
+        const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.src).name
+
+        // `internal` is used without a leading slash for path math
+        // then made absolutely internal, relative to the publication root
+        const internal = path.posix.join(this.outputPathname, directory, outputFilename)
+        const absolute = path.posix.join(pathname, internal)
+        const uri = urlPathJoin(baseURI, internal)
+
+        paths = {
+          absolute,
+          internal: path.posix.join('/', internal),
+          uri
+        }
+      }
+    }
+    const property = snakeToCamelCase(name)
+
+    // Apply any overrides from user-supplied data
+    if (property in this.data) {
+      const src = this.data[property]
+
+      const internal = path.posix.join(this.iiifConfig.dirs.imagesDir, src)
       const absolute = path.posix.join(pathname, internal)
       const uri = urlPathJoin(baseURI, internal)
 
       paths = {
         absolute,
-        internal: path.posix.join('/', internal),
+        internal,
         uri
       }
     }
 
-    const property = snakeToCamelCase(name)
     this.derivatives[property] = {
       dimensions: {
         height,
@@ -489,12 +537,12 @@ export default class FigureMedia {
   }
 
   /**
-   * @function processFigureImage
+   * @function processImageMedia
    *
-   * Tiles and transforms `src` asset
+   * Tiles and transforms assets for single-image figures
    *
    */
-  async processFigureImage () {
+  async processImageMedia () {
     if (!(this.src || this.iiifImage)) return
 
     const { transformations } = this.iiifConfig
@@ -507,7 +555,7 @@ export default class FigureMedia {
     if (this.isExternalResource) {
       for (const transformation of transformations) {
         const name = snakeToCamelCase(transformation.name)
-        this.storeTransformedDerivative(name, { height: this.height, width: this.width })
+        this.storeDerivativeMetadata(name, { height: this.height, width: this.width })
       }
 
       return
@@ -526,12 +574,17 @@ export default class FigureMedia {
 
     // Store path and dimensions data for each transformation
     for (const [name, result] of Object.entries(metadata ?? {})) {
-      this.storeTransformedDerivative(name, result)
+      this.storeDerivativeMetadata(name, result)
     }
   }
 
-  async processFigureSequence () {
-    // TODO Consider refactor - any time `this.sequences` is referenced, it creates a new instance of SequenceFactory
+  /**
+   * @function processSequenceMedia
+   *
+   * Unpacks sequence data and creates assets for sequences
+   *
+   **/
+  async processSequenceMedia () {
     if (!this.sequences) return
 
     const { transformations } = this.iiifConfig
