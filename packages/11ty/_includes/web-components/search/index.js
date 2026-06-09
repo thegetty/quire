@@ -171,9 +171,11 @@ class SearchResultsList extends LitElement {
   }
 
   render () {
-    return html`<ol class="search-list">
-      ${this.results.map(result => this.resultTemplate(result))}
-    </ol>`
+    return html`
+      <ol class="search-list" aria-live="polite">
+        ${this.results.map(result => this.resultTemplate(result))}
+      </ol>
+    `
   }
 }
 

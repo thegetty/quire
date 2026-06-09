@@ -26,8 +26,9 @@ export default function (eleventyConfig) {
           <section class="hero">
             <div class="hero-body">
               <div class="container">
-              <div class="input-bar">
+              <div role="search" class="input-bar">
                 <input
+                  aria-controls="js-search-results-list"
                   aria-label="Search this publication"
                   class="input is-large"
                   id="js-search-input"

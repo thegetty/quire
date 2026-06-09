@@ -43,7 +43,7 @@ export default function (eleventyConfig) {
       return html`
         <button
           class="quire-navbar-button search-button"
-          aria-controls="quire-search"
+          aria-controls="js-search"
           onclick="toggleSearch()"
         >
           <svg data-outputs-exclude="epub,pdf">
