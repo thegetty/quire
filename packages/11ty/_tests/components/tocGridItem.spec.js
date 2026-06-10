@@ -10,7 +10,8 @@
 // import path from 'path'
 // import sinon from 'sinon'
 import test from 'ava'
+import tocGridItemImage from '../../_includes/components/table-of-contents/item/image.js'
 
-test('TOC Grid Item should have valid thumbnails when using image from files and external IIIF endpoints', (t) => {
+test('Table of Contents Grid Item Image should use thumbnails metadata if available', (t) => {
   t.fail()
 })
