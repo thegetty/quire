@@ -29,6 +29,8 @@ test('Ensure Table of Contents Grid Item Image use thumbnails metadata if availa
 
   // Render out the TOC image, parse it and interrogate the attributes
   const rendered = imageComponent(figureMedia)
+  t.not(rendered, '')
+
   const parsed = JSDOM.fragment(rendered)
 
   const src = parsed.querySelector('img@src')
