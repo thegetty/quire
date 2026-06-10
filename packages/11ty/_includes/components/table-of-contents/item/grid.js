@@ -1,4 +1,5 @@
 import { html, oneLine } from '#lib/common-tags/index.js'
+import path from 'node:path'
 
 /**
  * Renders a TOC item
@@ -19,6 +20,7 @@ export default function (eleventyConfig) {
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const tableOfContentsImage = eleventyConfig.getFilter('tableOfContentsImage')
   const { contributorDivider } = eleventyConfig.globalData.config.tableOfContents
+  const { imageDir } = eleventyConfig.globalData.config.figures
 
   return function (params) {
     const {
@@ -57,10 +59,9 @@ export default function (eleventyConfig) {
     const slugPageAttribute = children ? 'slug-page' : ''
 
     let tocFigure
-
     switch (true) {
       case !!image:
-        tocFigure = { alt: '', src: image }
+        tocFigure = { alt: '', src: path.posix.join(imageDir, image) }
         break
       case !!pageFigure: {
         tocFigure = pageFigure[0] ? getFigureMedia(pageFigure[0]) : null
@@ -79,7 +80,7 @@ export default function (eleventyConfig) {
     }
 
     const imageElement = tocFigure
-      ? tableOfContentsImage({ alt: tocFigure.alt, src: tocFigure.src })
+      ? tableOfContentsImage(tocFigure)
       : ''
 
     if (!children) {
