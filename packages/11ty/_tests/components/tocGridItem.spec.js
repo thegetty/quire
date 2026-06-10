@@ -33,9 +33,11 @@ test('Ensure Table of Contents Grid Item Image use thumbnails metadata if availa
 
   const parsed = JSDOM.fragment(rendered)
 
-  const src = parsed.querySelector('img@src')
-  const height = parsed.querySelector('img@height')
-  const width = parsed.querySelector('img@width')
+  const img = parsed.querySelector('img[src]')
+
+  const src = img.getAttribute('src')
+  const height = Number(img.getAttribute('height'))
+  const width = Number(img.getAttribute('width'))
 
   t.is(src, figureMedia.derivatives.thumbnail.paths.internal)
   t.is(height, figureMedia.derivatives.thumbnail.dimensions.height)
