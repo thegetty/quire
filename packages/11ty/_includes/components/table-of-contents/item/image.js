@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Renders a TOC item image
@@ -14,12 +13,12 @@ import path from 'node:path'
  */
 export default function (eleventyConfig) {
   return function (figureMedia) {
-    let { alt, derivatives, src: canonSrc } = figureMedia
+    const { alt, derivatives, src: canonSrc } = figureMedia
     let height, width, src
 
     switch (true) {
-      case derivatives?.thumbnail?.paths !== undefined
-        && derivatives?.thumbnail?.dimensions !== undefined:
+      case derivatives?.thumbnail?.paths !== undefined &&
+            derivatives?.thumbnail?.dimensions !== undefined: {
         const { thumbnail } = derivatives
         const { dimensions, paths } = thumbnail
 
@@ -28,12 +27,12 @@ export default function (eleventyConfig) {
         src = paths.internal
 
         break
-
+      }
       case Boolean(canonSrc):
         src = canonSrc
         break
 
-      default: 
+      default:
         return ''
     }
 
