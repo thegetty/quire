@@ -584,7 +584,7 @@ export default class FigureMedia {
    * Unpacks sequence data and creates assets for sequences
    *
    * TODO: Unwrap results metadata and store
-   * 
+   *
    **/
   async processSequenceMedia () {
     if (!this.sequences) return
