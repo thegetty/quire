@@ -414,13 +414,13 @@ export default class FigureMedia {
 
     await this.calculateDimensions()
 
-    await this.processAnnotationsMedia()
-
     if (this.isSequence) {
       await this.processSequenceMedia()
     } else {
       await this.processImageMedia()
     }
+
+    await this.processAnnotationsMedia()
 
     if (this.isCanvas) {
       await this.createManifest()
@@ -434,8 +434,8 @@ export default class FigureMedia {
    *
    * Processes annotation assets
    *
-   * TODO: Pass `transformations` to processImage options as needed for annotation print images
-   *       This should include persisting the resulting derivative metadata.
+   * TODO: Define a compositing transform for choice annotations
+   * TODO: Transform each annotation for radio button annotations
    */
   async processAnnotationsMedia () {
     if (!this.annotations) return
@@ -583,6 +583,8 @@ export default class FigureMedia {
    *
    * Unpacks sequence data and creates assets for sequences
    *
+   * TODO: Unwrap results metadata and store
+   * 
    **/
   async processSequenceMedia () {
     if (!this.sequences) return
