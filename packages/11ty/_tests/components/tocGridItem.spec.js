@@ -1,21 +1,16 @@
 /**
- * figures.spec.js
+ * tocGridItem.spec.js
  *
- * Tests for the `figures` plugin
+ * Tests for the `tocGridItem` component
  *
  **/
-// import esmock from 'esmock'
-// import { fileURLToPath } from 'url'
-// import fs from 'fs'
-// import path from 'path'
-// import sinon from 'sinon'
+import { JSDOM } from 'jsdom'
 import test from 'ava'
 import tocGridItemImage from '../../_includes/components/table-of-contents/item/image.js'
 
-test('Table of Contents Grid Item Image should use thumbnails metadata if available', (t) => {
-  const imageComponent = tocGridItemImage({})
-
-  // Mock figureMedia data
+test('Ensure Table of Contents Grid Item Image use thumbnails metadata if available', (t) => {
+  // Init the component with an empty config and initialized figure media data hunk
+  const imageComponent = tocGridItemImage({ globalData: { config: { figures: {} } } })
   const figureMedia = {
     derivatives: {
       thumbnail: {
@@ -31,9 +26,16 @@ test('Table of Contents Grid Item Image should use thumbnails metadata if availa
       }
     }
   }
-  const rendered = imageComponent(figureMedia)
-  console.log(rendered)
-  // TODO: JSDOM the rendered image @src should === figureMedia.derivatives.thumbnail.paths.internal and metadata should match too
 
-  t.fail()
+  // Render out the TOC image, parse it and interrogate the attributes
+  const rendered = imageComponent(figureMedia)
+  const parsed = JSDOM.fragment(rendered)
+
+  const src = parsed.querySelector('img@src')
+  const height = parsed.querySelector('img@height')
+  const width = parsed.querySelector('img@width')
+
+  t.is(src, figureMedia.derivatives.thumbnail.paths.internal)
+  t.is(height, figureMedia.derivatives.thumbnail.dimensions.height)
+  t.is(width, figureMedia.derivatives.thumbnail.dimensions.width)
 })
