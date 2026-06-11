@@ -54,7 +54,7 @@
     "conf": "^13.1.0",
     "cross-env": "^7.0.3",
     "del": "^8.0.1",
-    "epubjs-cli": "^0.1.6",
+    "epubjs-cli": "^0.2.4",
     "execa": "^9.6.1",
     "fs-extra": "^11.1.0",
     "hosted-git-info": "^6.1.1",

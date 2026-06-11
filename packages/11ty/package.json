@@ -114,7 +114,7 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-scss": "^3.0.0",
     "sass": "^1.99.0",
-    "sharp": "^0.33.2",
+    "sharp": "^0.33.5",
     "sinon": "^21.0.0",
     "toml": "^3.0.0"
   },
