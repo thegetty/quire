@@ -1,7 +1,6 @@
 import SearchIndex from './search.js'
 import path from 'node:path'
 
-const QUIRE_FIGURE_CLASS = '.q-figure'
 const SEARCH_INDEX_DIR = '_search'
 
 /**
@@ -18,35 +17,30 @@ const SEARCH_INDEX_DIR = '_search'
  *                        The directory name for outputing the search index
  *
  */
-export default function (eleventyConfig, collections, {
-  indexFigures = false,
+export default async function (eleventyConfig, collections, {
+  indexFigures = true,
   excludeSelectors = [],
   searchIndexDir = SEARCH_INDEX_DIR
 } = {}) {
+  if (eleventyConfig.globalData.config?.searchEnabled === false) return
+
+  /**
+   * Create a new search index.
+   */
+  const index = new SearchIndex(eleventyConfig, {
+    excludeSelectors
+  })
+  await index.create()
+
   eleventyConfig.on('eleventy.after', async ({ results }) => {
     const { outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
-
-    /**
-     * Add figures to the excluded selectors if indexing them separately.
-     */
-    if (indexFigures) {
-      excludeSelectors = excludeSelectors ? [QUIRE_FIGURE_CLASS] : excludeSelectors.push(QUIRE_FIGURE_CLASS)
-    }
-
-    /**
-     * Create a new search index for each build.
-     */
-    const index = new SearchIndex(eleventyConfig, {
-      excludeSelectors
-    })
-    await index.create()
 
     /**
      * Adds each results HTML content to the search index.
      */
     await Promise.all(results.map(async ({ url, content }) => {
       const page = collections.html.find(({ url: pageUrl }) => url === pageUrl)
-      if (!page || page.search === false) return
+      if (!page || page.data?.search === false) return
       const { canonicalURL } = page.data
       await index.addPageRecord({ url: canonicalURL, content })
     }))
@@ -65,6 +59,5 @@ export default function (eleventyConfig, collections, {
      */
     const outputPath = path.join(publicDir || outputDir, searchIndexDir)
     await index.write(outputPath)
-    await index.close()
   })
 }

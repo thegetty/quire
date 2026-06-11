@@ -21,6 +21,13 @@ export default function (eleventyConfig) {
       {
         property: 'type',
         content: layout
+      },
+      {
+        property: 'image',
+        content: ''
+      },
+      { property: 'image_alt',
+        content: ''
       }
     ]
 

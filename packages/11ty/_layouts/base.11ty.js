@@ -13,7 +13,7 @@ export default async function (data) {
   const id = this.slugify(url) || path.parse(inputPath).name
   const pageId = `page-${id}`
   const figures = pageData.page.figures
-  const shouldIndex = pageData.page.search !== false
+  const shouldIndex = data.search !== false
   const search = shouldIndex ? 'data-pagefind-body' : ''
 
   return html`

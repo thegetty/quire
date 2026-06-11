@@ -39,7 +39,8 @@ const stubData = {
     pub_date: new Date('2025-01-11'),
     promo_image: promoImage,
     language: 'en-us',
-    url: 'https://example.com/test-publication/'
+    url: 'https://example.com/test-publication/',
+    pathname: '/test-publication/'
   }
 }
 
@@ -104,13 +105,12 @@ const collections = {
 
 const figureRecords = [
   {
-    content: 'This is a test figure.',
+    content: 'This is a test figure. John Doe',
     language: 'en-us',
     meta: {
       credit: 'John Doe',
-      image: '/_assets/images/figure1.jpg',
+      image: '/test-publication/_assets/images/figure1.jpg',
       image_alt: 'A photo of a tree',
-      pageTitle: 'A|Test Page 1: subtitle',
       title: 'Figure 1',
       type: 'image'
     },
@@ -199,4 +199,31 @@ test('Validate figure records added to PageFind index', async (t) => {
       record
     )
   })
+})
+
+test('Figures without a label fall back to a default label', async (t) => {
+  const sandbox = sinon.createSandbox()
+  const { eleventy } = t.context
+  const eleventyConfig = eleventy.writer.userConfig
+
+  const search = new SearchIndex(eleventyConfig, { indexFigures: true })
+  search.index = FakePagefindIndex(sandbox)
+
+  await search.addFigureRecord({
+    canonicalURL: 'https://example.com/test-publication/page1/index.html',
+    figureData: {
+      id: 'unlabeled',
+      caption: 'A photograph with no label.',
+      src: 'unlabeled.jpg',
+      alt: 'An unlabeled photograph',
+      mediaType: 'image'
+    }
+  })
+
+  t.is(search.index.addCustomRecord.callCount, 1, 'Unlabeled figures are still indexed')
+  t.is(
+    search.index.addCustomRecord.getCall(0).args[0].meta.title,
+    'Figure',
+    'Default fallback label is used'
+  )
 })

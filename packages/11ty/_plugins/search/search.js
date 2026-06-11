@@ -63,16 +63,23 @@ export default class SearchIndex {
 
   /**
    * Returns the served asset location for this image
-   * accounting for fully qualified asset URLs
+   * accounting for fully qualified asset URLs and
+   * prepending the publication pathname.
    *
    * @param {string} srcPath
    * @returns {string}
    */
   assetSrc (srcPath) {
     if (!srcPath) return null
-    const regexp = /^(https?:\/\/|\/iiif\/|\\iiif\\)/
+    const externalRegexp = /^https?:\/\//
+    if (externalRegexp.test(srcPath)) return srcPath
     const { imageDir } = this.config.figures
-    return regexp.test(srcPath) ? srcPath : path.posix.join(imageDir, srcPath)
+    const { pathname } = this.publication || {}
+    const iiifRegexp = /^(\/iiif\/|\\iiif\\)/
+    const assetPath = iiifRegexp.test(srcPath) ? srcPath : path.posix.join(imageDir, srcPath)
+    if (!pathname || pathname === '/') return assetPath
+    if (assetPath.startsWith(pathname)) return assetPath
+    return path.posix.join(pathname, assetPath)
   }
 
   /**
@@ -85,25 +92,27 @@ export default class SearchIndex {
    * @param {Object} figure.title
    * @returns {Promise<void>}
    */
-  async addFigureRecord ({ figureData, canonicalURL, title } = {}) {
-    const { id, caption, alt, src, thumbnail, label, credit, mediaType } = figureData
+  async addFigureRecord ({ figureData, canonicalURL } = {}) {
+    const { id, caption, alt, src, label, credit, mediaType } = figureData
     const markdownify = this.eleventyConfig.getFilter('markdownify')
     const removeHTML = this.eleventyConfig.getFilter('removeHTML')
 
-    // Need to strip markdown and HTML tags for indexing
-    const htmlContent = markdownify(caption)
-    const content = removeHTML(htmlContent)
-
-    if (!label || !caption) {
+    if (!caption) {
       return
     }
+
+    // Need to strip markdown and HTML tags for indexing
+    const stripFormatting = (text) => removeHTML(markdownify(text))
+    let content = stripFormatting(caption)
+    if (credit) content += ' ' + stripFormatting(credit)
+
+    const fallbackLabel = this.config.figures?.defaultLabel || 'Figure'
     await this.#index.addCustomRecord({
       url: canonicalURL + '#' + id,
       content,
       meta: {
-        title: label,
-        pageTitle: title,
-        image: thumbnail || this.assetSrc(src) || '',
+        title: label || fallbackLabel,
+        image: this.assetSrc(src) || '',
         image_alt: alt || '',
         credit,
         type: mediaType
