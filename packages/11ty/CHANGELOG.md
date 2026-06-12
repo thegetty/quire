@@ -12,6 +12,30 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.47]
+
+### Changed
+
+- Refactored search component for improved styling, UX, searchable content types (figure, contributor, etc), and pagefind backend
+- Improved usage of accessibility-related schema:org meta tags in epub output (eg, `accessibilitySummary`, `accessMode`)
+
+## [1.0.0-rc.46]
+
+### Changed
+
+- All figure images are now transformed into thumbnail, etc derivatives.
+- `Figure` class renamed `FigureMedia`, along with filter helpers (eg, `getFigureMedia`).
+
+## [1.0.0-rc.45]
+
+### Changed
+
+- Refactors search to use `pagefind` as search backend and expands variety of content that can be searched.
+
+### Fixed
+
+- Issue where annotation figures did not always correctly load default choices.
+
 ## [1.0.0-rc.40]
 
 ### Fixed

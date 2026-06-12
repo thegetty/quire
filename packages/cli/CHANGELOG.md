@@ -12,6 +12,35 @@ Changelog entries are classified using the following labels:
 - `Fixed`: for any bug fixes
 - `Removed`: for deprecated features removed in this release
 
+## [1.0.0-rc.55]
+
+### Bumped
+
+- `epubjs-cli` to `0.2.4`
+
+## [1.0.0-rc.54]
+
+### Bumped
+
+- `del` to 8.0.1
+- `execa` to 9.6.1
+- `simple-git` to 3.36.0
+- Removed `node-fetch` as no longer needed.
+
+### Changed
+
+- Behavior of `quire new` to not force-dump `npm` cache before depenedncy install.
+
+## [1.0.0-rc.53]
+
+### Added
+
+- `quire validate` command for validating publication configurations. Thanks @andy-jdl!
+
+## Fixed
+
+- Removes package tarballs downloaded during `quire new` commands.
+
 ## [1.0.0-rc.33]
 
 ### Bumped
