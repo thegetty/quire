@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Renders a TOC item image
@@ -13,14 +12,38 @@ import path from 'node:path'
  * @return {String} TOC image markup
  */
 export default function (eleventyConfig) {
-  const { imageDir } = eleventyConfig.globalData.config.figures
-  return function ({ alt = '', src = '', isStatic = false }) {
-    if (!imageDir || !src) return ''
-    const imgPath = src.startsWith('http') || isStatic ? src : path.join(imageDir, src)
+  return function (figureMedia) {
+    const { alt, derivatives, src: canonSrc } = figureMedia
+    let height, width, src
+
+    switch (true) {
+      case derivatives?.thumbnail?.paths !== undefined &&
+            derivatives?.thumbnail?.dimensions !== undefined: {
+        const { thumbnail } = derivatives
+        const { dimensions, paths } = thumbnail
+
+        height = dimensions.height
+        width = dimensions.width
+        src = paths.internal
+
+        break
+      }
+      case Boolean(canonSrc):
+        src = canonSrc
+        break
+
+      default:
+        return ''
+    }
+
     return html`
       <div class="card-image">
         <figure class="image">
-          <img src="${imgPath}" alt="${alt}" />
+          <img alt="${alt}"
+               height="${height}"
+               width="${width}"
+               src="${src}"
+          />
         </figure>
       </div>
     `

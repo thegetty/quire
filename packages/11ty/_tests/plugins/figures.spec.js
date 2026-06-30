@@ -82,7 +82,7 @@ test('FigureMediaFactory should use unmutated `src` properties for figure images
   t.pass()
 })
 
-test('FigureMediaFactory should create a staticInlineFigureImage for zoomable figures', async (t) => {
+test('FigureMediaFactory should create derivatives for zoomable figures', async (t) => {
   const { iiifConfig, sandbox } = t.context
 
   const figure = {
