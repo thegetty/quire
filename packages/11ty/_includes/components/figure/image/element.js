@@ -15,7 +15,7 @@ export default function (eleventyConfig) {
   return function (figure, options) {
     const {
       alt,
-      dimensions,
+      derivatives,
       isCanvas,
       isImageService,
       isSequence,
@@ -30,60 +30,42 @@ export default function (eleventyConfig) {
     }
 
     switch (true) {
-      case isSequence:
-        if (!interactive && staticInlineFigureImage) {
-          return imageTag({
-            alt,
-            height: dimensions['static-inline-figure-image'].height,
-            isStatic: !interactive,
-            lazyLoading,
-            lightbox,
-            src: staticInlineFigureImage,
-            width: dimensions['static-inline-figure-image'].width
-          })
-        } else {
-          return imageSequence(figure, options)
-        }
-      case isCanvas:
-        if (!interactive && staticInlineFigureImage) {
-          return imageTag({
-            alt,
-            height: dimensions['static-inline-figure-image'].height,
-            isStatic: !interactive,
-            lazyLoading,
-            lightbox,
-            src: staticInlineFigureImage,
-            width: dimensions['static-inline-figure-image'].width
-          })
-        } else {
-          return canvasPanel(figure)
-        }
-      case isImageService:
-        if (!interactive && staticInlineFigureImage) {
-          return imageTag({
-            alt,
-            height: dimensions['static-inline-figure-image'].height,
-            isStatic: !interactive,
-            lazyLoading,
-            lightbox,
-            src: staticInlineFigureImage,
-            width: dimensions['static-inline-figure-image'].width
-          })
-        } else {
-          return imageService(figure)
-        }
-      case !lightbox && Boolean(staticInlineFigureImage):
+      case isSequence && interactive:
+        return imageSequence(figure, options)
+
+      case isCanvas && interactive:
+        return canvasPanel(figure)
+
+      case isImageService && interactive:
+        return imageService(figure)
+
+      case isSequence && !interactive && staticInlineFigureImage:
+      case isCanvas && !interactive && staticInlineFigureImage:
+      case isImageService && !interactive && staticInlineFigureImage:
+      case !lightbox && Boolean(staticInlineFigureImage): {
+        const { paths, dimensions } = derivatives.staticInlineFigureImage
+        const { height, width } = dimensions
+
+        // Choose media path based on whether path will be loaded as-is or processed by 11ty
+        const src = lightbox ? paths.absolute : paths.internal
+
         return imageTag({
           alt,
-          height: dimensions['static-inline-figure-image'].height,
-          isStatic: true,
+          height,
+          isStatic: lightbox ? !interactive : true,
           lazyLoading,
           lightbox,
-          src: staticInlineFigureImage,
-          width: dimensions['static-inline-figure-image'].width
+          src,
+          width
         })
-      default:
-        return imageTag({ ...figure, lightbox })
+      }
+
+      default: {
+        const { full } = derivatives
+        const { paths } = full
+
+        return imageTag({ ...figure, lightbox, src: paths.absolute })
+      }
     }
   }
 }

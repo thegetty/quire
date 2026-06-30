@@ -18,7 +18,7 @@ const iiifSize = (resize, imgInfo) => {
   const { width } = imgInfo
   const { width: xformWidth, withoutEnlargement } = resize
 
-  let reqWidth = xformWidth
+  let reqWidth = xformWidth ?? width
   if (xformWidth > width && withoutEnlargement) {
     reqWidth = width
   }
@@ -41,14 +41,14 @@ export default class Transformer {
    * Creates a `sharp/transform` that writes the image file to the output directory.
    * Nota bene: this `transform` is distinct form `11ty/transform`
    *
-   * @property {String} inputPath The path to the image file to transform
+   * @property {String} inputSource The image file path or IIIF endpoint URL to transform
    * @property  {Object} transformation A transformation item from `iiif/config.js#transformations`
    * @param  {Object} options
    * @property  {Object} resize Resize options for `sharp`
    * @return {Promise}
    */
-  async transform (inputPath, outputDir, transformation, options = {}) {
-    if (!inputPath) return {}
+  async transform (inputSource, outputDir, transformation, options = {}) {
+    if (!inputSource) return {}
 
     const { region, iiifEndpoint } = options
     const { resize } = transformation
@@ -56,9 +56,9 @@ export default class Transformer {
     let ext, name
     if (iiifEndpoint) {
       ext = '.jpg'
-      name = slugify(inputPath)
+      name = slugify(inputSource)
     } else {
-      ({ ext, name } = path.parse(inputPath))
+      ({ ext, name } = path.parse(inputSource))
     }
 
     const format = this.formats.find(({ input }) => input.includes(ext))
@@ -67,13 +67,13 @@ export default class Transformer {
     fs.ensureDirSync(path.parse(outputPath).dir)
 
     if (fs.pathExistsSync(outputPath)) {
-      logger.debug(`skipping previously transformed image '${inputPath}'`)
+      logger.debug(`skipping previously transformed image '${inputSource}'`)
       return
     }
 
-    // If this is an IIIF endpoint, download with the appropriate size params
+    // Download from the IIIF endpoint (if exists) with the appropriate size params
     if (iiifEndpoint) {
-      const iiifUrl = inputPath.endsWith('/') ? inputPath : inputPath + '/'
+      const iiifUrl = inputSource.endsWith('/') ? inputSource : inputSource + '/'
 
       // Will need info for profile detection (v2/v3) and dimensions
       const infoUrl = new URL('info.json', iiifUrl)
@@ -98,7 +98,7 @@ export default class Transformer {
      * Declare a `sharp` service with a `crop` method that is callable
      * without a `region`, which the sharp API `extract` method does not allow
      */
-    const service = sharp(inputPath)
+    const service = sharp(inputSource)
     service.crop = function (region) {
       if (!region) return this
       const [top, left, width, height] = region.split(',').map((item) => parseFloat(item.trim()))

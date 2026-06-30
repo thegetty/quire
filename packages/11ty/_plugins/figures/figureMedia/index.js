@@ -5,6 +5,7 @@ import Fetch from '@11ty/eleventy-fetch'
 import Manifest from '../iiif/manifest/index.js'
 import SequenceFactory from '../sequence/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
+import snakeToCamelCase from '#lib/snakeToCamelCase/index.js'
 import path from 'node:path'
 import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
@@ -121,6 +122,7 @@ export default class FigureMedia {
     this.canvasId = canvasId()
     this.data = data
     this.debugLog = debugLog
+    this.derivatives = {}
     this.id = id
     this.iiifConfig = iiifConfig
     this.iiifImage = iiifImage
@@ -183,10 +185,9 @@ export default class FigureMedia {
   }
 
   /**
-   * Path to the image file that represents the canvas
-   * Used to define canvas properties `width` and `height`
+   * Path to the image file on disk, or the image of the first choice or sequence image.
    */
-  get canvasImagePath () {
+  get imageFilePath () {
     if (this.iiifImage) return this.iiifImage
 
     const firstChoiceSrc = () => {
@@ -217,7 +218,8 @@ export default class FigureMedia {
   }
 
   /**
-   * Test if the `src` is an external resource
+   * Returns true if `src` is a URL resource and should be served that way
+   *
    * @return {Boolean}
    */
   get isExternalResource () {
@@ -344,14 +346,17 @@ export default class FigureMedia {
       startCanvasIndex,
       src: this.src,
       staticInlineFigureImage: this.staticInlineFigureImage,
-      thumbnail: this.staticInlineFigureImage
+      thumbnail: this.staticInlineFigureImage,
+
+      // NB: sequence and annotation figures do not get processed
+      derivatives: this.derivatives
     }
   }
 
   /**
    * @function calculateDimensions
    *
-   * Fetches and stores figure height and width
+   * Reads and stores this figure's height and width
    *
    **/
   async calculateDimensions () {
@@ -367,13 +372,17 @@ export default class FigureMedia {
 
         height = info.height
         width = info.width
-      } catch (err) {
-        logger.error(`Could not fetch metadata for figure ${this.id} with error ${err}!`)
+      } catch (error) {
+        logger.error(`Could not fetch metadata for figure ${this.id} with error ${error}!`)
         return
       }
     } else {
-      // TODO: Use `try / catch` here! sharp().metadata() can also throw
-      ({ height, width } = await sharp(this.canvasImagePath).metadata())
+      try {
+        ({ height, width } = await sharp(this.imageFilePath).metadata())
+      } catch (error) {
+        logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
+        return
+      }
     }
 
     this.height = height
@@ -393,7 +402,6 @@ export default class FigureMedia {
     this.errors = []
 
     if (this.mediaType !== 'image') return {}
-    if (this.isExternalResource && !this.iiifImage) return {}
 
     await this.calculateDimensions()
 
@@ -431,6 +439,56 @@ export default class FigureMedia {
   }
 
   /**
+   * @function storeTransformedDerivative
+   *
+   * @param {string} name
+   * @param {Object} metadata
+   * @param {null|string} filename
+   *
+   * Stores image paths + metadata for a transformation under the key `name`.
+   * Uses `filename` in paths if non-null.
+   *
+   **/
+  storeTransformedDerivative (name, metadata, filename = null) {
+    const { baseURI } = this.iiifConfig
+    const { pathname } = new URL(baseURI)
+
+    const { height, width } = metadata
+
+    let paths = {}
+
+    // Ensure the path is passed unmutated if a URL
+    if (this.isExternalResource) {
+      paths = { absolute: this.src, internal: this.src, uri: this.src }
+    } else {
+      // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
+      filename ??= `${name}.jpg`
+      const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.src).name
+
+      // `internal` is used without a leading slash for path math
+      // then made absolutely internal, relative to the publication root
+      const internal = path.posix.join(this.outputPathname, directory, filename)
+      const absolute = path.posix.join(pathname, internal)
+      const uri = urlPathJoin(baseURI, internal)
+
+      paths = {
+        absolute,
+        internal: path.posix.join('/', internal),
+        uri
+      }
+    }
+
+    const property = snakeToCamelCase(name)
+    this.derivatives[property] = {
+      dimensions: {
+        height,
+        width
+      },
+      paths
+    }
+  }
+
+  /**
    * @function processFigureImage
    *
    * Tiles and transforms `src` asset
@@ -438,12 +496,21 @@ export default class FigureMedia {
    */
   async processFigureImage () {
     if (!(this.src || this.iiifImage)) return
-    if (this.isExternalResource) return
 
     const { transformations } = this.iiifConfig
 
     const options = {
       transformations
+    }
+
+    // Add passthrough paths for absolute, etc on external image URLs
+    if (this.isExternalResource) {
+      for (const transformation of transformations) {
+        const name = snakeToCamelCase(transformation.name)
+        this.storeTransformedDerivative(name, { height: this.height, width: this.width })
+      }
+
+      return
     }
 
     if (this.isCanvas) {
@@ -453,17 +520,13 @@ export default class FigureMedia {
       options.tile = true
     }
 
-    const processSrc = this.src ?? this.iiifImage
-    const { errors, metadata } = await this.processImage(processSrc, this.outputDir, options)
+    const { errors, metadata } = await this.processImage(this.src ?? this.iiifImage, this.outputDir, options)
 
     if (errors) this.errors = this.errors.concat(errors)
 
-    // Store dimensions from transform metadata for downstream use
-    this.dimensions = {}
-    for (const [name, data] of Object.entries(metadata ?? {})) {
-      const { height, width } = data
-
-      this.dimensions[name] = { height, width }
+    // Store path and dimensions data for each transformation
+    for (const [name, result] of Object.entries(metadata ?? {})) {
+      this.storeTransformedDerivative(name, result)
     }
   }
 
