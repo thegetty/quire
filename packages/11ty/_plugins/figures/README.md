@@ -1,6 +1,6 @@
 ## Figures Processing
 
-Quire's figures processing provides methods to prepare images for use with quire front-end components. It produces single-file derivates (thumbnails, etc) used throughout the publication. For figures that are configured to be zoomable it also produces directory hierarchies of tiles conforming to [IIIF Image API 2.0](https://iiif.io/api/image/2.0/). It produces [IIIF Presentation API 3.0](https://iiif.io/api/presentation/3.0/) for figures that are zoomable, have annotations, or are a sequence.
+Quire's figures processing provides methods to prepare images for use with Quire front-end components. It produces single-file derivatives (thumbnails, etc) used throughout the publication. For figures that are configured to be zoomable it also produces directory hierarchies of tiles conforming to [IIIF Image API 2.0](https://iiif.io/api/image/2.0/). It produces [IIIF Presentation API 3.0](https://iiif.io/api/presentation/3.0/) for figures that are zoomable, have annotations, or are a sequence.
 
 Currently these manifests are used with the [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/api-reference/canvas-panel), [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service), and `q-image-sequence` web components.
 
@@ -13,7 +13,7 @@ The plugin loads its image processing configuration from [`_plugins/figures/iiif
   - `hostExternal`: whether to host IIIF sources (eg, `iiif_id`) in this publication. Defaults to true.
   - `transformations`: options used with `sharp` for generating derivative images. Each entry in the array generates a named derivative in the the publication's `/iiif` directory. Defaults to emitting derivatives at `full` (entire image), `thumbnail` (320px wide), `print-image` (2500px wide), and `static-inline-figure-image` (640px wide).
 
-### Processing figures
+### Processing Figures
 
 The plugin iterates entries in `figures_list` of `figures.yaml`. It uses `FigureFactory` to create a `FigureMedia` object from user-supplied YAML data and metadata from the figure's asset file(s).
 
@@ -21,9 +21,9 @@ The Factory object uses direct injection to manage the image transformation func
 
 For each image in the publication, the plugin creates a full image, a thumbnail image, a static image on-page usage, and a print-sized image. For figures that use `zoom: true` the plugin creates image tiles stored for retrieval via IIIF image service.
 
-### `FigureMedia` data model and global data
+### `FigureMedia` Data Model and Global Data
 
-The plugin adds `FigureMedia` instances to 11ty global data sfter processing. `FigureMedia` has all the properties supplied by users and these additional properties:
+The plugin adds `FigureMedia` instances to 11ty global data after processing. `FigureMedia` has all the properties supplied by users and these additional properties:
   
 - `annotations`: Annotations from `figures.yaml` will have `type` and `url` properties.
 
