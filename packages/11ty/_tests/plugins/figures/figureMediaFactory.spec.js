@@ -1,7 +1,7 @@
 /**
- * figures.spec.js
+ * figuresMediaFactory.spec.js
  *
- * Tests for the `figures` plugin
+ * Tests for the figures plugin's `FigureMediaFactory`
  *
  **/
 import esmock from 'esmock'
@@ -11,7 +11,7 @@ import path from 'path'
 import sinon from 'sinon'
 import test from 'ava'
 
-const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../_plugins/figures/test/__fixtures__/iiif-config.json')
+const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../_plugins/figures/test/__fixtures__/iiif-config.json')
 
 /**
  * @function MockFigureMediaFactory
