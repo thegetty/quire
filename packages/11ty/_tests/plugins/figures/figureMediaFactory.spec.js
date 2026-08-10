@@ -157,3 +157,7 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
   t.is(height, 1000)
   t.is(width, 1000)
 })
+
+// test('TODO: Any tests specific to the figure media factory to verify behaviors of bare data like that', (t) => {
+//   t.fail('Are there any figure media factory tests for bare data or the poster-style data?')
+// })
