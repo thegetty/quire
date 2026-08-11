@@ -23,7 +23,7 @@ test('Annex publication images (logos, avatars, etc) should be added to figuresM
       id,
       figure: {
         id,
-        media: () => { return { id } }        
+        media: () => { return { id } }
       }
     }
   })
