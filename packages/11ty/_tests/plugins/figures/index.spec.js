@@ -34,7 +34,7 @@ test('Annex publication images (logos, avatars, etc) should be added to figuresM
     '#plugins/figures/figureMedia/factory.js': sandbox.stub().returns({ create })
   })
 
-  // Stub globalData with our test figures
+  // Stub globalData with our test figures and fake `addGlobalData`
   const eleventyConfig = {
     addGlobalData,
     globalData: {
@@ -58,46 +58,57 @@ test('Annex publication images (logos, avatars, etc) should be added to figuresM
         figure_list: []
       }
     },
-    on: async (eventKey, hook) => {
-      await hook()
+    // `on` and `hooks` mock eleventy's event loop,
+    //  which must be executed on its own to be properly `await`ed
+    on: (eventKey, asyncHook) => {
+      eleventyConfig.hooks.push(asyncHook)
     },
+    hooks: [],
     serverOptions: {
       port: 8080
     }
   }
 
   pluginInit(eleventyConfig, {})
-  console.log('suppers', addGlobalData.notCalled)
+  await Promise.all(eleventyConfig.hooks.map((h) => h()))
+
   t.true(create.calledWithMatch(sinon.match({ id: 'promo-image', src: 'test-promo-image.jpg' })),
     'Figures plugin should process promo image for derivatives')
-  // TODO: Test that addGlobalData was called for this figure
-  // t.true(
-  //   addGlobalData.calledWithMatch(
-  //     sinon.match('figureMedia'),
-  //     sinon.match.has('id', 'promo-image')
-  //   ),
-  //   'globalData should be added for promo image')
+  t.true(
+    addGlobalData.calledWithMatch(
+      sinon.match('figureMedia'), sinon.match((value) => {
+        return Array.isArray(value) && value.some(d => d.id === 'promo-image')
+      })),
+    'globalData should be added for promo image'
+  )
 
   t.true(create.calledWithMatch(sinon.match({ id: 'epub-default', src: 'test-default-cover.jpg' })),
     'Figures plugin should process epub default cover for derivatives')
-  // TODO: Test that addGlobalData was called for this figure
-  // t.true(
-  //   addGlobalData.calledWithMatch(
-  //     sinon.match('figureMedia'),
-  //     sinon.match.has('id', 'promo-image')
-  //   ),
-  //   'globalData should be added for epub default cover'
-  // )
+  t.true(
+    addGlobalData.calledWithMatch(
+      sinon.match('figureMedia'), sinon.match((value) => {
+        return Array.isArray(value) && value.some(d => d.id === 'epub-default')
+      })),
+    'globalData should be added for epub default cover'
+  )
 
   t.true(create.calledWithMatch(sinon.match({ id: 'logo-test-publisher', src: 'test-publisher-logo.jpg' })),
     'Figures plugin should process logos for derivatives')
-  // TODO
-  // t.true(addGlobalData.calledWithMatch(sinon.match({ id: '' })),
-  //   'globalData should be added for logos')
+  t.true(
+    addGlobalData.calledWithMatch(
+      sinon.match('figureMedia'), sinon.match((value) => {
+        return Array.isArray(value) && value.some(d => d.id === 'logo-test-publisher')
+      })
+    ),
+    'globalData should be added for logos')
 
   t.true(create.calledWithMatch(sinon.match({ id: 'contributor-test-contributor', src: 'test-contributor-avatar.jpg' })),
     'Figures plugin should process contributor avatars for derivatives')
-  // TODO
-  // t.true(addGlobalData.calledWithMatch(sinon.match({ id: '' })),
-  //   'globalData should be added for contributor avatars')
+  t.true(
+    addGlobalData.calledWithMatch(
+      sinon.match('figureMedia'), sinon.match((value) => {
+        return Array.isArray(value) && value.some(d => d.id === 'contributor-test-contributor')
+      })
+    ),
+    'globalData should be added for contributor avatars')
 })
