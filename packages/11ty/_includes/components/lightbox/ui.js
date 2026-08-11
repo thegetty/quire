@@ -2,19 +2,6 @@ import { html } from '#lib/common-tags/index.js'
 
 export default function (eleventyConfig) {
   return function (figures) {
-    const zoomButtons = () => {
-      const zoomInAriaLabel = 'Zoom In'
-      const zoomOutAriaLabel = 'Zoom Out'
-      // TODO determine how to programattically zoom with `image-service`/`canvas-panel`
-      const displayZoomButtons = false
-      return displayZoomButtons
-        ? html`
-          <button class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--in" title="${zoomInAriaLabel}" aria-label="${zoomInAriaLabel}">+</button>
-          <button class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--out" title="${zoomOutAriaLabel}" aria-label="${zoomOutAriaLabel}">-</button>
-        `
-        : ''
-    }
-
     const fullscreenButton = () => {
       const ariaLabel = 'View Fullscreen'
       return html`

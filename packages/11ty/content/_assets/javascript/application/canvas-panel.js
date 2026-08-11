@@ -37,7 +37,6 @@ const getServiceId = (element) => {
     return imageSequence.getAttribute('sequence-id')
   } else {
     // console.info(`Hash does not reference a canvas panel or image service component:`, element)
-
   }
 }
 
@@ -91,7 +90,9 @@ const goToFigureState = function ({
   // Done if there's no service to annotate / target
   if (!serviceId) return
 
-  const inputs = document.querySelectorAll(`#${figureId} .annotations-ui__input, [slot="slides"][id="${figureId}"] .annotations-ui__input`)
+  const inputs = document.querySelectorAll(
+    `#${figureId} .annotations-ui__input, [slot="slides"][id="${figureId}"] .annotations-ui__input`
+  )
   const annotations = [...inputs].map((input) => {
     const id = input.getAttribute('data-annotation-id')
     input.checked = annotationIds.includes(id)
@@ -233,6 +234,24 @@ const selectChoice = (canvasPanel, annotation) => {
 }
 
 /**
+ * Add event handlers for zoom buttons
+ */
+const setupZoomHandlers = () => {
+  const canvasPanels = document.querySelectorAll('canvas-panel')
+  for (const canvasPanel of canvasPanels) {
+    const zoomIn = canvasPanel.querySelector('[data-lightbox-zoomin]')
+    const zoomOut = canvasPanel.querySelector('[data-lightbox-zoomout]')
+
+    zoomIn.addEventListener('click', () => canvasPanel.zoomIn())
+    zoomOut.addEventListener('click', () => canvasPanel.zoomOut())
+    canvasPanel.addEventListener('zoom', ({ detail }) => {
+      zoomIn.toggleAttribute('disabled', !detail.canZoomIn)
+      zoomOut.toggleAttribute('disabled', !detail.canZoomOut)
+    })
+  }
+}
+
+/**
  * Add event handlers to Annotations UI links and inputs
  */
 const setUpUIEventHandlers = () => {
@@ -269,6 +288,8 @@ const setUpUIEventHandlers = () => {
         goToFigureState({ annotationIds, figureId, region, sequence })
       )
     }
+
+    setupZoomHandlers()
   }
 
   /**
@@ -295,9 +316,13 @@ const setUpUIEventHandlers = () => {
  * @property {Array<Object>} annotations
  */
 const update = (id, data) => {
-  const webComponents = document.querySelectorAll(`canvas-panel[canvas-id="${id}"], image-service[src="${id}"], q-image-sequence[sequence-id="${id}"]`)
+  const webComponents = document.querySelectorAll(
+    `canvas-panel[canvas-id="${id}"], image-service[src="${id}"], q-image-sequence[sequence-id="${id}"]`
+  )
   if (!webComponents.length) {
-    console.error(`Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`)
+    console.error(
+      `Failed to call update on canvas panel or image-service component with id ${id}. Element does not exist.`
+    )
   }
   const { annotations, region } = data
 
@@ -309,13 +334,15 @@ const update = (id, data) => {
     }
 
     if (region && !isImageSequence) {
-      const target = region && region !== 'reset'
-        ? getTarget(region)
-        : getTarget(element.getAttribute('region'))
+      const target =
+        region && region !== 'reset' ? getTarget(region) : getTarget(element.getAttribute('region'))
 
-      const transition = { easing: element.easingFunctions().easeOutExpo, duration: 2000 }
+      const transition = {
+        easing: element.easingFunctions().easeOutExpo,
+        duration: 2000
+      }
       const regionTransition = () => {
-        element.transition(tm => {
+        element.transition((tm) => {
           tm.goToRegion(target, { transition })
         })
       }
