@@ -49,6 +49,24 @@ export default function (eleventyConfig) {
       choiceId = selectedAnnotation ? selectedAnnotation.uri : defaultAnnotation.uri
     }
 
+    const zoomButtons =
+      preset === 'zoom'
+        ? html`
+            <div class="q-lightbox-ui__zoom">
+              <button
+                class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--in"
+                data-lightbox-zoomin
+                aria-label="Zoom in"
+              />
+              <button
+                class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--out"
+                data-lightbox-zoomout
+                aria-label="Zoom out"
+              />
+            </div>
+          `
+        : ''
+
     return html`
       <canvas-panel
         canvas-id="${canvasId}"
@@ -61,18 +79,7 @@ export default function (eleventyConfig) {
         virtual-sizes="${virtualSizes}"
         width="${width}"
       >
-        <div class="q-lightbox-ui__zoom">
-          <button
-            class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--in"
-            data-lightbox-zoomin
-            aria-label="Zoom in"
-          />
-          <button
-            class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--out"
-            data-lightbox-zoomout
-            aria-label="Zoom out"
-          />
-        </div>
+        ${zoomButtons}
       </canvas-panel>
     `
   }
