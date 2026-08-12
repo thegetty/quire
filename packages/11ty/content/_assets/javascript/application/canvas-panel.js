@@ -237,7 +237,7 @@ const selectChoice = (canvasPanel, annotation) => {
  * Add event handlers for zoom buttons
  */
 const setupZoomHandlers = () => {
-  const canvasPanels = document.querySelectorAll('canvas-panel')
+  const canvasPanels = document.querySelectorAll('canvas-panel[preset=zoom]')
   for (const canvasPanel of canvasPanels) {
     const zoomIn = canvasPanel.querySelector('[data-lightbox-zoomin]')
     const zoomOut = canvasPanel.querySelector('[data-lightbox-zoomout]')
@@ -252,7 +252,7 @@ const setupZoomHandlers = () => {
 }
 
 /**
- * Add event handlers to Annotations UI links and inputs
+ * Add event handlers to Annotations UI links, inputs and zoom buttons
  */
 const setUpUIEventHandlers = () => {
   /**
@@ -288,8 +288,6 @@ const setUpUIEventHandlers = () => {
         goToFigureState({ annotationIds, figureId, region, sequence })
       )
     }
-
-    setupZoomHandlers()
   }
 
   /**
@@ -305,6 +303,11 @@ const setUpUIEventHandlers = () => {
 
     input.addEventListener('click', ({ target }) => handleSelect(target))
   }
+
+  /**
+   * Add click handlers to zoom buttons
+   */
+  setupZoomHandlers()
 }
 
 /**
