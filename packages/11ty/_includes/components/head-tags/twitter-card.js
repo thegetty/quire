@@ -11,18 +11,19 @@ import path from 'node:path'
  * @return     {String}  HTML meta and link elements
  */
 export default function (eleventyConfig) {
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const { config, publication } = eleventyConfig.globalData
-  const { description, promo_image } = publication
+  const { description } = publication
   const { imageDir } = config.figures
 
   return function ({ abstract, cover, layout }) {
+    const promoFigure = getFigureMedia('promo-image')
     const imagePath = () => {
       if (!publication.url) return
-      if (layout !== 'essay') {
-        return promo_image && path.join(imageDir, promo_image)
+      if (layout !== 'essay' || !cover) {
+        return promoFigure.derivatives.full.paths.internal
       } else {
-        const image = cover || promo_image
-        return image && path.join(imageDir, image)
+        return path.posix.join(imageDir, cover)
       }
     }
 
