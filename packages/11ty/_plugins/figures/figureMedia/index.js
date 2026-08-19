@@ -513,7 +513,6 @@ export default class FigureMedia {
       }
 
       case this.mediaType === 'annex-image': {
-        console.log(pathname, imagesDir, this.src)
         const absolute = path.posix.join(pathname, imagesDir, this.src)
         const internal = path.posix.join(imagesDir, this.src)
         const uri = new URL(absolute, baseURI).href
