@@ -7,6 +7,7 @@ const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
 export default (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication
   const { inputDir, outputDir, publicDir } = eleventyConfig.globalData.directoryConfig
+  const { imageDir } = eleventyConfig.globalData.config.figures
   const { port = 8080 } = eleventyConfig.serverOptions
 
   const projectRoot = path.resolve(inputDir, '..')
@@ -36,7 +37,7 @@ export default (eleventyConfig) => {
       /**
        * Image file directory relative to `inputRoot`
        */
-      imagesDir: path.join('_assets', 'images'),
+      imagesDir: imageDir,
       /**
        * Root directory for input images
        */

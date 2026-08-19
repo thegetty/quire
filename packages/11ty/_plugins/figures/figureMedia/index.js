@@ -409,7 +409,7 @@ export default class FigureMedia {
   /**
    * @function processFigure
    *
-   * Processes figure metadata and asset files into servable assets
+   * Coordinates figure metadata generation and asset file handling
    *
    * @return {Object}
    * @property {Array} errors
@@ -418,23 +418,34 @@ export default class FigureMedia {
   async processFigure () {
     this.errors = []
 
-    if (this.mediaType !== 'image') return {}
+    switch (this.mediaType) {
+      case 'annex-image':
+        // Store dimensions and return
+        await this.calculateDimensions()
+        this.storeDerivativeMetadata('full', { height: this.height, width: this.width })
 
-    await this.calculateDimensions()
+        return { errors: this.errors }
 
-    if (this.isSequence) {
-      await this.processSequenceMedia()
-    } else {
-      await this.processImageMedia()
+      case 'image':
+        await this.calculateDimensions()
+
+        if (this.isSequence) {
+          await this.processSequenceMedia()
+        } else {
+          await this.processImageMedia()
+        }
+
+        await this.processAnnotationsMedia()
+
+        if (this.isCanvas) {
+          await this.createManifest()
+        }
+
+        return { errors: this.errors }
+
+      default:
+        return {}
     }
-
-    await this.processAnnotationsMedia()
-
-    if (this.isCanvas) {
-      await this.createManifest()
-    }
-
-    return { errors: this.errors }
   }
 
   /**
@@ -487,6 +498,7 @@ export default class FigureMedia {
    **/
   storeDerivativeMetadata (name, metadata, outputFilename = null) {
     const { baseURI } = this.iiifConfig
+    const { imagesDir } = this.iiifConfig.dirs
     const { pathname } = new URL(baseURI)
 
     const { height, width } = metadata
@@ -497,6 +509,20 @@ export default class FigureMedia {
       // External resources should pass their URLs unmutated
       case this.isExternalResource: {
         paths = { absolute: this.src, internal: this.src, uri: this.src }
+        break
+      }
+
+      case this.mediaType === 'annex-image': {
+        console.log(pathname, imagesDir, this.src)
+        const absolute = path.posix.join(pathname, imagesDir, this.src)
+        const internal = path.posix.join(imagesDir, this.src)
+        const uri = new URL(absolute, baseURI).href
+
+        paths = {
+          absolute,
+          internal,
+          uri
+        }
         break
       }
 

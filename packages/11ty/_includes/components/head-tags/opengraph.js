@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 import escape from 'html-escape'
+import path from 'node:path'
+
 /**
  * Renders <head> <meta> data tags for Open Graph protocol data
  *
@@ -9,11 +11,15 @@ import escape from 'html-escape'
  * @return     {String}  HTML meta and link elements
  */
 export default function (eleventyConfig) {
-  const { publication } = eleventyConfig.globalData
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
+  const { config, publication } = eleventyConfig.globalData
 
   return function ({ page }) {
-    const { description, identifier, promo_image, pub_date, pub_type, url } = publication
+    const { description, identifier, pub_date, pub_type } = publication
     const pageType = page && page.type
+
+    const promoFigure = getFigureMedia('promo-image')
+    const coverImage = page.cover ? path.posix.join(config.imageDir, page.cover) : undefined
 
     const meta = [
       {
@@ -22,13 +28,13 @@ export default function (eleventyConfig) {
       },
       {
         property: 'og:url',
-        content: new URL(page.url, url).toString()
+        content: page.canonicalURL
       },
       {
         property: 'og:image',
         content: pageType !== 'essay'
-          ? promo_image
-          : page.cover || promo_image
+          ? promoFigure.derivatives.full.paths.uri
+          : coverImage || promoFigure.derivatives.full.paths.uri
       },
       {
         property: 'og:description',
