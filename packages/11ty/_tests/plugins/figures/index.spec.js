@@ -38,11 +38,16 @@ test('Annex publication images (logos, avatars, etc) should be added to figuresM
   const eleventyConfig = {
     addGlobalData,
     globalData: {
+      config: {
+        epub: {
+          defaultCoverImage: 'test-default-cover.jpg'
+        },
+        figures: {
+          imageDir: '/_assets/images'
+        }
+      },
       directoryConfig: {
         inputDir: 'content', publicDir: 'public'
-      },
-      epub: {
-        defaultCoverImage: 'test-default-cover.jpg'
       },
       publication: {
         contributor: [
