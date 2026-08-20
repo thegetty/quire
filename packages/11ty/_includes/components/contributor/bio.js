@@ -40,9 +40,17 @@ export default function (eleventyConfig) {
     let contributorImage = ''
     if (image) {
       const figure = getFigureMedia(`contributor-${id}`)
+      const media = figure.derivatives.full
+
+      const { internal: imagePath } = media.paths
+      const { height, width } = media.dimensions
+
+      const heightAttr = height ? `height="${height}"` : ''
+      const widthAttr = width ? `width="${width}"` : ''
+
       contributorImage = html`
           <div class="media-left">
-            <img class="image quire-contributor__pic" src="${figure.derivatives.full.paths.internal}" alt="Picture of ${escape(name)}">
+            <img class="image quire-contributor__pic" ${heightAttr} ${widthAttr} src="${imagePath}" alt="Picture of ${escape(name)}">
           </div>`
     }
 

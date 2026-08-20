@@ -20,7 +20,7 @@ test.before('', async (t) => {
       id,
       figure: {
         id,
-        // `media()` is called by figures plugin so must exist 
+        // `media()` is called by figures plugin so must exist
         media: () => { return { id } }
       }
     }
