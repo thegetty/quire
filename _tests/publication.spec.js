@@ -92,10 +92,12 @@ const checkAllImgsOK = async (page) => {
 
   // Append og:image value to urls (if it is not a valid URL it's an error)
   const ogLoc = page.locator('meta[property="og:image"]')
-  const ogElement = ogLoc.first()
-  const ogUrl = await ogElement.getAttribute('content')
+  const ogElements = await ogLoc.all()
 
-  imgUrls.push(ogUrl)
+  if (ogElements.length > 0) {
+    const ogUrl = await ogElements.at(0).getAttribute('content')
+    imgUrls.push(ogUrl)
+  }
 
   await Promise.all( imgUrls.map( (u) => checkUrl(u,page) ) )
 }
