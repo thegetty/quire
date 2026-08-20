@@ -14,22 +14,24 @@ const stubData = {
       pagePDF: true
     },
     figures: {
-      imageDir,
-      figure_list: [
-        {
-          id: 'fig1',
-          label: 'Figure 1',
-          caption: 'This is a test figure.',
-          src: 'figure1.jpg',
-          alt: 'A photo of a tree',
-          credit: 'John Doe',
-          mediaType: 'image'
-        }
-      ]
+      imageDir
     },
     pageTitle: {
       labelDivider: '|'
     }
+  },
+  figures: {
+    figure_list: [
+      {
+        id: 'fig1',
+        label: 'Figure 1',
+        caption: 'This is a test figure.',
+        src: 'figure1.jpg',
+        alt: 'A photo of a tree',
+        credit: 'John Doe',
+        mediaType: 'image'
+      }
+    ]
   },
   publication: {
     title: 'Test Publication',
@@ -68,7 +70,7 @@ const collections = {
         canonicalURL: 'https://example.com/test-publication/page1/index.html',
         page: {
           figures: [
-            stubData.config.figures.figure_list[0]
+            stubData.figures.figure_list[0]
           ]
         },
         title: 'Test Page 1',
@@ -92,7 +94,7 @@ const collections = {
         page: {
           canonicalURL: 'https://example.com/test-publication/page3/index.html',
           figures: [
-            stubData.config.figures.figure_list[0]
+            stubData.figures.figure_list[0]
           ]
         },
         title: 'Test Page 2',

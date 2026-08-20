@@ -1,16 +1,24 @@
+## Figures Plugin
+
+The figures plugin provides media metadata, asset paths, and tiling or scaling for images in quire publications. The processed images are consumed by components and template code using the `figureMedia` global object and a `getFigureMedia(<id-as-string>)` 11ty filter.
+
+## Overview
+
+Before each publication build, the plugin uses the global figure data added by the globalData plugin from `figures.yaml`, `config.yaml`, and `publication.yaml`.
+
+For each entry in `figures_list`, the plugin uses `FigureFactory` to create a `figureMedia` object. Internally, the factory triggers dimensions metadata inspection, image tile and scaled derivative generation, IIIF manifest creation, and path calculations.
+
+In addition, `epub.defaultCoverImage` from `config.yaml` and `promo_image`, `contributor[].image`, and `publisher[].logo` from `publication.yaml` are made available using the `getFigureMedia` interface.
+
 ## IIIF Processing
 
-Quire's IIIF processing provides methods to prepare images to IIIF 3.0 specification for use with [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/components/cp) and [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web components.
+For figures with `zoom` set to true, the plugin provides tiled image directory hierarchies and an IIIF 3.0 Presentation API manifest for use with [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/components/cp) and its [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web components.
 
-Processing iterates over the data in `figures.yaml`, passing each figure entry to an instance of `FigureFactory` to create a `figure` on which a method can be called to generate image tiles, write IIIF manifest JSON files, and perform image transformations.
-
-### Setup
+### Setup and Configuration
 
 The `baseURI` property set in [`config.yaml`](/content/_data/config.yaml) will be used to generate IIIF `@id` properties.
 
 When running the Eleventy development server the `baseURI` is set to `localhost`.
-
-### Config
 
 IIIF configuration options can be found in [`_plugins/figures/iiif/config.js`](iiif/config.js).
 

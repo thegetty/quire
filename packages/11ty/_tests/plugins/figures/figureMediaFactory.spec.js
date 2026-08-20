@@ -1,7 +1,7 @@
 /**
- * figures.spec.js
+ * figuresMediaFactory.spec.js
  *
- * Tests for the `figures` plugin
+ * Tests for the figures plugin's `FigureMediaFactory`
  *
  **/
 import esmock from 'esmock'
@@ -11,7 +11,7 @@ import path from 'path'
 import sinon from 'sinon'
 import test from 'ava'
 
-const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../_plugins/figures/test/__fixtures__/iiif-config.json')
+const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../_plugins/figures/test/__fixtures__/iiif-config.json')
 
 /**
  * @function MockFigureMediaFactory
@@ -157,3 +157,7 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
   t.is(height, 1000)
   t.is(width, 1000)
 })
+
+// test('TODO: Any tests specific to the figure media factory to verify behaviors of bare data like that', (t) => {
+//   t.fail('Are there any figure media factory tests for bare data or the poster-style data?')
+// })

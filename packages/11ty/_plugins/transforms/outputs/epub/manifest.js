@@ -12,6 +12,7 @@ const logger = chalkFactory('_plugins:epub:manifest')
  * @return {Object}
  */
 export default (eleventyConfig) => {
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const removeHTML = eleventyConfig.getFilter('removeHTML')
   const sortByKeys = eleventyConfig.getFilter('sortByKeys')
 
@@ -23,14 +24,13 @@ export default (eleventyConfig) => {
     description,
     isbn,
     language,
-    promo_image: promoImage,
     pub_date: pubDate,
     publishers,
     readingLine,
     subtitle,
     title
   } = eleventyConfig.globalData.publication
-  const { accessibilityMetadata, epub, figures: { imageDir } } = eleventyConfig.globalData.config
+  const { accessibilityMetadata } = eleventyConfig.globalData.config
 
   /**
    * Contributor name, filtered by type
@@ -55,15 +55,19 @@ export default (eleventyConfig) => {
   }
 
   const cover = () => {
-    const image = promoImage || epub.defaultCoverImage
-    if (!image) {
+    const promoFigure = getFigureMedia('promo-image')
+    const epubDefaultImage = getFigureMedia('epub-default')
+
+    // Use the internal path to align disk file paths correctly
+    const coverPath = promoFigure ? promoFigure.derivatives.full.paths.internal : epubDefaultImage.derivatives.full.paths.internal
+    if (!coverPath) {
       logger.error('Epub requires a cover image defined in publication.promo_image or config.epub.defaultCoverImage.')
       return
     }
 
-    // Remove leading absolute pathing
-    const realtiveImageDir = imageDir.startsWith('/') ? imageDir.slice(1) : imageDir
-    return path.posix.join(realtiveImageDir, image)
+    // Remove leading absolute pathing so it works correctly in epub package
+    const relative = path.posix.relative('/', coverPath)
+    return relative
   }
 
   /**

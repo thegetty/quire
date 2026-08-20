@@ -20,7 +20,9 @@ const stubGlobalData = (stubData, finalizer) => {
         copyButton: {}
       },
       epub: {},
-      figures: { }
+      figures: {
+        imageDir: ''
+      }
     }
     let publication = {}
     const figures = { figure_list: [] }
@@ -78,7 +80,7 @@ const minimalBuildingData = {
       outputDir: '_epub'
     },
     figures: {
-      imageDir: '_assets/images/figures'
+      imageDir: '/_assets/images'
     },
     pageTitle: {
       labelDivider: '. '

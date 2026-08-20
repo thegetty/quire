@@ -11,6 +11,7 @@ import path from 'node:path'
  * @return     {String}  An HTML script element with JSON-LD
  */
 export default function (eleventyConfig) {
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const { config, publication } = eleventyConfig.globalData
   const { imageDir } = config.figures
 
@@ -106,6 +107,7 @@ export default function (eleventyConfig) {
       identifier: publication.publisher.url
     }
 
+    const promoFigure = getFigureMedia('promo-image')
     const Article = {
       '@type': 'Article',
       author: [...pageContributors],
@@ -118,7 +120,7 @@ export default function (eleventyConfig) {
         author: [...publicationContributors],
         datePublished: publication.pub_date,
         dateModified: publication.revision_history.date,
-        image: publication.promo_image && path.join(imageDir, publication.promo_image),
+        image: promoFigure.derivatives.full.paths.uri,
         license: publication.license.url,
         keywords: publication.subject
           .filter(({ type }) => type === 'keyword')
