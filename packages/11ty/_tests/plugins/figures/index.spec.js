@@ -8,17 +8,15 @@ import test from 'ava'
 import esmock from 'esmock'
 import sinon from 'sinon'
 
+/**
+ * Sets up a sandbox and fake functions for using FigureMediaFactory and globalData
+ **/
 test.before('', async (t) => {
   const sandbox = sinon.createSandbox()
 
-  t.context.sandbox = sandbox
-})
-
-test('Annex publication images (logos, avatars, etc) should be added to figuresMedia globalData', async (t) => {
-  const { sandbox } = t.context
-
-  // fake functions for tracking calls on the factory mock and global data
+  // Inspectable factory `create` member and eleventyConfig `addGlobalData` members
   const create = sandbox.fake(({ id }) => {
+    //  `media()` gets called at the end of figures plugin init so must exist 
     return {
       id,
       figure: {
@@ -29,12 +27,25 @@ test('Annex publication images (logos, avatars, etc) should be added to figuresM
   })
   const addGlobalData = sandbox.fake()
 
-  // Initialize the plugin against a config that auto-runs the plugin's event hook
+  t.context.sandbox = sandbox
+  t.context.create = create
+  t.context.addGlobalData = addGlobalData
+})
+
+test('Annex publication images (logos, avatars, etc) should be added to figuresMedia globalData', async (t) => {
+  const { addGlobalData, create, sandbox } = t.context
+
+  // Import the plugin with our test function injected as a member
   const pluginInit = await esmock('#plugins/figures/index.js', {
     '#plugins/figures/figureMedia/factory.js': sandbox.stub().returns({ create })
   })
 
-  // Stub globalData with our test figures and fake `addGlobalData`
+  /**
+   * Stub configuration with the test function injected, useable input values,
+   * and a minimal event loop that runs the initialized hooks.
+   *
+   * NB: `on` handlers are called synchronously so `runHooks()` executes the stack
+   **/
   const eleventyConfig = {
     addGlobalData,
     globalData: {
@@ -63,19 +74,19 @@ test('Annex publication images (logos, avatars, etc) should be added to figuresM
         figure_list: []
       }
     },
-    // `on` and `hooks` mock eleventy's event loop,
-    //  which must be executed on its own to be properly `await`ed
+    _hooks: [],
     on: (eventKey, asyncHook) => {
-      eleventyConfig.hooks.push(asyncHook)
+      eleventyConfig._hooks.push(asyncHook)
     },
-    hooks: [],
+    runHooks: async () => await Promise.all(eleventyConfig._hooks.map((h) => h())),
     serverOptions: {
       port: 8080
     }
   }
 
+  // Initialize the plugin and run the hooks
   pluginInit(eleventyConfig, {})
-  await Promise.all(eleventyConfig.hooks.map((h) => h()))
+  await eleventyConfig.runHooks()
 
   t.true(create.calledWithMatch(sinon.match({ id: 'promo-image', src: 'test-promo-image.jpg' })),
     'Figures plugin should process promo image for derivatives')
