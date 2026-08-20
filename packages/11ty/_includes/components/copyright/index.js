@@ -24,11 +24,15 @@ export default function (eleventyConfig) {
     const publisherImages = publication.publisher.flatMap(({ logo, name }) => {
       const logoFigure = getFigureMedia(`logo-${slugify(name)}`)
 
-      const imagePath = logo && logoFigure.derivatives.full.paths.internal
+      if (!logo || !logoFigure) return []
 
-      return imagePath
-        ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
-        : []
+      const media = logoFigure.derivatives?.full
+      if (!media) return []
+
+      const { internal: imagePath } = media.paths
+      if (!imagePath) return []
+
+      return [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
     })
 
     const { license } = publication
