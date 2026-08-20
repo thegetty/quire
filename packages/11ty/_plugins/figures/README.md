@@ -1,60 +1,42 @@
 ## Figures Plugin
 
-Quire's figures plugin provides methods to prepare images and media for use with front-end components. It produces single-file derivatives (thumbnails, etc.) used throughout quire publications, generates tiled image derivatives for zoomable images, and calculates media asset paths and URLs.
+The figures plugin provides media metadata, asset paths, and tiling or scaling for images in quire publications. The processed images are consumed by components and template code using the `figureMedia` global object and a `getFigureMedia(<id-as-string>)` 11ty filter.
 
-For figures that are configured to be zoomable, the plugin produces directory hierarchies of tiles conforming to [IIIF Image API 2.0](https://iiif.io/api/image/2.0/). It also generates [IIIF Presentation API 3.0](https://iiif.io/api/presentation/3.0/) manifests for zoomable figures, figures with annotations, and figures with image sequences. Within quire the IIIF manifests are used with the [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/api-reference/canvas-panel), [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service), and `q-image-sequence` web components.
+## Overview
 
-### Processing Configuration
+Before each publication build, the plugin uses the global figure data added by the globalData plugin from `figures.yaml`, `config.yaml`, and `publication.yaml`.
 
-The plugin loads its image processing configuration from [`_plugins/figures/iiif/config.js`](iiif/config.js). A few required properties control figure processing and IIIF behaviors:
+For each entry in `figures_list`, the plugin uses `FigureFactory` to create a `figureMedia` object. Internally, the factory triggers dimensions metadata inspection, image tile and scaled derivative generation, IIIF manifest creation, and path calculations.
 
-  - `baseURI`: base URI to use for IIIF Presentation `@id` properties. When running the Eleventy development server the `baseURI` is set to `localhost`.
-  - `formats`: maps image input formats to output formats. By default all input image formats are output as JPEGs.
-  - `hostExternal`: whether to host IIIF sources (eg, `iiif_id`) in this publication. Defaults to true.
-  - `transformations`: options used with `sharp` for generating derivative images. Each entry in the array generates a named derivative in the the publication's `/iiif` directory. Defaults to emitting derivatives at `full` (entire image), `thumbnail` (320px wide), `print-image` (2500px wide), and `static-inline-figure-image` (640px wide).
+In addition, `epub.defaultCoverImage` from `config.yaml` and `promo_image`, `contributor[].image`, and `publisher[].logo` from `publication.yaml` are made available using the `getFigureMedia` interface.
 
-### `FigureMedia` API and Global Data
+## IIIF Processing
 
-The plugin adds `FigureMedia` objects to 11ty global data. For front-end component writers, these objecst are usually fetched with the `getFigureMedia` filter; the returned objects and are components' primary means of accessing figures data. In addition to the properties supplied by users in `figures.yaml`, `FigureMedia` objects feature properties prepared for use by components:
+For figures with `zoom` set to true, the plugin provides tiled image directory hierarchies and an IIIF 3.0 Presentation API manifest for use with [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/components/cp) and its [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web components.
+
+### Setup and Configuration
+
+The `baseURI` property set in [`config.yaml`](/content/_data/config.yaml) will be used to generate IIIF `@id` properties.
+
+When running the Eleventy development server the `baseURI` is set to `localhost`.
+
+IIIF configuration options can be found in [`_plugins/figures/iiif/config.js`](iiif/config.js).
+
+### Global Data
+
+Figures rendered using the `canvas-panel` web component will have the following additional properties:
   
-- `derivatives`: A map of derivative names (from `transformations`, above) to objects containing `paths` and `dimensions` for that derivative. `paths` provides an `internal` property with the asset path for this figure when emitted internal to the publication (before asset bundling), an `absolute` property with the asset path for this figure when emitted in the final deployment, and a `uri` property with the fully qualified URI for this figure.
+`annotations`: Annotations from `figures.yaml` will have `type` and `url` properties.
 
-The contents of these objects are determined by the figure type: 
-  - For figure images, the derivative names available are those configured by `transformations` for each figure image -- `full`, `printImage`, `staticInlineFigureImage`, and `thumbnail`.
-  - For embedded figure types like `youtube`, `soundcloud`, and `vimeo`, `derivatives` contains an `embed` object containing the figure's `sourceUrl` and `embedUrl`. `poster`, if available, is emitted on `full` keys.
-  - For video figures, `embed` will contain a `media` object with the same path structures `internal` for the video asset file. `poster`, if available, is emitted on `full` keys.
+`canvasId`: URI of the IIIF canvas panel.
 
-- `annotations`: Annotations from `figures.yaml` will have `type` and `url` properties.
-
-- `canvasId`: URI of the IIIF canvas panel.
-
-- `info`: Path to the image service `info.json` relative to the project root.
+`info`: Path to the image service `info.json` relative to the project root.
   
-- `manifestId`: URI of the IIIF manifest.
-
-- `dimensions`: an object of derivative dimensions, with derivative names (eg, `"print"` as keys).
-
-- `isCanvas`: the figure has a canvas representation.
-
-- `isExternalResource`: the figure is external to the publication (eg, supplied via CDN).
-
-- `isImageService`: the figure is an IIIF image service.
-
-- `isSequence`: the figure has a sequence.
-
-- `mediaType`: asset media type -- figures without a user-supplied `media_type` emit "image".
-
-### Processing Figures
-
-The plugin iterates entries in `figures_list` of `figures.yaml`. It uses `FigureFactory` to create a `FigureMedia` object from user-supplied YAML data and metadata from the figure's asset file(s).
-
-The Factory object uses direct injection to manage the image transformation functions via an `ImageProcessor` instance the provides scaled derivative transforms and image tiling. The data model for IIIF Presentation manifests are managed via `Manifest`, `Annotation`, and `Sequence` models.
-
-For each image in the publication, the plugin creates a full image, a thumbnail image, a static image on-page usage, and a print-sized image. For figures that use `zoom: true` the plugin creates image tiles stored for retrieval via IIIF image service.
+`manifestId`: URI of the IIIF manifest.
 
 ### Image Tiling
 
-Quire uses [`sharp`](https://sharp.pixelplumbing.com/api-output#tile) to generate image tiles for figures listed in `figures_list` of `figures.yaml` that have `zoom` set to `true`. When these images are used with the `figure` shortcode they are rendered using [`<image-service/>`](https://iiif-canvas-panel.netlify.app/docs/api-reference/single-image-service) elements from `canvas-panel`.
+Quire uses [`sharp`](https://sharp.pixelplumbing.com/api-output#tile) to generate image tiles for all images in the `figures` directory with the `zoom` preset. When these images are used with the `figure` shortcode, they will be rendered using an [`<image-service/>`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service) web component. The output for each image includes the original image, thumbnail image, and image tiles for the IIIF image service.
 
 ### Manifests with Annotations
 
@@ -70,12 +52,10 @@ Output from the IIIF image processing follows the directory structure below.
     <figure-id>/
       <image-name>/
         <iiifConfig.tilesDirName>/
-          <transformations...>
           <tile-directories...>
           info.json
       <image-name>/
         <iiifConfig.tilesDirName>/
-          <transformations...>
           <tile-directories...>
           info.json
       <iiifConfig.manifestFileName>
@@ -88,18 +68,10 @@ _site/
   iiif/
     <figure-id>/
       <image-name>/
-        full.jpg
-        print.jpg
-        static-inline-figure-image.jpg
-        thumbnail.jpg
         tiles/
           <tile-directories...>
           info.json
       <image-name>/
-        full.jpg
-        print.jpg
-        static-inline-figure-image.jpg
-        thumbnail.jpg
         tiles/
           <tile-directories...>
           info.json
