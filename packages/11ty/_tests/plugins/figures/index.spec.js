@@ -16,11 +16,11 @@ test.before('', async (t) => {
 
   // Inspectable factory `create` member and eleventyConfig `addGlobalData` members
   const create = sandbox.fake(({ id }) => {
-    //  `media()` gets called at the end of figures plugin init so must exist 
     return {
       id,
       figure: {
         id,
+        // `media()` is called by figures plugin so must exist 
         media: () => { return { id } }
       }
     }
