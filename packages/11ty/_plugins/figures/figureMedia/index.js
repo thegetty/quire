@@ -223,7 +223,7 @@ export default class FigureMedia {
       return path.join(firstSequenceItemDirname, firstSequenceItemFilename)
     }
 
-    const imagePath = this.src || firstChoiceSrc() || firstSequenceItemSrc()
+    const imagePath = this.src || this.poster || firstChoiceSrc() || firstSequenceItemSrc()
     if (!imagePath) {
       this.errors.push(`Invalid figure ID "${this.id}". Figures with annotations must have "choice" annotations or a "src" property.`)
       return
@@ -443,6 +443,36 @@ export default class FigureMedia {
 
         return { errors: this.errors }
 
+      case 'youtube':
+      case 'vimeo':
+      case 'video':
+      case 'soundcloud': {
+        // Handle poster image if it exists
+        await this.calculateDimensions()
+        await this.processImageMedia()
+
+        // Handle media URL, assigning a pure URL if the video is hosted externally
+        if (this.mediaType === 'video') {
+          const { baseURI } = this.iiifConfig
+          const { imagesDir } = this.iiifConfig.dirs
+          const { pathname } = new URL(baseURI)
+
+          const internal = !this.isExternalResource ? path.posix.join(imagesDir, this.src) : this.src
+          const absolute = !this.isExternalResource ? path.posix.join(pathname, internal) : this.src
+          const uri = !this.isExternalResource ? urlPathJoin(baseURI, internal) : this.src
+
+          this.derivatives.media = {
+            paths: {
+              absolute,
+              internal,
+              uri
+            }
+          }
+        }
+
+        return { errors: this.errors }
+      }
+
       default:
         return {}
     }
@@ -525,6 +555,24 @@ export default class FigureMedia {
         break
       }
 
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType): {
+        // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
+        outputFilename ??= `${name}.jpg`
+        const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.data.poster).name
+
+        // `internal` is used without a leading slash for path math
+        // then made absolutely internal, relative to the publication root
+        const internal = path.posix.join(this.outputPathname, directory, outputFilename)
+        const absolute = path.posix.join(pathname, internal)
+        const uri = urlPathJoin(baseURI, internal)
+
+        paths = {
+          absolute,
+          internal: path.posix.join('/', internal),
+          uri
+        }
+        break
+      }
       default: {
         // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
         outputFilename ??= `${name}.jpg`
@@ -561,11 +609,14 @@ export default class FigureMedia {
     }
 
     this.derivatives[property] = {
-      dimensions: {
+      paths
+    }
+
+    if (height && width) {
+      this.derivatives[property].dimensions = {
         height,
         width
-      },
-      paths
+      }
     }
   }
 
@@ -576,7 +627,7 @@ export default class FigureMedia {
    *
    */
   async processImageMedia () {
-    if (!(this.src || this.iiifImage)) return
+    if (!(this.src || this.iiifImage || this.data.poster)) return
 
     const { transformations } = this.iiifConfig
 
@@ -601,8 +652,20 @@ export default class FigureMedia {
       options.tile = true
     }
 
-    const { errors, metadata } = await this.processImage(this.src ?? this.iiifImage, this.outputDir, options)
+    let imageSrc
+    switch (this.mediaType) {
+      case 'video':
+      case 'youtube':
+      case 'vimeo':
+      case 'soundcloud':
+        imageSrc = this.data.poster
+        break
 
+      default:
+        imageSrc = this.src ?? this.iiifImage
+    }
+
+    const { errors, metadata } = await this.processImage(imageSrc, this.outputDir, options)
     if (errors) this.errors = this.errors.concat(errors)
 
     // Store path and dimensions data for each transformation
