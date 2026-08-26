@@ -158,3 +158,29 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
   t.is(height, 1000)
   t.is(width, 1000)
 })
+
+test('Media factory should correctly handle metadata and posters for video figures', async (t) => {
+  // Set up a figure to be transformed
+  const { iiifConfig, sandbox } = t.context
+  const figure = {
+    id: 'video-figure',
+    src: 'cat-1-video.mp4',
+    poster: 'cat-1-video-poster.jpg',
+    mediaType: 'video'
+  }
+
+  // Fake processor for checking in on media derivative operations
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
+  await factoryRoot.create(figure)
+
+  // Test that video poster is transformed
+  t.truthy(
+    processor.calledWith(
+      sinon.match('cat-1-video-poster.jpg'),
+      sinon.match('iiif/video-figure'),
+      sinon.match((val) => ('transformations' in val && val.transformations.length > 0) && !('tile' in val))
+    ),
+    'Videos and audios with poster images should have their posters transformed'
+  )
+})
