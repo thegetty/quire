@@ -166,7 +166,7 @@ test('Media factory should correctly handle metadata and posters for video figur
     id: 'video-figure',
     src: 'cat-1-video.mp4',
     poster: 'cat-1-video-poster.jpg',
-    mediaType: 'video'
+    media_type: 'video'
   }
 
   // Fake processor for checking in on media derivative operations
@@ -185,12 +185,12 @@ test('Media factory should correctly handle metadata and posters for video figur
   )
 
   // Check output paths and dimensions are correct
-  const { printImage, media } = figureMedia.derivatives
+  const { full, media } = figureMedia.derivatives
 
-  t.truthy(printImage.paths.internal === '/iiif/video-figure/print.jpg',
+  t.truthy(full.paths.internal === '/iiif/video-figure/cat-1-video-poster/full.jpg',
     'Video printImage from poster should have paths')
-  t.truthy(printImage.dimensions.height > 0 && printImage.dimensions.width > 0,
+  t.truthy(full.dimensions.height > 0 && full.dimensions.width > 0,
     'Video printImage from poster should have dimensions')
-  t.truthy(media.paths.internal === '/_assets/images/cat-1-video.mp4',
+  t.truthy(media.paths.internal === '_assets/images/cat-1-video.mp4',
     'Video media should have paths')
 })
