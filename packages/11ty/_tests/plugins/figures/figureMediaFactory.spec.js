@@ -172,9 +172,9 @@ test('Media factory should correctly handle metadata and posters for video figur
   // Fake processor for checking in on media derivative operations
   const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
   const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
-  await factoryRoot.create(figure)
+  const { figure: figureMedia } = await factoryRoot.create(figure)
 
-  // Test that video poster is transformed
+  // Test that the poster is transformed but not tiled
   t.truthy(
     processor.calledWith(
       sinon.match('cat-1-video-poster.jpg'),
@@ -183,4 +183,14 @@ test('Media factory should correctly handle metadata and posters for video figur
     ),
     'Videos and audios with poster images should have their posters transformed'
   )
+
+  // Check output paths and dimensions are correct
+  const { printImage, media } = figureMedia.derivatives
+
+  t.truthy(printImage.paths.internal === '/iiif/video-figure/print.jpg',
+    'Video printImage from poster should have paths')
+  t.truthy(printImage.dimensions.height > 0 && printImage.dimensions.width > 0,
+    'Video printImage from poster should have dimensions')
+  t.truthy(media.paths.internal === '/_assets/images/cat-1-video.mp4',
+    'Video media should have paths')
 })
