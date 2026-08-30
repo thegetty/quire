@@ -111,6 +111,7 @@ export default class FigureMedia {
       label,
       media_id: mediaId,
       media_type: mediaType,
+      poster,
       src,
       zoom
     } = data
@@ -147,6 +148,7 @@ export default class FigureMedia {
     this.outputDir = outputDir
     this.outputPathname = outputPathname
     this.outputFormat = format && format.output
+    this.poster = poster
     this.processImage = imageProcessor
     this.src = src
 
@@ -379,27 +381,49 @@ export default class FigureMedia {
   async calculateDimensions () {
     let height, width
 
-    // Fetch dimensions from IIIF via `Fetch` or the disk via `sharp`
-    if (this.iiifImage) {
-      try {
-        const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
+    // Fetch dimensions depending on the figure's details 
+    switch (true) {
+      // Get metadata details directly from IIIF via `Fetch`
+      case (this.iiifImage): {
+        try {
+          const terminatedUrl = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
 
-        const infoUrl = new URL('info.json', terminatedUrl)
-        const info = await Fetch(infoUrl.href, { type: 'json' })
+          const infoUrl = new URL('info.json', terminatedUrl)
+          const info = await Fetch(infoUrl.href, { type: 'json' })
 
-        height = info.height
-        width = info.width
-      } catch (error) {
-        logger.error(`Could not fetch metadata for figure ${this.id} with error ${error}!`)
-        return
+          height = info.height
+          width = info.width
+        } catch (error) {
+          logger.error(`Could not fetch metadata for figure ${this.id} with error ${error}!`)
+          return
+        }
+
+        break      
       }
-    } else {
-      try {
-        ({ height, width } = await sharp(this.imageFilePath).metadata())
-      } catch (error) {
-        logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
-        return
-      }
+
+      // Only handle image dimensions from media embeds with posters
+      case 'video':
+      case 'soundcloud':
+      case 'youtube':
+      case 'vimeo':
+        if (!this.poster) return
+
+        try {
+          ({ height, width } = await sharp(this.imageFilePath).metadata())
+        } catch (error) {
+          logger.error(`Could not read metadata for poster ${this.id}: ${error}!`)
+          return
+        }
+        break
+
+      // By default use `sharp` and the image on disk
+      default:
+        try {
+          ({ height, width } = await sharp(this.imageFilePath).metadata())
+        } catch (error) {
+          logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
+          return
+        }
     }
 
     this.height = height
@@ -558,7 +582,7 @@ export default class FigureMedia {
       case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType): {
         // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
         outputFilename ??= `${name}.jpg`
-        const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.data.poster).name
+        const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.poster).name
 
         // `internal` is used without a leading slash for path math
         // then made absolutely internal, relative to the publication root
@@ -627,7 +651,7 @@ export default class FigureMedia {
    *
    */
   async processImageMedia () {
-    if (!(this.src || this.iiifImage || this.data.poster)) return
+    if (!(this.src || this.iiifImage || this.poster)) return
 
     const { transformations } = this.iiifConfig
 
@@ -658,7 +682,7 @@ export default class FigureMedia {
       case 'youtube':
       case 'vimeo':
       case 'soundcloud':
-        imageSrc = this.data.poster
+        imageSrc = this.poster
         break
 
       default:
