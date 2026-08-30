@@ -381,7 +381,7 @@ export default class FigureMedia {
   async calculateDimensions () {
     let height, width
 
-    // Fetch dimensions depending on the figure's details 
+    // Fetch dimensions depending on the figure's details
     switch (true) {
       // Get metadata details directly from IIIF via `Fetch`
       case (this.iiifImage): {
@@ -398,7 +398,7 @@ export default class FigureMedia {
           return
         }
 
-        break      
+        break
       }
 
       // Only handle image dimensions from media embeds with posters
