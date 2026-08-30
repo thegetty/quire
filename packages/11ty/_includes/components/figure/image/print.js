@@ -28,18 +28,20 @@ export default function (eleventyConfig) {
     if (printImage === undefined) return ''
 
     const { paths, dimensions } = printImage
-    const { height, width } = dimensions
+    const { height, width } = dimensions ?? {}
 
     if (!paths.internal) return ''
 
     const labelElement = figureLabel({ caption, id, label })
+    const heightAttr = height ? `height="${height}"` : ''
+    const widthAttr = width ? `width="${width}"` : ''
 
     return html`
       <img alt="${escape(alt)}"
            class="q-figure__image"
-           height="${height}"
-           src="${paths.internal}"
-           width="${width}"/>
+           ${heightAttr}
+           ${widthAttr}
+           src="${paths.internal}" />
       ${figureCaption({ caption, content: labelElement, credit })}
     `
   }

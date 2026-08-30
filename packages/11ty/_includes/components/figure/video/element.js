@@ -23,13 +23,14 @@ export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const videoElements = {
-    video ({ id, poster = '', src }) {
-      if (!src) {
+    video ({ derivatives, id }) {
+      const { media, staticInlineFigureImage } = derivatives
+      if (!media) {
         logger.error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
         return ''
       }
 
-      if (!poster) {
+      if (!staticInlineFigureImage) {
         logger.warn(`Figure '${id}' does not have a 'poster' property. A poster image for id: ${id} will not be rendered`)
       }
 
@@ -38,9 +39,9 @@ export default function (eleventyConfig) {
         <video
           class="q-figure-video-element"
           controls
-          poster="${poster}"
+          poster="${staticInlineFigureImage?.paths?.internal}"
         >
-          <source src="${src}" type="video/mp4"/>
+          <source src="${media.paths.internal}" type="video/mp4"/>
           ${unsupported}
         </video>
       `
