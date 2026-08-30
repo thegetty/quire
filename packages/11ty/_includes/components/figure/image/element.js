@@ -44,7 +44,7 @@ export default function (eleventyConfig) {
       case isImageService && !interactive && staticInlineFigureImage:
       case !lightbox && Boolean(staticInlineFigureImage): {
         const { paths, dimensions } = derivatives.staticInlineFigureImage
-        const { height, width } = dimensions
+        const { height, width } = dimensions ?? {}
 
         // Choose media path based on whether path will be loaded as-is or processed by 11ty
         const src = lightbox ? paths.absolute : paths.internal
