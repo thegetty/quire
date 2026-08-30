@@ -402,10 +402,10 @@ export default class FigureMedia {
       }
 
       // Only handle image dimensions from media embeds with posters
-      case 'video':
-      case 'soundcloud':
-      case 'youtube':
-      case 'vimeo':
+      case (this.mediaType === 'video'):
+      case (this.mediaType === 'soundcloud'):
+      case (this.mediaType === 'youtube'):
+      case (this.mediaType === 'vimeo'):
         if (!this.poster) return
 
         try {
