@@ -77,23 +77,17 @@ export default function (eleventyConfig) {
   }
 
   return function ({
+    derivatives,
     id,
+    lazyLoading,
+    lightbox,
     mediaId,
     mediaType,
     poster,
-    lazyLoading,
-    lightbox,
     src
   }) {
     const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
 
-    if (poster) {
-      poster = path.join(assetRoot, poster)
-    }
-    if (src) {
-      src = src.startsWith('http') ? src : path.join(assetRoot, src)
-    }
-
-    return videoElements[mediaType]({ id, mediaId, mediaType, poster, lazyLoading, src })
+    return videoElements[mediaType]({ derivatives, id, mediaId, mediaType, lazyLoading, src })
   }
 }
