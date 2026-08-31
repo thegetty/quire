@@ -300,6 +300,20 @@ export default class FigureMedia {
    */
   get staticInlineFigureImage () {
     switch (true) {
+      case (this.iiifImage && !this.isExternalResource):
+        return path.posix.join('/', this.outputPathname, slugify(this.iiifImage), 'static-inline-figure-image.jpg')
+
+      case (this.src && this.isExternalResource):
+        return this.src
+
+      case (this.iiifImage && this.isExternalResource): {
+        const terminated = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
+        const inlineSize = 'full/600,/0/default.jpg'
+
+        const url = new URL(inlineSize, terminated)
+        return url.href
+      }
+
       case (this.src && this.mediaType !== 'table'):
       case (this.sequences && this.mediaType !== 'table'): {
         let filename
@@ -314,19 +328,6 @@ export default class FigureMedia {
         const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
 
         return path.posix.join('/', this.outputPathname, name, `static-inline-figure-image${format.output}`)
-      }
-      case (this.iiifImage && !this.isExternalResource):
-        return path.posix.join('/', this.outputPathname, slugify(this.iiifImage), 'static-inline-figure-image.jpg')
-
-      case (this.src && this.isExternalResource):
-        return this.src
-
-      case (this.iiifImage && this.isExternalResource): {
-        const terminated = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
-        const inlineSize = 'full/600,/0/default.jpg'
-
-        const url = new URL(inlineSize, terminated)
-        return url.href
       }
 
       default:
