@@ -398,7 +398,6 @@ export default class FigureMedia {
           logger.error(`Could not fetch metadata for figure ${this.id} with error ${error}!`)
           return
         }
-
         break
       }
 
@@ -417,14 +416,34 @@ export default class FigureMedia {
         }
         break
 
-      // By default use `sharp` and the image on disk
-      default:
+      // Image URLs get downloaded and dimensions calculcated on the buffer
+      case (this.isExternalResource && this.mediaType === 'image'): {
+        let image
+        try {
+          image = await Fetch(this.src, { type: 'buffer' })
+        } catch (error) {
+          logger.error(`Could not fetch image for figure ${this.id} with error ${error}!`)
+          return
+        }
+
+        try {
+          ({ height, width } = await sharp(image).metadata())
+        } catch (error) {
+          logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
+          return
+        }
+        break
+      }
+
+      // Default to `sharp` examining the image on disk
+      default: {
         try {
           ({ height, width } = await sharp(this.imageFilePath).metadata())
         } catch (error) {
           logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
           return
         }
+      }
     }
 
     this.height = height
@@ -671,8 +690,8 @@ export default class FigureMedia {
 
     // Add passthrough paths for absolute, etc on external image URLs
     if (this.isExternalResource) {
-      for (const transformation of transformations) {
-        const name = snakeToCamelCase(transformation.name)
+      for (const transform of transformations) {
+        const name = snakeToCamelCase(transform.name)
         this.storeDerivativeMetadata(name, { height: this.height, width: this.width })
       }
 
