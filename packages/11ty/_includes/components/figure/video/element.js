@@ -80,12 +80,13 @@ export default function (eleventyConfig) {
   }
 
   return function ({
+    derivatives,
     id,
+    lazyLoading,
+    lightbox,
     mediaId,
     mediaType,
     poster,
-    lazyLoading,
-    lightbox,
     src
   }) {
     const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
