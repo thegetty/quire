@@ -1,6 +1,5 @@
 import { html } from '#lib/common-tags/index.js'
 import chalkFactory from '#lib/chalk/index.js'
-import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')
 
@@ -19,9 +18,6 @@ const logger = chalkFactory('Figure Video')
  * @return     {String}  An HTML <video> element
  */
 export default function (eleventyConfig) {
-  const { pathname } = eleventyConfig.globalData.publication
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
   const videoElements = {
     video ({ derivatives, id, lightbox }) {
       const { media, staticInlineFigureImage } = derivatives
@@ -89,15 +85,7 @@ export default function (eleventyConfig) {
     poster,
     src
   }) {
-    const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
 
-    if (poster) {
-      poster = path.join(assetRoot, poster)
-    }
-    if (src) {
-      src = src.startsWith('http') ? src : path.join(assetRoot, src)
-    }
-
-    return videoElements[mediaType]({ id, lazyLoading, lightbox, mediaId, mediaType, poster, src })
+    return videoElements[mediaType]({ derivatives, id, lightbox, mediaId, mediaType, lazyLoading })
   }
 }
