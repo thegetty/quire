@@ -1,6 +1,5 @@
 import { html } from '#lib/common-tags/index.js'
 import chalkFactory from '#lib/chalk/index.js'
-import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')
 
@@ -19,11 +18,8 @@ const logger = chalkFactory('Figure Video')
  * @return     {String}  An HTML <video> element
  */
 export default function (eleventyConfig) {
-  const { pathname } = eleventyConfig.globalData.publication
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
   const videoElements = {
-    video ({ derivatives, id }) {
+    video ({ derivatives, id, lightbox }) {
       const { media, staticInlineFigureImage } = derivatives
       if (!media) {
         logger.error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
@@ -34,14 +30,17 @@ export default function (eleventyConfig) {
         logger.warn(`Figure '${id}' does not have a 'poster' property. A poster image for id: ${id} will not be rendered`)
       }
 
+      const videoAsset = lightbox ? media.paths.absolute : media.paths.internal
+      const posterAsset = lightbox ? staticInlineFigureImage?.paths?.absolute : staticInlineFigureImage?.paths?.internal
+
       const unsupported = 'Sorry, your browser does not support embedded videos.'
       return html`
         <video
           class="q-figure-video-element"
           controls
-          poster="${staticInlineFigureImage?.paths?.internal}"
+          poster="${posterAsset}"
         >
-          <source src="${media.paths.internal}" type="video/mp4"/>
+          <source src="${videoAsset}" type="video/mp4"/>
           ${unsupported}
         </video>
       `
@@ -86,8 +85,6 @@ export default function (eleventyConfig) {
     poster,
     src
   }) {
-    const assetRoot = lightbox && pathname !== '/' ? path.posix.join(pathname, imageDir) : imageDir
-
-    return videoElements[mediaType]({ derivatives, id, mediaId, mediaType, lazyLoading, src })
+    return videoElements[mediaType]({ derivatives, id, lightbox, mediaId, mediaType, lazyLoading })
   }
 }
