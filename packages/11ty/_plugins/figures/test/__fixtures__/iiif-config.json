@@ -29,18 +29,28 @@
   "tilesDirName": "tiles",
   "tileSize": 256,
   "transformations": [
-    {
-      "name": "thumbnail",
-      "resize": {
-        "width": 50
+      {
+        "name": "full",
+        "resize": {}
+      },
+      {
+        "name": "thumbnail",
+        "resize": {
+          "width": 320
+        }
+      },
+      {
+        "name": "print-image",
+        "resize": {
+          "width": 2025,
+          "withoutEnlargement": true
+        }
+      },
+      {
+        "name": "static-inline-figure-image",
+        "resize": {
+          "width": 640
+        }
       }
-    },
-    {
-      "name": "print-image",
-      "resize": {
-        "width": 2025,
-        "withoutEnlargement": true
-      }
-    }
   ]
 }
