@@ -21,7 +21,7 @@ const logger = chalkFactory('Figure Video')
 export default function (eleventyConfig) {
   const { pathname } = eleventyConfig.globalData.publication
   const { imageDir } = eleventyConfig.globalData.config.figures
-  const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
+
   const videoElements = {
     video ({ derivatives, id }) {
       const { media, staticInlineFigureImage } = derivatives
@@ -46,13 +46,8 @@ export default function (eleventyConfig) {
         </video>
       `
     },
-    vimeo ({ id, mediaId, mediaType, lazyLoading }) {
-      if (!mediaId) {
-        logger.error(`Cannot render Vimeo embed without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
-        return ''
-      }
-
-      const { embedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+    vimeo ({ id, derivatives, lazyLoading }) {
+      const { embedUrl } = derivatives.embed
 
       return html`
         <iframe
@@ -65,13 +60,8 @@ export default function (eleventyConfig) {
         ></iframe>
       `
     },
-    youtube ({ id, mediaId, mediaType, lazyLoading }) {
-      if (!mediaId) {
-        logger.error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
-        return ''
-      }
-
-      const { embedUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+    youtube ({ id, derivatives, lazyLoading }) {
+      const { embedUrl } = derivatives.embed
 
       return html`
         <iframe
