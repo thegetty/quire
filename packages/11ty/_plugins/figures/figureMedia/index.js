@@ -10,6 +10,7 @@ import path from 'node:path'
 import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
+import formatEmbedURLs from '../helpers/format-embed-urls.js'
 
 const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
 
@@ -469,8 +470,8 @@ export default class FigureMedia {
 
       case 'youtube':
       case 'vimeo':
-      case 'video':
-      case 'soundcloud': {
+      case 'soundcloud':
+      case 'video': {
         // Handle poster image if it exists
         await this.calculateDimensions()
         await this.processImageMedia()
@@ -492,6 +493,15 @@ export default class FigureMedia {
               uri
             }
           }
+        } else {
+          // TODO: Re-implement the component logging re: no media_id, but at a lower cyclomatic complexity (exit early)
+          /*
+          if (!mediaId) {
+            logger.error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+            return ''
+          }
+          */
+          this.derivatives.embed = formatEmbedURLs(this.mediaType, this.mediaId)
         }
 
         return { errors: this.errors }
