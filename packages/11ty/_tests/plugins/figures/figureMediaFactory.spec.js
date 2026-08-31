@@ -23,8 +23,9 @@ const iiifConfigPath = path.resolve(path.dirname(fileURLToPath(import.meta.url))
  * Creates a FigureMediaFactory with `processStub` as mock processor
  *
  **/
-async function MockFigureMediaFactory (sandbox, iiifConfig, processStub) {
+async function MockFigureMediaFactory (sandbox, iiifConfig, processStub, fetchStub = () => {}) {
   const FigureMedia = await esmock('#plugins/figures/figureMedia/index.js', {
+    '@11ty/eleventy-fetch': sandbox.stub().callsFake(fetchStub),
     sharp: sandbox.stub().returns({
       metadata: sandbox.stub().returns({ height: 1000, width: 1000 })
     })
@@ -193,4 +194,84 @@ test('Media factory should correctly handle metadata and posters for video figur
     'Video printImage from poster should have dimensions')
   t.truthy(media.paths.internal === '_assets/images/cat-1-video.mp4',
     'Video media should have paths')
+})
+
+test('Media factory should correctly handle embed URLs for youtube, vimeo, soundcloud figures', async (t) => {
+  // Set up a figure to be transformed
+  const { iiifConfig, sandbox } = t.context
+  const figure = {
+    id: 'youtube-figure',
+    media_id: '12345',
+    media_type: 'youtube'
+  }
+
+  // Fake processor for checking in on media derivative operations
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
+  const { figure: figureMedia } = await factoryRoot.create(figure)
+
+  // Test that the processor is not used
+  t.truthy(
+    processor.getCalls().length === 0,
+    'Youtube embeds should not trigger the processor'
+  )
+
+  // Test that embed URLs are correct
+  const { embed } = figureMedia.derivatives
+  t.is(embed.sourceUrl,
+    'https://youtu.be/12345',
+    'Youtube embed sourceUrl should be properly formatted')
+  t.is(embed.embedUrl,
+    'https://www.youtube-nocookie.com/embed/12345',
+    'Youtube embed embedUrl should be properly formatted')
+})
+
+test('Media factory should properly handle figures with http(s) sources', async (t) => {
+  // Set up a figure to be transformed
+  const { iiifConfig, sandbox } = t.context
+  const figure = {
+    id: 'url-figure',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg',
+    alt: '',
+    caption: 'Figure from an URL'
+  }
+
+  // Fake processor and URL fetcher for checking in on media derivative operations
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const fetch = sandbox.fake.returns([])
+  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, processor, fetch)
+  const { figure: figureMedia } = await factoryRoot.create(figure)
+
+  // Test that the URL was fetched
+  t.truthy(
+    fetch.calledWith(sinon.match(figure.src)),
+    'Figure image src URLs should be fetched for dimension-checking'
+  )
+
+  // Test that the tiling processor was not used
+  t.truthy(
+    processor.getCalls().length === 0,
+    'Figure images from URLs should be processed for dimensions'
+  )
+
+  // Test that all emitted URLs are the source URL
+  const derivativeTypes = [
+    'full',
+    'printImage',
+    'staticInlineFigureImage',
+    'thumbnail'
+  ]
+
+  for (const type of derivativeTypes) {
+    const { internal, absolute, uri } = figureMedia.derivatives[type].paths
+    t.is(internal,
+      figure.src,
+      `Internal path of ${type} derivative for http(s) figures should be the original URL`)
+    t.is(absolute,
+      figure.src,
+      `Absolute path of ${type} derivative for http(s) figures should be the original URL`)
+    t.is(uri,
+      figure.src,
+      `URI path of ${type} derivative for http(s) figures should be the original URL`)
+  }
 })

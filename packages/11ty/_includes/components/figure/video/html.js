@@ -16,6 +16,7 @@ export default function (eleventyConfig) {
     aspect_ratio: aspectRatio,
     caption,
     credit,
+    derivatives,
     id,
     label,
     mediaId,
@@ -25,9 +26,9 @@ export default function (eleventyConfig) {
     lazyLoading
   }) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
-    const videoElement = figureVideoElement({ id, mediaId, mediaType, src, poster, lazyLoading })
+    const videoElement = figureVideoElement({ id, derivatives, mediaId, mediaType, src, poster, lazyLoading })
     const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit })
+    const captionElement = figureCaption({ caption, derivatives, content: labelElement, credit })
 
     return html`
       <div class="q-figure__media-wrapper ${isEmbed && 'q-figure__media-wrapper--' + (aspectRatio || 'widescreen')}">
