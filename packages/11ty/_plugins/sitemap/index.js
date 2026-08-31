@@ -19,7 +19,10 @@ export default async function (eleventyConfig, collections) {
   eleventyConfig.on('eleventy.after', async () => {
     // Ensure the page's canonical URL is used so pub pathname is preserved
     const urls = collections.html.map(p => {
-      return { ...p, url: p.data.canonicalURL }
+      const result = p
+      result.url = p.data?.canonicalURL
+
+      return result
     })
 
     if (urls.length === 0) return
