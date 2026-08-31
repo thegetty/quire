@@ -248,12 +248,11 @@ test('Media factory should properly handle figures with http(s) sources', async 
     'Figure image src URLs should be fetched for dimension-checking'
   )
 
-  // Test that the processor was used
-  // TODO: Check on the specific signature -- pathing is known?
-  // t.truthy(
-  //   processor.getCalls().length > 0,
-  //   'Figure images from URLs should be processed for dimensions'
-  // )
+  // Test that the tiling processor was not used
+  t.truthy(
+    processor.getCalls().length === 0,
+    'Figure images from URLs should be processed for dimensions'
+  )
 
   // Test that all emitted URLs are the source URL
   const derivativeTypes = [
