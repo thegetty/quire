@@ -1,8 +1,8 @@
-## Figures Processing
+## Figures Plugin
 
-Quire's figures processing provides methods to prepare images for use with Quire front-end components. It produces single-file derivatives (thumbnails, etc) used throughout the publication. For figures that are configured to be zoomable it also produces directory hierarchies of tiles conforming to [IIIF Image API 2.0](https://iiif.io/api/image/2.0/). It produces [IIIF Presentation API 3.0](https://iiif.io/api/presentation/3.0/) for figures that are zoomable, have annotations, or are a sequence.
+Quire's figures plugin provides methods to prepare images and media for use with front-end components. It produces single-file derivatives (thumbnails, etc) used throughout quire publications, generates tiled image derivatives for zoomable images, and calculates media asset paths and URLs.
 
-Currently these manifests are used with the [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/api-reference/canvas-panel), [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service), and `q-image-sequence` web components.
+For figures that are configured to be zoomable, the plugin produces directory hierarchies of tiles conforming to [IIIF Image API 2.0](https://iiif.io/api/image/2.0/). It also generates [IIIF Presentation API 3.0](https://iiif.io/api/presentation/3.0/) manifests for zoomable figures, figures with annotations, and figures with image sequences. Within quire the IIIF manifests are used with the [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/api-reference/canvas-panel), [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service), and `q-image-sequence` web components.
 
 ### Processing Configuration
 
@@ -13,18 +13,17 @@ The plugin loads its image processing configuration from [`_plugins/figures/iiif
   - `hostExternal`: whether to host IIIF sources (eg, `iiif_id`) in this publication. Defaults to true.
   - `transformations`: options used with `sharp` for generating derivative images. Each entry in the array generates a named derivative in the the publication's `/iiif` directory. Defaults to emitting derivatives at `full` (entire image), `thumbnail` (320px wide), `print-image` (2500px wide), and `static-inline-figure-image` (640px wide).
 
-### Processing Figures
+### `FigureMedia` API and Global Data
 
-The plugin iterates entries in `figures_list` of `figures.yaml`. It uses `FigureFactory` to create a `FigureMedia` object from user-supplied YAML data and metadata from the figure's asset file(s).
-
-The Factory object uses direct injection to manage the image transformation functions via an `ImageProcessor` instance the provides scaled derivative transforms and image tiling. The data model for IIIF Presentation manifests are managed via `Manifest`, `Annotation`, and `Sequence` models.
-
-For each image in the publication, the plugin creates a full image, a thumbnail image, a static image on-page usage, and a print-sized image. For figures that use `zoom: true` the plugin creates image tiles stored for retrieval via IIIF image service.
-
-### `FigureMedia` Data Model and Global Data
-
-The plugin adds `FigureMedia` instances to 11ty global data after processing. `FigureMedia` has all the properties supplied by users and these additional properties:
+The plugin adds `FigureMedia` objects to 11ty global data. For front-end component writers, these objecst are usually fetched with the `getFigureMedia` filter; the returned objects and are components' primary means of accessing figures data. In addition to the properties supplied by users in `figures.yaml`, `FigureMedia` objects feature properties prepared for use by components:
   
+- `derivatives`: An map of derivative names (from `transformations`, above) to objects containing `paths` and `dimensions` for that derivative. `paths` provides an `internal` property with the asset path for this figure when emitted internal to the publication (before asset bundling), an `absolute` property with the asset path for this figure when emitted in the final deployment, and a `uri` property with the fully qualified URI for this figure.
+
+The contents of these objects are determined by the figure type: 
+  - For figure images, the derivative names available are those configured by `transformations` for each figure image -- `full`, `printImage`, `staticInlineFigureImage`, and `thumbnail`.
+  - For embedded figure types like `youtube`, `soundcloud`, and `vimeo`, `derivatives` contains an `embed` object containing the figure's `sourceUrl` and `embedUrl`. `poster`, if available, is emitted on `full` keys.
+  - For video figures, `embed` will contain a `media` object with the same path structures `internal` for the video asset file. `poster`, if available, is emitted on `full` keys.
+
 - `annotations`: Annotations from `figures.yaml` will have `type` and `url` properties.
 
 - `canvasId`: URI of the IIIF canvas panel.
@@ -44,6 +43,14 @@ The plugin adds `FigureMedia` instances to 11ty global data after processing. `F
 - `isSequence`: the figure has a sequence.
 
 - `mediaType`: asset media type -- figures without a user-supplied `media_type` emit "image".
+
+### Processing Figures
+
+The plugin iterates entries in `figures_list` of `figures.yaml`. It uses `FigureFactory` to create a `FigureMedia` object from user-supplied YAML data and metadata from the figure's asset file(s).
+
+The Factory object uses direct injection to manage the image transformation functions via an `ImageProcessor` instance the provides scaled derivative transforms and image tiling. The data model for IIIF Presentation manifests are managed via `Manifest`, `Annotation`, and `Sequence` models.
+
+For each image in the publication, the plugin creates a full image, a thumbnail image, a static image on-page usage, and a print-sized image. For figures that use `zoom: true` the plugin creates image tiles stored for retrieval via IIIF image service.
 
 ### Image Tiling
 
