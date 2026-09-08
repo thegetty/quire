@@ -67,7 +67,7 @@ const factory = async (options = {}) => {
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
-    runMode: 'serve'
+    runMode: process.env.ELEVENTY_ENV === 'production' ? 'build' : 'serve'
   })
 
   return eleventy
@@ -108,7 +108,7 @@ export default {
     await eleventy.serve(options.port)
 
     process.on("SIGINT", async () => {
-      await elev.stopWatch()
+      await eleventy.stopWatch()
       process.exit(0)
     })
   }
