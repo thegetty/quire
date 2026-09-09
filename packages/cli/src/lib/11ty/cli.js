@@ -88,9 +88,9 @@ export default {
       all:true, 
       cwd: projectRoot,
       env,
-      nodePath: process.stdout
-    }).all.pipe(process.stdout)
-    
+      nodePath: process.execPath
+    })
+    build.all.pipe(process.stdout)
     await build;
 
     if (build.exitCode !== 0) {
@@ -111,11 +111,13 @@ export default {
 
     env.ELEVENTY_ENV = 'development'
 
-    await execa('node', command, {
+    const serve = execa('node', command, {
       all: true,
       cwd: projectRoot,
       env, 
       nodePath: process.execPath
-    }).all.pipe(process.stdout)
+    })
+    serve.all.pipe(process.stdout)
+    await serve
   }
 }
