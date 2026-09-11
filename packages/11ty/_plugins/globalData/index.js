@@ -10,28 +10,31 @@ const logger = chalkFactory('[plugins:globalData]')
  * Throws an error if data contains duplicate ids
  * @param  {Object|Array} data
  */
-const checkForDuplicateIds = function (data, filename) {
+const validateObjectIds = function (data, filename, key = '') {
   if (!data) return
 
   if (Array.isArray(data)) {
-    if (data.every((item) => Object.hasOwn(item, 'id'))) {
+    const isObject = data.length > 0 && data.some((item) => typeof item === 'object' && Object.hasOwn(item, 'id'))
+    if (isObject) {
+      const isMissingId = data.some((item) => !item?.id)
+      if (isMissingId) {
+        throw new Error(`${filename}: "${key}" contains an entry with no "id".`)
+      }
+
       const duplicates = data.filter((a, index) => {
         return index !== data.findIndex((b) => b.id === a.id)
       })
+
       if (duplicates.length) {
         const ids = duplicates.map(({ id }) => id)
-        throw new Error(`Duplicates ids: ${ids.join(', ')}`)
+        throw new Error(`${filename}: "${key}" contains duplicate ids: ${ids.join(', ')}.`)
       }
     }
   }
 
   if (typeof data === 'object') {
     Object.keys(data).forEach((key) => {
-      try {
-        checkForDuplicateIds(data[key], filename)
-      } catch (error) {
-        logger.error(`${filename} ${key} contains multiple entries with the same id.\nEach entry in ${key} must have a unique id. ${error.message}`)
-      }
+      validateObjectIds(data[key], filename, key)
     })
   }
 }
@@ -68,15 +71,15 @@ export default function (eleventyConfig, directoryConfig) {
     let value
     try {
       value = validateUserConfig(key, parsed)
+      validateObjectIds(value, file, key)
     } catch (err) {
-      logger.error(err)
+      logger.error(err.message)
       process.exit(1)
     }
 
     if (!key || !value) {
       continue
     }
-    checkForDuplicateIds(value, file)
     eleventyConfig.addGlobalData(key, value)
   }
 

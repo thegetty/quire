@@ -4,7 +4,7 @@ import chalkFactory from '#lib/chalk/index.js'
 import fs from 'fs-extra'
 import path from 'node:path'
 
-const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
+const logger = chalkFactory('Figures:ImageProcessor', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
 /**
  * The Quire Image Processor handles file system changes for IIIF images
