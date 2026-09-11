@@ -52,14 +52,14 @@ export default function (eleventyConfig) {
     const zoomButtons =
       preset === 'zoom'
         ? html`
-            <div class="q-lightbox-ui__zoom">
+            <div class="canvaspanel-ui__zoom">
               <button
-                class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--in"
+                class="canvaspanel-ui__zoom-button canvaspanel-ui__zoom-button--in"
                 data-lightbox-zoomin
                 aria-label="Zoom in"
               />
               <button
-                class="q-lightbox-ui__zoom-button q-lightbox-ui__zoom-button--out"
+                class="canvaspanel-ui__zoom-button canvaspanel-ui__zoom-button--out"
                 data-lightbox-zoomout
                 aria-label="Zoom out"
               />
