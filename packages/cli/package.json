@@ -19,7 +19,6 @@
   "type": "module",
   "files": [
     "bin/",
-    "patches/",
     "scripts/",
     "src/",
     "CHANGELOG.md",
