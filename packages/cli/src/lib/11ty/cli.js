@@ -41,8 +41,7 @@ const factory = (options = {}) => {
     eleventy,
     `--config=${config}`,
     `--input=${input}`,
-    `--output=${output}`,
-    `--incremental`,
+    `--output=${output}`
   ]
 
   if (options.quiet) command.push('--quiet')
