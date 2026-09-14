@@ -81,7 +81,7 @@ export default {
     const { command, env } = factory(options)
 
     if (options.dryRun) command.push('--dryrun')
-    if (options.debug) env.CHALK_LEVEL_LOG = 'DEBUG'
+    if (options.debug) env.QUIRE_DEBUG_LOG = 'DEBUG'
     env.ELEVENTY_ENV = 'production'
     
     const build = execa('node', command, {
