@@ -94,7 +94,8 @@ const testPreviewChange = async (t) => {
     }, delay)
   })
 
-  await waitForPath(path.join(process.cwd(), '_site'))
+  const publicationSite = path.join(process.cwd(), '_site') 
+  await waitForPath(publicationSite)
 
   const waitForChange = (filepath, change, timeout=5000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
@@ -112,12 +113,14 @@ const testPreviewChange = async (t) => {
     }, delay)
   })
 
-  // TODO: Add a timestamp to the sentence so we're sure it passes
-  fs.appendFileSync(pagePath, '\nA test sentence!')
+  // Modify the file, inserting a datestamp for debugging and uniqueness
+  const modification = `A test sentence, generated ${new Date()}.`
+  fs.appendFileSync(pagePath, `\n${modification}`)
 
-  await waitForChange(path.join(process.cwd(), '_site', 'index.html'), 'A test sentence!')
+  const modifiedPath = path.join(process.cwd(), '_site', 'index.html')
+  await waitForChange(modifiedPath, modification)
 
-  // Undo the change
+  // Undo the change so it's not left in later tests and artifacts
   await execa('git', ['checkout', 'content/index.md'])
 
   t.pass('quire preview should propagate page changes')
