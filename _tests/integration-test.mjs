@@ -48,6 +48,82 @@ const changePubUrl = (url, t) => {
 }
 
 /**
+ * @function testPreviewChange
+ * 
+ * @param {ava:test} t
+ * 
+ * Previews the publication and tests that it successfully responds to file changes
+ *
+ **/ 
+const testPreviewChange = async (t) => {
+  const controller = new AbortController()
+  const options = { cancelSignal: controller.signal, detached: true, stdio: 'ignore' }
+
+  // TODO: Check both --11ty api and --11ty cli
+  const preview = execa('quire', ['preview'], options)
+  preview.unref()
+
+  // Make a trivial file change and check that the preview responds
+  const pagePath = 'content/index.md'
+  if (!fs.existsSync(pagePath)) {
+    t.fail('"quire preview" should be run in a publication directory')
+  }
+
+  /**
+   * @function waitForPath
+   * 
+   * @param {String} filepath
+   * @param {Number} timeout
+   * @param {Number} delay 
+   * 
+   * Returns a promise that resolves when `filepath` exists, polling every `delay` until `timeout` (all in ms)
+   **/ 
+  const waitForPath = (filepath, timeout=5000, delay=500) => new Promise((resolve, reject) => {
+    let elapsed = 0
+    let interval = setInterval(() => {
+      if ((() => fs.existsSync(filepath))) {
+        clearInterval(interval)
+        resolve()
+      }
+
+      if (elapsed >= timeout) {
+        clearInterval(interval)
+        reject()
+      }
+      elapsed += delay
+    }, delay)
+  })
+
+  await waitForPath(path.join(process.cwd(), '_site'))
+
+  const waitForChange = (filepath, change, timeout=5000, delay=500) => new Promise((resolve, reject) => {
+    let elapsed = 0
+    let interval = setInterval(() => {
+      if (fs.existsSync(filepath) && fs.readFileSync(filepath).includes(change)) {
+        clearInterval(interval)
+        resolve()
+      }
+
+      if (elapsed >= timeout) {
+        clearInterval(interval)
+        reject()
+      }
+      elapsed += delay
+    }, delay)
+  })
+
+  // TODO: Add a timestamp to the sentence so we're sure it passes
+  fs.appendFileSync(pagePath, '\nA test sentence!')
+
+  await waitForChange(path.join(process.cwd(), '_site', 'index.html'), 'A test sentence!')
+
+  // Undo the change
+  await execa('git', ['checkout', 'content/index.md'])
+
+  t.pass('quire preview should propagate page changes')
+}
+
+/**
  * @function buildSitePdfEpub
  * 
  * @param {ava:test} t
@@ -86,6 +162,7 @@ test.serial('Create the default publication and build the site, epub, pdf', asyn
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
 
   process.chdir(publicationName)
+  await testPreviewChange(t)
   await buildSitePdfEpub(t)
   process.chdir(repoRoot)
   t.pass()
@@ -97,7 +174,8 @@ test.serial('Create the default publication with a pathname and build the site, 
   process.chdir(pathedPub)
   changePubUrl(`http://localhost:8080/${ pathedPub }/`, t)
 
-  await buildSitePdfEpub()
+  await testPreviewChange(t)
+  await buildSitePdfEpub(t)
   process.chdir(repoRoot)
   t.pass()
 })
