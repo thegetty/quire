@@ -1,6 +1,5 @@
 import escape from 'html-escape'
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Contributor bio subcomponent
@@ -14,12 +13,12 @@ import path from 'node:path'
  */
 export default function (eleventyConfig) {
   const fullname = eleventyConfig.getFilter('fullname')
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const icon = eleventyConfig.getFilter('icon')
   const link = eleventyConfig.getFilter('link')
   const markdownify = eleventyConfig.getFilter('markdownify')
   const pageTitle = eleventyConfig.getFilter('pageTitle')
   const slugify = eleventyConfig.getFilter('slugify')
-  const { config } = eleventyConfig.globalData
 
   /**
    * @param  {Object} params
@@ -30,7 +29,7 @@ export default function (eleventyConfig) {
    * @property {String} URL Contributor URL
    */
   return function (params) {
-    const { bio, image, pages = [], url } = params
+    const { bio, id, image, pages = [], url } = params
 
     const name = fullname(params)
 
@@ -38,13 +37,22 @@ export default function (eleventyConfig) {
       ? link({ classes: ['quire-contributor__url'], name: icon({ type: 'link', description: '' }), url })
       : ''
 
-    const contributorImage = image
-      ? html`
+    let contributorImage = ''
+    if (image) {
+      const figure = getFigureMedia(`contributor-${id}`)
+      const media = figure.derivatives.full
+
+      const { internal: imagePath } = media.paths
+      const { height, width } = media.dimensions
+
+      const heightAttr = height ? `height="${height}"` : ''
+      const widthAttr = width ? `width="${width}"` : ''
+
+      contributorImage = html`
           <div class="media-left">
-            <img class="image quire-contributor__pic" src="${path.join(config.figures.imageDir, image).replaceAll(path.sep, '/')}" alt="Picture of ${escape(name)}">
-          </div>
-      `
-      : ''
+            <img class="image quire-contributor__pic" ${heightAttr} ${widthAttr} src="${imagePath}" alt="Picture of ${escape(name)}">
+          </div>`
+    }
 
     const contributorBio = bio
       ? html`

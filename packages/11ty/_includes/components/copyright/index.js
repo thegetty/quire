@@ -1,5 +1,4 @@
 import { html } from '#lib/common-tags/index.js'
-import path from 'node:path'
 
 /**
  * Copyright info
@@ -12,22 +11,28 @@ export default function (eleventyConfig) {
   const { config, publication } = eleventyConfig.globalData
 
   const copyrightLicensing = eleventyConfig.getFilter('copyrightLicensing')
+  const getFigureMedia = eleventyConfig.getFilter('getFigureMedia')
   const licenseIcons = eleventyConfig.getFilter('licenseIcons')
   const markdownify = eleventyConfig.getFilter('markdownify')
+  const slugify = eleventyConfig.getFilter('slugify')
 
   return function (params) {
-    const { imageDir } = config.figures
-
     const copyright = publication.copyright
       ? `<p>${markdownify(publication.copyright)}</p>`
       : ''
 
     const publisherImages = publication.publisher.flatMap(({ logo, name }) => {
-      const imagePath = logo && path.posix.join(imageDir, logo)
+      const logoFigure = getFigureMedia(`logo-${slugify(name)}`)
 
-      return imagePath
-        ? [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
-        : []
+      if (!logo || !logoFigure) return []
+
+      const media = logoFigure.derivatives?.full
+      if (!media) return []
+
+      const { internal: imagePath } = media.paths
+      if (!imagePath) return []
+
+      return [`<img src="${imagePath}" class="copyright__publisher-logo" alt="${name}" />`]
     })
 
     const { license } = publication
