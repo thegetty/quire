@@ -41,13 +41,31 @@ export default function (eleventyConfig) {
     }
 
     let choiceId = choice
-    const allAnnotations = (annotations ?? []).flatMap(anno => anno.items)
-    if (allAnnotations.some(a => a.type === 'choice') && !choice) {
+    const allAnnotations = (annotations ?? []).flatMap((anno) => anno.items)
+    if (allAnnotations.some((a) => a.type === 'choice') && !choice) {
       const defaultAnnotation = allAnnotations.at(0)
-      const selectedAnnotation = allAnnotations.find(item => item.selected)
+      const selectedAnnotation = allAnnotations.find((item) => item.selected)
 
       choiceId = selectedAnnotation ? selectedAnnotation.uri : defaultAnnotation.uri
     }
+
+    const zoomButtons =
+      preset === 'zoom'
+        ? html`
+            <div class="canvaspanel-ui__zoom">
+              <button
+                class="canvaspanel-ui__zoom-button canvaspanel-ui__zoom-button--in"
+                data-lightbox-zoomin
+                aria-label="Zoom in"
+              />
+              <button
+                class="canvaspanel-ui__zoom-button canvaspanel-ui__zoom-button--out"
+                data-lightbox-zoomout
+                aria-label="Zoom out"
+              />
+            </div>
+          `
+        : ''
 
     return html`
       <canvas-panel
@@ -60,7 +78,9 @@ export default function (eleventyConfig) {
         region="${region}"
         virtual-sizes="${virtualSizes}"
         width="${width}"
-      />
+      >
+        ${zoomButtons}
+      </canvas-panel>
     `
   }
 }
