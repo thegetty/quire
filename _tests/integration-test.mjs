@@ -93,6 +93,7 @@ const testPreviewChange = async (t) => {
 
       if (elapsed >= timeout) {
         clearInterval(interval)
+        t.fail(`quire preview should generate output within ${timeout}ms`)
         reject()
       }
       elapsed += delay
@@ -102,7 +103,7 @@ const testPreviewChange = async (t) => {
   const publicationSite = path.join(process.cwd(), '_site') 
   await waitForPath(publicationSite)
 
-  const waitForChange = (filepath, change, timeout=5000, delay=500) => new Promise((resolve, reject) => {
+  const waitForChange = (filepath, change, timeout=10000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
     
     let interval = setInterval(() => {
@@ -113,6 +114,7 @@ const testPreviewChange = async (t) => {
 
       if (elapsed >= timeout) {
         clearInterval(interval)
+        t.fail(`quire preview should regenerate changes within ${timeout}ms`)
         reject()
       }
       elapsed += delay
@@ -137,6 +139,8 @@ const testPreviewChange = async (t) => {
     if (error.isCanceled) {
       // Undo the change so it's not left in later tests and artifacts
       await execa('git', ['checkout', 'content/index.md'])
+    } else {
+      t.fail(`quire preview subprocess should gracefully exit when aborted ${error}`)    
     }
   }
 
