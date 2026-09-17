@@ -57,7 +57,12 @@ const changePubUrl = (url, t) => {
  **/ 
 const testPreviewChange = async (t) => {
   const controller = new AbortController()
-  const options = { cancelSignal: controller.signal, detached: true, stdio: 'ignore' }
+  const options = {
+    cancelSignal: controller.signal,
+    detached: true,
+    killDescendants: true,
+    stdio: 'ignore' 
+  }
 
   // TODO: Check both --11ty api and --11ty cli
   const preview = execa('quire', ['preview'], options)
@@ -99,8 +104,9 @@ const testPreviewChange = async (t) => {
 
   const waitForChange = (filepath, change, timeout=5000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
+    
     let interval = setInterval(() => {
-      if (fs.existsSync(filepath) && fs.readFileSync(filepath).includes(change)) {
+      if (fs.existsSync(filepath) && fs.readFileSync(filepath, { encoding: 'utf8' }).includes(change)) {
         clearInterval(interval)
         resolve()
       }
@@ -114,14 +120,25 @@ const testPreviewChange = async (t) => {
   })
 
   // Modify the file, inserting a datestamp for debugging and uniqueness
-  const modification = `A test sentence, generated ${new Date()}.`
+  // NB: This must be short enough to not be line broken by the markdown render be
+  const modification = `A test sentence, timestamp ${Date.now()}.`
   fs.appendFileSync(pagePath, `\n${modification}`)
 
   const modifiedPath = path.join(process.cwd(), '_site', 'index.html')
   await waitForChange(modifiedPath, modification)
 
-  // Undo the change so it's not left in later tests and artifacts
-  await execa('git', ['checkout', 'content/index.md'])
+  try {
+    setTimeout(() => {
+      controller.abort()
+    }, 100)
+    await preview
+
+  } catch (error) {
+    if (error.isCanceled) {
+      // Undo the change so it's not left in later tests and artifacts
+      await execa('git', ['checkout', 'content/index.md'])
+    }
+  }
 
   t.pass('quire preview should propagate page changes')
 }
