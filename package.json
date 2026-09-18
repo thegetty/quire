@@ -52,7 +52,6 @@
     "memfs": "^4.57.1",
     "playwright": "^1.52.0",
     "sinon": "^21.0.3",
-    "tap-xunit": "^2.4.1",
-    "taskkill": "^5.0.0"
+    "tap-xunit": "^2.4.1"
   }
 }

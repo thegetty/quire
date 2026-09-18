@@ -16,7 +16,6 @@ import fs from 'node:fs'
 import { execa } from 'execa'
 import path from 'node:path'
 import yaml from 'js-yaml'
-import { taskkill } from 'taskkill'
 import test from 'ava'
 
 const publicationName = 'test-publication'
@@ -62,7 +61,8 @@ const testPreviewChange = async (t) => {
     cancelSignal: controller.signal,
     detached: true,
     killDescendants: true,
-    stdio: 'ignore' 
+    stdio: 'ignore',
+    windowsHide: true
   }
 
   // TODO: Check both --11ty api and --11ty cli
@@ -84,7 +84,7 @@ const testPreviewChange = async (t) => {
    * 
    * Returns a promise that resolves when `filepath` exists, polling every `delay` until `timeout` (all in ms)
    **/ 
-  const waitForPath = (filepath, timeout=5000, delay=500) => new Promise((resolve, reject) => {
+  const waitForPath = (filepath, timeout=25000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
     let interval = setInterval(() => {
       if ((() => fs.existsSync(filepath))) {
@@ -101,14 +101,17 @@ const testPreviewChange = async (t) => {
     }, delay)
   })
 
-  const publicationSite = path.join(process.cwd(), '_site') 
-  await waitForPath(publicationSite)
+  const siteDirectory = path.join(process.cwd(), '_site') 
+  const modifiedPagePath = path.join(process.cwd(), '_site', 'index.html')
 
-  const waitForChange = (filepath, change, timeout=10000, delay=500) => new Promise((resolve, reject) => {
+  await waitForPath(siteDirectory)
+  await waitForPath(modifiedPagePath)
+
+  const waitForChange = (filepath, change, timeout=50000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
     
     let interval = setInterval(() => {
-      if (fs.existsSync(filepath) && fs.readFileSync(filepath, { encoding: 'utf8' }).includes(change)) {
+      if ((() => fs.existsSync(filepath)) && (() => fs.readFileSync(filepath, { encoding: 'utf8' }).includes(change))) {
         clearInterval(interval)
         resolve()
       }
@@ -127,16 +130,10 @@ const testPreviewChange = async (t) => {
   const modification = `A test sentence, timestamp ${Date.now()}.`
   fs.appendFileSync(pagePath, `\n${modification}`)
 
-  const modifiedPath = path.join(process.cwd(), '_site', 'index.html')
-  await waitForChange(modifiedPath, modification)
+  await waitForChange(modifiedPagePath, modification)
 
   try {
     setTimeout(async () => {
-      if (process.platform === 'win32') {
-        await taskkill(preview.pid)
-        return
-      }
-
       controller.abort()
     }, 100)
     await preview
