@@ -16,6 +16,7 @@ import fs from 'node:fs'
 import { execa } from 'execa'
 import path from 'node:path'
 import yaml from 'js-yaml'
+import { taskkill } from 'taskkill'
 import test from 'ava'
 
 const publicationName = 'test-publication'
@@ -130,7 +131,12 @@ const testPreviewChange = async (t) => {
   await waitForChange(modifiedPath, modification)
 
   try {
-    setTimeout(() => {
+    setTimeout(async () => {
+      if (process.platform === 'win32') {
+        await taskkill(preview.pid)
+        return
+      }
+
       controller.abort()
     }, 100)
     await preview
