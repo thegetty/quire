@@ -5,7 +5,7 @@ import path from 'node:path'
 import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
 
-const logger = chalkFactory('Figures:ImageTransformer', 'DEBUG')
+const logger = chalkFactory('Figures:ImageTransformer', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
 /**
  * @function iiifSize

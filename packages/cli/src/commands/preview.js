@@ -47,10 +47,10 @@ export default class PreviewCommand extends Command {
 
     if (options['11ty'] === 'cli') {
       console.debug('[CLI] running eleventy using lib/11ty cli')
-      cli.serve(options)
+      await cli.serve(options)
     } else {
       console.debug('[CLI] running eleventy using lib/11ty api')
-      api.serve(options)
+      await api.serve(options)
     }
   }
 

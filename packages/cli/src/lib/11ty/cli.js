@@ -81,7 +81,7 @@ export default {
     const { command, env } = factory(options)
 
     if (options.dryRun) command.push('--dryrun')
-
+    if (options.debug) env.QUIRE_DEBUG_LOG = 'DEBUG'
     env.ELEVENTY_ENV = 'production'
 
     const build = execa('node', command, {
@@ -96,6 +96,7 @@ export default {
     if (build.exitCode !== 0) {
       process.exit(build.exitCode)
     }
+
   },
 
   serve: async (options = {}) => {
@@ -106,14 +107,17 @@ export default {
     command.push('--serve')
 
     if (options.port) command.push(`--port=${options.port}`)
+    if (options.debug) env.QUIRE_DEBUG_LOG = 'DEBUG'
 
     env.ELEVENTY_ENV = 'development'
 
-    await execa('node', command, {
+    const serve = execa('node', command, {
       all: true,
       cwd: projectRoot,
-      env,
+      env, 
       nodePath: process.execPath
-    }).all.pipe(process.stdout)
+    })
+    serve.all.pipe(process.stdout)
+    await serve
   }
 }
