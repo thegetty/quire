@@ -85,7 +85,7 @@ export default {
     env.ELEVENTY_ENV = 'production'
 
     const build = execa('node', command, {
-      all: true, 
+      all: true,
       cwd: projectRoot,
       env,
       nodePath: process.execPath
