@@ -83,18 +83,18 @@ export default {
     if (options.dryRun) command.push('--dryrun')
     if (options.debug) env.QUIRE_DEBUG_LOG = 'DEBUG'
     env.ELEVENTY_ENV = 'production'
-    
+
     const build = execa('node', command, {
-      all:true, 
+      all: true, 
       cwd: projectRoot,
       env,
       nodePath: process.execPath
     })
     build.all.pipe(process.stdout)
-    await build;
+    await build
 
     if (build.exitCode !== 0) {
-      process.exit(build.exitCode);
+      process.exit(build.exitCode)
     }
 
   },

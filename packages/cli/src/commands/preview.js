@@ -45,16 +45,12 @@ export default class PreviewCommand extends Command {
       console.debug('[CLI] Command \'%s\' called with arguments [%o] and options %o', this.name(), options)
     }
 
-    try {
-      if (options['11ty'] === 'cli') {
-        console.debug('[CLI] running eleventy using lib/11ty cli')
-        await cli.serve(options)
-      } else {
-        console.debug('[CLI] running eleventy using lib/11ty api')
-        await api.serve(options)
-      }
-    } catch (err) {
-      console.error(err.message);
+    if (options['11ty'] === 'cli') {
+      console.debug('[CLI] running eleventy using lib/11ty cli')
+      await cli.serve(options)
+    } else {
+      console.debug('[CLI] running eleventy using lib/11ty api')
+      await api.serve(options)
     }
   }
 

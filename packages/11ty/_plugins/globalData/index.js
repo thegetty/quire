@@ -14,10 +14,10 @@ const validateObjectIds = function (data, filename, key = '') {
   if (!data) return
 
   if (Array.isArray(data)) {
-    const isObject = data.length > 0 && data.some((item) => typeof item === 'object' && Object.hasOwn(item, 'id'))
-    if (isObject) {
-      const isMissingId = data.some((item) => !item?.id)
-      if (isMissingId) {
+    const hasObjectWithId = data.length > 0 && data.some((item) => typeof item === 'object' && Object.hasOwn(item, 'id'))
+    if (hasObjectWithId) {
+      const hasMissingId = data.some((item) => !item?.id)
+      if (hasMissingId) {
         throw new Error(`${filename}: "${key}" contains an entry with no "id".`)
       }
 
