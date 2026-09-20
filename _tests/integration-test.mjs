@@ -64,6 +64,7 @@ const testPreviewChange = async (t) => {
     detached: true,
     killDescendants: true,
     stdio: 'ignore',
+    timeout: 60000,
     windowsHide: true
   }
 
@@ -71,7 +72,6 @@ const testPreviewChange = async (t) => {
   // See https://nodejs.org/api/child_process.html#child_process_options_detached
   const preview = execa('quire', ['preview'], options)
   preview.unref()
-  preview.disconnect()
 
   // Make a trivial file change and check that the preview responds
   const pagePath = 'content/index.md'
