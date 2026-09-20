@@ -56,6 +56,8 @@ const changePubUrl = (url, t) => {
  *
  **/ 
 const testPreviewChange = async (t) => {
+  // TODO: Check both --11ty api and --11ty cli
+  // Create an unawaited and unblocking preview process so we can mutate content   
   const controller = new AbortController()
   const options = {
     cancelSignal: controller.signal,
@@ -65,9 +67,11 @@ const testPreviewChange = async (t) => {
     windowsHide: true
   }
 
-  // TODO: Check both --11ty api and --11ty cli
+  // NB: Node docs indicate `unref()` is all necessary, but Circle's executor needs the IPC severed too
+  // See https://nodejs.org/api/child_process.html#child_process_options_detached
   const preview = execa('quire', ['preview'], options)
   preview.unref()
+  preview.disconnect()
 
   // Make a trivial file change and check that the preview responds
   const pagePath = 'content/index.md'
@@ -126,7 +130,7 @@ const testPreviewChange = async (t) => {
   })
 
   // Modify the file, inserting a datestamp for debugging and uniqueness
-  // NB: This must be short enough to not be line broken by the markdown render be
+  // NB: Test mutation should be short so not line broken by markdown render
   const modification = `A test sentence, timestamp ${Date.now()}.`
   fs.appendFileSync(pagePath, `\n${modification}`)
 
