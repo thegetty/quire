@@ -128,6 +128,10 @@ commands:
           name: Run integration tests
           command: mkdir -p reports && npm run test:integration
           no_output_timeout: 15m
+      - run:
+          name: Log the index file contents in case of error
+          command: cat content/index.md ; cat _site/index.html
+          when: on_fail
 
       # Persist the site build for browser testing and submit test reports
       - persist_to_workspace:
