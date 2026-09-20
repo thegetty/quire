@@ -91,6 +91,7 @@ commands:
 
   build_install_cli-win:
     steps:
+      - run: nvm install lts/jod ; nvm use lts/jod
       # Zip to package the test-built site
       - run: choco install zip
       - run: choco install googlechrome chromedriver --ignore-checksums
