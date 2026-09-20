@@ -91,8 +91,7 @@ commands:
 
   build_install_cli-win:
     steps:
-      - node/install:
-          node-version: "22.14.0"
+      - run: nvm install 22.14.0 ; nvm use 22.14.0
       # Zip to package the test-built site
       - run: choco install zip
       - run: choco install googlechrome chromedriver --ignore-checksums
