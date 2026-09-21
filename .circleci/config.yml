@@ -130,7 +130,7 @@ commands:
           no_output_timeout: 15m
       - run:
           name: Log the index file contents in case of error
-          command: cat content/index.md ; cat _site/index.html
+          command: cat test-publication/content/index.md ; cat test-publication/_site/index.html
           when: on_fail
 
       # Persist the site build for browser testing and submit test reports
