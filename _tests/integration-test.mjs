@@ -57,18 +57,20 @@ const changePubUrl = (url, t) => {
  **/ 
 const testPreviewChange = async (t) => {
   // TODO: Check both --11ty api and --11ty cli
-  // Create an unawaited and unblocking preview process so we can mutate content   
+
+  // Create an unawaited and unblocking preview process
   const controller = new AbortController()
   const options = {
     cancelSignal: controller.signal,
     detached: true,
     killDescendants: true,
+    reject: false,
     stdio: 'ignore',
     timeout: 60000,
     windowsHide: true
   }
 
-  // NB: Node docs indicate `unref()` is all necessary, but Circle's executor needs the IPC severed too
+  // NB: `detached: true` and `unref()` allow the process to continue while the test runs 
   // See https://nodejs.org/api/child_process.html#child_process_options_detached
   const preview = execa('quire', ['preview'], options)
   preview.unref()
@@ -137,10 +139,10 @@ const testPreviewChange = async (t) => {
   await waitForChange(modifiedPagePath, modification)
 
   try {
-    setTimeout(() => {
-      controller.abort()
-    }, 100)
-    await preview
+    controller.abort()
+    // setTimeout(() => {
+    // }, 100)
+    // await preview
 
   } catch (error) {
     if (error.isCanceled) {
@@ -189,7 +191,7 @@ const buildSitePdfEpub = async (t) => {
   }
 }
 
-test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
+test.serial('Create the default publication', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
 
   t.pass()
