@@ -62,18 +62,16 @@ const testPreviewChange = async (t) => {
   const controller = new AbortController()
   const options = {
     cancelSignal: controller.signal,
-    detached: true,
     killDescendants: true,
     reject: false,
     stdio: 'ignore',
-    timeout: 60000,
     windowsHide: true
   }
 
   // NB: `detached: true` and `unref()` allow the process to continue while the test runs 
   // See https://nodejs.org/api/child_process.html#child_process_options_detached
   const preview = execa('quire', ['preview'], options)
-  preview.unref()
+  // preview.unref()
 
   // Make a trivial file change and check that the preview responds
   const pagePath = 'content/index.md'
@@ -93,7 +91,7 @@ const testPreviewChange = async (t) => {
   const waitForPath = (filepath, timeout=25000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
     let interval = setInterval(() => {
-      if ((() => fs.existsSync(filepath))) {
+      if (fs.existsSync(filepath)) {
         clearInterval(interval)
         resolve()
       }
@@ -113,11 +111,16 @@ const testPreviewChange = async (t) => {
   await waitForPath(siteDirectory)
   await waitForPath(modifiedPagePath)
 
-  const waitForChange = (filepath, change, timeout=50000, delay=500) => new Promise((resolve, reject) => {
+  // In practice there is latency between path existences and the watch start so wait 1s
+  // TODO: Pipe stdout and await /^[11ty] Watching/
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
+  const waitForChange = (filepath, change, timeout=100000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
     
     let interval = setInterval(() => {
-      if ((() => fs.existsSync(filepath)) && (() => fs.readFileSync(filepath, { encoding: 'utf8' }).includes(change))) {
+      const contents = fs.existsSync(filepath) ? fs.readFileSync(filepath, { encoding: 'utf8' }) : ''
+      if (contents.includes(change)) {
         clearInterval(interval)
         resolve()
       }
@@ -134,15 +137,12 @@ const testPreviewChange = async (t) => {
   // Modify the file, inserting a datestamp for debugging and uniqueness
   // NB: Test mutation should be short so not line broken by markdown render
   const modification = `A test sentence, timestamp ${Date.now()}.`
-  fs.appendFileSync(pagePath, `\n${modification}`)
+  fs.appendFileSync(pagePath, `\n${modification}`, 'utf8')
 
   await waitForChange(modifiedPagePath, modification)
 
   try {
     controller.abort()
-    // setTimeout(() => {
-    // }, 100)
-    // await preview
 
   } catch (error) {
     if (!error.isCanceled) {
