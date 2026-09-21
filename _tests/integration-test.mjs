@@ -145,10 +145,7 @@ const testPreviewChange = async (t) => {
     // await preview
 
   } catch (error) {
-    if (error.isCanceled) {
-      // Undo the change so it's not left in later tests and artifacts
-      await execa('git', ['checkout', 'content/index.md'])
-    } else {
+    if (!error.isCanceled) {
       t.fail(`quire preview subprocess should gracefully exit when aborted ${error}`)    
     }
   }
@@ -200,6 +197,8 @@ test.serial('Create the default publication', async (t) => {
 test.serial('Preview the default publication and respond to changes', async (t) => {
   process.chdir(publicationName)
   await testPreviewChange(t)
+  await execa('quire', ['clean'])
+  
   process.chdir(repoRoot)
 
   t.pass()
@@ -213,13 +212,31 @@ test.serial('Build the default publication, pdf, and epub', async (t) => {
   t.pass()
 })
 
-test.serial('Create the default publication with a pathname and build the site, epub, pdf', async (t) => {
+test.serial('Create the default publication with a pathname', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, pathedPub ])
 
   process.chdir(pathedPub)
   changePubUrl(`http://localhost:8080/${ pathedPub }/`, t)
 
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Preview the pathed publication and respond to changes', async (t) => {
+  process.chdir(pathedPub)
+
   await testPreviewChange(t)
+  await execa('quire', ['clean'])
+
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the pathed publication site, epub, and pdf', async (t) => {
+  process.chdir(pathedPub)
+
   await buildSitePdfEpub(t)
   process.chdir(repoRoot)
 
