@@ -64,14 +64,11 @@ const testPreviewChange = async (t) => {
     cancelSignal: controller.signal,
     killDescendants: true,
     reject: false,
-    stdio: 'ignore',
+    stdout: { file: 'preview.txt' },
     windowsHide: true
   }
 
-  // NB: `detached: true` and `unref()` allow the process to continue while the test runs 
-  // See https://nodejs.org/api/child_process.html#child_process_options_detached
   const preview = execa('quire', ['preview'], options)
-  // preview.unref()
 
   // Make a trivial file change and check that the preview responds
   const pagePath = 'content/index.md'
@@ -79,41 +76,36 @@ const testPreviewChange = async (t) => {
     t.fail('"quire preview" should be run in a publication directory')
   }
 
+  const modifiedPagePath = path.join(process.cwd(), '_site', 'index.html')
+
   /**
-   * @function waitForPath
+   * @function watchStarted
    * 
-   * @param {String} filepath
-   * @param {Number} timeout
-   * @param {Number} delay 
+   * @param {Number} timeout Length of time to wait before failing the test
+   * @param {Number} delay Time to delay between stdout polling cycles
    * 
-   * Returns a promise that resolves when `filepath` exists, polling every `delay` until `timeout` (all in ms)
+   * Promise that resolves when the preview watch has started, polling the stdout file every `delay` until `timeout` (all in ms)
+   * 
+   * TODO: Pass a passthrough stream to the execa handle, read from it instead of file 
    **/ 
-  const waitForPath = (filepath, timeout=25000, delay=500) => new Promise((resolve, reject) => {
+  const watchStarted = (timeout=60000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
     let interval = setInterval(() => {
-      if (fs.existsSync(filepath)) {
+      const content = fs.readFileSync('preview.txt', { encoding: 'utf8' })
+      if (elapsed >= timeout) {
+        t.fail("quire preview did not start within the timeout window")
+        reject()
+      }
+
+      if (content.includes('[11ty] Server at')) {
         clearInterval(interval)
         resolve()
       }
 
-      if (elapsed >= timeout) {
-        clearInterval(interval)
-        t.fail(`quire preview should generate output within ${timeout}ms`)
-        reject()
-      }
       elapsed += delay
     }, delay)
   })
-
-  const siteDirectory = path.join(process.cwd(), '_site') 
-  const modifiedPagePath = path.join(process.cwd(), '_site', 'index.html')
-
-  await waitForPath(siteDirectory)
-  await waitForPath(modifiedPagePath)
-
-  // In practice there is latency between path existences and the watch start so wait 1s
-  // TODO: Pipe stdout and await /^[11ty] Watching/
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await watchStarted()
 
   const waitForChange = (filepath, change, timeout=100000, delay=500) => new Promise((resolve, reject) => {
     let elapsed = 0
