@@ -56,19 +56,17 @@ const changePubUrl = (url, t) => {
  *
  **/ 
 const testPreviewChange = async (t) => {
-  // TODO: Check both --11ty api and --11ty cli
-
   // Create an unawaited and unblocking preview process
   const controller = new AbortController()
+
   const options = {
     cancelSignal: controller.signal,
     killDescendants: true,
     reject: false,
-    stdout: { file: 'preview.txt' },
     windowsHide: true
   }
-
   const preview = execa('quire', ['preview'], options)
+  preview.stdout.setEncoding('utf8')
 
   // Make a trivial file change and check that the preview responds
   const pagePath = 'content/index.md'
@@ -76,62 +74,42 @@ const testPreviewChange = async (t) => {
     t.fail('"quire preview" should be run in a publication directory')
   }
 
-  const modifiedPagePath = path.join(process.cwd(), '_site', 'index.html')
-
-  /**
-   * @function watchStarted
-   * 
-   * @param {Number} timeout Length of time to wait before failing the test
-   * @param {Number} delay Time to delay between stdout polling cycles
-   * 
-   * Promise that resolves when the preview watch has started, polling the stdout file every `delay` until `timeout` (all in ms)
-   * 
-   * TODO: Pass a passthrough stream to the execa handle, read from it instead of file 
-   **/ 
-  const watchStarted = (timeout=60000, delay=500) => new Promise((resolve, reject) => {
-    let elapsed = 0
-    let interval = setInterval(() => {
-      const content = fs.readFileSync('preview.txt', { encoding: 'utf8' })
-      if (elapsed >= timeout) {
-        t.fail("quire preview did not start within the timeout window")
-        reject()
-      }
-
-      if (content.includes('[11ty] Server at')) {
-        clearInterval(interval)
-        resolve()
-      }
-
-      elapsed += delay
-    }, delay)
-  })
-  await watchStarted()
-
-  const waitForChange = (filepath, change, timeout=100000, delay=500) => new Promise((resolve, reject) => {
-    let elapsed = 0
-    
-    let interval = setInterval(() => {
-      const contents = fs.existsSync(filepath) ? fs.readFileSync(filepath, { encoding: 'utf8' }) : ''
-      if (contents.includes(change)) {
-        clearInterval(interval)
-        resolve()
-      }
-
-      if (elapsed >= timeout) {
-        clearInterval(interval)
-        t.fail(`quire preview should regenerate changes within ${timeout}ms`)
-        reject()
-      }
-      elapsed += delay
-    }, delay)
-  })
-
-  // Modify the file, inserting a datestamp for debugging and uniqueness
   // NB: Test mutation should be short so not line broken by markdown render
   const modification = `A test sentence, timestamp ${Date.now()}.`
-  fs.appendFileSync(pagePath, `\n${modification}`, 'utf8')
+  const modifiedPagePath = path.join(process.cwd(), '_site', 'index.html')
 
-  await waitForChange(modifiedPagePath, modification)
+  // Read lines until the server launch logline, make a change, wait for the vite copy
+  let buffer = ''
+  let started, rebuilt = false
+  for await (const chunk of preview.stdout) {
+    buffer += chunk
+
+    switch (true) {
+      case !started && buffer.includes('[11ty] Server at'): {
+        buffer = ''
+        started = true
+
+        // Modify the file, inserting a datestamp for debugging and uniqueness
+        fs.appendFileSync(pagePath, `\n${modification}`, 'utf8')
+
+        break
+      }
+
+      case started && buffer.includes('[11ty] Copied'): {
+        rebuilt = true
+        break
+      }
+      default:
+        break
+    }
+
+    if (rebuilt) break
+  }
+
+  const contents = fs.readFileSync(modifiedPagePath, { encoding: 'utf8' })
+  if (!contents.includes(modification)) {
+    t.fail('rebuilt site during preview should include change')
+  }
 
   try {
     controller.abort()
