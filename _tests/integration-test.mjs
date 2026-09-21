@@ -191,18 +191,24 @@ const buildSitePdfEpub = async (t) => {
 
 test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
+
+  t.pass()
 })
 
 test.serial('Preview the default publication and respond to changes', async (t) => {
   process.chdir(publicationName)
   await testPreviewChange(t)
   process.chdir(repoRoot)
+
+  t.pass()
 })
 
 test.serial('Build the default publication, pdf, and epub', async (t) => {
   process.chdir(publicationName)
   await buildSitePdfEpub(t)
   process.chdir(repoRoot)
+
+  t.pass()
 })
 
 test.serial('Create the default publication with a pathname and build the site, epub, pdf', async (t) => {
@@ -214,6 +220,8 @@ test.serial('Create the default publication with a pathname and build the site, 
   await testPreviewChange(t)
   await buildSitePdfEpub(t)
   process.chdir(repoRoot)
+
+  t.pass()
 })
 
 // Package built site products for artifact storage and stage pathed publication
