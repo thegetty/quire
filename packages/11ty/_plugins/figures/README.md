@@ -1,6 +1,6 @@
 ## Figures Plugin
 
-Quire's figures plugin provides methods to prepare images and media for use with front-end components. It produces single-file derivatives (thumbnails, etc) used throughout quire publications, generates tiled image derivatives for zoomable images, and calculates media asset paths and URLs.
+Quire's figures plugin provides methods to prepare images and media for use with front-end components. It produces single-file derivatives (thumbnails, etc.) used throughout quire publications, generates tiled image derivatives for zoomable images, and calculates media asset paths and URLs.
 
 For figures that are configured to be zoomable, the plugin produces directory hierarchies of tiles conforming to [IIIF Image API 2.0](https://iiif.io/api/image/2.0/). It also generates [IIIF Presentation API 3.0](https://iiif.io/api/presentation/3.0/) manifests for zoomable figures, figures with annotations, and figures with image sequences. Within quire the IIIF manifests are used with the [`canvas-panel`](https://iiif-canvas-panel.netlify.app/docs/api-reference/canvas-panel), [`image-service`](https://iiif-canvas-panel.netlify.app/docs/components/single-image-service), and `q-image-sequence` web components.
 
