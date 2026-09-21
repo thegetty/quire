@@ -17,7 +17,7 @@ The plugin loads its image processing configuration from [`_plugins/figures/iiif
 
 The plugin adds `FigureMedia` objects to 11ty global data. For front-end component writers, these objecst are usually fetched with the `getFigureMedia` filter; the returned objects and are components' primary means of accessing figures data. In addition to the properties supplied by users in `figures.yaml`, `FigureMedia` objects feature properties prepared for use by components:
   
-- `derivatives`: An map of derivative names (from `transformations`, above) to objects containing `paths` and `dimensions` for that derivative. `paths` provides an `internal` property with the asset path for this figure when emitted internal to the publication (before asset bundling), an `absolute` property with the asset path for this figure when emitted in the final deployment, and a `uri` property with the fully qualified URI for this figure.
+- `derivatives`: A map of derivative names (from `transformations`, above) to objects containing `paths` and `dimensions` for that derivative. `paths` provides an `internal` property with the asset path for this figure when emitted internal to the publication (before asset bundling), an `absolute` property with the asset path for this figure when emitted in the final deployment, and a `uri` property with the fully qualified URI for this figure.
 
 The contents of these objects are determined by the figure type: 
   - For figure images, the derivative names available are those configured by `transformations` for each figure image -- `full`, `printImage`, `staticInlineFigureImage`, and `thumbnail`.
