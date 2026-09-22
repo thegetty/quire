@@ -38,7 +38,6 @@ export default function (eleventyConfig) {
     }
   }
   return function ({ derivatives, id, mediaId, mediaType, lazyLoading }) {
-    console.log('sup', derivatives)
     return audioElements[mediaType]({ derivatives, id, mediaId, mediaType, lazyLoading })
   }
 }
