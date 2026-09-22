@@ -15,9 +15,9 @@ export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  return function ({ caption, credit, id, label, mediaId, mediaType, poster = '' }) {
+  return function ({ caption, credit, derivatives, id, label, poster = '' }) {
     const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
+    const captionElement = figureCaption({ caption, content: labelElement, derivatives, credit })
 
     const posterSrc = poster.startsWith('http')
       ? poster

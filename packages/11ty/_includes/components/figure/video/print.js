@@ -21,9 +21,7 @@ export default function (eleventyConfig) {
     credit,
     derivatives,
     id,
-    label,
-    mediaId,
-    mediaType
+    label
   }) {
     const { printImage } = derivatives
     if (!printImage) {
@@ -32,7 +30,7 @@ export default function (eleventyConfig) {
 
     const posterSrc = printImage.paths.internal
     const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
+    const captionElement = figureCaption({ caption, derivatives, content: labelElement, credit })
 
     // TODO: Actually do alt here?
     return html`
