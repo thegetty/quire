@@ -194,6 +194,31 @@ test('Media factory should correctly handle metadata and posters for video figur
     'Video printImage from poster should have dimensions')
   t.truthy(media.paths.internal === '_assets/images/cat-1-video.mp4',
     'Video media should have paths')
+
+  const httpsPosterFigure = {
+    id: 'video-figure',
+    src: 'cat-1-video.mp4',
+    poster: 'https://example.org/test.jpg',
+    media_type: 'video'
+  }
+
+  const { figure: { derivatives } } = await factoryRoot.create(httpsPosterFigure)
+  const { full: httpsFull, printImage, thumbnail, staticInlineFigureImage } = derivatives
+  t.is(httpsFull.paths.internal, 'https://example.org/test.jpg')
+  t.is(httpsFull.paths.absolute, 'https://example.org/test.jpg')
+  t.is(httpsFull.paths.uri, 'https://example.org/test.jpg')
+
+  t.is(printImage.paths.internal, 'https://example.org/test.jpg')
+  t.is(printImage.paths.absolute, 'https://example.org/test.jpg')
+  t.is(printImage.paths.uri, 'https://example.org/test.jpg')
+
+  t.is(thumbnail.paths.internal, 'https://example.org/test.jpg')
+  t.is(thumbnail.paths.absolute, 'https://example.org/test.jpg')
+  t.is(thumbnail.paths.uri, 'https://example.org/test.jpg')
+
+  t.is(staticInlineFigureImage.paths.internal, 'https://example.org/test.jpg')
+  t.is(staticInlineFigureImage.paths.absolute, 'https://example.org/test.jpg')
+  t.is(staticInlineFigureImage.paths.uri, 'https://example.org/test.jpg')
 })
 
 test('Media factory should correctly handle embed URLs for youtube, vimeo, soundcloud figures', async (t) => {
