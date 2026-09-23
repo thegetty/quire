@@ -19,7 +19,7 @@ export default function (eleventyConfig) {
     const pageType = page && page.type
 
     const promoFigure = getFigureMedia('promo-image')
-    const coverImage = page.cover ? path.posix.join(config.imageDir, page.cover) : undefined
+    const coverImage = page.cover ? path.posix.join(config.figures.imageDir, page.cover) : undefined
 
     const meta = [
       {
