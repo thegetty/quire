@@ -1,3 +1,4 @@
+import Compositor from './compositor.js'
 import Tiler from './tiler.js'
 import Transformer from './transformer.js'
 import chalkFactory from '#lib/chalk/index.js'

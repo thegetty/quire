@@ -542,17 +542,46 @@ export default class FigureMedia {
   }
 
   /**
+   * @function compositePrintImage
+   *
+   * Montage annotations and sequences into a print image with `sharp`
+   *
+   **/ 
+  async compositePrintImage (images) {
+    const outputPath = path.join(this.outputPathname, 'print-image.jpg')
+    let dimensions = {}
+    switch (true) {
+      case (this.annotations.some((a) => a.input === 'checkbox')):
+        dimensions = await this.compositor(this.annotations, 'overlay', outputPath)
+        break
+
+      case (this.annotations.some((a) => a.input === 'radio')):
+        dimensions = await this.compositor(this.annotations, 'grid', outputPath)
+        break
+
+      case (this.isSequence):
+        dimensions = await this.compositor(this.annotations, 'grid', outputPath)
+        break
+
+      default:
+        break
+    }
+
+    // TODO: 
+    this.storeDerivativeMetadata('print-image', {})
+  }
+
+  /**
    * @function processAnnotationsMedia
    *
    * Processes annotation assets
    *
-   * TODO: Define a compositing transform for choice annotations
-   * TODO: Transform each annotation for radio button annotations
    */
   async processAnnotationsMedia () {
     if (!this.annotations) return
 
     const annotationItems = this.annotations.flatMap(({ items }) => items)
+    await this.compositePrintImage(annotationItems)
 
     // Handle the annotation images
     const results = await Promise.all(annotationItems.map((item) => {
@@ -775,6 +804,7 @@ export default class FigureMedia {
 
     const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
+    await this.compositePrintImage(sequenceItems)
 
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id
