@@ -409,11 +409,16 @@ export default class FigureMedia {
       case (this.mediaType === 'vimeo'): {
         if (!this.poster) return
 
+        // Pass the image filepath or a byte array if an URL
         const { imagesDir, inputRoot } = this.iiifConfig.dirs
-        const posterPath = path.join(inputRoot, imagesDir, this.poster)
+        let posterImage = path.join(inputRoot, imagesDir, this.poster)
+
+        if (/^https?:\/\//.test(this.poster)) {
+          posterImage = await Fetch(this.poster, { type: 'buffer' })
+        }
 
         try {
-          ({ height, width } = await sharp(posterPath).metadata())
+          ({ height, width } = await sharp(posterImage).metadata())
         } catch (error) {
           logger.error(`Could not read metadata for poster ${this.id}: ${error}!`)
           return
@@ -613,7 +618,8 @@ export default class FigureMedia {
         break
       }
 
-      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType): {
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType)
+        && !/https?:\/\//.test(this.poster): {
         // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
         outputFilename ??= `${name}.jpg`
         const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.poster).name
@@ -628,6 +634,16 @@ export default class FigureMedia {
           absolute,
           internal: path.posix.join('/', internal),
           uri
+        }
+        break
+      }
+
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType)
+        && /https?:\/\//.test(this.poster): {
+        paths = {
+          absolute: this.poster,
+          internal: this.poster,
+          uri: this.poster
         }
         break
       }
@@ -716,7 +732,15 @@ export default class FigureMedia {
       case 'youtube':
       case 'vimeo':
       case 'soundcloud':
+        if (/https?:\/\//.test(this.poster)) {
+          for (const { name } of transformations) {
+            this.storeDerivativeMetadata(name, { height: this.height, width: this.width })
+          }
+          return
+        }
+
         imageSrc = this.poster
+
         break
 
       default:

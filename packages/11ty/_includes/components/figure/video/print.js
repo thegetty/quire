@@ -32,7 +32,6 @@ export default function (eleventyConfig) {
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, derivatives, content: labelElement, credit })
 
-    // TODO: Actually do alt here?
     return html`
       <div class="q-figure__media-wrapper--${aspectRatio || 'widescreen'}">
         <img src="${posterSrc}" alt="" />
