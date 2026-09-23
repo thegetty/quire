@@ -76,7 +76,7 @@ const checkAllImgsOK = async (page) => {
   const imgLoc = page.locator('img')
   const imgs = await imgLoc.all()  
 
-  // Get all the src attributes and root them to localhost:8080 if they aren't valid URLs
+  // Collect the src attributes and root them to localhost:8080 if they aren't valid URLs
   const imgHrefs = await Promise.all(imgs.map( async (img) => await img.getAttribute('src') ))
   const imgUrls = imgHrefs.map( (href) => {
     let url
@@ -90,35 +90,16 @@ const checkAllImgsOK = async (page) => {
     return url
   })
 
-  await Promise.all( imgUrls.map( (u) => checkUrl(u,page) ) )
-}
+  // Append og:image value to urls (if it is not a valid URL it's an error)
+  const ogLoc = page.locator('meta[property="og:image"]')
+  const ogElements = await ogLoc.all()
 
-/**
- * @function checkLightboxSlides
- * 
- * @argument {Page} page
- * 
- * Checks that src attrs of all lightbox slide images work
- * 
- **/ 
-const checkLightboxSlides = async (page) => {
-  // Find each figure image on the page, click it
-  // TODO: Drill shadowRoots
-  const modal = await page.locator('q-modal').first()
-  const lightbox = await modal.locator('q-lightbox').first()
-
-  for ( const slideImg of await lightbox.locator('.q-lightbox-slides__element--image > img').all() ) {
-    const src = await slideImg.getAttribute('src')
-
-    let url
-    try {
-      url = new URL(src)
-    } catch {
-      url = new URL(src,'http://localhost:8080/')
-    }
-    console.log(url.href)
-    await checkUrl(url.href, page)
+  if (ogElements.length > 0) {
+    const ogUrl = await ogElements.at(0).getAttribute('content')
+    imgUrls.push(ogUrl)
   }
+
+  await Promise.all( imgUrls.map( (u) => checkUrl(u,page) ) )
 }
 
 /**
@@ -160,6 +141,5 @@ for (const url of siteURLs) {
     await expect.soft(page).toHaveTitle(/.{1,}/)
     await checkAllImgsOK(page)
     await checkCanvasPanelCanvasDims(page)
-    // await checkLightboxSlides(page)
   })  
 }
