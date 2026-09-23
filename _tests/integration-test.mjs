@@ -48,57 +48,229 @@ const changePubUrl = (url, t) => {
 }
 
 /**
- * @function buildSitePdfEpub
+ * @function testPreviewChange
  * 
  * @param {ava:test} t
  * 
- * Builds a quire site, its pdf and epub.
+ * Previews the publication and tests that it successfully responds to file changes
+ *
+ **/ 
+const testPreviewChange = async (t) => {
+  // Create an unawaited and unblocking preview process
+  const controller = new AbortController()
+
+  const options = {
+    cancelSignal: controller.signal,
+    killDescendants: true,
+    reject: false,
+    windowsHide: true
+  }
+  const preview = execa('quire', ['preview'], options)
+  preview.stdout.setEncoding('utf8')
+
+  // Make a trivial file change and check that the preview responds
+  const pagePath = 'content/index.md'
+  if (!fs.existsSync(pagePath)) {
+    t.fail('"quire preview" should be run in a publication directory')
+  }
+
+  // NB: Test mutation should be short so not line broken by markdown render
+  const modification = `A test sentence, timestamp ${Date.now()}.`
+  const modifiedPagePath = path.join(process.cwd(), '_site', 'index.html')
+
+  // Read lines until the server launch logline, make a change, wait for the vite copy
+  let buffer = ''
+  let started, rebuilt = false
+  for await (const chunk of preview.stdout) {
+    buffer += chunk
+
+    switch (true) {
+      case !started && buffer.includes('[11ty] Server at'): {
+        buffer = ''
+        started = true
+
+        // Modify the file, inserting a datestamp for debugging and uniqueness
+        fs.appendFileSync(pagePath, `\n${modification}`, 'utf8')
+
+        break
+      }
+
+      case started && buffer.includes('[11ty] Copied'): {
+        rebuilt = true
+        break
+      }
+      default:
+        break
+    }
+
+    if (rebuilt) break
+  }
+
+  const contents = fs.readFileSync(modifiedPagePath, { encoding: 'utf8' })
+  if (!contents.includes(modification)) {
+    t.fail('rebuilt site during preview should include change')
+  }
+
+  try {
+    controller.abort()
+
+  } catch (error) {
+    if (!error.isCanceled) {
+      t.fail(`quire preview subprocess should gracefully exit when aborted ${error}`)    
+    }
+  }
+
+  t.pass('quire preview should propagate page changes')
+}
+
+/**
+ * @function buildSite
+ * 
+ * @param {ava:test} t
+ * 
+ * Runs `quire build` and verifies correct output
  * 
  **/ 
-const buildSitePdfEpub = async (t) => {
-  const {stdout: buildStdout, stderr: buildStderr } = await execa('quire', ['build'])
-  const {stdout: pdfStdout, stderr: pdfStderr} = await execa('quire', ['pdf'])
-  const {stdout: epubStdout, stderr: epubStderr} = await execa('quire', ['epub'])
+const buildSite = async (t) => {
+  const { stdout, stderr } = await execa('quire', ['build'])
+
+  const coverFile = path.join('_site','index.html')
+  if (!fs.existsSync(coverFile)) {
+    t.fail("build should generate a cover HTML file")
+  }
+}
+
+/**
+ * @function makePdf
+ * 
+ * @param {ava:test} t
+ * 
+ * Runs `quire pdf` and verifies correct output
+ * 
+ **/
+const makePdf = async (t) => {
+  const { stdout, stderr } = await execa('quire', ['pdf'])
 
   const downloadsDir = path.join('_site', '_assets', 'downloads')
   const publicationPdf = path.join(downloadsDir, 'publication.pdf')
   if (!fs.existsSync(publicationPdf)) {
-    t.fail(`No publication PDF generated! ${buildStdout} ${buildStderr}`)
+    t.fail("publication should have a full PDF")
   }
 
   const essayPdf = path.join(downloadsDir, 'publication-essay.pdf')
   if (!fs.existsSync(essayPdf)) {
-    t.fail(`No essay PDF generated! ${pdfStdout} ${pdfStderr}`)
+    t.fail("publication should have an essay-only PDF")
   }
+}
+
+/**
+ * @function makeEpub
+ * 
+ * @param {ava:test} t
+ * 
+ * Runs `quire epub` and verifies correct output
+ * 
+ **/
+const makeEpub = async (t) => {
+  const { stdout, stderr } = await execa('quire', ['epub'])
 
   const epubDir = '_epub'
   if (!fs.existsSync(epubDir)) {
-    t.fail(`No epub assets generated! ${stdout} ${stderr}`)
+    t.fail("epub assets directory should exist")
   }
 
   const epubFile = 'epubjs.epub'
   if (!fs.existsSync(epubFile)) {
-    t.fail(`No epub file generated! ${epubStdout} ${epubStderr}`)
+    t.fail("generated epub should exist")
   }
 }
 
-test.serial('Create the default publication and build the site, epub, pdf', async (t) => {
+test.serial('Create the default publication', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
 
-  process.chdir(publicationName)
-  await buildSitePdfEpub(t)
-  process.chdir(repoRoot)
   t.pass()
 })
 
-test.serial('Create the default publication with a pathname and build the site, epub, pdf', async (t) => {
+test.serial('Preview the default publication and respond to changes', async (t) => {
+  process.chdir(publicationName)
+  await testPreviewChange(t)
+  await execa('quire', ['clean'])
+  
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the default publication site', async (t) => {
+  process.chdir(publicationName)
+  await buildSite(t)
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the default publication pdf', async (t) => {
+  process.chdir(publicationName)
+  await makePdf(t)
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the default publication epub', async (t) => {
+  process.chdir(publicationName)
+  await makeEpub(t)
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Create the default publication with a pathname', async (t) => {
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, pathedPub ])
 
   process.chdir(pathedPub)
   changePubUrl(`http://localhost:8080/${ pathedPub }/`, t)
 
-  await buildSitePdfEpub()
   process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Preview the pathed publication and respond to changes', async (t) => {
+  process.chdir(pathedPub)
+
+  await testPreviewChange(t)
+  await execa('quire', ['clean'])
+
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the pathed publication site', async (t) => {
+  process.chdir(pathedPub)
+
+  await buildSite(t)
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the pathed publication pdf', async (t) => {
+  process.chdir(pathedPub)
+
+  await makePdf(t)
+  process.chdir(repoRoot)
+
+  t.pass()
+})
+
+test.serial('Build the pathed publication epub', async (t) => {
+  process.chdir(pathedPub)
+
+  await makeEpub(t)
+  process.chdir(repoRoot)
+
   t.pass()
 })
 

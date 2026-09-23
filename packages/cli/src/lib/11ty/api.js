@@ -51,37 +51,12 @@ const factory = async (options = {}) => {
    * @param {String} input  Path from which to read content templates
    * @param {String} output  Path where rendered files will be written
    * @param {Object} options  Options are merged with the Eleventy UserConfig
-   * @param {Object} config  An eleventy configurtion object
+   * @property {string} config  Config callback run after initialization 
    *
    * @returns {module:11ty/eleventy/Eleventy~Eleventy}
    */
   const eleventy = new Eleventy(input, output, {
     config: (eleventyConfig) => {
-      /**
-       * Override addPassthroughCopy to use _absolute_ system paths.
-       * @see https://www.11ty.dev/docs/copy/#passthrough-file-copy
-       * Nota bene: Eleventy addPassthroughCopy assumes paths are _relative_
-       * to the `config` file however the quire-cli separates 11ty from the
-       * project directory (`input`) and needs to use absolute system paths.
-       */
-      const addPassthroughCopy = eleventyConfig.addPassthroughCopy.bind(eleventyConfig)
-      eleventyConfig.addPassthroughCopy = (entry) => {
-        if (typeof entry === 'string') {
-          const filePath = path.resolve(entry) //path.join(projectRoot, file)
-          // console.debug('[11ty:API] passthrough copy %s', filePath)
-          return addPassthroughCopy(filePath, copyOptions)
-        } else {
-          // console.debug('[11ty:API] passthrough copy %o', entry)
-          entry = Object.fromEntries(
-            Object.entries(entry).map(([ src, dest ]) => {
-              return [ path.join(eleventyRoot, src), path.resolve(dest) ]
-            })
-          )
-          // console.debug('[11ty:API] passthrough copy %o', entry)
-          return addPassthroughCopy(entry, copyOptions)
-        }
-      }
-
       /**
        * Event callback when a build completes
        * @see https://www.11ty.dev/docs/events/#eleventy.after
@@ -89,11 +64,10 @@ const factory = async (options = {}) => {
       eleventyConfig.on('eleventy.after', async () => {
         console.debug('[11ty:API] build complete')
       })
-
-      return eleventyConfig
     },
     configPath: options.config || config,
     quietMode: options.quiet || false,
+    runMode: process.env.ELEVENTY_ENV === 'production' ? 'build' : 'serve'
   })
 
   return eleventy
@@ -128,7 +102,14 @@ export default {
     if (options.debug) process.env.DEBUG = 'Eleventy*'
 
     const eleventy = await factory(options)
+    await eleventy.init()
+    await eleventy.watch()
 
     await eleventy.serve(options.port)
+
+    process.on("SIGINT", async () => {
+      await eleventy.stopWatch()
+      process.exit(0)
+    })
   }
 }
