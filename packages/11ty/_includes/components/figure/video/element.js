@@ -85,7 +85,6 @@ export default function (eleventyConfig) {
     poster,
     src
   }) {
-
     return videoElements[mediaType]({ derivatives, id, lightbox, mediaId, mediaType, lazyLoading })
   }
 }
