@@ -405,16 +405,20 @@ export default class FigureMedia {
       case (this.mediaType === 'video'):
       case (this.mediaType === 'soundcloud'):
       case (this.mediaType === 'youtube'):
-      case (this.mediaType === 'vimeo'):
+      case (this.mediaType === 'vimeo'): {
         if (!this.poster) return
 
+        const { imagesDir, inputRoot } = this.iiifConfig.dirs
+        const posterPath = path.join(inputRoot, imagesDir, this.poster)
+
         try {
-          ({ height, width } = await sharp(this.imageFilePath).metadata())
+          ({ height, width } = await sharp(posterPath).metadata())
         } catch (error) {
           logger.error(`Could not read metadata for poster ${this.id}: ${error}!`)
           return
         }
         break
+      }
 
       // By default use `sharp` and the image on disk
       default:
