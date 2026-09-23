@@ -419,7 +419,7 @@ export default class FigureMedia {
     this.errors = []
 
     switch (this.mediaType) {
-      case 'annex-image':
+      case 'publication-image':
         // Store dimensions and return
         await this.calculateDimensions()
         this.storeDerivativeMetadata('full', { height: this.height, width: this.width })
@@ -512,7 +512,7 @@ export default class FigureMedia {
         break
       }
 
-      case this.mediaType === 'annex-image': {
+      case this.mediaType === 'publication-image': {
         const absolute = path.posix.join(pathname, imagesDir, this.src)
         const internal = path.posix.join(imagesDir, this.src)
         const uri = new URL(absolute, baseURI).href

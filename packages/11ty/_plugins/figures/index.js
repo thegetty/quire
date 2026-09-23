@@ -6,33 +6,33 @@ import slugify from '@sindresorhus/slugify'
 const logger = chalkFactory('Figures', 'DEBUG')
 
 /**
- * @function prepareAnnexImages
+ * @function preparePublicationImages
  *
- * @param {Object} eleventyConfig - config from which to extract annex images
+ * @param {Object} eleventyConfig - config from which to extract other publication images
  *
  * @returns {Array}
  *
- * Returns annex images from the eleventyConfig mapped to the figure model.
+ * Returns publication images from the eleventyConfig mapped to the figure model.
  * for use with the figureMedia factory.
  *
  **/
-const prepareAnnexImages = (eleventyConfig) => {
+const preparePublicationImages = (eleventyConfig) => {
   const { defaultCoverImage } = eleventyConfig.globalData.config.epub
   const { contributor, promo_image: promoImageData, publisher } = eleventyConfig.globalData.publication
 
-  let annexes = []
+  let publicationImages = []
   if (promoImageData) {
-    annexes.push({
+    publicationImages.push({
       id: 'promo-image',
-      media_type: 'annex-image',
+      media_type: 'publication-image',
       src: promoImageData
     })
   }
 
   if (defaultCoverImage) {
-    annexes.push({
+    publicationImages.push({
       id: 'epub-default',
-      media_type: 'annex-image',
+      media_type: 'publication-image',
       src: defaultCoverImage
     })
   }
@@ -40,7 +40,7 @@ const prepareAnnexImages = (eleventyConfig) => {
   const contributorAvatars = (contributor ?? []).filter((contrib) => Boolean(contrib.image)).map((contrib) => {
     return {
       id: `contributor-${contrib.id}`,
-      media_type: 'annex-image',
+      media_type: 'publication-image',
       src: contrib.image
     }
   })
@@ -48,13 +48,13 @@ const prepareAnnexImages = (eleventyConfig) => {
   const publisherLogos = (publisher ?? []).filter((publish) => Boolean(publish.logo)).map((publish) => {
     return {
       id: `logo-${slugify(publish.name)}`,
-      media_type: 'annex-image',
+      media_type: 'publication-image',
       src: publish.logo
     }
   })
 
-  annexes = annexes.concat(contributorAvatars, publisherLogos)
-  return annexes
+  publicationImages = publicationImages.concat(contributorAvatars, publisherLogos)
+  return publicationImages
 }
 
 /**
@@ -68,14 +68,14 @@ export default function (eleventyConfig, options) {
     const figureFactory = new FigureMediaFactory({ ...config, ...options })
 
     /**
-     * Unwrap figure list and annex image data (eg, contributor and promo images)
+     * Unwrap figure list and publication image data (eg, contributor and promo images)
      **/
     const { figure_list: figureList } = eleventyConfig.globalData.figures
 
-    // Run annex assets through the figure factory
-    const annexes = prepareAnnexImages(eleventyConfig)
-    const annexFigures = await Promise.all(
-      annexes.map((data) => {
+    // Run publication assets through the figure factory
+    const publicationImages = preparePublicationImages(eleventyConfig)
+    const publicationFigures = await Promise.all(
+      publicationImages.map((data) => {
         return figureFactory.create(data)
       })
     )
@@ -88,7 +88,7 @@ export default function (eleventyConfig, options) {
     )
 
     // Combine the lists and check errors
-    const allFigures = annexFigures.concat(figures)
+    const allFigures = publicationFigures.concat(figures)
     const errors = allFigures.filter(({ errors }) => errors && !!errors.length)
 
     if (errors.length) {

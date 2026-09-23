@@ -32,7 +32,7 @@ test.before('', async (t) => {
   t.context.addGlobalData = addGlobalData
 })
 
-test('Annex publication images (logos, avatars, etc) should be added to figuresMedia globalData', async (t) => {
+test('other publication images (logos, avatars, etc) should be added to figuresMedia globalData', async (t) => {
   const { addGlobalData, create, sandbox } = t.context
 
   // Import the plugin with our test function injected as a member
