@@ -8,7 +8,7 @@ Before each publication build, the plugin uses the global figure data added by t
 
 For each entry in `figures_list`, the plugin uses `FigureFactory` to create a `figureMedia` object. Internally, the factory triggers dimensions metadata inspection, image tile and scaled derivative generation, IIIF manifest creation, and path calculations.
 
-In addition, `epub.defaultCoverImage` from `config.yaml` and `promo_image`, `contributor[].image`, and `publisher[].logo` from `publication.yaml` are made available using the `getFigureMedia` interface.
+In addition, other publication images are emitted using the `getFigureMedia` interface. Each of these images is given hardcoded figure media IDs: `epub.defaultCoverImage` from `config.yaml` (as `epub-default`) and `promo_image` (as `promo-image`, `contributor[].image` (as `contributor-${ contributor.id }`), and `publisher[].logo` (as `logo-${ slugify(publisher.name) }`) from `publication.yaml`.
 
 ## IIIF Processing
 
