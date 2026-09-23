@@ -39,9 +39,9 @@ export default function (eleventyConfig) {
         <video
           class="q-figure-video-element"
           controls
-          poster="${staticInlineFigureImage?.paths?.internal}"
+          poster="${lightbox ? staticInlineFigureImage?.paths?.absolute : staticInlineFigureImage?.paths?.internal }"
         >
-          <source src="${media.paths.internal}" type="video/mp4"/>
+          <source src="${lightbox ? media.paths.absolute : media.paths.internal}" type="video/mp4"/>
           ${unsupported}
         </video>
       `
@@ -104,6 +104,6 @@ export default function (eleventyConfig) {
       src = src.startsWith('http') ? src : path.join(assetRoot, src)
     }
 
-    return videoElements[mediaType]({ id, mediaId, mediaType, poster, lazyLoading, src })
+    return videoElements[mediaType]({ id, lazyLoading, lightbox, mediaId, mediaType, poster, src })
   }
 }

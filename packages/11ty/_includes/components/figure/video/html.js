@@ -18,6 +18,7 @@ export default function (eleventyConfig) {
     credit,
     id,
     label,
+    lightbox,
     mediaId,
     mediaType,
     poster,
@@ -25,7 +26,7 @@ export default function (eleventyConfig) {
     lazyLoading
   }) {
     const isEmbed = mediaType === 'vimeo' || mediaType === 'youtube'
-    const videoElement = figureVideoElement({ id, mediaId, mediaType, src, poster, lazyLoading })
+    const videoElement = figureVideoElement({ id, lazyLoading, lightbox, mediaId, mediaType, poster, src })
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit })
 
