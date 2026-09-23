@@ -618,8 +618,8 @@ export default class FigureMedia {
         break
       }
 
-      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType)
-        && !/https?:\/\//.test(this.poster): {
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType) &&
+        !/https?:\/\//.test(this.poster): {
         // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
         outputFilename ??= `${name}.jpg`
         const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.poster).name
@@ -638,8 +638,8 @@ export default class FigureMedia {
         break
       }
 
-      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType)
-        && /https?:\/\//.test(this.poster): {
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType) &&
+        /https?:\/\//.test(this.poster): {
         paths = {
           absolute: this.poster,
           internal: this.poster,
