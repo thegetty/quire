@@ -11,7 +11,7 @@ import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
 
-const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
+const logger = chalkFactory('Figures:FigureMedia', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
 /**
  * @param {Object} iiifConfig

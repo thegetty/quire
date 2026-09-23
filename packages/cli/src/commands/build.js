@@ -41,17 +41,17 @@ export default class BuildCommand extends Command {
     super(BuildCommand.definition)
   }
 
-  action(options, command) {
+  async action(options, command) {
     if (options.debug) {
       console.debug('[CLI] Command \'%s\' called with options %o', this.name(), options)
     }
 
     if (options['11ty'] === 'cli') {
       console.debug('[CLI] running eleventy using lib/11ty cli')
-      cli.build(options)
+      await cli.build(options)
     } else {
       console.debug('[CLI] running eleventy using lib/11ty api')
-      api.build(options)
+      await api.build(options)
     }
   }
 

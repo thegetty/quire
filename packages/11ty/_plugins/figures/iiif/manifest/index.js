@@ -6,7 +6,7 @@ import Writer from './writer.js'
 import chalkFactory from '#lib/chalk/index.js'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
 
-const logger = chalkFactory('Figures:IIIF:Manifest', 'DEBUG')
+const logger = chalkFactory('Figures:IIIF:Manifest', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
 const vault = globalVault()
 const builder = new IIIFBuilder(vault)

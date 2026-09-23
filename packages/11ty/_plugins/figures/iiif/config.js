@@ -2,7 +2,7 @@ import chalkFactory from '#lib/chalk/index.js'
 import path from 'node:path'
 
 // eslint-disable-next-line no-unused-vars
-const logger = chalkFactory('Figures:IIIF:Config', 'DEBUG')
+const logger = chalkFactory('Figures:IIIF:Config', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
 export default (eleventyConfig) => {
   const { url } = eleventyConfig.globalData.publication

@@ -2,7 +2,7 @@ import FigureMediaFactory from './figureMedia/factory.js'
 import chalkFactory from '#lib/chalk/index.js'
 import iiifConfig from './iiif/config.js'
 
-const logger = chalkFactory('Figures', 'DEBUG')
+const logger = chalkFactory('Figures', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
 /**
  * Figures Plugin
