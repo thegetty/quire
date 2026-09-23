@@ -1,11 +1,6 @@
-import chalkFactory from '#lib/chalk/index.js'
-
-// eslint-disable-next-line no-unused-vars
-const logger = chalkFactory('Figure Media Embed URL')
-
-export default function (eleventyConfig) {
-  const embedUrlByMediaType = {
-    soundcloud (mediaId) {
+export default (mediaType, mediaId) => {
+  switch (mediaType) {
+    case 'soundcloud': {
       const baseUrl = 'https://w.soundcloud.com/player/'
       const embedUrl = new URL(baseUrl)
       const embedParams = new URLSearchParams({
@@ -30,8 +25,9 @@ export default function (eleventyConfig) {
         embedUrl: embedUrl.href,
         sourceUrl: sourceUrl.href
       }
-    },
-    vimeo (mediaId) {
+    }
+
+    case 'vimeo': {
       const baseUrl = 'https://player.vimeo.com/video/'
       const sourceBaseUrl = 'https://vimeo.com/'
       // Sample Vimeo id: 672853278/b3f8d29d53
@@ -41,8 +37,9 @@ export default function (eleventyConfig) {
         embedUrl: `${baseUrl}${embedId}`,
         sourceUrl: `${sourceBaseUrl}${mediaId}`
       }
-    },
-    youtube (mediaId) {
+    }
+
+    case 'youtube': {
       const embedBaseUrl = 'https://www.youtube-nocookie.com/embed/'
       const sourceBaseUrl = 'https://youtu.be/'
       return {
@@ -50,10 +47,7 @@ export default function (eleventyConfig) {
         sourceUrl: `${sourceBaseUrl}${mediaId}`
       }
     }
-  }
-  return function ({ mediaId, mediaType }) {
-    if (!Object.keys(embedUrlByMediaType).includes(mediaType)) return ''
-
-    return embedUrlByMediaType[mediaType](mediaId)
+    default:
+      break
   }
 }

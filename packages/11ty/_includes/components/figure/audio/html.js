@@ -13,10 +13,10 @@ export default function (eleventyConfig) {
   const figureLabel = eleventyConfig.getFilter('figureLabel')
   const figureAudioElement = eleventyConfig.getFilter('figureAudioElement')
 
-  return function ({ caption, credit, id, label, mediaId, mediaType, lazyLoading }) {
-    const audioElement = figureAudioElement({ id, mediaId, mediaType, lazyLoading })
+  return function ({ caption, credit, derivatives, id, label, mediaId, mediaType, lazyLoading }) {
+    const audioElement = figureAudioElement({ derivatives, id, mediaId, mediaType, lazyLoading })
     const labelElement = figureLabel({ caption, id, label })
-    const captionElement = figureCaption({ caption, content: labelElement, credit })
+    const captionElement = figureCaption({ caption, content: labelElement, credit, derivatives })
 
     return html`
       <div class="q-figure__media-wrapper">
