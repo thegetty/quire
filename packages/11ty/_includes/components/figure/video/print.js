@@ -1,6 +1,5 @@
 import { html } from '#lib/common-tags/index.js'
 import chalkFactory from '#lib/chalk/index.js'
-import path from 'node:path'
 
 const logger = chalkFactory('Figure Video')
 
@@ -16,25 +15,22 @@ export default function (eleventyConfig) {
   const figureCaption = eleventyConfig.getFilter('figureCaption')
   const figureLabel = eleventyConfig.getFilter('figureLabel')
 
-  const { imageDir } = eleventyConfig.globalData.config.figures
-
   return function ({
     aspect_ratio: aspectRatio,
     caption,
     credit,
+    derivatives,
     id,
     label,
     mediaId,
-    mediaType,
-    poster = ''
+    mediaType
   }) {
-    if (!poster) {
+    const { printImage } = derivatives
+    if (!printImage) {
       logger.warn(`Figure '${id}' does not have a 'poster' property. Print media will not render a fallback image for id: ${id}`)
     }
 
-    const posterSrc = poster.startsWith('http')
-      ? poster
-      : path.posix.join(imageDir, poster)
+    const posterSrc = printImage.paths.internal
     const labelElement = figureLabel({ caption, id, label })
     const captionElement = figureCaption({ caption, content: labelElement, credit, mediaId, mediaType })
 

@@ -23,24 +23,28 @@ export default function (eleventyConfig) {
   const { imageDir } = eleventyConfig.globalData.config.figures
   const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
   const videoElements = {
-    video ({ id, poster = '', src }) {
-      if (!src) {
+    video ({ derivatives, id, lightbox }) {
+      const { media, staticInlineFigureImage } = derivatives
+      if (!media) {
         logger.error(`Cannot render Video without 'src'. Check that figures data for id: ${id} has a valid 'src'`)
         return ''
       }
 
-      if (!poster) {
+      if (!staticInlineFigureImage) {
         logger.warn(`Figure '${id}' does not have a 'poster' property. A poster image for id: ${id} will not be rendered`)
       }
 
       const unsupported = 'Sorry, your browser does not support embedded videos.'
+      const poster = lightbox ? staticInlineFigureImage?.paths?.absolute : staticInlineFigureImage?.paths?.internal
+      const video = lightbox ? media.paths.absolute : media.paths.internal
+
       return html`
         <video
           class="q-figure-video-element"
           controls
           poster="${poster}"
         >
-          <source src="${src}" type="video/mp4"/>
+          <source src="${video}" type="video/mp4"/>
           ${unsupported}
         </video>
       `
@@ -103,6 +107,6 @@ export default function (eleventyConfig) {
       src = src.startsWith('http') ? src : path.join(assetRoot, src)
     }
 
-    return videoElements[mediaType]({ id, mediaId, mediaType, poster, lazyLoading, src })
+    return videoElements[mediaType]({ id, lazyLoading, lightbox, mediaId, mediaType, poster, src })
   }
 }

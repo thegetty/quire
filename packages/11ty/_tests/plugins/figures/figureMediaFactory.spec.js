@@ -60,15 +60,17 @@ test('FigureMediaFactory should use unmutated `src` properties for figure images
   }
 
   // Test that src will be passed unmutated to the paths on figureMedia
-  const noopProcessor = async (path, _, options) => {
-    return { errors: [], metadata: { full: { height: 1000, width: 1000 } } }
-  }
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
 
-  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, noopProcessor)
   const { figure: figureModel } = await factory.create(figure)
   const figureMedia = figureModel.media()
 
   const { derivatives } = figureMedia
+
+  // Check that the processor was not called?
+  t.falsy(processor.callCount,
+    'The figures processor should not be called on URL sources')
 
   // Check that the paths of each transformation are unmutated
   for (const [name, derivative] of Object.entries(derivatives)) {
@@ -92,20 +94,19 @@ test('FigureMediaFactory should create derivatives for zoomable figures', async 
   }
 
   // Check whether the figure will be processed as zoomed and tiled
-  let passed = false
-  const zoomedAndTiled = async (path, _, options) => {
-    passed = options.transformations?.length > 0 && options.tile && !options.iiifEndpoint
-    return { errors: [], metadata: { full: { height: 1000, width: 1000 } } }
-  }
-
-  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, zoomedAndTiled)
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const factory = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
   await factory.create(figure)
 
-  if (passed) {
-    t.pass()
-  } else {
-    t.fail()
-  }
+  // Check if processor was called with at least one transformation and tile=true
+  t.truthy(
+    processor.calledWith(
+      sinon.match('iiif-figure.jpg'),
+      sinon.match('iiif/iiif-figure'),
+      sinon.match.has('transformations', sinon.match.some(sinon.match.defined)).and(sinon.match.has('tile', sinon.match.truthy))
+    ),
+    'IIIF figures should be processed for transformations and tiling'
+  )
 })
 
 test('FigureMediaFactory should create a staticInlineFigureImage for static figures', async (t) => {
@@ -116,22 +117,22 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
     src: 'static-figure.jpg'
   }
 
-  // Set up a mock processor that checks whether the right options are passed in
-  let passed = false
-  const transformedNotTiled = async (path, _, options) => {
-    passed = options.transformations?.length > 0 && !options.tile && !options.iiifEndpoint
-    return { errors: [], metadata: { full: { height: 1000, width: 1000 } } }
-  }
-
-  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, transformedNotTiled)
+  // Fake processor for checking in on media derivative operations
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
   await factoryRoot.create(figure)
 
-  if (!passed) {
-    t.fail()
-  }
+  t.truthy(
+    processor.calledWith(
+      sinon.match('static-figure.jpg'),
+      sinon.match('iiif/static-figure'),
+      sinon.match((val) => ('transformations' in val && val.transformations.length > 0) && !('tile' in val))
+    ),
+    'Image figures without zoom should be transformed but not tiled'
+  )
 
   iiifConfig.baseURI = new URL('subpath', iiifConfig.baseURI).href
-  const factorySubpath = await MockFigureMediaFactory(sandbox, iiifConfig, transformedNotTiled)
+  const factorySubpath = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
   const { figure: subpathFigureMedia } = await factorySubpath.create(figure)
 
   const { paths, dimensions } = subpathFigureMedia.derivatives.full
@@ -158,6 +159,38 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
   t.is(width, 1000)
 })
 
-// test('TODO: Any tests specific to the figure media factory to verify behaviors of bare data like that', (t) => {
-//   t.fail('Are there any figure media factory tests for bare data or the poster-style data?')
-// })
+test('Media factory should correctly handle metadata and posters for video figures', async (t) => {
+  // Set up a figure to be transformed
+  const { iiifConfig, sandbox } = t.context
+  const figure = {
+    id: 'video-figure',
+    src: 'cat-1-video.mp4',
+    poster: 'cat-1-video-poster.jpg',
+    media_type: 'video'
+  }
+
+  // Fake processor for checking in on media derivative operations
+  const processor = sandbox.fake.returns({ errors: [], metadata: { full: { height: 1000, width: 1000 } } })
+  const factoryRoot = await MockFigureMediaFactory(sandbox, iiifConfig, processor)
+  const { figure: figureMedia } = await factoryRoot.create(figure)
+
+  // Test that the poster is transformed but not tiled
+  t.truthy(
+    processor.calledWith(
+      sinon.match('cat-1-video-poster.jpg'),
+      sinon.match('iiif/video-figure'),
+      sinon.match((val) => ('transformations' in val && val.transformations.length > 0) && !('tile' in val))
+    ),
+    'Videos and audios with poster images should have their posters transformed'
+  )
+
+  // Check output paths and dimensions are correct
+  const { full, media } = figureMedia.derivatives
+
+  t.truthy(full.paths.internal === '/iiif/video-figure/cat-1-video-poster/full.jpg',
+    'Video printImage from poster should have paths')
+  t.truthy(full.dimensions.height > 0 && full.dimensions.width > 0,
+    'Video printImage from poster should have dimensions')
+  t.truthy(media.paths.internal === '_assets/images/cat-1-video.mp4',
+    'Video media should have paths')
+})
