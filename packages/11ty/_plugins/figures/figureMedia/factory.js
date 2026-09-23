@@ -24,9 +24,9 @@ export default class FigureMediaFactory {
    * @property {Array} errors  Any errors from asset handling
    */
   async create (data) {
-    const processImage =
-      this.imageProcessor.processImage.bind(this.imageProcessor)
-    const figure = new FigureMedia(this.iiifConfig, processImage, data)
+    const processImages =
+      this.imageProcessor.processImages.bind(this.imageProcessor)
+    const figure = new FigureMedia(this.iiifConfig, processImages, data)
     const { errors } = await figure.processFigure()
     return { figure, errors }
   }

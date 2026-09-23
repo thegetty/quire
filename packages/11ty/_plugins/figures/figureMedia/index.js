@@ -16,7 +16,7 @@ const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
 
 /**
  * @param {Object} iiifConfig
- * @param {Function} processImage  Function to generate IIIF assets
+ * @param {Function} processImages  Function to generate IIIF assets
  * @param {Object} data  Figure data from and entry in `figures.yaml`
  *
  * @typedef {Object} FigureMedia
@@ -150,7 +150,7 @@ export default class FigureMedia {
     this.outputPathname = outputPathname
     this.outputFormat = format && format.output
     this.poster = poster
-    this.processImage = imageProcessor
+    this.processImages = imageProcessor
     this.src = src
 
     /**
@@ -543,32 +543,49 @@ export default class FigureMedia {
 
   /**
    * @function compositePrintImage
-   *
+   * 
+   * @param {Array} images
+   * 
    * Montage annotations and sequences into a print image with `sharp`
    *
    **/ 
   async compositePrintImage (images) {
-    const outputPath = path.join(this.outputPathname, 'print-image.jpg')
-    let dimensions = {}
+    const { imagesDir, inputRoot } = this.iiifConfig.dirs
     switch (true) {
-      case (this.annotations.some((a) => a.input === 'checkbox')):
-        dimensions = await this.compositor(this.annotations, 'overlay', outputPath)
-        break
+      case (this.annotations.some((a) => a.input === 'checkbox')): {
+        const items = this.annotations.flatMap((annotation) => annotation.items )
+        const base = path.posix.join(inputRoot, imagesDir, this.src)
+        const annotationPaths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
+        const paths = [ base ].concat(annotationPaths)
 
-      case (this.annotations.some((a) => a.input === 'radio')):
-        dimensions = await this.compositor(this.annotations, 'grid', outputPath)
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'overlay'})        
+        this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
+
+        if (errors.length > 0) logger.error(errors)
+        break        
+      }
+
+      case (this.annotations.some((a) => a.input === 'radio')): {
+        const items = this.annotations.flatMap((annotation) => annotation.items )
+        const paths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
+
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid'})
+        this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
+
+        if (errors.length > 0) logger.error(errors)
         break
+      }
 
       case (this.isSequence):
-        dimensions = await this.compositor(this.annotations, 'grid', outputPath)
+        await this.processImages(this.sequences, this.outputDir, { composite: 'grid' })
         break
 
       default:
         break
     }
 
-    // TODO: 
-    this.storeDerivativeMetadata('print-image', {})
+    // TODO:
+    // this.storeDerivativeMetadata('printImage', {}) but store composite.jpg as the filename
   }
 
   /**
@@ -587,7 +604,7 @@ export default class FigureMedia {
     const results = await Promise.all(annotationItems.map((item) => {
       if (this.debugLog) logger.debug(`processing annotation image ${item.src}`)
       if (item.isImageService) this.validateImageForTiling(item.src)
-      return item.src && this.processImage(item.src, this.outputDir, {
+      return item.src && this.processImages([item.src], this.outputDir, {
         tile: item.isImageService
       })
     }))
@@ -673,6 +690,22 @@ export default class FigureMedia {
           absolute: this.poster,
           internal: this.poster,
           uri: this.poster
+        }
+        break
+      }
+
+      case (this.annotations ?? []).length > 0 || (this.sequences || []).length > 0: {
+                // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
+        outputFilename ??= `${name}.jpg`
+
+        const internal = path.posix.join(this.outputPathname, outputFilename)
+        const absolute = path.posix.join(pathname, internal)
+        const uri = urlPathJoin(baseURI, internal)
+
+        paths = {
+          absolute,
+          internal: path.posix.join('/', internal),
+          uri
         }
         break
       }
@@ -769,14 +802,13 @@ export default class FigureMedia {
         }
 
         imageSrc = this.poster
-
         break
 
       default:
         imageSrc = this.src ?? this.iiifImage
     }
 
-    const { errors, metadata } = await this.processImage(imageSrc, this.outputDir, options)
+    const { errors, metadata } = await this.processImages([imageSrc], this.outputDir, options)
     if (errors) this.errors = this.errors.concat(errors)
 
     // Store path and dimensions data for each transformation
@@ -809,7 +841,7 @@ export default class FigureMedia {
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id
       if (this.debugLog) logger.debug(`processing sequence image ${item.src}`)
-      return item.src && this.processImage(item.src, this.outputDir, {
+      return item.src && this.processImages([item.src], this.outputDir, {
         tile: item.isImageService,
         transformations: isStartItem ? transformations : []
       })

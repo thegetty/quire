@@ -85,6 +85,28 @@ export default (eleventyConfig) => {
      */
     manifestFileName: 'manifest.json',
     /**
+     * @object printComposites
+     * @property {Number} bottomMargin Bottom margin
+     * @property {Number} itemGap Gap between row grid items and each row
+     * @property {Number} itemTileSize Maximum size of individual images when gridded
+     * @property {Number} leftMargin Left margin
+     * @property {Number} rightMargin Right Margin
+     * @property {Number} topMargin Top Margin
+     * @property {Number} width Image width, the maximum length of a grid row plus left / right margins
+     * 
+     * Confgiruation for grid composites
+     *
+     **/ 
+    printComposites: {
+      bottomMargin: 24,
+      itemGap: 12,
+      itemTileSize: 900,
+      leftMargin: 24,
+      rightMargin: 24,
+      topMargin: 24,
+      width: 1800,
+    },
+    /**
      * Directory name appended to the output path for tiles and `info.json`
      * @type {String}
      */
@@ -95,7 +117,7 @@ export default (eleventyConfig) => {
      */
     tileSize: 256,
     /**
-     * Each figure image is generates an output file from the configured transformations.
+     * Each figure image generates an output file from each transformation.
      *
      * @type {Array<Object>}
      * @property {String} name  Output file name
