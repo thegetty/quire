@@ -195,6 +195,7 @@ test('Media factory should correctly handle metadata and posters for video figur
   t.truthy(media.paths.internal === '_assets/images/cat-1-video.mp4',
     'Video media should have paths')
 
+  // Ensure that posters with HTTPs URLs are also handled correctly
   const httpsPosterFigure = {
     id: 'video-figure',
     src: 'cat-1-video.mp4',
@@ -204,6 +205,7 @@ test('Media factory should correctly handle metadata and posters for video figur
 
   const { figure: { derivatives } } = await factoryRoot.create(httpsPosterFigure)
   const { full: httpsFull, printImage, thumbnail, staticInlineFigureImage } = derivatives
+
   t.is(httpsFull.paths.internal, 'https://example.org/test.jpg')
   t.is(httpsFull.paths.absolute, 'https://example.org/test.jpg')
   t.is(httpsFull.paths.uri, 'https://example.org/test.jpg')
