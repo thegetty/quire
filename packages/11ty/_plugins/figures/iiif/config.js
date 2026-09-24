@@ -93,10 +93,10 @@ export default (eleventyConfig) => {
      * @property {Number} rightMargin Right Margin
      * @property {Number} topMargin Top Margin
      * @property {Number} width Image width, the maximum length of a grid row plus left / right margins
-     * 
+     *
      * Confgiruation for grid composites
      *
-     **/ 
+     **/
     printComposites: {
       bottomMargin: 24,
       itemGap: 12,
@@ -104,7 +104,7 @@ export default (eleventyConfig) => {
       leftMargin: 24,
       rightMargin: 24,
       topMargin: 24,
-      width: 1800,
+      width: 1800
     },
     /**
      * Directory name appended to the output path for tiles and `info.json`

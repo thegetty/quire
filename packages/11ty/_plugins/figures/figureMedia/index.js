@@ -543,33 +543,33 @@ export default class FigureMedia {
 
   /**
    * @function compositePrintImage
-   * 
+   *
    * @param {Array} images
-   * 
+   *
    * Montage annotations and sequences into a print image with `sharp`
    *
-   **/ 
+   **/
   async compositePrintImage (images) {
     const { imagesDir, inputRoot } = this.iiifConfig.dirs
     switch (true) {
       case (this.annotations.some((a) => a.input === 'checkbox')): {
-        const items = this.annotations.flatMap((annotation) => annotation.items )
+        const items = this.annotations.flatMap((annotation) => annotation.items)
         const base = path.posix.join(inputRoot, imagesDir, this.src)
         const annotationPaths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
-        const paths = [ base ].concat(annotationPaths)
+        const paths = [base].concat(annotationPaths)
 
-        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'overlay'})        
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'overlay' })
         this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
 
         if (errors.length > 0) logger.error(errors)
-        break        
+        break
       }
 
       case (this.annotations.some((a) => a.input === 'radio')): {
-        const items = this.annotations.flatMap((annotation) => annotation.items )
+        const items = this.annotations.flatMap((annotation) => annotation.items)
         const paths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
 
-        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid'})
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid' })
         this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
 
         if (errors.length > 0) logger.error(errors)
@@ -695,7 +695,7 @@ export default class FigureMedia {
       }
 
       case (this.annotations ?? []).length > 0 || (this.sequences || []).length > 0: {
-                // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
+        // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
         outputFilename ??= `${name}.jpg`
 
         const internal = path.posix.join(this.outputPathname, outputFilename)

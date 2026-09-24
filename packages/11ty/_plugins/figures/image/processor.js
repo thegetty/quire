@@ -9,11 +9,11 @@ const logger = chalkFactory('Figures:ImageProcessor', 'DEBUG')
 
 /**
  * The Image Processor organizes image manipulations:
- *   - Composites images into grids or overlays 
+ *   - Composites images into grids or overlays
  *   - Creating resized image derivatives using the configuration's `transformations` object
  *   - Tiling zoomable images for the IIIF Image API
  *   - Copies images into output directory so it's not removed by Vite
- * 
+ *
  * Manipulations are invoked using the `processImages` method.
  *
  */
@@ -22,12 +22,12 @@ export default class ImageProcessor {
 
   /**
    * @function constructor
-   * 
+   *
    * @param {Object} iiifConfig
-   * 
+   *
    * @returns {ImageProcessor}
    *
-   **/ 
+   **/
   constructor (iiifConfig) {
     const { debugLog, imagesDir, inputRoot, outputRoot } = iiifConfig.dirs
 
@@ -52,33 +52,33 @@ export default class ImageProcessor {
 
   /**
    * @function processImages
-   * 
+   *
    * @param  {Array<String>} imagePaths Images to process
-   * @param  {String} destinationDir Subdirectory for resulting files 
+   * @param  {String} destinationDir Subdirectory for resulting files
    * @param  {Object} options
    * @property  {string|undefined} composite Whether to generate a composite and which mode to use ('grid'|'overlay')
    * @property  {Boolean} iiifEndpoint Whether to handle input as an IIIF endpoint
    * @property  {Boolean} tile Whether to generate image tiles
    * @property  {Object} transformations `sharp` resize configurations to use on this image
-   * 
+   *
    * @returns {Object}
    * @property {Array} errors Process error messages
    * @property {Object} metadata Dimensions and other metadata about processed images
    *
    * Performs image manipulations on `imagePaths` according to `options`.
    * Image outputs are placed at `destinationDir` in the configured `outputDir`.
-   * 
+   *
    */
   async processImages (imagePaths, destinationDir, options = {}) {
     const { composite, iiifEndpoint, tile, transformations } = options
 
     if (imagePaths.length === 0) {
-      logger.error(`processImages must be called with at least one argument`)
-      return {}      
+      logger.error('processImages must be called with at least one argument')
+      return {}
     }
 
     if (composite && composite !== 'grid' && composite !== 'overlay') {
-      logger.error(`processImages must be called with composite of 'grid' or 'overlay'`)
+      logger.error('processImages must be called with composite of "grid" or "overlay"')
       return {}
     }
 
@@ -90,7 +90,7 @@ export default class ImageProcessor {
         const filepath = path.posix.join(destinationDir, 'composite.jpg')
         const result = await this.#composite(imagePaths, composite, filepath)
 
-        metadata.printImage = result
+        metadata['print-image'] = result
       } catch (error) {
         errors.push(`Failed to composite images ${imagePaths} ${error}`)
       }
