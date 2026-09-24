@@ -50,10 +50,13 @@ test('compositor should correctly overlay images', async (t) => {
   }).png().toBuffer()
 
   const compositor = new Compositor({ ...iiifConfig, dirs: { ...iiifConfig.dirs, outputRoot: process.cwd() } })
-  const outputPath = 'test.jpg'
-  const { height, width } = await compositor.composite([base, layer1, layer2], 'overlay', outputPath)
+  const outputFilename = 'test.jpg'
+  const { height, width } = await compositor.composite([base, layer1, layer2], 'overlay', outputFilename)
 
-  fs.rmSync(path.join(process.cwd(), outputPath))
+  const outputPath = path.join(process.cwd(), outputFilename)
+  if (fs.existsSync(outputPath)) {
+    fs.rmSync(outputPath)
+  }
 
   t.deepEqual({ height, width }, { height: 100, width: 100 }, 'composites have the same dimensions as the base image')
   // TODO: Test the overlaid images somehow -- maybe each square is one channel 256 and the total should be white?
@@ -92,10 +95,13 @@ test('compositor should correctly grid images', async (t) => {
   // Test that 3 same-sized images get composited without error
   const compositor = new Compositor({ ...iiifConfig, dirs: { ...iiifConfig.dirs, outputRoot: process.cwd() } })
 
-  const outputPath = 'test.jpg'
-  await compositor.composite([item1, item2, item3], 'grid', outputPath)
+  const outputFilename = 'test.jpg'
+  await compositor.composite([item1, item2, item3], 'grid', outputFilename)
 
-  fs.rmSync(path.join(process.cwd(), outputPath))
+  const outputPath = path.join(process.cwd(), outputFilename)
+  if (fs.existsSync(outputPath)) {
+    fs.rmSync(outputPath)
+  }
 
   // TODO: How to check this was successful?
 
