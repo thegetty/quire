@@ -26,6 +26,15 @@
   ],
   "locale": "en",
   "manifestFileName": "manifest.json",
+  "printComposites": {
+    "bottomMargin": 24,
+    "itemGap": 12,
+    "itemTileSize": 900,
+    "leftMargin": 24,
+    "rightMargin": 24,
+    "topMargin": 24,
+    "width": 1800
+  },
   "tilesDirName": "tiles",
   "tileSize": 256,
   "transformations": [

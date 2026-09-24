@@ -7,50 +7,50 @@ const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
 
 /**
  * @class Layout
- * 
+ *
  * Class for laying out a grid of images according to their sizes
- * 
- **/ 
+ *
+ **/
 class Layout {
   /**
-   * @property dimensions 
+   * @property dimensions
    * @private
-   * 
+   *
    * Array of dimensions objects with height, width keys
-   **/ 
+   **/
   #dimensions
 
   /**
-   * @property #config 
+   * @property #config
    * @private
-   * 
-   * Configuration with overall image width, (top|bottom|left|right) margins, and the limit size for grid items 
-   **/ 
+   *
+   * Configuration with overall image width, (top|bottom|left|right) margins, and the limit size for grid items
+   **/
   #config
 
   /**
-   * @property #coordinates 
+   * @property #coordinates
    * @private
-   * 
+   *
    * Array of coordinates for gridding images
-   **/ 
+   **/
   #coordinates
 
   /**
    * @function #scaleFittingLargest
    * @private
-   * 
+   *
    * @param {Number} height
    * @param {Number} width
-   * 
+   *
    * @returns {Object} `height` and `width` scaled so that the longest dimension fits the item size
    * @property {Number} height
    * @property {Number} width
-   * 
+   *
    **/
-  #scaleFittingLargest(height, width) {
+  #scaleFittingLargest (height, width) {
     const { itemTileSize } = this.#config
-    const result = { height: 0, width: 0 } 
+    const result = { height: 0, width: 0 }
     if (width >= height) {
       const scale = itemTileSize / width
 
@@ -69,19 +69,17 @@ class Layout {
   /**
    * @function #doLayout
    * @private
-   * 
+   *
    * Performs the layout across `dimensions` by iteratively fitting rows.
    *
-   **/ 
-  #doLayout() {
+   **/
+  #doLayout () {
     const {
-      bottomMargin,
       itemGap,
       itemTileSize,
       leftMargin,
       rightMargin,
-      topMargin,
-      width: maxImageWidth,
+      width: maxImageWidth
     } = this.#config
 
     // Determine the x,y for the first image
@@ -96,7 +94,7 @@ class Layout {
     const coordinates = [{ height, x, y, width }]
 
     // Iterate the remaining items and scale them similarly
-    for (let i=1;i < this.#dimensions.length;i++) {
+    for (let i = 1; i < this.#dimensions.length; i++) {
       const { height: firstHeight, width: firstWidth } = this.#dimensions[i]
 
       // Calculate the rescaled height, width
@@ -125,12 +123,12 @@ class Layout {
 
   /**
    * @function constructor
-   * 
+   *
    * @param {Array<Object>} dimensions
    * @param {Object<String,Number>} config
    *
-   **/ 
-  constructor(dimensions, config) {
+   **/
+  constructor (dimensions, config) {
     this.#config = config
     this.#dimensions = dimensions
     this.#coordinates = this.#doLayout()
@@ -140,9 +138,9 @@ class Layout {
    * @return {Object}
    * @property {Number} height
    * @property {Number} width
-   **/ 
+   **/
   get extents () {
-    const { bottomMargin, width } = this.#config 
+    const { bottomMargin, width } = this.#config
     const height = Math.ceil(Math.max(...this.coordinates.map((coord) => coord.y + coord.height))) + bottomMargin
 
     return { height, width }
@@ -155,7 +153,7 @@ class Layout {
 
 /**
  * @class  Compositor
- * 
+ *
  * Class for managing overlay and grid composites of images.
  *
  */
@@ -170,13 +168,13 @@ export default class Compositor {
 
   /**
    * @function createCompositeGrid
-   * 
+   *
    * @param {Array<Object>} images
    * @param {string} outputPath
-   * 
+   *
    * Composites contents of `images` into a gridded array and returns it
-   * 
-   **/ 
+   *
+   **/
   async createCompositeGrid (inputImages, outputPath) {
     const { itemTileSize } = this.gridConfig
 
@@ -185,7 +183,7 @@ export default class Compositor {
     fs.ensureDirSync(path.posix.parse(filepath).dir)
 
     const images = inputImages.map((src) => sharp(src))
-    const metadatas = await Promise.all(images.map(async (s) => await s.metadata() ))
+    const metadatas = await Promise.all(images.map(async (s) => await s.metadata()))
     const layout = new Layout(metadatas, this.gridConfig)
 
     const { height, width } = layout.extents
@@ -205,10 +203,10 @@ export default class Compositor {
     })
 
     // Create layers from each resized image
-    let layers = []
+    const layers = []
 
     // NB: Index iteration avoids early-executing promise in async forEach()
-    for (let i=0;i < images.length;i++) {
+    for (let i = 0; i < images.length; i++) {
       const image = await images[i].resize({
         width: itemTileSize,
         height: itemTileSize,
@@ -236,13 +234,13 @@ export default class Compositor {
 
   /**
    * @function createCompositeGrid
-   * 
+   *
    * @param {Array<Object>} images
    * @param {string} outputPath
-   * 
+   *
    * Overlays contents of `images` into one image
-   * 
-   **/ 
+   *
+   **/
   async createCompositeOverlay (images, outputPath) {
     // Create a canvas, configure layers for overlay
     const base = images.at(0)
@@ -252,7 +250,7 @@ export default class Compositor {
         background: { r: 0, g: 0, b: 0, alpha: 1 },
         channels: 4,
         height,
-        width,
+        width
       }
     })
 
@@ -265,24 +263,24 @@ export default class Compositor {
     canvas.composite(layers)
 
     const filepath = path.posix.join(this.outputRoot, outputPath)
-    const { height: compositeHeight, width: compositeWidth } = await canvas.jpeg().toFile(filepath)
-    
-    return { height: compositeHeight, width: compositeWidth }
+    await canvas.jpeg().toFile(filepath)
+
+    return { height, width }
   }
 
   /**
    * @function composite
-   * 
+   *
    * @param {Array} images
    * @param {string} mode
    * @param {string} outputPath
-   * 
+   *
    * @returns {Object} dimensions of composited image
-   * 
+   *
    * Composites `images` into an image according to `mode`,
    * writing to `outputPath`.
-   * 
-   **/ 
+   *
+   **/
   async composite (images, mode, outputPath) {
     switch (mode) {
       case 'overlay':
