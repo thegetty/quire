@@ -184,16 +184,17 @@ export default class Compositor {
     const filepath = path.posix.join(this.outputRoot, outputPath)
     fs.ensureDirSync(path.posix.parse(filepath).dir)
 
-    if (fs.pathExistsSync(filepath)) {
-      logger.debug(`skipping previously transformed image '${filepath}'`)
-      return
-    }
-
     const images = inputImages.map((src) => sharp(src))
     const metadatas = await Promise.all(images.map(async (s) => await s.metadata() ))
     const layout = new Layout(metadatas, this.gridConfig)
 
     const { height, width } = layout.extents
+
+    if (fs.pathExistsSync(filepath)) {
+      logger.debug(`skipping previously transformed image '${filepath}'`)
+      return { height, width }
+    }
+
     const canvas = sharp({
       create: {
         background: { r: 256, g: 256, b: 256, alpha: 1 },
