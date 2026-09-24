@@ -90,7 +90,7 @@ export default class ImageProcessor {
         const filepath = path.posix.join(destinationDir, 'composite.jpg')
         const result = await this.#composite(imagePaths, composite, filepath)
 
-        metadata['printImage'] = result
+        metadata.printImage = result
       } catch (error) {
         errors.push(`Failed to composite images ${imagePaths} ${error}`)
       }
