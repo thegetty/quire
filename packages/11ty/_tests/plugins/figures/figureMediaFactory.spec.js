@@ -33,7 +33,7 @@ async function MockFigureMediaFactory (sandbox, iiifConfig, processStub, fetchSt
 
   const FigureMediaFactory = await esmock('#plugins/figures/figureMedia/factory.js', {
     '#plugins/figures/image/processor.js': sandbox.stub().returns({
-      processImage: sandbox.stub().callsFake(processStub)
+      processImages: sandbox.stub().callsFake(processStub)
     }),
     '#plugins/figures/figureMedia/index.js': FigureMedia
   })
@@ -102,7 +102,7 @@ test('FigureMediaFactory should create derivatives for zoomable figures', async 
   // Check if processor was called with at least one transformation and tile=true
   t.truthy(
     processor.calledWith(
-      sinon.match('iiif-figure.jpg'),
+      sinon.match(['iiif-figure.jpg']),
       sinon.match('iiif/iiif-figure'),
       sinon.match.has('transformations', sinon.match.some(sinon.match.defined)).and(sinon.match.has('tile', sinon.match.truthy))
     ),
@@ -125,7 +125,7 @@ test('FigureMediaFactory should create a staticInlineFigureImage for static figu
 
   t.truthy(
     processor.calledWith(
-      sinon.match('static-figure.jpg'),
+      sinon.match(['static-figure.jpg']),
       sinon.match('iiif/static-figure'),
       sinon.match((val) => ('transformations' in val && val.transformations.length > 0) && !('tile' in val))
     ),
@@ -178,7 +178,7 @@ test('Media factory should correctly handle metadata and posters for video figur
   // Test that the poster is transformed but not tiled
   t.truthy(
     processor.calledWith(
-      sinon.match('cat-1-video-poster.jpg'),
+      sinon.match(['cat-1-video-poster.jpg']),
       sinon.match('iiif/video-figure'),
       sinon.match((val) => ('transformations' in val && val.transformations.length > 0) && !('tile' in val))
     ),
