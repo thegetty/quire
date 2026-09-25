@@ -16,7 +16,7 @@ const logger = chalkFactory('Figures:FigureMedia', 'DEBUG')
 
 /**
  * @param {Object} iiifConfig
- * @param {Function} processImage  Function to generate IIIF assets
+ * @param {Function} processImages  Function to generate IIIF assets
  * @param {Object} data  Figure data from and entry in `figures.yaml`
  *
  * @typedef {Object} FigureMedia
@@ -150,7 +150,7 @@ export default class FigureMedia {
     this.outputPathname = outputPathname
     this.outputFormat = format && format.output
     this.poster = poster
-    this.processImage = imageProcessor
+    this.processImages = imageProcessor
     this.src = src
 
     /**
@@ -542,23 +542,81 @@ export default class FigureMedia {
   }
 
   /**
+   * @function compositePrintImage
+   *
+   * @param {Array} images
+   *
+   * Montage annotations and sequences into a print image with `sharp`
+   *
+   **/
+  async compositePrintImage (images) {
+    const { imagesDir, inputRoot } = this.iiifConfig.dirs
+    switch (true) {
+      case (this.annotations?.some((a) => a.input === 'checkbox')): {
+        const items = this.annotations.flatMap((annotation) => annotation.items)
+        const base = path.posix.join(inputRoot, imagesDir, this.src)
+        const annotationPaths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
+        const paths = [base].concat(annotationPaths)
+
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'overlay' })
+        this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
+
+        if (errors.length > 0) logger.error(errors)
+        break
+      }
+
+      case (this.annotations?.some((a) => a.input === 'radio')): {
+        const items = this.annotations.flatMap((annotation) => annotation.items)
+        const paths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
+
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid' })
+        this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
+
+        if (errors.length > 0) logger.error(errors)
+        break
+      }
+
+      case (this.isSequence): {
+        const paths = images.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
+        const firstImagePath = paths.at(0)
+        const firstImageFilename = path.parse(firstImagePath).base
+
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid' })
+
+        this.storeDerivativeMetadata('full', { height: this.height, width: this.width }, firstImageFilename)
+        this.storeDerivativeMetadata('thumbnail', { height: this.height, width: this.width }, firstImageFilename)
+        this.storeDerivativeMetadata('staticInlineFigureImage', { height: this.height, width: this.width }, firstImageFilename)
+        this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
+
+        if (errors.length > 0) logger.error(errors)
+        break
+      }
+
+      default:
+        break
+    }
+
+    // TODO:
+    // this.storeDerivativeMetadata('printImage', {}) but store composite.jpg as the filename
+  }
+
+  /**
    * @function processAnnotationsMedia
    *
    * Processes annotation assets
    *
-   * TODO: Define a compositing transform for choice annotations
-   * TODO: Transform each annotation for radio button annotations
    */
   async processAnnotationsMedia () {
     if (!this.annotations) return
 
     const annotationItems = this.annotations.flatMap(({ items }) => items)
+    await this.compositePrintImage(annotationItems)
 
     // Handle the annotation images
     const results = await Promise.all(annotationItems.map((item) => {
       if (this.debugLog) logger.debug(`processing annotation image ${item.src}`)
       if (item.isImageService) this.validateImageForTiling(item.src)
-      return item.src && this.processImage(item.src, this.outputDir, {
+      return item.src && this.processImages([item.src], this.outputDir, {
         tile: item.isImageService
       })
     }))
@@ -644,6 +702,22 @@ export default class FigureMedia {
           absolute: this.poster,
           internal: this.poster,
           uri: this.poster
+        }
+        break
+      }
+
+      case (this.annotations ?? []).length > 0 || (this.sequences || []).length > 0: {
+        // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
+        outputFilename ??= `${name}.jpg`
+
+        const internal = path.posix.join(this.outputPathname, outputFilename)
+        const absolute = path.posix.join(pathname, internal)
+        const uri = urlPathJoin(baseURI, internal)
+
+        paths = {
+          absolute,
+          internal: path.posix.join('/', internal),
+          uri
         }
         break
       }
@@ -740,14 +814,13 @@ export default class FigureMedia {
         }
 
         imageSrc = this.poster
-
         break
 
       default:
         imageSrc = this.src ?? this.iiifImage
     }
 
-    const { errors, metadata } = await this.processImage(imageSrc, this.outputDir, options)
+    const { errors, metadata } = await this.processImages([imageSrc], this.outputDir, options)
     if (errors) this.errors = this.errors.concat(errors)
 
     // Store path and dimensions data for each transformation
@@ -767,7 +840,9 @@ export default class FigureMedia {
   async processSequenceMedia () {
     if (!this.sequences) return
 
-    const { transformations } = this.iiifConfig
+    const { printComposites, transformations } = this.iiifConfig
+    const { selectEvery } = printComposites
+
     const [sequenceStartFilename] = this.sequences.flatMap(({ files, start }) => {
       const { name: firstFileName } = path.parse(files[0])
       return start || firstFileName
@@ -776,10 +851,13 @@ export default class FigureMedia {
     const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
 
+    const compositeItems = sequenceItems.filter((_, index) => index % selectEvery === 0)
+    await this.compositePrintImage(compositeItems)
+
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id
       if (this.debugLog) logger.debug(`processing sequence image ${item.src}`)
-      return item.src && this.processImage(item.src, this.outputDir, {
+      return item.src && this.processImages([item.src], this.outputDir, {
         tile: item.isImageService,
         transformations: isStartItem ? transformations : []
       })

@@ -27,6 +27,53 @@ const publicationPath = path.join( process.cwd(), publicationName )
 const publicationZip = path.join( process.cwd(), 'publication.zip' )
 
 /**
+ * @function addTestFixtures
+ * 
+ * Adds fixtures from the integration tests folder
+ * 
+ **/
+const addTestFixtures = () => {
+  // Walk the fixtures directory and then descend into each directory
+  const fixturesDirectory = '../_tests/fixtures'
+  for (const directory of fs.readdirSync(fixturesDirectory, { withFileTypes: true })) {
+    if (!directory.isDirectory) continue
+
+    const fixture = path.join(fixturesDirectory, directory.name)
+    for (const file of fs.readdirSync(fixture, { withFileTypes: true })) {
+      const filepath = path.join(fixture, file.name)
+
+      switch (true) {
+        // Copy contents into the publication figures dir
+        case (file.isDirectory() && file.name === 'images'):
+          const figures = path.join('content', '_assets', 'images', 'figures', directory.name)
+
+          fs.cpSync(filepath, figures, { recursive: true })
+          break
+
+        // Copy markdown files into content/
+        case (file.isFile() && file.name.endsWith('.md')):
+          fs.copyFileSync(path.join(fixture, file.name), path.join('content', file.name))
+          break
+
+        // Open content/_data/figures.yaml and insert this one into figures_list
+        case (file.isFile() && file.name === 'figures.yaml'):
+          const figuresPath = path.join('content', '_data', 'figures.yaml')
+          const bytes = fs.readFileSync(figuresPath)
+          const figuresData = yaml.load(bytes)
+
+          const fixtureFigureBytes = fs.readFileSync(path.join(fixture, file.name))  
+          const fixtureFigure = yaml.load(fixtureFigureBytes)
+
+          figuresData.figure_list.push(fixtureFigure)
+
+          fs.writeFileSync(figuresPath, yaml.dump(figuresData))
+          break
+      }
+    }
+  }
+}
+
+/**
  * @function changePubUrl
  * 
  * @param {String} url URL to use in YAML
@@ -86,6 +133,7 @@ test.serial('Create the default publication and build the site, epub, pdf', asyn
   const newCmd = await execa('quire', ['new', '--debug', '--quire-path', eleventyPath, publicationName ])
 
   process.chdir(publicationName)
+  addTestFixtures()
   await buildSitePdfEpub(t)
   process.chdir(repoRoot)
   t.pass()
@@ -96,7 +144,7 @@ test.serial('Create the default publication with a pathname and build the site, 
 
   process.chdir(pathedPub)
   changePubUrl(`http://localhost:8080/${ pathedPub }/`, t)
-
+  addTestFixtures()
   await buildSitePdfEpub()
   process.chdir(repoRoot)
   t.pass()

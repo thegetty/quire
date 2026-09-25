@@ -1,0 +1,9 @@
+id: sequence-figure
+zoom: true
+label: "360–Degree View"
+sequences:
+  - id: figures/sequence-figure/
+    behavior:
+      - continuous
+      - sequence
+    viewing_direction: "right-to-left"
