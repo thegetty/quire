@@ -13,7 +13,7 @@ const logger = chalkFactory('Figures:ImageTiler', 'DEBUG')
  **/
 class Layout {
   /**
-   * @property dimensions
+   * @property dimensions {Array<Object<string,Number>>}
    * @private
    *
    * Array of dimensions objects with height, width keys
@@ -71,6 +71,12 @@ class Layout {
    * @private
    *
    * Performs the layout across `dimensions` by iteratively fitting rows.
+   * 
+   * The simple algorithm:
+   *   - Scale image so its longest side is itemTileSize long / tall.
+   *   - Place the image:
+   *      - If this is the first image, place it at the inset of top and left margins.
+   *      - If the image will make this row of images larger than `maxImageWidth`, place it in a new row
    *
    **/
   #doLayout () {
