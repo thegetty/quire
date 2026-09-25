@@ -552,7 +552,7 @@ export default class FigureMedia {
   async compositePrintImage (images) {
     const { imagesDir, inputRoot } = this.iiifConfig.dirs
     switch (true) {
-      case (this.annotations.some((a) => a.input === 'checkbox')): {
+      case (this.annotations?.some((a) => a.input === 'checkbox')): {
         const items = this.annotations.flatMap((annotation) => annotation.items)
         const base = path.posix.join(inputRoot, imagesDir, this.src)
         const annotationPaths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
@@ -565,7 +565,7 @@ export default class FigureMedia {
         break
       }
 
-      case (this.annotations.some((a) => a.input === 'radio')): {
+      case (this.annotations?.some((a) => a.input === 'radio')): {
         const items = this.annotations.flatMap((annotation) => annotation.items)
         const paths = items.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
 
@@ -576,9 +576,21 @@ export default class FigureMedia {
         break
       }
 
-      case (this.isSequence):
-        await this.processImages(this.sequences, this.outputDir, { composite: 'grid' })
+      case (this.isSequence): {
+        const paths = images.map((item) => path.posix.join(inputRoot, imagesDir, item.src))
+        const firstImagePath = paths.at(0)
+        const firstImageFilename = path.parse(firstImagePath).base
+
+        const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid' })
+
+        this.storeDerivativeMetadata('full', { height: this.height, width: this.width }, firstImageFilename )
+        this.storeDerivativeMetadata('thumbnail', { height: this.height, width: this.width }, firstImageFilename )
+        this.storeDerivativeMetadata('staticInlineFigureImage', { height: this.height, width: this.width }, firstImageFilename )
+        this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
+
+        if (errors.length > 0) logger.error(errors)
         break
+      }
 
       default:
         break
@@ -828,7 +840,9 @@ export default class FigureMedia {
   async processSequenceMedia () {
     if (!this.sequences) return
 
-    const { transformations } = this.iiifConfig
+    const { printComposites, transformations } = this.iiifConfig
+    const { selectEvery } = printComposites
+
     const [sequenceStartFilename] = this.sequences.flatMap(({ files, start }) => {
       const { name: firstFileName } = path.parse(files[0])
       return start || firstFileName
@@ -836,7 +850,9 @@ export default class FigureMedia {
 
     const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
-    await this.compositePrintImage(sequenceItems)
+
+    const compositeItems = sequenceItems.filter((_,index) => index % selectEvery === 0)
+    await this.compositePrintImage(compositeItems)
 
     const results = await Promise.all(sequenceItems.map((item) => {
       const isStartItem = startId === item.id

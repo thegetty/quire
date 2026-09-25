@@ -104,7 +104,8 @@ export default (eleventyConfig) => {
       leftMargin: 24,
       rightMargin: 24,
       topMargin: 24,
-      width: 1800
+      width: 1800,
+      selectEvery: 10 
     },
     /**
      * Directory name appended to the output path for tiles and `info.json`
