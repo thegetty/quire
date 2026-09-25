@@ -71,7 +71,7 @@ class Layout {
    * @private
    *
    * Performs the layout across `dimensions` by iteratively fitting rows.
-   * 
+   *
    * The simple algorithm:
    *   - Scale image so its longest side is itemTileSize long / tall.
    *   - Place the image:

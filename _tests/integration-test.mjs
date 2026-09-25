@@ -42,7 +42,6 @@ const addTestFixtures = () => {
     for (const file of fs.readdirSync(fixture, { withFileTypes: true })) {
       const filepath = path.join(fixture, file.name)
 
-      console.log(file)
       switch (true) {
         // Copy contents into the publication figures dir
         case (file.isDirectory() && file.name === 'images'):

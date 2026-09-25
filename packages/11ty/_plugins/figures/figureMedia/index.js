@@ -583,9 +583,9 @@ export default class FigureMedia {
 
         const { errors, metadata } = await this.processImages(paths, this.outputDir, { composite: 'grid' })
 
-        this.storeDerivativeMetadata('full', { height: this.height, width: this.width }, firstImageFilename )
-        this.storeDerivativeMetadata('thumbnail', { height: this.height, width: this.width }, firstImageFilename )
-        this.storeDerivativeMetadata('staticInlineFigureImage', { height: this.height, width: this.width }, firstImageFilename )
+        this.storeDerivativeMetadata('full', { height: this.height, width: this.width }, firstImageFilename)
+        this.storeDerivativeMetadata('thumbnail', { height: this.height, width: this.width }, firstImageFilename)
+        this.storeDerivativeMetadata('staticInlineFigureImage', { height: this.height, width: this.width }, firstImageFilename)
         this.storeDerivativeMetadata('printImage', metadata.printImage, 'composite.jpg')
 
         if (errors.length > 0) logger.error(errors)
@@ -851,7 +851,7 @@ export default class FigureMedia {
     const { name: startId } = sequenceStartFilename ? path.parse(sequenceStartFilename) : {}
     const sequenceItems = this.sequences.flatMap(({ items }) => items)
 
-    const compositeItems = sequenceItems.filter((_,index) => index % selectEvery === 0)
+    const compositeItems = sequenceItems.filter((_, index) => index % selectEvery === 0)
     await this.compositePrintImage(compositeItems)
 
     const results = await Promise.all(sequenceItems.map((item) => {
