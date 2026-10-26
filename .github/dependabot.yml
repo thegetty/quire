@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: npm
+    directory: '/packages/11ty/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      eleventy:
+        patterns:
+          - '@11ty/*'
+      iiif:
+        patterns:
+          - '@iiif/*'
+          - '@digirati/*'
+
+  - package-ecosystem: npm
+    directory: '/packages/cli/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
