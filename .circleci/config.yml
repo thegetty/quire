@@ -1,5 +1,5 @@
 # quire CI/CD Configuration
-# 
+#
 # CI/CD for quire has three phases:
 #   - Install, build, and test across all OS combinations
 #   - Test build outputs of all OS combinations
@@ -25,23 +25,22 @@ executors:
       - image: cimg/base:current-22.04
         user: root
     environment:
-        PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
+      PUPPETEER_EXECUTABLE_PATH: '/usr/bin/google-chrome-stable'
 
   macos:
     macos:
       xcode: '16.4.0'
     resource_class: m4pro.medium
     environment:
-        PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-  win: 
+      PUPPETEER_EXECUTABLE_PATH: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  win:
     machine:
       image: windows-server-2019-vs2019:current
       resource_class: windows.medium
     environment:
-        PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+      PUPPETEER_EXECUTABLE_PATH: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
 anchors:
-
   - &npm_cache_key package-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ .Environment.CACHE_VERSION }}
 
   - &os_param
@@ -52,7 +51,7 @@ anchors:
   - &matrix_params
     matrix:
       parameters:
-        os: [ 'linux', 'macos', 'win' ]
+        os: ['linux', 'macos', 'win']
 
 commands:
   # Pack and install the CLI globally (NB: uncached puppeteer install takes a while)
@@ -69,14 +68,14 @@ commands:
   build_install_cli-linux:
     steps:
       - node/install:
-          node-version: "22.14.0"
+          node-version: '22.23.4'
       - browser-tools/install_chrome
       # @TODO: Replace this hack that force-disables sandboxing
-      # 
+      #
       # On linux chrome requires disabling sandboxing (or using deprecated suid containers) if run as root
       # See https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox
       - run:
-          name: "Modify chrome app"
+          name: 'Modify chrome app'
           command: sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
       - browser-tools/install_chromedriver
       - build_install_cli
@@ -84,9 +83,9 @@ commands:
   build_install_cli-macos:
     steps:
       - node/install:
-          node-version: "22.14.0"
+          node-version: '22.23.4'
       - browser-tools/install_chrome
-      - browser-tools/install_chromedriver      
+      - browser-tools/install_chromedriver
       - build_install_cli
 
   build_install_cli-win:
@@ -118,7 +117,7 @@ commands:
     steps:
       - run:
           name: Set git email
-          command: git config --global user.email quire@getty.edu 
+          command: git config --global user.email quire@getty.edu
       # Install test dependencies only
       - run:
           name: Install deps
@@ -174,7 +173,6 @@ commands:
       - run_tests
 
 jobs:
-
   # Builds the CLI, installs it, and tests it by building a publication
   build_install_test:
     <<: *os_param
@@ -206,7 +204,7 @@ jobs:
           name: Install browser testing dependencies
           command: npm i && apt-get update && apt-get install -y zip && npx playwright install
       # test:browsers-circleci follows https://playwright.dev/docs/ci#circleci to correct sharding
-      - run: 
+      - run:
           name: Run browser testing on integration test artifacts
           command: npm run test:browsers-circleci
       - store_test_results:
@@ -215,7 +213,7 @@ jobs:
   # Job to send package artifacts to all release channels
   release:
     docker:
-      - image: cimg/node:24.15
+      - image: cimg/node:24.22.1
     steps:
       - gh/install
       - checkout
@@ -265,7 +263,7 @@ jobs:
                     npm -w packages/11ty publish --tag rc
                   else
                     npm -w packages/11ty publish
-                  fi                  
+                  fi
             - run:
                 name: Publish 11ty release to github
                 command: |
@@ -313,7 +311,7 @@ workflows:
             tags:
               only: /^(@thegetty\/quire-cli|@thegetty\/quire-11ty).+/
             branches:
-              ignore: /.*/          
+              ignore: /.*/
           requires:
             - browser_test-linux
             - browser_test-macos
