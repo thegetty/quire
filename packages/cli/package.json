@@ -59,14 +59,14 @@
     "hosted-git-info": "^6.1.1",
     "i18next": "^22.4.9",
     "inquirer": "^9.1.4",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.5.0",
     "loglevel": "^1.8.1",
     "open": "^8.4.0",
     "ora": "^6.1.2",
     "pagedjs-cli": "^0.4.3",
     "read-package-up": "^11.0.0",
     "semver": "^7.3.8",
-    "simple-git": "^3.36.0",
+    "simple-git": "^4.0.1",
     "update-notifier": "^7.3.1"
   },
   "devDependencies": {
