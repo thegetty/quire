@@ -33,9 +33,9 @@
     "test:serve": "npx --yes http-server _site-test -a localhost -p 8080"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/eslintrc": "^3.3.7",
     "@eslint/js": "^9.39.4",
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.65.0",
     "@types/node": "^22.15.29",
     "ava": "^6.2.0",
     "cross-env": "^10.1.0",
@@ -49,7 +49,7 @@
     "globals": "^15.15.0",
     "js-yaml": "^4.1.1",
     "jsdom": "^26.1.0",
-    "memfs": "^4.57.1",
+    "memfs": "^4.80.0",
     "playwright": "^1.52.0",
     "sinon": "^21.0.3",
     "tap-xunit": "^2.4.1"
