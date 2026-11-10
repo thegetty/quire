@@ -1,0 +1,40 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      quire-dev:
+        dependency-type: 'development'
+        update-types: ['minor', 'patch']
+      quire-prod:
+        dependency-type: 'production'
+        update-types: ['minor', 'patch']
+
+  - package-ecosystem: npm
+    directory: '/packages/11ty/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      11ty-dev:
+        dependency-type: 'development'
+        update-types: ['minor', 'patch']
+      11ty-prod:
+        dependency-type: 'production'
+        update-types: ['minor', 'patch']
+
+  - package-ecosystem: npm
+    directory: '/packages/cli/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      cli-dev:
+        dependency-type: 'development'
+        update-types: ['minor', 'patch']
+      cli-prod:
+        dependency-type: 'production'
+        update-types: ['minor', 'patch']

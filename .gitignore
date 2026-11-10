@@ -74,17 +74,6 @@ tests/e2e/fixtures/project/
 tests/e2e/screenshots/
 tests/e2e/videos/
 
-### Hugo ###
-# Generated files by hugo
-/public/
-/resources/_gen/
-hugo_stats.json
-
-# Executable may be added to repository
-hugo.exe
-hugo.darwin
-hugo.linux
-
 ### Sass ###
 .sass-cache/
 *.css.map
@@ -127,7 +116,9 @@ Icon
 /playwright/.cache/
 
 # Test reports + build outputs
+/test-publication/
+/test-publication-pathname/
 /reports/
 /test-results/
-/test-publication/
 /_site-test/
+publication.zip
