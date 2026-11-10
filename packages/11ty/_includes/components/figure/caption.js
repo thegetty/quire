@@ -11,9 +11,10 @@ import { oneLine } from '#lib/common-tags/index.js'
  */
 export default function (eleventyConfig) {
   const markdownify = eleventyConfig.getFilter('markdownify')
-  const figureMediaEmbedUrl = eleventyConfig.getFilter('figureMediaEmbedUrl')
-  return function ({ caption, credit, content = '', mediaId, mediaType }) {
-    const { sourceUrl } = figureMediaEmbedUrl({ mediaId, mediaType })
+
+  return function ({ caption, credit, derivatives, content = '' }) {
+    const { sourceUrl } = derivatives?.embed ?? {}
+
     const mediaSourceLink = sourceUrl
       ? `<span class="q-figure__caption-embed-link"><a href="${sourceUrl}"><em>${sourceUrl}</em></a></span>`
       : ''
