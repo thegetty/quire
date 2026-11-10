@@ -78,7 +78,7 @@
     "camelize": "^1.0.1",
     "chalk": "^5.3.0",
     "common-tags": "^2.0.0-alpha.1",
-    "cpy-cli": "^5.0.0",
+    "cpy-cli": "^7.0.0",
     "cross-env": "^7.0.3",
     "del-cli": "^5.1.0",
     "esbuild": "<=0.25.9",
