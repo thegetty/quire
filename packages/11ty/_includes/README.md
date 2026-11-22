@@ -6,7 +6,7 @@ Use [Liquid](https://www.11ty.dev/docs/languages/liquid/) or [Nunjucks](https://
 
 ### `_includes/components`
 
-The `_include/components` implement _cross templating language_ includes, also refered to as "shortcode components" because they are registered as Eleventy shortcodes (see the [`components` plugin module](`blob/main/plugins/components/README.md`)) that can be used in multiple template languages.
+The `_include/components` implement _cross templating language_ includes, also referred to as "shortcode components" because they are registered as Eleventy shortcodes (see the [`components` plugin module](`blob/main/plugins/components/README.md`)) that can be used in multiple template languages.
 
 Use a shortcode component when rendering the include requires using JavaScript or NPM packages, complex conditional logic or data manipulation, including async data.
 
