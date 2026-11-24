@@ -10,6 +10,7 @@ import path from 'node:path'
 import sharp from 'sharp'
 import slugify from '@sindresorhus/slugify'
 import urlPathJoin from '#lib/urlPathJoin/index.js'
+import formatEmbedURLs from '../helpers/format-embed-urls.js'
 
 const logger = chalkFactory('Figures:FigureMedia', process.env.QUIRE_DEBUG_LOG ?? 'info')
 
@@ -299,6 +300,20 @@ export default class FigureMedia {
    */
   get staticInlineFigureImage () {
     switch (true) {
+      case (this.iiifImage && !this.isExternalResource):
+        return path.posix.join('/', this.outputPathname, slugify(this.iiifImage), 'static-inline-figure-image.jpg')
+
+      case (this.src && this.isExternalResource):
+        return this.src
+
+      case (this.iiifImage && this.isExternalResource): {
+        const terminated = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
+        const inlineSize = 'full/600,/0/default.jpg'
+
+        const url = new URL(inlineSize, terminated)
+        return url.href
+      }
+
       case (this.src && this.mediaType !== 'table'):
       case (this.sequences && this.mediaType !== 'table'): {
         let filename
@@ -313,19 +328,6 @@ export default class FigureMedia {
         const format = this.iiifConfig.formats.find(({ input }) => input.includes(ext))
 
         return path.posix.join('/', this.outputPathname, name, `static-inline-figure-image${format.output}`)
-      }
-      case (this.iiifImage && !this.isExternalResource):
-        return path.posix.join('/', this.outputPathname, slugify(this.iiifImage), 'static-inline-figure-image.jpg')
-
-      case (this.src && this.isExternalResource):
-        return this.src
-
-      case (this.iiifImage && this.isExternalResource): {
-        const terminated = this.iiifImage.endsWith('/') ? this.iiifImage : this.iiifImage + '/'
-        const inlineSize = 'full/600,/0/default.jpg'
-
-        const url = new URL(inlineSize, terminated)
-        return url.href
       }
 
       default:
@@ -397,7 +399,6 @@ export default class FigureMedia {
           logger.error(`Could not fetch metadata for figure ${this.id} with error ${error}!`)
           return
         }
-
         break
       }
 
@@ -408,11 +409,16 @@ export default class FigureMedia {
       case (this.mediaType === 'vimeo'): {
         if (!this.poster) return
 
+        // Pass the image filepath or a byte array if an URL
         const { imagesDir, inputRoot } = this.iiifConfig.dirs
-        const posterPath = path.join(inputRoot, imagesDir, this.poster)
+        let posterImage = path.join(inputRoot, imagesDir, this.poster)
+
+        if (/^https?:\/\//.test(this.poster)) {
+          posterImage = await Fetch(this.poster, { type: 'buffer' })
+        }
 
         try {
-          ({ height, width } = await sharp(posterPath).metadata())
+          ({ height, width } = await sharp(posterImage).metadata())
         } catch (error) {
           logger.error(`Could not read metadata for poster ${this.id}: ${error}!`)
           return
@@ -420,14 +426,34 @@ export default class FigureMedia {
         break
       }
 
-      // By default use `sharp` and the image on disk
-      default:
+      // Image URLs get downloaded and dimensions calculcated on the buffer
+      case (this.isExternalResource && this.mediaType === 'image'): {
+        let image
+        try {
+          image = await Fetch(this.src, { type: 'buffer' })
+        } catch (error) {
+          logger.error(`Could not fetch image for figure ${this.id} with error ${error}!`)
+          return
+        }
+
+        try {
+          ({ height, width } = await sharp(image).metadata())
+        } catch (error) {
+          logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
+          return
+        }
+        break
+      }
+
+      // Default to `sharp` examining the image on disk
+      default: {
         try {
           ({ height, width } = await sharp(this.imageFilePath).metadata())
         } catch (error) {
           logger.error(`Could not read metadata for figure ${this.id}: ${error}!`)
           return
         }
+      }
     }
 
     this.height = height
@@ -473,8 +499,8 @@ export default class FigureMedia {
 
       case 'youtube':
       case 'vimeo':
-      case 'video':
-      case 'soundcloud': {
+      case 'soundcloud':
+      case 'video': {
         // Handle poster image if it exists
         await this.calculateDimensions()
         await this.processImageMedia()
@@ -496,6 +522,15 @@ export default class FigureMedia {
               uri
             }
           }
+        } else {
+          // TODO: Re-implement the component logging re: no media_id, but at a lower cyclomatic complexity (exit early)
+          /*
+          if (!mediaId) {
+            logger.error(`Cannot render Youtube component without 'media_id'. Check that figures data for id: ${id} has a valid 'media_id'`)
+            return ''
+          }
+          */
+          this.derivatives.embed = formatEmbedURLs(this.mediaType, this.mediaId)
         }
 
         return { errors: this.errors }
@@ -583,7 +618,8 @@ export default class FigureMedia {
         break
       }
 
-      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType): {
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType) &&
+        !/https?:\/\//.test(this.poster): {
         // NB: Transformed derivatives are stored in a directory with the name of the transform and a filename of <name>.<format>
         outputFilename ??= `${name}.jpg`
         const directory = this.iiifImage ? slugify(this.iiifImage) : path.parse(this.poster).name
@@ -598,6 +634,16 @@ export default class FigureMedia {
           absolute,
           internal: path.posix.join('/', internal),
           uri
+        }
+        break
+      }
+
+      case ['video', 'soundcloud', 'youtube', 'audio'].includes(this.mediaType) &&
+        /https?:\/\//.test(this.poster): {
+        paths = {
+          absolute: this.poster,
+          internal: this.poster,
+          uri: this.poster
         }
         break
       }
@@ -665,8 +711,8 @@ export default class FigureMedia {
 
     // Add passthrough paths for absolute, etc on external image URLs
     if (this.isExternalResource) {
-      for (const transformation of transformations) {
-        const name = snakeToCamelCase(transformation.name)
+      for (const transform of transformations) {
+        const name = snakeToCamelCase(transform.name)
         this.storeDerivativeMetadata(name, { height: this.height, width: this.width })
       }
 
@@ -686,7 +732,15 @@ export default class FigureMedia {
       case 'youtube':
       case 'vimeo':
       case 'soundcloud':
+        if (/https?:\/\//.test(this.poster)) {
+          for (const { name } of transformations) {
+            this.storeDerivativeMetadata(name, { height: this.height, width: this.width })
+          }
+          return
+        }
+
         imageSrc = this.poster
+
         break
 
       default:
