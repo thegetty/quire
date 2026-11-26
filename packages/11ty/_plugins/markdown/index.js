@@ -7,6 +7,8 @@ import defaults from './defaults.js'
 import deflistPlugin from 'markdown-it-deflist'
 import footnotePlugin from 'markdown-it-footnote'
 import removeMarkdown from 'remove-markdown'
+import subscriptPlugin from 'markdown-it-sub'
+import superscriptPlugin from 'markdown-it-sup'
 
 /**
  * An Eleventy plugin to configure the markdown library
@@ -44,6 +46,8 @@ export default function (eleventyConfig, options) {
     .use(bracketedSpansPlugin)
     .use(deflistPlugin)
     .use(footnotePlugin)
+    .use(subscriptPlugin)
+    .use(superscriptPlugin)
 
   /**
    * Set recognition options for links without a schema
